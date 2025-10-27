@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.commands;
 
-import io.github.duckysmacky.projectg.network.packets.OpenMenuPacket;
+import io.github.duckysmacky.projectg.network.packets.OpenMainMenuPacket;
 import io.github.duckysmacky.projectg.network.PacketHandler;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -27,7 +27,7 @@ public class MenuCommand extends CommandBase {
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
         if (sender instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) sender;
-            PacketHandler.instance.sendTo(new OpenMenuPacket(), player);
+            PacketHandler.instance.sendTo(new OpenMainMenuPacket(), player);
         }
     }
 

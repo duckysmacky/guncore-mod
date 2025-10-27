@@ -1,7 +1,7 @@
 package io.github.duckysmacky.projectg.network;
 
 import io.github.duckysmacky.projectg.ProjectGMod;
-import io.github.duckysmacky.projectg.network.packets.OpenMenuPacket;
+import io.github.duckysmacky.projectg.network.packets.OpenMainMenuPacket;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,6 +13,6 @@ public class PacketHandler {
     public static void init() {
         instance = NetworkRegistry.INSTANCE.newSimpleChannel(ProjectGMod.MODID);
 
-        instance.registerMessage(OpenMenuPacket.Handler.class, OpenMenuPacket.class, id++, Side.CLIENT);
+        instance.registerMessage(OpenMainMenuPacket.Handler.class, OpenMainMenuPacket.class, id++, Side.CLIENT);
     }
 }
