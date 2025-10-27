@@ -1,16 +1,29 @@
 package io.github.duckysmacky.projectg.gui.menus;
 
+import io.github.duckysmacky.projectg.gui.MenuIcon;
 import io.github.duckysmacky.projectg.gui.StaticMenuPage;
 import io.github.duckysmacky.projectg.gui.SubpageEntry;
 import io.github.duckysmacky.projectg.gui.MenuPage;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class SettingsMenu extends StaticMenuPage {
     public SettingsMenu(MenuPage parent) {
-        super("Settings", parent, 5, 9);
+        super("Settings", parent, 3, 9);
 
-        addEntry(new SubpageEntry(new ItemStack(Items.CLOCK), new MapSettingsMenu(this)), 1, 1);
-        addEntry(new SubpageEntry(new ItemStack(Items.LEATHER), new TeamsMenu(this)), 1, 3);
+        addEntry(new SubpageEntry(
+            new MenuIcon(new ItemStack(Items.CLOCK))
+                .setName("&f&lMap Settings")
+                .addLoreLine("&7Adjust map settings"),
+            new MapSettingsMenu(this)
+        ), 1, 1);
+
+        addEntry(new SubpageEntry(
+            new MenuIcon(new ItemStack(Blocks.STANDING_BANNER))
+                .setName("&f&lTeams Settings")
+                .addLoreLine("&7Adjust teams and scoreboard"),
+            new TeamsMenu(this)
+        ), 1, 3);
     }
 }

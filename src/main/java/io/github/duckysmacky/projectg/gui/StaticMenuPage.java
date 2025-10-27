@@ -1,6 +1,7 @@
 package io.github.duckysmacky.projectg.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,12 +21,12 @@ public abstract class StaticMenuPage extends MenuPage {
     @Override
     public void fillInventory(net.minecraft.inventory.IInventory inventory) {
         for (Map.Entry<Integer, MenuEntry> e : entries.entrySet()) {
-            inventory.setInventorySlotContents(e.getKey(), e.getValue().getItemIcon());
+            inventory.setInventorySlotContents(e.getKey(), e.getValue().getIcon().getItemStack());
         }
 
         // back button
         if (parent != null) {
-            inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonIcon());
+            inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonIcon().getItemStack());
         }
     }
 
@@ -34,6 +35,7 @@ public abstract class StaticMenuPage extends MenuPage {
         if (entries.containsKey(slot)) {
             entries.get(slot).onClick(player);
         } else if (parent != null && slot == getBackButtonSlot()) {
+            player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
             openParent(player);
         }
     }

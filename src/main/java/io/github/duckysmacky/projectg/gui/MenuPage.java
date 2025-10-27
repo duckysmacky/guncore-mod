@@ -1,13 +1,13 @@
 package io.github.duckysmacky.projectg.gui;
 
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
-public abstract class MenuPage extends GuiScreen {
+public abstract class MenuPage {
     protected final String title;
     protected final MenuPage parent;
     protected final int rows;
@@ -59,8 +59,10 @@ public abstract class MenuPage extends GuiScreen {
     /**
      * Returns the reserved icon for the back button
      */
-    public ItemStack getBackButtonIcon() {
-        return new ItemStack(net.minecraft.init.Blocks.BARRIER);
+    public MenuIcon getBackButtonIcon() {
+        return new MenuIcon(new ItemStack(Blocks.BARRIER))
+            .setName("&c&lBack")
+            .addLoreLine("&7Return to the previous menu");
     }
 
     /**

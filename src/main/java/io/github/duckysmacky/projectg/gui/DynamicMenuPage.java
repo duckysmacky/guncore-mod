@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 
 public abstract class DynamicMenuPage extends MenuPage {
@@ -27,12 +28,12 @@ public abstract class DynamicMenuPage extends MenuPage {
             int row = startRow + i / maxCols;
             int col = startCol + i % maxCols;
             int slot = row * cols + col;
-            inventory.setInventorySlotContents(slot, entries.get(i).getItemIcon());
+            inventory.setInventorySlotContents(slot, entries.get(i).getIcon().getItemStack());
         }
 
         // back button
         if (parent != null) {
-            inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonIcon());
+            inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonIcon().getItemStack());
         }
     }
 
@@ -55,6 +56,7 @@ public abstract class DynamicMenuPage extends MenuPage {
 
         // back button
         if (parent != null && slot == getBackButtonSlot()) {
+            player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
             openParent(player);
         }
     }
