@@ -1,0 +1,71 @@
+package io.github.duckysmacky.projectg.config.catalog;
+
+import io.github.duckysmacky.projectg.util.ItemFinder;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.text.TextFormatting;
+
+public class GunEntry extends CatalogEntry {
+    private final GunCategory category;
+    private final Rarity rarity;
+    private final String gunItemId;
+    private final String ammoItemId;
+    private final int ammoItemAmount;
+
+    public GunEntry(
+        boolean enabled,
+        String displayName,
+        GunCategory category,
+        Rarity rarity,
+        String gunItemId,
+        String ammoItemId,
+        int ammoItemAmount
+    ) {
+        super(enabled, gunItemId, displayName);
+        this.category = category;
+        this.rarity = rarity;
+        this.gunItemId = gunItemId;
+        this.ammoItemId = ammoItemId;
+        this.ammoItemAmount = ammoItemAmount;
+    }
+
+    public ItemStack getGunItemStack() {
+        ItemStack item = ItemFinder.findItemStack(gunItemId);
+        if (item == ItemStack.EMPTY)
+            item = new ItemStack(Blocks.DIRT);
+
+        NBTTagCompound displayTag = new NBTTagCompound();
+
+        String coloredName = rarity.color + "" + TextFormatting.BOLD + displayName;
+        displayTag.setString("Name", coloredName);
+
+        NBTTagList loreList = new NBTTagList();
+        String rarityLine = rarity.color + "" + TextFormatting.BOLD + rarity.display.toUpperCase();
+        loreList.appendTag(new NBTTagString(rarityLine));
+
+        displayTag.setTag("Lore", loreList);
+        item.setTagInfo("display", displayTag);
+
+        return item;
+    }
+
+    public ItemStack getAmmoItemStack() {
+        ItemStack item = ItemFinder.findItemStack(ammoItemId);
+        if (item == ItemStack.EMPTY)
+            item = new ItemStack(Blocks.DIRT);
+
+        item.setCount(ammoItemAmount);
+        return item;
+    }
+
+    public GunCategory getCategory() {
+        return category;
+    }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+}

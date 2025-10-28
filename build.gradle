@@ -47,13 +47,6 @@ minecraft {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
-    implementation 'org.ow2.asm:asm-debug-all:5.2'
-}
-
-configurations.all {
-    resolutionStrategy {
-        force 'org.ow2.asm:asm-debug-all:5.2'
-    }
 }
 
 jar {
