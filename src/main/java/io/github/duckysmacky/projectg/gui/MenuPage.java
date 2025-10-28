@@ -1,5 +1,6 @@
 package io.github.duckysmacky.projectg.gui;
 
+import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -59,10 +60,11 @@ public abstract class MenuPage {
     /**
      * Returns the reserved icon for the back button
      */
-    public MenuIcon getBackButtonIcon() {
-        return new MenuIcon(new ItemStack(Blocks.BARRIER))
+    public ItemStack getBackButtonItem() {
+        return new ItemStackCustomizer(new ItemStack(Blocks.BARRIER))
             .setName("&c&lBack")
-            .addLoreLine("&7Return to the previous menu");
+            .addLoreLine("&7Return to the previous menu")
+            .getItemStack();
     }
 
     /**

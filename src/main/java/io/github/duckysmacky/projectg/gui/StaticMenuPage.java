@@ -21,12 +21,12 @@ public abstract class StaticMenuPage extends MenuPage {
     @Override
     public void fillInventory(net.minecraft.inventory.IInventory inventory) {
         for (Map.Entry<Integer, MenuEntry> e : entries.entrySet()) {
-            inventory.setInventorySlotContents(e.getKey(), e.getValue().getIcon().getItemStack());
+            inventory.setInventorySlotContents(e.getKey(), e.getValue().getIcon());
         }
 
         // back button
         if (parent != null) {
-            inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonIcon().getItemStack());
+            inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonItem());
         }
     }
 

@@ -28,12 +28,12 @@ public abstract class DynamicMenuPage extends MenuPage {
             int row = startRow + i / maxCols;
             int col = startCol + i % maxCols;
             int slot = row * cols + col;
-            inventory.setInventorySlotContents(slot, entries.get(i).getIcon().getItemStack());
+            inventory.setInventorySlotContents(slot, entries.get(i).getIcon());
         }
 
         // back button
         if (parent != null) {
-            inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonIcon().getItemStack());
+            inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonItem());
         }
     }
 

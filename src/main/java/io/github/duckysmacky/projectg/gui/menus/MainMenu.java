@@ -1,33 +1,35 @@
 package io.github.duckysmacky.projectg.gui.menus;
 
-import io.github.duckysmacky.projectg.gui.MenuIcon;
+import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
 import io.github.duckysmacky.projectg.gui.StaticMenuPage;
 import io.github.duckysmacky.projectg.gui.SubpageEntry;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 
 public class MainMenu extends StaticMenuPage {
     public MainMenu() {
         super("Menu", null, 3, 9);
 
         addEntry(new SubpageEntry(
-            new MenuIcon(new ItemStack(Items.IRON_CHESTPLATE))
+            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.IRON_CHESTPLATE))
                 .setName("&f&lEquipment")
-                .addLoreLine("&7Choose your equipment"),
+                .addLoreLine("&7Choose your equipment")
+                .getItemStack(),
             new EquipmentMenu(this)
         ), 1, 1);
 
         addEntry(new SubpageEntry(
-            new MenuIcon(new ItemStack(Items.COMPASS))
+            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.COMPASS))
                 .setName("&f&lLocations")
-                .addLoreLine("&7Choose a location to fight in"),
+                .addLoreLine("&7Choose a location to fight in")
+                .getItemStack(),
             new LocationsMenu(this)
         ), 1, 4);
 
         addEntry(new SubpageEntry(
-            new MenuIcon(new ItemStack(Items.COMPARATOR))
+            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.COMPARATOR))
                 .setName("&f&lSettings")
-                .addLoreLine("&7Adjust map and teams settings"),
+                .addLoreLine("&7Adjust map and teams settings")
+                .getItemStack(),
             new SettingsMenu(this)
         ), 1, 7);
     }

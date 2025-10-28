@@ -1,9 +1,10 @@
 package io.github.duckysmacky.projectg.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 public class DisplayEntry extends MenuEntry {
-    public DisplayEntry(MenuIcon icon) {
+    public DisplayEntry(ItemStack icon) {
         super(icon);
     }
 

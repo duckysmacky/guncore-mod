@@ -1,19 +1,20 @@
 package io.github.duckysmacky.projectg.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 public abstract class MenuEntry {
-    protected MenuIcon icon;
+    protected ItemStack icon;
 
-    public MenuEntry(MenuIcon icon) {
+    public MenuEntry(ItemStack icon) {
         this.icon = icon;
     }
 
-    public void setIcon(MenuIcon icon) {
+    public void setIcon(ItemStack icon) {
         this.icon = icon;
     }
 
-    public MenuIcon getIcon() {
+    public ItemStack getIcon() {
         return icon;
     }
 

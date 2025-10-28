@@ -2,13 +2,14 @@ package io.github.duckysmacky.projectg.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 
 import java.util.function.Consumer;
 
 public class ActionEntry extends MenuEntry {
     private final Consumer<EntityPlayer> action;
 
-    public ActionEntry(MenuIcon icon, Consumer<EntityPlayer> action) {
+    public ActionEntry(ItemStack icon, Consumer<EntityPlayer> action) {
         super(icon);
         this.action = action;
     }
