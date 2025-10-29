@@ -25,7 +25,7 @@ public class OpenMainMenuPacket implements IMessage {
     public static class Handler implements IMessageHandler<OpenMainMenuPacket, IMessage> {
         @Override
         public IMessage onMessage(OpenMainMenuPacket message, MessageContext context) {
-            ProjectGMod.proxy.openMenuPage(new MainMenu());
+            ProjectGMod.PROXY.openMenuPage(new MainMenu());
             return null;
         }
     }

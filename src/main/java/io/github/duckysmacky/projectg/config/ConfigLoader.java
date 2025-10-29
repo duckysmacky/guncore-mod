@@ -1,6 +1,7 @@
 package io.github.duckysmacky.projectg.config;
 
 import com.google.gson.Gson;
+import io.github.duckysmacky.projectg.ProjectGMod;
 import io.github.duckysmacky.projectg.config.catalog.GunEntry;
 import io.github.duckysmacky.projectg.config.catalog.GunCategory;
 import io.github.duckysmacky.projectg.config.catalog.Rarity;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class ConfigLoader {
     private static final String CONFIG_DIR_NAME = "projectg/";
-    private static ConfigLoader INSTANCE;
+    private static ConfigLoader instance;
     private final Gson gson;
     private File configDir;
     private List<GunEntry> cachedGuns;
@@ -25,12 +26,11 @@ public class ConfigLoader {
     }
 
     public static ConfigLoader instance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ConfigLoader();
-            INSTANCE.loadConfig();
+        if (instance == null) {
+            instance = new ConfigLoader();
         }
 
-        return INSTANCE;
+        return instance;
     }
 
     public void loadConfig() {
@@ -52,7 +52,7 @@ public class ConfigLoader {
             try {
                 saveDefaultGuns(file);
             } catch (IOException e) {
-                System.out.println("Failed to create default guns config file.");
+                ProjectGMod.LOGGER.error("Failed to create default guns config file: {}", e.getMessage());
                 return Collections.emptyList();
             }
         }
@@ -64,14 +64,15 @@ public class ConfigLoader {
                 .filter(GunEntry::isEnabled)
                 .collect(Collectors.toList());
         } catch (Exception e) {
-            System.out.println("Failed to load guns config file.");
+            ProjectGMod.LOGGER.error("Failed to load guns config file: {}", e.getMessage());
             return Collections.emptyList();
         }
     }
 
     private void saveDefaultGuns(File file) throws IOException {
-        file.getParentFile().mkdirs();
-        file.createNewFile();
+        boolean status;
+        status = file.getParentFile().mkdirs();
+        status = file.createNewFile();
 
         GunEntry[] defaultGuns = new GunEntry[]{
             new GunEntry(

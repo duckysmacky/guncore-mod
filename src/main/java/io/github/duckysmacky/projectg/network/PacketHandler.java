@@ -6,13 +6,19 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class PacketHandler {
-    public static SimpleNetworkWrapper instance;
-    private static int id = 0;
+public final class PacketHandler {
+    private static SimpleNetworkWrapper networkWrapperInstance;
+    private static int packetId = 0;
+
+    private PacketHandler() {}
+
+    public static SimpleNetworkWrapper instance() {
+        return networkWrapperInstance;
+    }
 
     public static void init() {
-        instance = NetworkRegistry.INSTANCE.newSimpleChannel(ProjectGMod.MODID);
+        networkWrapperInstance = NetworkRegistry.INSTANCE.newSimpleChannel(ProjectGMod.MODID);
 
-        instance.registerMessage(OpenMainMenuPacket.Handler.class, OpenMainMenuPacket.class, id++, Side.CLIENT);
+        networkWrapperInstance.registerMessage(OpenMainMenuPacket.Handler.class, OpenMainMenuPacket.class, packetId++, Side.CLIENT);
     }
 }

@@ -27,7 +27,7 @@ public class MenuCommand extends CommandBase {
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
         if (sender instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) sender;
-            PacketHandler.instance.sendTo(new OpenMainMenuPacket(), player);
+            PacketHandler.instance().sendTo(new OpenMainMenuPacket(), player);
         }
     }
 

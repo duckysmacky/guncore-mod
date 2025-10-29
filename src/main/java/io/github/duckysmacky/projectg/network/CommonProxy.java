@@ -5,10 +5,20 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public interface Proxy {
-    public void preInit(FMLPreInitializationEvent event);
-    public void init(FMLInitializationEvent event);
-    public void postInit(FMLPostInitializationEvent event);
+public class CommonProxy {
+    public void preInit(FMLPreInitializationEvent event) {
 
-    public void openMenuPage(MenuPage menuPage);
+    }
+
+    public void init(FMLInitializationEvent event) {
+
+    }
+
+    public void postInit(FMLPostInitializationEvent event) {
+
+    }
+
+    public void openMenuPage(MenuPage menuPage) {
+
+    }
 }
