@@ -1,5 +1,6 @@
-package io.github.duckysmacky.projectg.gui;
+package io.github.duckysmacky.projectg.gui.menu;
 
+import io.github.duckysmacky.projectg.gui.MenuWrapperGui;
 import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -8,13 +9,13 @@ import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
-public abstract class MenuPage {
+public abstract class BaseMenu {
     protected final String title;
-    protected final MenuPage parent;
+    protected final BaseMenu parent;
     protected final int rows;
     protected final int cols;
 
-    public MenuPage(String title, MenuPage parent, int rows, int cols) {
+    public BaseMenu(String title, BaseMenu parent, int rows, int cols) {
         this.title = title;
         this.parent = parent;
         this.rows = rows;
@@ -38,7 +39,7 @@ public abstract class MenuPage {
         return title;
     }
 
-    public MenuPage getParent() {
+    public BaseMenu getParent() {
         return parent;
     }
 

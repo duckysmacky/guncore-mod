@@ -1,12 +1,12 @@
-package io.github.duckysmacky.projectg.gui.menus;
+package io.github.duckysmacky.projectg.gui.menu.pages;
 
 import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
-import io.github.duckysmacky.projectg.gui.StaticMenuPage;
+import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.gui.SubpageEntry;
 import net.minecraft.init.Items;
 
-public class MainMenu extends StaticMenuPage {
-    public MainMenu() {
+public class MainMenuPage extends StaticMenu {
+    public MainMenuPage() {
         super("Menu", null, 3, 9);
 
         addEntry(new SubpageEntry(
@@ -14,7 +14,7 @@ public class MainMenu extends StaticMenuPage {
                 .setName("&f&lEquipment")
                 .addLoreLine("&7Choose your equipment")
                 .getItemStack(),
-            new EquipmentMenu(this)
+            new EquipmentMenuPage(this)
         ), 1, 1);
 
         addEntry(new SubpageEntry(
@@ -22,7 +22,7 @@ public class MainMenu extends StaticMenuPage {
                 .setName("&f&lLocations")
                 .addLoreLine("&7Choose a location to fight in")
                 .getItemStack(),
-            new LocationsMenu(this)
+            new LocationsMenuPage(this)
         ), 1, 4);
 
         addEntry(new SubpageEntry(
@@ -30,7 +30,7 @@ public class MainMenu extends StaticMenuPage {
                 .setName("&f&lSettings")
                 .addLoreLine("&7Adjust map and teams settings")
                 .getItemStack(),
-            new SettingsMenu(this)
+            new SettingsMenuPage(this)
         ), 1, 7);
     }
 }

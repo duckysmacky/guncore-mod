@@ -1,13 +1,14 @@
 package io.github.duckysmacky.projectg.gui;
 
+import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 
 public class SubpageEntry extends MenuEntry {
-    private final MenuPage subPage;
+    private final BaseMenu subPage;
 
-    public SubpageEntry(ItemStack icon, MenuPage subPage) {
+    public SubpageEntry(ItemStack icon, BaseMenu subPage) {
         super(icon);
         this.subPage = subPage;
     }

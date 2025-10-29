@@ -1,16 +1,17 @@
-package io.github.duckysmacky.projectg.gui;
+package io.github.duckysmacky.projectg.gui.menu;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.duckysmacky.projectg.gui.MenuEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 
-public abstract class DynamicMenuPage extends MenuPage {
+public abstract class DynamicMenu extends BaseMenu {
     private final List<MenuEntry> entries = new ArrayList<>();
 
-    public DynamicMenuPage(String title, MenuPage parent, int rows, int cols) {
+    public DynamicMenu(String title, BaseMenu parent, int rows, int cols) {
         super(title, parent, rows, cols);
     }
 

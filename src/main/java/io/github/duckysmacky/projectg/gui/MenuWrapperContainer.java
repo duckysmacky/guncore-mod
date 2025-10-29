@@ -1,5 +1,6 @@
 package io.github.duckysmacky.projectg.gui;
 
+import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
@@ -9,11 +10,11 @@ import net.minecraft.item.ItemStack;
 
 public class MenuWrapperContainer extends Container {
     private final IInventory inventory;
-    private final MenuPage menuPage;
+    private final BaseMenu menuPage;
     private final int rows;
     private final int cols;
 
-    public MenuWrapperContainer(IInventory inventory, MenuPage menuPage) {
+    public MenuWrapperContainer(IInventory inventory, BaseMenu menuPage) {
         this.inventory = inventory;
         this.menuPage = menuPage;
         this.rows = menuPage.getRows();

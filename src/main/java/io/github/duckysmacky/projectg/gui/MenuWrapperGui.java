@@ -1,5 +1,6 @@
 package io.github.duckysmacky.projectg.gui;
 
+import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
@@ -13,11 +14,11 @@ public class MenuWrapperGui extends GuiContainer {
     private static final ResourceLocation CONTAINER_BACKGROUND =
         new ResourceLocation("minecraft", "textures/gui/container/generic_54.png");
     private final InventoryBasic inventory;
-    private final MenuPage page;
+    private final BaseMenu page;
     private final int rows;
     private final int cols;
 
-    public MenuWrapperGui(InventoryBasic inventory, MenuPage page, EntityPlayer player) {
+    public MenuWrapperGui(InventoryBasic inventory, BaseMenu page, EntityPlayer player) {
         super(new MenuWrapperContainer(inventory, page));
         this.inventory = inventory;
         this.page = page;

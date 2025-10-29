@@ -1,13 +1,15 @@
-package io.github.duckysmacky.projectg.gui.menus;
+package io.github.duckysmacky.projectg.gui.menu.pages;
 
 import io.github.duckysmacky.projectg.gui.*;
+import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
+import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 
-public class MapSettingsMenu extends StaticMenuPage {
-    public MapSettingsMenu(MenuPage parent) {
+public class MapSettingsMenuPage extends StaticMenu {
+    public MapSettingsMenuPage(BaseMenu parent) {
         super("Map Settings", parent, 6, 9);
 
         addEntry(new DisplayEntry(

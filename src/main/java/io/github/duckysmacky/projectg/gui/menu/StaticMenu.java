@@ -1,15 +1,16 @@
-package io.github.duckysmacky.projectg.gui;
+package io.github.duckysmacky.projectg.gui.menu;
 
+import io.github.duckysmacky.projectg.gui.MenuEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class StaticMenuPage extends MenuPage {
+public abstract class StaticMenu extends BaseMenu {
     private final Map<Integer, MenuEntry> entries = new HashMap<>();
 
-    public StaticMenuPage(String title, MenuPage parent, int rows, int cols) {
+    public StaticMenu(String title, BaseMenu parent, int rows, int cols) {
         super(title, parent, rows, cols);
     }
 

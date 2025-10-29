@@ -1,13 +1,15 @@
-package io.github.duckysmacky.projectg.gui.menus;
+package io.github.duckysmacky.projectg.gui.menu.pages;
 
 import io.github.duckysmacky.projectg.gui.*;
+import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
+import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.util.text.TextComponentString;
 
-public class KitsMenu extends StaticMenuPage {
-    public KitsMenu(MenuPage parent) {
+public class KitsMenuPage extends StaticMenu {
+    public KitsMenuPage(BaseMenu parent) {
         super("Kits", parent, 3, 9);
 
         addEntry(new ActionEntry(
