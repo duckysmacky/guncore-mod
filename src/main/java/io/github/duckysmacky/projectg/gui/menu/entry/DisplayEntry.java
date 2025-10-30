@@ -1,4 +1,4 @@
-package io.github.duckysmacky.projectg.gui;
+package io.github.duckysmacky.projectg.gui.menu.entry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

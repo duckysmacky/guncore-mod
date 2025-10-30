@@ -8,13 +8,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class MenuWrapperContainer extends Container {
+public class MenuContainer extends Container {
     private final IInventory inventory;
     private final BaseMenu menuPage;
     private final int rows;
     private final int cols;
 
-    public MenuWrapperContainer(IInventory inventory, BaseMenu menuPage) {
+    public MenuContainer(IInventory inventory, BaseMenu menuPage) {
         this.inventory = inventory;
         this.menuPage = menuPage;
         this.rows = menuPage.getRows();

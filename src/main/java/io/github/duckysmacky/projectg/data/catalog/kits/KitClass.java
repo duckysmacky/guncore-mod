@@ -1,4 +1,4 @@
-package io.github.duckysmacky.projectg.config.catalog;
+package io.github.duckysmacky.projectg.data.catalog.kits;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,7 +1,8 @@
-package io.github.duckysmacky.projectg.config.catalog;
+package io.github.duckysmacky.projectg.data.catalog.locations;
 
 import com.google.gson.annotations.SerializedName;
-import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
+import io.github.duckysmacky.projectg.data.catalog.CatalogEntry;
+import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

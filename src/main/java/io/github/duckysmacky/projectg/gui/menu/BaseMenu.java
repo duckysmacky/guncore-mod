@@ -1,7 +1,7 @@
 package io.github.duckysmacky.projectg.gui.menu;
 
-import io.github.duckysmacky.projectg.gui.MenuWrapperGui;
-import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
+import io.github.duckysmacky.projectg.gui.MenuGui;
+import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -26,7 +26,7 @@ public abstract class BaseMenu {
         InventoryBasic inventory = new InventoryBasic(title, true, rows * cols);
         fillInventory(inventory);
 
-        FMLClientHandler.instance().displayGuiScreen(player, new MenuWrapperGui(inventory, this, player));
+        FMLClientHandler.instance().displayGuiScreen(player, new MenuGui(inventory, this, player));
     }
 
     public void openParent(EntityPlayer player) {

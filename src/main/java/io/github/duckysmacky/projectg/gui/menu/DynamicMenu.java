@@ -3,7 +3,7 @@ package io.github.duckysmacky.projectg.gui.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.duckysmacky.projectg.gui.MenuEntry;
+import io.github.duckysmacky.projectg.gui.menu.entry.MenuEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;

@@ -1,8 +1,8 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.config.ConfigLoader;
-import io.github.duckysmacky.projectg.config.catalog.GunCategory;
-import io.github.duckysmacky.projectg.gui.ActionEntry;
+import io.github.duckysmacky.projectg.data.ConfigLoader;
+import io.github.duckysmacky.projectg.data.catalog.guns.GunCategory;
+import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.gui.menu.DynamicMenu;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import net.minecraft.item.ItemStack;

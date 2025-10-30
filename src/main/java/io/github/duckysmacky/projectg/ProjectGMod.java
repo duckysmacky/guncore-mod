@@ -2,7 +2,7 @@ package io.github.duckysmacky.projectg;
 
 import io.github.duckysmacky.projectg.commands.ConfigReloadCommand;
 import io.github.duckysmacky.projectg.commands.MenuCommand;
-import io.github.duckysmacky.projectg.config.ConfigLoader;
+import io.github.duckysmacky.projectg.data.ConfigLoader;
 import io.github.duckysmacky.projectg.network.CommonProxy;
 import io.github.duckysmacky.projectg.network.PacketHandler;
 import net.minecraftforge.fml.common.Mod;

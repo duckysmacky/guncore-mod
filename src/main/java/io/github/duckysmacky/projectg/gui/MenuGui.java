@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 
-public class MenuWrapperGui extends GuiContainer {
+public class MenuGui extends GuiContainer {
     private static final ResourceLocation CONTAINER_BACKGROUND =
         new ResourceLocation("minecraft", "textures/gui/container/generic_54.png");
     private final InventoryBasic inventory;
@@ -18,8 +18,8 @@ public class MenuWrapperGui extends GuiContainer {
     private final int rows;
     private final int cols;
 
-    public MenuWrapperGui(InventoryBasic inventory, BaseMenu page, EntityPlayer player) {
-        super(new MenuWrapperContainer(inventory, page));
+    public MenuGui(InventoryBasic inventory, BaseMenu page, EntityPlayer player) {
+        super(new MenuContainer(inventory, page));
         this.inventory = inventory;
         this.page = page;
         this.rows = page.getRows();

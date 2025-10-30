@@ -1,8 +1,8 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
+import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
-import io.github.duckysmacky.projectg.gui.SubpageEntry;
+import io.github.duckysmacky.projectg.gui.menu.entry.SubpageEntry;
 import net.minecraft.init.Items;
 
 public class MainMenuPage extends StaticMenu {

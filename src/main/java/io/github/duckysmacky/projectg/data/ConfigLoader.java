@@ -1,9 +1,13 @@
-package io.github.duckysmacky.projectg.config;
+package io.github.duckysmacky.projectg.data;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.github.duckysmacky.projectg.ProjectGMod;
-import io.github.duckysmacky.projectg.config.catalog.*;
+import io.github.duckysmacky.projectg.data.catalog.*;
+import io.github.duckysmacky.projectg.data.catalog.gadgets.GadgetEntry;
+import io.github.duckysmacky.projectg.data.catalog.guns.GunEntry;
+import io.github.duckysmacky.projectg.data.catalog.kits.KitEntry;
+import io.github.duckysmacky.projectg.data.catalog.locations.LocationEntry;
 import net.minecraftforge.fml.common.Loader;
 
 import java.io.*;

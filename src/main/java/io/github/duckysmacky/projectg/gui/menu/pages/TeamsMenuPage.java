@@ -1,7 +1,7 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.gui.ActionEntry;
-import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
+import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
+import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import net.minecraft.init.Items;

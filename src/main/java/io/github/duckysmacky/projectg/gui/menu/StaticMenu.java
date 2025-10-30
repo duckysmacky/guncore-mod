@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.gui.menu;
 
-import io.github.duckysmacky.projectg.gui.MenuEntry;
+import io.github.duckysmacky.projectg.gui.menu.entry.MenuEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 

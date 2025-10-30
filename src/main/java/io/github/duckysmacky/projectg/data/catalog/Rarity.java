@@ -1,4 +1,4 @@
-package io.github.duckysmacky.projectg.config.catalog;
+package io.github.duckysmacky.projectg.data.catalog;
 
 import com.google.gson.annotations.SerializedName;
 import net.minecraft.util.text.TextFormatting;
