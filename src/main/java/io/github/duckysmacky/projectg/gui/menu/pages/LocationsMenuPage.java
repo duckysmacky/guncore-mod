@@ -5,7 +5,9 @@ import io.github.duckysmacky.projectg.data.catalog.locations.CityMap;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.DynamicMenu;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
 public class LocationsMenuPage extends DynamicMenu {
@@ -19,10 +21,17 @@ public class LocationsMenuPage extends DynamicMenu {
             .forEach(location -> {
                 ItemStack locationIcon = location.getIconItem();
 
-                addEntry(new ActionEntry(
-                    locationIcon,
-                    (player) -> player.sendMessage(new TextComponentString("Selected location: " + locationIcon.getDisplayName()))
-                ));
+                addEntry(new ActionEntry(locationIcon, (player) -> {
+                    player.sendMessage(new TextComponentString("Teleporting to '" + locationIcon.getDisplayName() + "'"));
+
+                    player.setPositionAndUpdate(
+                        location.getCoordinates().x,
+                        location.getCoordinates().y,
+                        location.getCoordinates().z
+                    );
+
+                    player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1f, 1f);
+                }));
             });
     }
 }
