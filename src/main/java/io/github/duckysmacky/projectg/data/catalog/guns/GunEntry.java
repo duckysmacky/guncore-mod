@@ -97,6 +97,18 @@ public class GunEntry extends CatalogEntry {
         return item;
     }
 
+    public boolean isSecondary() {
+        return category == GunCategory.SIDEARM || category == GunCategory.MELEE;
+    }
+
+    public String getGunItemId() {
+        return gunItemId;
+    }
+
+    public String getAmmoItemId() {
+        return ammoItemId;
+    }
+
     public GunCategory getCategory() {
         return category;
     }

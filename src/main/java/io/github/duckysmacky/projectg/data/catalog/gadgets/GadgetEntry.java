@@ -108,4 +108,12 @@ public class GadgetEntry extends CatalogEntry {
             })
             .collect(Collectors.toList());
     }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public List<String> getAdditionalItemIds() {
+        return additionalItemIds;
+    }
 }
