@@ -1,16 +1,18 @@
 package io.github.duckysmacky.projectg.config;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import io.github.duckysmacky.projectg.ProjectGMod;
-import io.github.duckysmacky.projectg.config.catalog.GunEntry;
-import io.github.duckysmacky.projectg.config.catalog.GunCategory;
-import io.github.duckysmacky.projectg.config.catalog.Rarity;
+import io.github.duckysmacky.projectg.config.catalog.*;
 import net.minecraftforge.fml.common.Loader;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ConfigLoader {
@@ -19,6 +21,9 @@ public class ConfigLoader {
     private final Gson gson;
     private File configDir;
     private List<GunEntry> cachedGuns;
+    private List<KitEntry> cachedKits;
+    private List<GadgetEntry> cachedGadgets;
+    private List<LocationEntry> cachedLocations;
 
     private ConfigLoader() {
         this.gson = new Gson();
@@ -34,60 +39,71 @@ public class ConfigLoader {
     }
 
     public void loadConfig() {
-        this.cachedGuns = loadGuns();
+        this.cachedGuns = loadCatalogEntries("guns.json", GunEntry.class, GunEntry::getExample);
+        this.cachedKits = loadCatalogEntries("kits.json", KitEntry.class, KitEntry::getExample);
+        this.cachedGadgets = loadCatalogEntries("gadgets.json", GadgetEntry.class, GadgetEntry::getExample);
+        this.cachedLocations = loadCatalogEntries("locations.json", LocationEntry.class, LocationEntry::getExample);
     }
 
     public List<GunEntry> getCachedGuns() {
         return cachedGuns;
     }
 
+    public List<KitEntry> getCachedKits() {
+        return cachedKits;
+    }
+
+    public List<GadgetEntry> getCachedGadgets() {
+        return cachedGadgets;
+    }
+
+    public List<LocationEntry> getCachedLocations() {
+        return cachedLocations;
+    }
+
     private File getConfigFile(String fileName) {
         return new File(configDir, CONFIG_DIR_NAME + fileName);
     }
 
-    private List<GunEntry> loadGuns() {
-        File file = getConfigFile("guns.json");
+    private <T extends CatalogEntry> List<T> loadCatalogEntries(String fileName, Class<T> entryClass, Supplier<T> defaultEntry) {
+        File file = getConfigFile(fileName);
 
         if (!file.exists()) {
             try {
-                saveDefaultGuns(file);
+                saveDefaultEntries(file, entryClass, defaultEntry);
             } catch (IOException e) {
-                ProjectGMod.LOGGER.error("Failed to create default guns config file: {}", e.getMessage());
+                ProjectGMod.LOGGER.error("Failed to create default '{}' config file: {}", fileName, e.getMessage());
                 return Collections.emptyList();
             }
         }
 
         try (Reader reader = new FileReader(file)) {
-            GunEntry[] entries = gson.fromJson(reader, GunEntry[].class);
+            @SuppressWarnings("unchecked")
+            Type entryArrayType = TypeToken.getArray(entryClass).getType();
+
+            T[] entries = gson.fromJson(reader, entryArrayType);
 
             return Arrays.stream(entries)
-                .filter(GunEntry::isEnabled)
+                .filter(CatalogEntry::isEnabled)
                 .collect(Collectors.toList());
         } catch (Exception e) {
-            ProjectGMod.LOGGER.error("Failed to load guns config file: {}", e.getMessage());
+            ProjectGMod.LOGGER.error("Failed to load '{}' config file: {}", fileName, e.getMessage());
             return Collections.emptyList();
         }
+
     }
 
-    private void saveDefaultGuns(File file) throws IOException {
+    private <T extends CatalogEntry> void saveDefaultEntries(File file, Class<T> entryClass, Supplier<T> defaultEntry) throws IOException {
         boolean status;
         status = file.getParentFile().mkdirs();
         status = file.createNewFile();
 
-        GunEntry[] defaultGuns = new GunEntry[]{
-            new GunEntry(
-                true,
-                "SOCOM M4A1",
-                GunCategory.ASSAULT_RIFLE,
-                Rarity.COMMON,
-                "mw:socom_m4a1",
-                "mw:socom_mag",
-                12
-            )
-        };
+        @SuppressWarnings("unchecked")
+        T[] defaultEntries = (T[]) Array.newInstance(entryClass, 1);
+        defaultEntries[0] = defaultEntry.get();
 
         try (Writer writer = new FileWriter(file)) {
-            gson.toJson(defaultGuns, writer);
+            gson.toJson(defaultEntries, writer);
         }
     }
 }

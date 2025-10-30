@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.network;
 
-import io.github.duckysmacky.projectg.gui.MenuPage;
+import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -24,7 +24,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void openMenuPage(MenuPage menuPage) {
+    public void openMenuPage(BaseMenu menuPage) {
         EntityPlayer player= Minecraft.getMinecraft().player;
         menuPage.open(player);
     }

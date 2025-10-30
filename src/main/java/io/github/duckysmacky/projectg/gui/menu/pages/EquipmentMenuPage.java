@@ -6,7 +6,6 @@ import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.util.text.TextComponentString;
 
 public class EquipmentMenuPage extends StaticMenu {
     public EquipmentMenuPage(BaseMenu parent) {
@@ -18,7 +17,7 @@ public class EquipmentMenuPage extends StaticMenu {
                 .addLoreLine("&7Choose your kit which contains armor and items to use in battle")
                 .addLoreLine("&c&lWARNING: &7Equipping any kit clears inventory, recommended to equip a kit first")
                 .getItemStack(),
-            new KitsMenuPage(this)
+            new KitCategoryMenuPage(this)
         ), 1, 1);
 
         addEntry(new SubpageEntry(
@@ -29,13 +28,13 @@ public class EquipmentMenuPage extends StaticMenu {
             new WeaponsMenuPage(this)
         ), 1, 4);
 
-        addEntry(new ActionEntry(
+        addEntry(new SubpageEntry(
             new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.DIAMOND_PICKAXE))
                 .setName("&f&lGadgets")
                 .addLoreLine("&7Select any gadget to assist you in battle")
                 .addLoreLine("&7Gadgets are unique items that provide additional abilities or utilities")
                 .getItemStack(),
-            (player) -> player.sendMessage(new TextComponentString("Gadgets clicked!"))
+            new GadgetsMenuPage(this)
         ), 1, 7);
     }
 }

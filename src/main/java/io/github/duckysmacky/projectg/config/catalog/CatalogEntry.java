@@ -1,25 +1,31 @@
 package io.github.duckysmacky.projectg.config.catalog;
 
+import java.util.List;
+
 public abstract class CatalogEntry {
-    private final boolean enabled;
-    protected final String displayName;
-    protected final String displayItemId;
+    protected final boolean enabled;
+    protected final String name;
+    protected final List<String> descriptionLines;
 
     public CatalogEntry(
         boolean enabled,
-        String displayItemId,
-        String displayName
+        String name,
+        List<String> descriptionLines
     ) {
         this.enabled = enabled;
-        this.displayItemId = displayItemId;
-        this.displayName = displayName;
+        this.name = name;
+        this.descriptionLines = descriptionLines;
     }
 
     public boolean isEnabled() {
         return enabled;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getDescriptionLines() {
+        return descriptionLines;
     }
 }

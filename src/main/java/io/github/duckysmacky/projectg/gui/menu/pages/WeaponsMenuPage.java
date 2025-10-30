@@ -15,70 +15,70 @@ public class WeaponsMenuPage extends StaticMenu {
             ItemStackCustomizer.from("mw:m4a1")
                 .setName("&f&lAssault Rifles")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.ASSAULT_RIFLE)
+            new GunsMenuPage(this, GunCategory.ASSAULT_RIFLE)
         ), 1, 1);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:m4a1")
                 .setName("&f&lBattle Rifles")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.BATTLE_RIFLE)
+            new GunsMenuPage(this, GunCategory.BATTLE_RIFLE)
         ), 1, 2);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:m4a1")
                 .setName("&f&lDMRs")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.DMR)
+            new GunsMenuPage(this, GunCategory.DMR)
         ), 1, 3);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:m4a1")
                 .setName("&f&lLMGs")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.LMG)
+            new GunsMenuPage(this, GunCategory.LMG)
         ), 1, 4);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:m4a1")
                 .setName("&f&lSMGs")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.SMG)
+            new GunsMenuPage(this, GunCategory.SMG)
         ), 1, 5);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:m4a1")
                 .setName("&f&lShotguns")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.SHOTGUN)
+            new GunsMenuPage(this, GunCategory.SHOTGUN)
         ), 1, 6);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:m4a1")
                 .setName("&f&lSniper Rifles")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.SNIPER_RIFLE)
+            new GunsMenuPage(this, GunCategory.SNIPER_RIFLE)
         ), 1, 7);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:m4a1")
                 .setName("&f&lSidearms")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.SIDEARM)
+            new GunsMenuPage(this, GunCategory.SIDEARM)
         ), 2, 2);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:chainsaw")
                 .setName("&f&lMelee Weapons")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.MELEE)
+            new GunsMenuPage(this, GunCategory.MELEE)
         ), 2, 4);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:m4a1")
                 .setName("&f&lSpecial Weapons")
                 .getItemStack(),
-            new GunMenuPage(this, GunCategory.SPECIAL)
+            new GunsMenuPage(this, GunCategory.SPECIAL)
         ), 2, 6);
     }
 }

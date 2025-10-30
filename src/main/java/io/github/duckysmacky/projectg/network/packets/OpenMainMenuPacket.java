@@ -1,7 +1,7 @@
 package io.github.duckysmacky.projectg.network.packets;
 
 import io.github.duckysmacky.projectg.ProjectGMod;
-import io.github.duckysmacky.projectg.gui.menus.MainMenu;
+import io.github.duckysmacky.projectg.gui.menu.pages.MainMenuPage;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -25,7 +25,7 @@ public class OpenMainMenuPacket implements IMessage {
     public static class Handler implements IMessageHandler<OpenMainMenuPacket, IMessage> {
         @Override
         public IMessage onMessage(OpenMainMenuPacket message, MessageContext context) {
-            ProjectGMod.PROXY.openMenuPage(new MainMenu());
+            ProjectGMod.PROXY.openMenuPage(new MainMenuPage());
             return null;
         }
     }

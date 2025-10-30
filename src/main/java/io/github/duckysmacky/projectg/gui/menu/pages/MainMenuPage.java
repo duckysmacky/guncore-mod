@@ -22,7 +22,7 @@ public class MainMenuPage extends StaticMenu {
                 .setName("&f&lLocations")
                 .addLoreLine("&7Choose a location to fight in")
                 .getItemStack(),
-            new LocationsMenuPage(this)
+            new MapsMenuPage(this)
         ), 1, 4);
 
         addEntry(new SubpageEntry(

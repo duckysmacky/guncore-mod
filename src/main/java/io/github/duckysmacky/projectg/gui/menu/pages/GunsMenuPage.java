@@ -10,8 +10,8 @@ import net.minecraft.util.text.TextComponentString;
 
 import java.util.Comparator;
 
-public class GunMenuPage extends DynamicMenu {
-    public GunMenuPage(BaseMenu parent, GunCategory gunCategory) {
+public class GunsMenuPage extends DynamicMenu {
+    public GunsMenuPage(BaseMenu parent, GunCategory gunCategory) {
         super(gunCategory.display + "s", parent, 8, 9);
 
         ConfigLoader configLoader = ConfigLoader.instance();

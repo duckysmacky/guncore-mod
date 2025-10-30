@@ -1,12 +1,16 @@
 package io.github.duckysmacky.projectg.config.catalog;
 
 import io.github.duckysmacky.projectg.util.ItemFinder;
+import io.github.duckysmacky.projectg.util.ItemStackCustomizer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class GunEntry extends CatalogEntry {
     private final GunCategory category;
@@ -17,19 +21,36 @@ public class GunEntry extends CatalogEntry {
 
     public GunEntry(
         boolean enabled,
-        String displayName,
+        String name,
         GunCategory category,
         Rarity rarity,
         String gunItemId,
         String ammoItemId,
-        int ammoItemAmount
+        int ammoItemAmount,
+        List<String> descriptionLines
     ) {
-        super(enabled, gunItemId, displayName);
+        super(enabled, name, descriptionLines);
         this.category = category;
         this.rarity = rarity;
         this.gunItemId = gunItemId;
         this.ammoItemId = ammoItemId;
         this.ammoItemAmount = ammoItemAmount;
+    }
+
+    public static GunEntry getExample() {
+        return new GunEntry(
+            true,
+            "SOCOM M4A1",
+            GunCategory.ASSAULT_RIFLE,
+            Rarity.COMMON,
+            "mw:socom_m4a1",
+            "mw:socom_mag",
+            12,
+            Arrays.asList(
+                "&7A versatile and reliable assault rifle favored by special operations forces.",
+                "&7Known for its accuracy and adaptability in various combat scenarios."
+            )
+        );
     }
 
     public ItemStack getGunItemStack() {
@@ -39,10 +60,23 @@ public class GunEntry extends CatalogEntry {
 
         NBTTagCompound displayTag = new NBTTagCompound();
 
-        String coloredName = rarity.color + "" + TextFormatting.BOLD + displayName;
+        String coloredName = rarity.color + "" + TextFormatting.BOLD + name;
         displayTag.setString("Name", coloredName);
 
         NBTTagList loreList = new NBTTagList();
+
+        if (!descriptionLines.isEmpty()) {
+            for (String line : descriptionLines) {
+                String coloredLine = ItemStackCustomizer.translateColorCodes(line);
+                loreList.appendTag(new NBTTagString(coloredLine));
+            }
+            loreList.appendTag(new NBTTagString(""));
+        }
+
+        String ammoLine = TextFormatting.GREEN + "Included ammo: " + TextFormatting.WHITE + ammoItemAmount + "x " + getAmmoItemStack().getDisplayName();
+        loreList.appendTag(new NBTTagString(ammoLine));
+        loreList.appendTag(new NBTTagString(""));
+
         String rarityLine = rarity.color + "" + TextFormatting.BOLD + rarity.display.toUpperCase();
         loreList.appendTag(new NBTTagString(rarityLine));
 

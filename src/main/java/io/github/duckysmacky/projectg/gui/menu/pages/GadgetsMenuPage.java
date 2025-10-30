@@ -10,21 +10,20 @@ import net.minecraft.util.text.TextComponentString;
 
 import java.util.Comparator;
 
-public class KitsMenuPage extends DynamicMenu {
-    public KitsMenuPage(BaseMenu parent, KitClass kitClass) {
-        super(kitClass.display + " Kits", parent, 5, 9);
+public class GadgetsMenuPage extends DynamicMenu {
+    public GadgetsMenuPage(BaseMenu parent) {
+        super("Gadgets", parent, 9, 9);
 
         ConfigLoader configLoader = ConfigLoader.instance();
 
-        configLoader.getCachedKits().stream()
-            .filter(kit -> kit.getKitClass() == kitClass)
-            .sorted(Comparator.comparingInt(kit -> kit.getTier().sortOrder))
-            .forEach(kit -> {
-                ItemStack kitIcon = kit.getIconItem();
+        configLoader.getCachedGadgets().stream()
+            .sorted(Comparator.comparingInt(gadget -> gadget.getRarity().sortOrder))
+            .forEach(gadget -> {
+                ItemStack gadgetItem = gadget.getItemStack();
 
                 addEntry(new ActionEntry(
-                    kitIcon,
-                    (player) -> player.sendMessage(new TextComponentString("Selected kit: " + kitIcon.getDisplayName()))
+                    gadgetItem,
+                    (player) -> player.sendMessage(new TextComponentString("Selected gadget: " + gadgetItem.getDisplayName()))
                 ));
             });
     }
