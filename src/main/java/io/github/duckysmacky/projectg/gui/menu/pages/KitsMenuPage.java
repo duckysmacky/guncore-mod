@@ -2,9 +2,11 @@ package io.github.duckysmacky.projectg.gui.menu.pages;
 
 import io.github.duckysmacky.projectg.data.ConfigLoader;
 import io.github.duckysmacky.projectg.data.catalog.kits.KitClass;
+import io.github.duckysmacky.projectg.game.CommandExecutor;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.DynamicMenu;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 
@@ -22,10 +24,16 @@ public class KitsMenuPage extends DynamicMenu {
             .forEach(kit -> {
                 ItemStack kitIcon = kit.getIconItem();
 
-                addEntry(new ActionEntry(
-                    kitIcon,
-                    (player) -> player.sendMessage(new TextComponentString("Selected kit: " + kitIcon.getDisplayName()))
-                ));
+                addEntry(new ActionEntry(kitIcon, (player) -> {
+                    player.sendMessage(new TextComponentString("Selected kit: " + kitIcon.getDisplayName()));
+
+                    String command = String.format("csg_kit give %s %s", kit.getKitId(), player.getName());
+                    CommandExecutor commandExecutor = new CommandExecutor();
+
+                    commandExecutor.execute(command);
+                    player.sendMessage(new TextComponentString(command));
+                    player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+                }));
             });
     }
 }
