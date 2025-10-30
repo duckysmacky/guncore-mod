@@ -81,11 +81,11 @@ public class GadgetEntry extends CatalogEntry {
 
         if (!additionalItemIds.isEmpty()) {
             String additionalItemsLine = TextFormatting.GREEN + "Additionally includes:";
+            loreList.appendTag(new NBTTagString(additionalItemsLine));
             for (ItemStack additionalItem : getAdditionalItemStacks()) {
                 String line = TextFormatting.WHITE + "- " + additionalItem.getDisplayName();
                 loreList.appendTag(new NBTTagString(line));
             }
-            loreList.appendTag(new NBTTagString(additionalItemsLine));
             loreList.appendTag(new NBTTagString(""));
         }
 
