@@ -27,11 +27,9 @@ public class KitsMenuPage extends DynamicMenu {
                 addEntry(new ActionEntry(kitIcon, (player) -> {
                     player.sendMessage(new TextComponentString("Selected kit: " + kitIcon.getDisplayName()));
 
-                    String command = String.format("csg_kit give %s %s", kit.getKitId(), player.getName());
                     CommandExecutor commandExecutor = new CommandExecutor();
+                    commandExecutor.execute(kit.getCommand(player));
 
-                    commandExecutor.execute(command);
-                    player.sendMessage(new TextComponentString(command));
                     player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1f, 1f);
                 }));
             });

@@ -1,18 +1,29 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
+import io.github.duckysmacky.projectg.data.ConfigLoader;
 import io.github.duckysmacky.projectg.data.catalog.kits.KitClass;
+import io.github.duckysmacky.projectg.data.catalog.kits.KitEntry;
+import io.github.duckysmacky.projectg.game.CommandExecutor;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.gui.menu.entry.SubpageEntry;
 import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.text.TextComponentString;
 
+import javax.swing.text.html.parser.Entity;
+import java.util.List;
+import java.util.Random;
+
 public class KitCategoryMenuPage extends StaticMenu {
+    private final Random random;
     public KitCategoryMenuPage(BaseMenu parent) {
         super("Kits", parent, 4, 9);
+        this.random = new Random();
 
         addEntry(new SubpageEntry(
             new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.IRON_CHESTPLATE))
@@ -63,7 +74,22 @@ public class KitCategoryMenuPage extends StaticMenu {
                 .setName("&f&lRandom Kit")
                 .addLoreLine("&7Select a random kit")
                 .getItemStack(),
-            (player) -> player.sendMessage(new TextComponentString("Random kit clicked!"))
+            this::selectRandomKit
         ), 2, 4);
+    }
+
+    private void selectRandomKit(EntityPlayer player) {
+        ConfigLoader configLoader = ConfigLoader.instance();
+        List<KitEntry> kits = configLoader.getCachedKits();
+
+        int randomIndex = random.nextInt(kits.size());
+        KitEntry kit = kits.get(randomIndex);
+
+        player.sendMessage(new TextComponentString("Random kit selected: " + kit.getName()));
+
+        CommandExecutor commandExecutor = new CommandExecutor();
+        commandExecutor.execute(kit.getCommand(player));
+
+        player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
     }
 }

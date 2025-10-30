@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import io.github.duckysmacky.projectg.data.catalog.CatalogEntry;
 import io.github.duckysmacky.projectg.data.ItemFinder;
 import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -55,6 +56,10 @@ public class KitEntry extends CatalogEntry {
                 "&7Everything you need to fight, survive and win in the same place"
             )
         );
+    }
+
+    public String getCommand(EntityPlayer player) {
+        return String.format("csg_kit give %s %s", kitId, player.getName());
     }
 
     public KitClass getKitClass() {
