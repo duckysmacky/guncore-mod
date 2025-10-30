@@ -23,12 +23,20 @@ public class MainMenuPage extends StaticMenu {
                 .addLoreLine("&7Choose a location to fight in")
                 .getItemStack(),
             new MapsMenuPage(this)
-        ), 1, 4);
+        ), 1, 3);
+
+        addEntry(new SubpageEntry(
+            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.CLOCK))
+                .setName("&f&lGame")
+                .addLoreLine("&7Set the game modes, join teams and other")
+                .getItemStack(),
+            new GameMenuPage(this)
+        ), 1, 5);
 
         addEntry(new SubpageEntry(
             new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.COMPARATOR))
                 .setName("&f&lSettings")
-                .addLoreLine("&7Adjust map and teams settings")
+                .addLoreLine("&7Adjust different settings")
                 .getItemStack(),
             new SettingsMenuPage(this)
         ), 1, 7);

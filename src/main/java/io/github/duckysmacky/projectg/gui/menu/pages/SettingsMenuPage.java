@@ -1,31 +1,75 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
-import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
-import io.github.duckysmacky.projectg.gui.menu.entry.SubpageEntry;
+import io.github.duckysmacky.projectg.game.CommandExecutor;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
+import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
+import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
+import io.github.duckysmacky.projectg.gui.menu.entry.DisplayEntry;
+import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.Arrays;
 
 public class SettingsMenuPage extends StaticMenu {
     public SettingsMenuPage(BaseMenu parent) {
-        super("Settings", parent, 3, 9);
+        super("Settings", parent, 6, 9);
 
-        addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new ItemStack(Items.CLOCK))
-                .setName("&f&lMap Settings")
-                .addLoreLine("&7Adjust map settings")
-                .getItemStack(),
-            new MapSettingsMenuPage(this)
+        addEntry(new DisplayEntry(
+            new ItemStackCustomizer(new ItemStack(Items.WATER_BUCKET))
+                .setName("&f&lWeather Cycle")
+                .getItemStack()
         ), 1, 1);
 
-        addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.STANDING_BANNER))
-                .setName("&f&lTeams Settings")
-                .addLoreLine("&7Adjust teams and scoreboard")
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.DYE))
+                .setName("&f&lToggle Weather Cycle")
+                .addLoreLine("&fClick to toggle the weather cycle")
                 .getItemStack(),
-            new TeamsMenuPage(this)
-        ), 1, 3);
+            (player) -> player.sendMessage(new TextComponentString("Weather cycle toggled!"))
+        ), 2, 1);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.REDSTONE_TORCH))
+                .setName("&fSetup teams")
+                .addLoreLine("&7Automatically sets up scoreboard teams and the death counter")
+                .getItemStack(),
+            p -> setupTeams()
+        ), 4, 1);
     }
+
+    public void setupTeams() {
+        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        CommandExecutor commandExecutor = new CommandExecutor();
+
+        String[] commandChain = new String[]{
+            "scoreboard objectives setdisplay sidebar Deaths",
+            "scoreboard teams add ffa",
+            "scoreboard teams add blue",
+            "scoreboard teams add red",
+            "scoreboard teams add yellow",
+            "scoreboard teams add green",
+            "scoreboard teams option ffa nametagVisibility never",
+            "scoreboard teams option blue nametagVisibility hideForOtherTeams",
+            "scoreboard teams option red nametagVisibility hideForOtherTeams",
+            "scoreboard teams option yellow nametagVisibility hideForOtherTeams",
+            "scoreboard teams option green nametagVisibility hideForOtherTeams"
+        };
+
+        Arrays.stream(commandChain).forEach(commandExecutor::execute);
+
+        String message = TextFormatting.GREEN + "" + TextFormatting.BOLD + "Teams setup completed";
+        server.getPlayerList().getPlayers()
+            .forEach(p -> {
+                p.sendMessage(new TextComponentString(message));
+                p.playSound(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
+            });
+    }
+
 }
