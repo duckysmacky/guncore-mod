@@ -1,0 +1,761 @@
+[
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Spawn",
+    "coordinates": {
+      "x": -44,
+      "y": 249,
+      "z": 216
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Plaza",
+    "coordinates": {
+      "x": -150,
+      "y": 160,
+      "z": 230
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Stone Twin Apartments",
+    "coordinates": {
+      "x": -70,
+      "y": 120,
+      "z": 230
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Triple Gray Towers",
+    "coordinates": {
+      "x": -130,
+      "y": 140,
+      "z": -40
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Hospital Complex",
+    "coordinates": {
+      "x": -130,
+      "y": 120,
+      "z": 20
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "White house",
+    "coordinates": {
+      "x": 50,
+      "y": 100,
+      "z": 140
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Tall Gray Apartment",
+    "coordinates": {
+      "x": 90,
+      "y": 190,
+      "z": 230
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "RD Hotel",
+    "coordinates": {
+      "x": -70,
+      "y": 130,
+      "z": -470
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "MC Skyscraper",
+    "coordinates": {
+      "x": 0,
+      "y": 210,
+      "z": -450
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Double Brick Towers",
+    "coordinates": {
+      "x": 100,
+      "y": 120,
+      "z": -280
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Large Neighbourhood",
+    "coordinates": {
+      "x": 80,
+      "y": 100,
+      "z": -150
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Spawn",
+    "coordinates": {
+      "x": 1780,
+      "y": 123,
+      "z": 198
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Bank Tower Complex",
+    "coordinates": {
+      "x": 1570,
+      "y": 105,
+      "z": 60
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Skyscraper",
+    "coordinates": {
+      "x": 1620,
+      "y": 260,
+      "z": 200
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Terracotta Tower",
+    "coordinates": {
+      "x": 1650,
+      "y": 200,
+      "z": -20
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Chorus Complex",
+    "coordinates": {
+      "x": 1740,
+      "y": 115,
+      "z": 70
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Museum",
+    "coordinates": {
+      "x": 1830,
+      "y": 105,
+      "z": 70
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Apartment Towers",
+    "coordinates": {
+      "x": 1830,
+      "y": 110,
+      "z": -30
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Opposing Towers",
+    "coordinates": {
+      "x": 2030,
+      "y": 95,
+      "z": -20
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Embassy",
+    "coordinates": {
+      "x": 1970,
+      "y": 120,
+      "z": -20
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Housing Complex",
+    "coordinates": {
+      "x": 1900,
+      "y": 110,
+      "z": 90
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Quartz Heights",
+    "coordinates": {
+      "x": 1990,
+      "y": 140,
+      "z": 130
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Police station",
+    "coordinates": {
+      "x": 1990,
+      "y": 100,
+      "z": 260
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Court",
+    "coordinates": {
+      "x": 1900,
+      "y": 100,
+      "z": 300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Spawn",
+    "coordinates": {
+      "x": 42,
+      "y": 95,
+      "z": 25
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Grocery Store",
+    "coordinates": {
+      "x": -360,
+      "y": 60,
+      "z": 144
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Sandstone Tower",
+    "coordinates": {
+      "x": -75,
+      "y": 105,
+      "z": 115
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Plaza",
+    "coordinates": {
+      "x": -90,
+      "y": 95,
+      "z": -125
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Brick Complex 1",
+    "coordinates": {
+      "x": -115,
+      "y": 80,
+      "z": -225
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Brick Complex 2",
+    "coordinates": {
+      "x": -110,
+      "y": 90,
+      "z": -330
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Spawn",
+    "coordinates": {
+      "x": 85,
+      "y": 256,
+      "z": -188
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Small Neighbourhood 1",
+    "coordinates": {
+      "x": 800,
+      "y": 100,
+      "z": -1300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Small Neighbourhood 2",
+    "coordinates": {
+      "x": 1100,
+      "y": 100,
+      "z": -1000
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Modern House Complex 1",
+    "coordinates": {
+      "x": 500,
+      "y": 100,
+      "z": -200
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Modern House Complex 2",
+    "coordinates": {
+      "x": 500,
+      "y": 100,
+      "z": 200
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "White House Complex",
+    "coordinates": {
+      "x": -450,
+      "y": 100,
+      "z": -100
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Brick House Complex",
+    "coordinates": {
+      "x": -200,
+      "y": 100,
+      "z": -550
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Grey House Complex",
+    "coordinates": {
+      "x": 900,
+      "y": 100,
+      "z": -200
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Beachside House Complex",
+    "coordinates": {
+      "x": 1500,
+      "y": 100,
+      "z": 1500
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "City Centre Skyscraper",
+    "coordinates": {
+      "x": -600,
+      "y": 100,
+      "z": -300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Urban Skyscrapers",
+    "coordinates": {
+      "x": 800,
+      "y": 100,
+      "z": -500
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Island",
+    "coordinates": {
+      "x": -1250,
+      "y": 100,
+      "z": 940
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Cargo Ship",
+    "coordinates": {
+      "x": -1350,
+      "y": 100,
+      "z": 1220
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "World Trade Centre",
+    "coordinates": {
+      "x": 70,
+      "y": 200,
+      "z": 40
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Aqua Park",
+    "coordinates": {
+      "x": 1050,
+      "y": 100,
+      "z": 1300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Airport",
+    "coordinates": {
+      "x": 550,
+      "y": 100,
+      "z": -1100
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Modern City Area",
+    "coordinates": {
+      "x": -1000,
+      "y": 100,
+      "z": -300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Big Neighbourhood",
+    "coordinates": {
+      "x": -800,
+      "y": 100,
+      "z": -1000
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Medium Neighbourhood",
+    "coordinates": {
+      "x": 500,
+      "y": 100,
+      "z": 500
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Factory",
+    "coordinates": {
+      "x": -1100,
+      "y": 100,
+      "z": -1000
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Walmart",
+    "coordinates": {
+      "x": 0,
+      "y": 100,
+      "z": -1000
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "School",
+    "coordinates": {
+      "x": 1100,
+      "y": 100,
+      "z": 0
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Yachts",
+    "coordinates": {
+      "x": -800,
+      "y": 100,
+      "z": 800
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Construction site",
+    "coordinates": {
+      "x": -100,
+      "y": 100,
+      "z": -400
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Spawn",
+    "coordinates": {
+      "x": -392,
+      "y": 34,
+      "z": -290
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Riverside Town",
+    "coordinates": {
+      "x": -800,
+      "y": 80,
+      "z": -400
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Canal Dockage",
+    "coordinates": {
+      "x": -650,
+      "y": 80,
+      "z": -550
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "HQ",
+    "coordinates": {
+      "x": -760,
+      "y": 260,
+      "z": 130
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Church",
+    "coordinates": {
+      "x": -1100,
+      "y": 100,
+      "z": 425
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Construction Cite",
+    "coordinates": {
+      "x": -1350,
+      "y": 100,
+      "z": 575
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Power Plant",
+    "coordinates": {
+      "x": -1200,
+      "y": 100,
+      "z": 275
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Industrial Zone",
+    "coordinates": {
+      "x": -1400,
+      "y": 100,
+      "z": 400
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Panel District",
+    "coordinates": {
+      "x": -1050,
+      "y": 80,
+      "z": -225
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Panel District 2",
+    "coordinates": {
+      "x": -1160,
+      "y": 80,
+      "z": -90
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Ferris Wheel",
+    "coordinates": {
+      "x": -970,
+      "y": 100,
+      "z": -10
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "White House",
+    "coordinates": {
+      "x": -835,
+      "y": 60,
+      "z": -25
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Smokey Suburbs",
+    "coordinates": {
+      "x": -850,
+      "y": 80,
+      "z": 250
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Central Station",
+    "coordinates": {
+      "x": -950,
+      "y": 80,
+      "z": 125
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Brick Town",
+    "coordinates": {
+      "x": -900,
+      "y": 80,
+      "z": 425
+    },
+    "descriptionLines": []
+  }
+]

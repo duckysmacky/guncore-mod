@@ -1,0 +1,1267 @@
+[
+  {
+    "enabled": true,
+    "name": "SOCOM M4A1",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mw:socom_m4a1",
+    "ammoItemId": "mw:socom_mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7A versatile and reliable assault rifle favored by special operations forces.",
+      "&7Known for its accuracy and adaptability in various combat scenarios."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "ARX-160",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mw:arx160",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Modern Italian assault rifle known for its lightweight design and modularity.",
+      "&7Features a cold hammer-forged barrel for enhanced accuracy."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "C8 SFW",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mw:c8_sfw",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Canadian special forces weapon based on the Colt Canada C8.",
+      "&7Compact design ideal for close quarters combat operations."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "BREN A1",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mw:cz805_bren_a1",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Czech-made modular assault rifle system.",
+      "&7Designed to replace older firearms in the Czech military arsenal."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-74",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mw:ak74",
+    "ammoItemId": "mw:ak74mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Soviet 5.45×39mm assault rifle developed in the early 1970s.",
+      "&7Successor to the AKM, featuring improved accuracy and lighter ammunition."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-15",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mw:ak15",
+    "ammoItemId": "mw:ak15mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Modern Russian assault rifle chambered in 7.62×39mm.",
+      "&7Part of the AK-12 family with enhanced ergonomics and reliability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M16A4",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:m16a4",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Standard issue rifle for the US Marine Corps.",
+      "&7Features a flat-top receiver for optical attachments and a sturdy fixed stock."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Remington ACR",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:acr",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Advanced Combat Rifle designed for maximum modularity.",
+      "&7Features quick-change barrels and multiple caliber conversion kits."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Mk 16 SCAR-L",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:scar_l",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Special Operations Forces Combat Assault Rifle in 5.56mm.",
+      "&7Designed for US Special Operations Command with high reliability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK G36K",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:g36k",
+    "ammoItemId": "mw:g36cmag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7German compact assault rifle used by special forces worldwide.",
+      "&7Features a unique dual-optic sight system for close and long range."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-12",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:kalashnikov_ak12",
+    "ammoItemId": "mw:ak15mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Latest generation of the Kalashnikov rifle series.",
+      "&7Improved ergonomics, accuracy, and modular attachment system."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK G95",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:hk_g95",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7German-made assault rifle with advanced fire control system.",
+      "&7Designed for precision and reliability in all combat conditions."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "K2C1",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:k2c1",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7South Korean assault rifle serving as the standard infantry weapon.",
+      "&7Improved version of the original K2 with enhanced features."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "NV4",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:nv4",
+    "ammoItemId": "mw:bullet556x45",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Futuristic assault rifle from advanced military technology.",
+      "&7Features energy-efficient operation and high-capacity ammunition systems."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MA37 ICWS",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:ma37_icws",
+    "ammoItemId": "mw:bullet762x51",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Standard issue rifle for UNSC Marine Corps in the Halo universe.",
+      "&7Individual Combat Weapon System chambered in 7.62x51mm."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M41A",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:m41a",
+    "ammoItemId": "mw:bullet10mm",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Pulse rifle from the Alien franchise used by Colonial Marines.",
+      "&7Combines a 10mm explosive tip caseless ammunition with an underbarrel grenade launcher."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AUG A1",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:steyr_aug_a1",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Austrian bullpup assault rifle with integrated optical sight.",
+      "&7Revolutionary design that influenced modern firearm ergonomics."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK G11",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:g11",
+    "ammoItemId": "mw:g11mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Revolutionary German caseless ammunition assault rifle.",
+      "&7Features an extremely high rate of fire in burst mode."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-103",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:ak103_bullpup",
+    "ammoItemId": "mw:ak47mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Modernized AK-47 variant in bullpup configuration.",
+      "&7Combines Kalashnikov reliability with improved ergonomics and compact design."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M4A4 Asiimov",
+    "category": "assault_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:asiimov_m4a1",
+    "ammoItemId": "mw:m4asiimovmag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Futuristic custom M4 with advanced targeting systems.",
+      "&7Features a distinctive orange and black sci-fi aesthetic design."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AKM Vulcan",
+    "category": "assault_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:akm_vulcan",
+    "ammoItemId": "mw:akmvulcanmag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Heavily modified AKM with enhanced fire rate and cooling systems.",
+      "&7Named for its devastating sustained fire capability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AAC Honey Badger",
+    "category": "assault_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:aac_honey_badger",
+    "ammoItemId": "mw:honeybadgermag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Compact integrally suppressed personal defense weapon.",
+      "&7Chambered in .300 Blackout for optimal subsonic performance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "FN F2000",
+    "category": "assault_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:f2000",
+    "ammoItemId": "mw:m4a1mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Belgian bullpup assault rifle with unique forward ejection system.",
+      "&7Ambidextrous design with integrated optical sight and grenade launcher capability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "VOLK",
+    "category": "assault_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:volk",
+    "ammoItemId": "mw:energycase",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Energy-based assault rifle from advanced future technology.",
+      "&7Uses concentrated energy cells instead of conventional ammunition."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "TYPE-2",
+    "category": "assault_rifle",
+    "rarity": "legendary",
+    "gunItemId": "mw:type2",
+    "ammoItemId": "mw:energycase",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Advanced energy weapon capable of multiple fire modes.",
+      "&7Cutting-edge technology from future combat developments."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "OSIPR",
+    "category": "assault_rifle",
+    "rarity": "legendary",
+    "gunItemId": "mw:osipr",
+    "ammoItemId": "mw:bullet762x51",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Overwatch Standard Issue Pulse Rifle from Half-Life 2.",
+      "&7Used by Combine soldiers, features both semi and fully automatic fire modes."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SCAR-H",
+    "category": "battle_rifle",
+    "rarity": "common",
+    "gunItemId": "mw:scar_h_cqc",
+    "ammoItemId": "mw:scarhmag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Close Quarters Combat variant of the SCAR-H battle rifle.",
+      "&7Chambered in 7.62x51mm for enhanced stopping power in compact engagements."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "KBP 9A_91",
+    "category": "battle_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:kbp_9a91",
+    "ammoItemId": "mw:kbp9a91mag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Russian compact assault rifle designed for special forces.",
+      "&7Compact design making it ideal for concealed carry operations."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SR-3",
+    "category": "battle_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:sr3_vikhr",
+    "ammoItemId": "mw:vssvintorezmag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Russian compact assault rifle derived from the AS Val.",
+      "&7Designed for close quarters battle and special operations use."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "FN FAL",
+    "category": "battle_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:fnfal",
+    "ammoItemId": "mw:ak47mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7The 'Right Arm of the Free World' - legendary battle rifle.",
+      "&7Used by over 90 countries and known for its reliability and power."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M8A7",
+    "category": "battle_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:m8a7",
+    "ammoItemId": "mw:bullet556x45",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Futuristic bullpup battle rifle from advanced military forces.",
+      "&7Features modular design and advanced fire control systems."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MA5D ICWS",
+    "category": "battle_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:ma5d",
+    "ammoItemId": "mw:bullet762x51",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7UNSC standard issue rifle in the Halo series.",
+      "&7Individual Combat Weapon System with advanced electronics and high capacity."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "BR-55",
+    "category": "battle_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:br55",
+    "ammoItemId": "mw:bullet762x51",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Battle rifle from the Halo universe used by UNSC forces.",
+      "&7Fires 9.5x40mm ammunition in accurate two-round bursts."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AR-10 Super SASS",
+    "category": "dmr",
+    "rarity": "common",
+    "gunItemId": "mw:ar10_super_sass",
+    "ammoItemId": "mw:m110mag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7Semi-automatic sniper system based on the AR-10 platform.",
+      "&7Designed for precision engagements at medium to long ranges."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Mk14",
+    "category": "dmr",
+    "rarity": "common",
+    "gunItemId": "mw:mk14_ebr",
+    "ammoItemId": "mw:mk14ebrmag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7Enhanced Battle Rifle variant of the M14 rifle.",
+      "&7Used by US Navy SEALs and other special operations forces for designated marksman role."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1941 Johnson Rifle",
+    "category": "dmr",
+    "rarity": "uncommon",
+    "gunItemId": "mw:m1941_johnson_rifle",
+    "ammoItemId": "mw:bullet3006springfield",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7American short-recoil operated semi-automatic rifle from WWII.",
+      "&7Known for its unique rotating bolt and 10-round capacity."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M110 SASS",
+    "category": "dmr",
+    "rarity": "uncommon",
+    "gunItemId": "mw:m110_sass",
+    "ammoItemId": "mw:m110mag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7Semi-Automatic Sniper System used by US military.",
+      "&7Provides rapid follow-up shots compared to bolt-action sniper rifles."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK SL8",
+    "category": "dmr",
+    "rarity": "rare",
+    "gunItemId": "mw:sl8",
+    "ammoItemId": "mw:g36cmag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7Civilian and law enforcement variant of the G36 rifle.",
+      "&7Semi-automatic only, designed for precision shooting applications."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1 Garand",
+    "category": "dmr",
+    "rarity": "rare",
+    "gunItemId": "mw:m1_garand",
+    "ammoItemId": "mw:bullet3006springfield",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Iconic American battle rifle of World War II.",
+      "&7Famous for its distinctive 'ping' sound when the en-bloc clip is ejected."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "G43 Gewehr",
+    "category": "dmr",
+    "rarity": "rare",
+    "gunItemId": "mw:g43_gewehr",
+    "ammoItemId": "mw:g43_gewehr_mag",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7German semi-automatic rifle used during World War II.",
+      "&7Provided German infantry with faster follow-up shots compared to bolt-action rifles."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Mare's Leg",
+    "category": "dmr",
+    "rarity": "rare",
+    "gunItemId": "mw:mares_leg",
+    "ammoItemId": "mw:bullet44",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Shortened lever-action rifle popularized in Western films.",
+      "&7Compact design making it suitable as a handgun alternative with rifle power."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M392",
+    "category": "dmr",
+    "rarity": "epic",
+    "gunItemId": "mw:m392",
+    "ammoItemId": "mw:bullet762x51",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Designated Marksman Rifle from the Halo universe.",
+      "&7Used by UNSC forces for precision engagements with 7.62x51mm ammunition."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "VSS Vintorez",
+    "category": "dmr",
+    "rarity": "epic",
+    "gunItemId": "mw:vss_vintorez",
+    "ammoItemId": "mw:vssvintorezmag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7Russian special forces sniper rifle with integrated suppressor.",
+      "&7Designed for silent, flashless shooting at ranges up to 400 meters."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "TYPE-51",
+    "category": "dmr",
+    "rarity": "legendary",
+    "gunItemId": "mw:type51",
+    "ammoItemId": "mw:energycase",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Advanced energy-based designated marksman rifle.",
+      "&7Utilizes cutting-edge technology for silent, high-precision energy projectiles."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M249",
+    "category": "lmg",
+    "rarity": "common",
+    "gunItemId": "mw:m249",
+    "ammoItemId": "mw:m249mag",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7American version of the FN Minimi light machine gun.",
+      "&7Squad automatic weapon providing sustained fire support with 5.56mm ammunition."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Stoner A1",
+    "category": "lmg",
+    "rarity": "uncommon",
+    "gunItemId": "mw:stonera1",
+    "ammoItemId": "mw:stonermag",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7Light machine gun based on Eugene Stoner's AR-15 design.",
+      "&7Provides reliable automatic fire while maintaining reasonable weight and controllability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MG-42",
+    "category": "lmg",
+    "rarity": "uncommon",
+    "gunItemId": "mw:mg42",
+    "ammoItemId": "mw:mg42mag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7German general purpose machine gun from World War II.",
+      "&7Nicknamed 'Hitler's Buzzsaw' for its extremely high rate of fire of 1,200-1,500 RPM."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1941 Johnson LMG",
+    "category": "lmg",
+    "rarity": "rare",
+    "gunItemId": "mw:m1941_johnson",
+    "ammoItemId": "mw:johnsonmag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Light machine gun using the same short-recoil system as the Johnson rifle.",
+      "&7Featured a unique top-loading magazine and quick-change barrel."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HAR-27",
+    "category": "lmg",
+    "rarity": "epic",
+    "gunItemId": "mw:har_27",
+    "ammoItemId": "mw:bullet556x45",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Heavy Assault Rifle from advanced military technology.",
+      "&7Provides sustained automatic fire with high-capacity energy-efficient ammunition."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M56 ESG",
+    "category": "lmg",
+    "rarity": "legendary",
+    "gunItemId": "mw:m56",
+    "ammoItemId": "mw:bullet556x45",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Smartgun from the Alien franchise used by Colonial Marines.",
+      "&7Electronically Stabilized Gun with advanced targeting system and high rate of fire."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M138 Minigun",
+    "category": "lmg",
+    "rarity": "mythic",
+    "gunItemId": "mw:m134",
+    "ammoItemId": "mw:m134mag",
+    "ammoItemAmount": 2,
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "name": "HK MP7A1",
+    "category": "smg",
+    "rarity": "common",
+    "gunItemId": "mw:mp7a1",
+    "ammoItemId": "mw:mp7mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7German personal defense weapon chambered in 4.6×30mm.",
+      "&7Designed to penetrate body armor while maintaining compact dimensions."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "UMP45",
+    "category": "smg",
+    "rarity": "common",
+    "gunItemId": "mw:ump_45",
+    "ammoItemId": "mw:ump45mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Universal Machine Pistol chambered in .45 ACP.",
+      "&7Provides greater stopping power than 9mm SMGs while maintaining controllability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "APC9",
+    "category": "smg",
+    "rarity": "uncommon",
+    "gunItemId": "mw:apc9",
+    "ammoItemId": "mw:apc9mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Swiss-made submachine gun known for its precision engineering.",
+      "&7Features a closed-bolt system and modular design for various configurations."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "UZI",
+    "category": "smg",
+    "rarity": "uncommon",
+    "gunItemId": "mw:uzi",
+    "ammoItemId": "mw:uzimag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Iconic Israeli open-bolt submachine gun.",
+      "&7One of the first weapons to use a telescoping bolt design, allowing for compact size."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "P90",
+    "category": "smg",
+    "rarity": "rare",
+    "gunItemId": "mw:p90",
+    "ammoItemId": "mw:p90mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Belgian bullpup personal defense weapon with unique top-mounted magazine.",
+      "&7Fires the high-velocity 5.7×28mm round designed to defeat body armor."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Kriss Vector",
+    "category": "smg",
+    "rarity": "rare",
+    "gunItemId": "mw:kriss_vector",
+    "ammoItemId": "mw:vectormag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Submachine gun using Super V system to redirect recoil.",
+      "&7Revolutionary design that reduces muzzle climb and perceived recoil by over 40%."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Scorpion EVO3 A1",
+    "category": "smg",
+    "rarity": "rare",
+    "gunItemId": "mw:scorpion_evo3_a1",
+    "ammoItemId": "mw:scorpionmag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Czech submachine gun known for its high rate of fire and compact design.",
+      "&7Popular in competitive shooting sports for its reliability and accuracy."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MAC-10",
+    "category": "smg",
+    "rarity": "rare",
+    "gunItemId": "mw:mac10",
+    "ammoItemId": "mw:mac10mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7American machine pistol famous for its extremely high rate of fire.",
+      "&7Often used with a suppressor for clandestine operations."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M20 PDW",
+    "category": "smg",
+    "rarity": "epic",
+    "gunItemId": "mw:m20",
+    "ammoItemId": "mw:bullet9x19mm",
+    "ammoItemAmount": 384,
+    "descriptionLines": [
+      "&7Advanced Personal Defense Weapon from future combat systems.",
+      "&7Utilizes specialized high-capacity ammunition for sustained engagements."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Thompson",
+    "category": "smg",
+    "rarity": "epic",
+    "gunItemId": "mw:m1928_thompson",
+    "ammoItemId": "mw:m1928mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Iconic American submachine gun from the Prohibition era.",
+      "&7Famous as the 'Tommy Gun' used by both law enforcement and organized crime."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1014",
+    "category": "shotgun",
+    "rarity": "common",
+    "gunItemId": "mw:m1014",
+    "ammoItemId": "mw:shotgun12gauge",
+    "ammoItemAmount": 32,
+    "descriptionLines": [
+      "&7Italian semi-automatic shotgun used by US military as M1014.",
+      "&7Gas-operated system provides reliable cycling with various ammunition types."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "KS-23",
+    "category": "shotgun",
+    "rarity": "common",
+    "gunItemId": "mw:ks23",
+    "ammoItemId": "mw:shotgun4g",
+    "ammoItemAmount": 32,
+    "descriptionLines": [
+      "&7Russian shotgun based on 23mm aircraft cannon barrels.",
+      "&7Uses 4-gauge ammunition, making it one of the largest bore shotguns in service."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Remington-870",
+    "category": "shotgun",
+    "rarity": "uncommon",
+    "gunItemId": "mw:remington870",
+    "ammoItemId": "mw:shotgun12gauge",
+    "ammoItemAmount": 32,
+    "descriptionLines": [
+      "&7American pump-action shotgun, one of the best-selling in history.",
+      "&7Known for its reliability and versatility in military, law enforcement, and civilian use."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Spas-12",
+    "category": "shotgun",
+    "rarity": "uncommon",
+    "gunItemId": "mw:spas_12",
+    "ammoItemId": "mw:shotgun12gauge",
+    "ammoItemAmount": 32,
+    "descriptionLines": [
+      "&7Italian combat shotgun capable of both pump-action and semi-automatic operation.",
+      "&7Famous for its distinctive folding stock and appearance in numerous films."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Origin-12",
+    "category": "shotgun",
+    "rarity": "rare",
+    "gunItemId": "mw:origin12",
+    "ammoItemId": "mw:origin12drummag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7American semi-automatic shotgun with high magazine capacity.",
+      "&7Designed for competitive shooting and tactical applications with quick follow-up shots."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "CSA-16",
+    "category": "shotgun",
+    "rarity": "rare",
+    "gunItemId": "mw:csa16",
+    "ammoItemId": "mw:shotgun4g",
+    "ammoItemAmount": 32,
+    "descriptionLines": [
+      "&7Combat shotgun designed for maximum stopping power.",
+      "&7Utilizes large-bore ammunition for devastating close-range effectiveness."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Saiga 12",
+    "category": "shotgun",
+    "rarity": "epic",
+    "gunItemId": "mw:saiga12",
+    "ammoItemId": "mw:saigamag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Russian semi-automatic shotgun based on AK platform.",
+      "&7Gas-operated system allows for reliable cycling of various 12-gauge loads."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M45",
+    "category": "shotgun",
+    "rarity": "epic",
+    "gunItemId": "mw:m45",
+    "ammoItemId": "mw:shotgun12gauge",
+    "ammoItemAmount": 32,
+    "descriptionLines": [
+      "&7Advanced combat shotgun from Swedish arms manufacturer.",
+      "&7Features modular design and enhanced reliability for military applications."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SSG-42 MkII-DS",
+    "category": "shotgun",
+    "rarity": "legendary",
+    "gunItemId": "mw:ssg42",
+    "ammoItemId": "mw:shotgun12gauge",
+    "ammoItemAmount": 32,
+    "descriptionLines": [
+      "&7Advanced tactical shotgun with precision engineering.",
+      "&7MkII Dual-System variant designed for special operations use with enhanced capabilities."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AS50",
+    "category": "sniper_rifle",
+    "rarity": "common",
+    "gunItemId": "mw:as50",
+    "ammoItemId": "mw:as50mag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7British semi-automatic anti-materiel rifle.",
+      "&7Designed for rapid engagement of multiple targets at extreme ranges."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "L96A1",
+    "category": "sniper_rifle",
+    "rarity": "common",
+    "gunItemId": "mw:l96a1",
+    "ammoItemId": "mw:l96a1mag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7British precision sniper rifle used by military forces worldwide.",
+      "&7Known for its accuracy and reliability in various environmental conditions."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Izhmash SV-98",
+    "category": "sniper_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:sv98",
+    "ammoItemId": "mw:sv98mag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7Russian bolt-action sniper rifle designed for precision shooting.",
+      "&7Features a modular design and can be configured for various operational requirements."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M40A6",
+    "category": "sniper_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mw:m40a6",
+    "ammoItemId": "mw:m40a6mag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7Latest iteration of the US Marine Corps M40 sniper rifle series.",
+      "&7Features a folding stock and improved ergonomics over previous versions."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M200 Intervention",
+    "category": "sniper_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:m200_intervention",
+    "ammoItemId": "mw:interventionmag",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7American bolt-action sniper rifle system by CheyTac.",
+      "&7Designed for long-range interdiction and holds multiple long-distance shooting records."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Remington-700",
+    "category": "sniper_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:remington_700",
+    "ammoItemId": "mw:r700mag",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7American bolt-action rifle serving as platform for numerous sniper systems.",
+      "&7Widely used by law enforcement and military units for its accuracy and reliability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1903 Springfield",
+    "category": "sniper_rifle",
+    "rarity": "rare",
+    "gunItemId": "mw:springfield",
+    "ammoItemId": "mw:bullet3006springfield",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7American bolt-action rifle used as standard issue in World War I.",
+      "&7Served as both infantry rifle and sniper weapon with Warner & Swasey optics."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M82 Barrett",
+    "category": "sniper_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:m82_barrett",
+    "ammoItemId": "mw:m82mag_2",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7American semi-automatic anti-materiel rifle.",
+      "&7Famous for its .50 BMG chambering and ability to engage vehicles and equipment."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AX-50",
+    "category": "sniper_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:ax50",
+    "ammoItemId": "mw:ax50mag",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7British .50 BMG precision rifle by Accuracy International.",
+      "&7Designed for extreme long-range accuracy with .50 Browning Machine Gun ammunition."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Krag Jorgensen",
+    "category": "sniper_rifle",
+    "rarity": "epic",
+    "gunItemId": "mw:krag_jorgensen",
+    "ammoItemId": "mw:bullet8x58",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7Norwegian bolt-action rifle used by US forces in Spanish-American War.",
+      "&7Notable for its unique side-loading magazine and smooth bolt operation."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SRS-99 AMSR",
+    "category": "sniper_rifle",
+    "rarity": "legendary",
+    "gunItemId": "mw:srs99",
+    "ammoItemId": "mw:bullet762x51",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7Anti-Materiel Sniper Rifle from the Halo universe.",
+      "&7Used by UNSC snipers for engaging both personnel and light vehicles at extreme ranges."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "NTW-20",
+    "category": "sniper_rifle",
+    "rarity": "mythic",
+    "gunItemId": "mw:ntw_20",
+    "ammoItemId": "mw:ntw20mag",
+    "ammoItemAmount": 3,
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "name": "Glock-18C",
+    "category": "sidearm",
+    "rarity": "common",
+    "gunItemId": "mw:glock_18c",
+    "ammoItemId": "mw:glock18cmag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Austrian selective-fire pistol capable of fully automatic fire.",
+      "&7Features a compensated barrel to reduce muzzle climb during burst or automatic fire."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "CPX-2",
+    "category": "sidearm",
+    "rarity": "common",
+    "gunItemId": "mw:sccy_cpx_2",
+    "ammoItemId": "mw:m9mag30",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7American compact double-action only pistol.",
+      "&7Designed for concealed carry with simple operation and reliable performance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M6C SOCOM",
+    "category": "sidearm",
+    "rarity": "uncommon",
+    "gunItemId": "mw:m6c_socom",
+    "ammoItemId": "mw:bullet9x19mm",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Special Operations Command variant of the M6C from Halo universe.",
+      "&7Magnum pistol used by UNSC forces for its stopping power and reliability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "PP-91 Kedr",
+    "category": "sidearm",
+    "rarity": "rare",
+    "gunItemId": "mw:pp91_kedr",
+    "ammoItemId": "mw:kedrmag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Russian compact submachine gun chambered in 9×18mm Makarov.",
+      "&7Simple blowback operation makes it reliable and inexpensive to manufacture."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Frommer Stop",
+    "category": "sidearm",
+    "rarity": "rare",
+    "gunItemId": "mw:frommer_stop",
+    "ammoItemId": "mw:frommerstopmag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Hungarian long-recoil operated pistol from World War I.",
+      "&7Unique operating system and distinctive appearance make it a collector's item."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "ESA-23",
+    "category": "sidearm",
+    "rarity": "rare",
+    "gunItemId": "mw:esa23",
+    "ammoItemId": "mw:energycase",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Energy Sidearm from advanced military technology.",
+      "&7Utilizes compact energy cells for reliable sidearm performance in future combat."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Taurus Hunter",
+    "category": "sidearm",
+    "rarity": "rare",
+    "gunItemId": "mw:taurus_raging_hunter",
+    "ammoItemId": "mw:bullet44",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7Brazilian large-frame revolver chambered in .44 Magnum.",
+      "&7Designed for hunting and outdoor use with substantial stopping power."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "P10",
+    "category": "sidearm",
+    "rarity": "epic",
+    "gunItemId": "mw:p10",
+    "ammoItemId": "mw:bullet10mm",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Advanced pistol chambered in powerful 10mm Auto.",
+      "&7Provides enhanced stopping power compared to standard 9mm service pistols."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "The Dechard",
+    "category": "sidearm",
+    "rarity": "epic",
+    "gunItemId": "mw:the_dechard",
+    "ammoItemId": "mw:bullet556x45",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7Unique pistol capable of firing rifle-caliber ammunition.",
+      "&7Special design allows for controlled firing of high-pressure cartridges in handgun format."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Desert Eagle",
+    "category": "sidearm",
+    "rarity": "epic",
+    "gunItemId": "mw:desert_eagle",
+    "ammoItemId": "mw:deserteaglemag",
+    "ammoItemAmount": 6,
+    "descriptionLines": [
+      "&7Israeli gas-operated semi-automatic pistol famous for its powerful chamberings.",
+      "&7Iconic design frequently featured in films and video games for its imposing appearance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M17",
+    "category": "sidearm",
+    "rarity": "legendary",
+    "gunItemId": "mw:m17",
+    "ammoItemId": "mw:m17mag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7US Army's Modular Handgun System replacing the M9.",
+      "&7SIG Sauer P320-based pistol with improved ergonomics and modularity."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "G2 Contender",
+    "category": "sidearm",
+    "rarity": "legendary",
+    "gunItemId": "mw:g2_contender",
+    "ammoItemId": "mw:bullet4570",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7American single-shot pistol designed for hunting and metallic silhouette shooting.",
+      "&7Capable of chambering powerful rifle cartridges for maximum terminal performance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Chainsaw",
+    "category": "sidearm",
+    "rarity": "legendary",
+    "gunItemId": "mw:chainsaw",
+    "ammoItemId": "mw:fuelcell",
+    "ammoItemAmount": 1,
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "name": "Nether Blaster",
+    "category": "special",
+    "rarity": "legendary",
+    "gunItemId": "techguns:netherblaster",
+    "ammoItemId": "8748:76",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Advanced energy weapon harnessing nether-based technology.",
+      "&7Capable of firing concentrated blasts of otherworldly energy for devastating effect."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Laser Pistol",
+    "category": "special",
+    "rarity": "legendary",
+    "gunItemId": "techguns:laserpistol",
+    "ammoItemId": "8748:125",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Energy weapon firing coherent light projectiles.",
+      "&7Provides silent operation and instant hit capability with advanced laser technology."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Grenade Launcher",
+    "category": "special",
+    "rarity": "legendary",
+    "gunItemId": "techguns:grenadelauncher",
+    "ammoItemId": "8748:5",
+    "ammoItemAmount": 32,
+    "descriptionLines": [
+      "&7Shoulder-fired weapon for launching explosive projectiles.",
+      "&7Capable of engaging groups of enemies or fortified positions with area effect damage."
+    ]
+  }
+]
