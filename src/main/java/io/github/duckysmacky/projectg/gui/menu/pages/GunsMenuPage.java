@@ -8,6 +8,7 @@ import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.gui.menu.DynamicMenu;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -51,13 +52,19 @@ public class GunsMenuPage extends DynamicMenu {
     }
 
     private void removeGun(EntityPlayer player, GunEntry gun) {
-        player.inventory.mainInventory.removeIf(item -> {
+        InventoryPlayer inventory = player.inventory;
+        int slots = 9 * 4;
+
+        for (int i = 0; i < slots; i++) {
+            ItemStack item = inventory.getStackInSlot(i);
+
             ResourceLocation registryName = item.getItem().getRegistryName();
-            if (registryName == null) return false;
+            if (registryName == null) continue;
 
             String itemId = registryName.toString();
-            return itemId.equals(gun.getGunItemId()) || itemId.equals(gun.getAmmoItemId());
-        });
+            if (itemId.equals(gun.getGunItemId()) || itemId.equals(gun.getAmmoItemId()))
+                inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+        }
     }
 
     private void giveGun(EntityPlayer player, GunEntry gun, int hotbarSlot) {

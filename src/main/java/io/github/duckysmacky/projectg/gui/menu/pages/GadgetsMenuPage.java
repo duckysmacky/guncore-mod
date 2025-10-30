@@ -8,6 +8,7 @@ import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.DynamicMenu;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -16,6 +17,7 @@ import net.minecraft.util.text.TextComponentString;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class GadgetsMenuPage extends DynamicMenu {
     public GadgetsMenuPage(BaseMenu parent) {
@@ -44,16 +46,19 @@ public class GadgetsMenuPage extends DynamicMenu {
     }
 
     private void removeGadget(EntityPlayer player, GadgetEntry gadget) {
-        player.inventory.mainInventory.removeIf(item -> {
+        InventoryPlayer inventory = player.inventory;
+        int slots = 9 * 4;
+
+        for (int i = 0; i < slots; i++) {
+            ItemStack item = inventory.getStackInSlot(i);
+
             ResourceLocation registryName = item.getItem().getRegistryName();
-            if (registryName == null) return false;
+            if (registryName == null) continue;
 
             String itemId = registryName.toString();
-            if (itemId.equals(gadget.getItemId())) return true;
-
-            return gadget.getAdditionalItemIds().stream()
-                .anyMatch(itemId::equals);
-        });
+            if (itemId.equals(gadget.getItemId()) || gadget.getAdditionalItemIds().stream().anyMatch(itemId::equals))
+                inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+        }
     }
 
     private void giveGadget(EntityPlayer player, GadgetEntry gadget) {
