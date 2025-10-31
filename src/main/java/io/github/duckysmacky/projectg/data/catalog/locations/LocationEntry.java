@@ -2,8 +2,7 @@ package io.github.duckysmacky.projectg.data.catalog.locations;
 
 import com.google.gson.annotations.SerializedName;
 import io.github.duckysmacky.projectg.data.catalog.CatalogEntry;
-import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
-import io.github.duckysmacky.projectg.util.ColorTranslator;
+import io.github.duckysmacky.projectg.util.TextUtils;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,7 +60,7 @@ public class LocationEntry extends CatalogEntry {
 
         if (!descriptionLines.isEmpty()) {
             for (String line : descriptionLines) {
-                String coloredLine = ColorTranslator.translateColorCodes(line);
+                String coloredLine = TextUtils.translateColorCodes(line);
                 loreList.appendTag(new NBTTagString(coloredLine));
             }
             loreList.appendTag(new NBTTagString(""));

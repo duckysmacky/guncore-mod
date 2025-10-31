@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
-import static io.github.duckysmacky.projectg.util.ColorTranslator.translateColorCodes;
+import static io.github.duckysmacky.projectg.util.TextUtils.translateColorCodes;
 
 public class ItemStackCustomizer {
     private net.minecraft.item.ItemStack item;

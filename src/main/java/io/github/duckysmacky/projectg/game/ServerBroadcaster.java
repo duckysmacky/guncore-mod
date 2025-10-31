@@ -1,9 +1,8 @@
 package io.github.duckysmacky.projectg.game;
 
 import io.github.duckysmacky.projectg.ProjectGMod;
-import io.github.duckysmacky.projectg.util.ColorTranslator;
+import io.github.duckysmacky.projectg.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
@@ -21,7 +20,7 @@ public class ServerBroadcaster {
 
     public void broadcast(String message) {
         ProjectGMod.LOGGER.info("[{}] {}", ID, message);
-        String translated = ColorTranslator.translateColorCodes(message);
+        String translated = TextUtils.translateColorCodes(message);
         forEachPlayer(p -> p.sendMessage(new TextComponentString(translated)));
     }
 

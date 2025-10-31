@@ -3,8 +3,7 @@ package io.github.duckysmacky.projectg.data.catalog.gadgets;
 import io.github.duckysmacky.projectg.data.catalog.CatalogEntry;
 import io.github.duckysmacky.projectg.data.catalog.Rarity;
 import io.github.duckysmacky.projectg.data.ItemFinder;
-import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
-import io.github.duckysmacky.projectg.util.ColorTranslator;
+import io.github.duckysmacky.projectg.util.TextUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -74,7 +73,7 @@ public class GadgetEntry extends CatalogEntry {
 
         if (!descriptionLines.isEmpty()) {
             for (String line : descriptionLines) {
-                String coloredLine = ColorTranslator.translateColorCodes(line);
+                String coloredLine = TextUtils.translateColorCodes(line);
                 loreList.appendTag(new NBTTagString(coloredLine));
             }
             loreList.appendTag(new NBTTagString(""));
