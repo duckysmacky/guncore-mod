@@ -81,7 +81,7 @@ public class KitEntry extends CatalogEntry {
 
         NBTTagCompound displayTag = new NBTTagCompound();
 
-        String coloredName = TextFormatting.WHITE + name;
+        String coloredName = TextFormatting.WHITE + "" + TextFormatting.BOLD + name;
         displayTag.setString("Name", coloredName);
 
         NBTTagList loreList = new NBTTagList();

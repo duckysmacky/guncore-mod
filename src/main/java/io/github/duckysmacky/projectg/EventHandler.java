@@ -11,10 +11,19 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 @Mod.EventBusSubscriber
 public class EventHandler {
+    private int tickCounter = 0;
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
-            GameManager.instance().tick();
+            tickCounter++;
+
+            boolean isSecondTick = false;
+            if (tickCounter >= 20) {
+                tickCounter = 0;
+                isSecondTick = true;
+            }
+
+            GameManager.instance().tick(isSecondTick);
         }
     }
 

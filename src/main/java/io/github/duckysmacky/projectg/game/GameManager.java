@@ -12,6 +12,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameManager {
+    private static final String ID = "GameManager";
+    private static final int[] announcementIntervalsSecs = new int[]{600, 300, 180, 120, 60, 30, 10, 5, 4, 3, 2, 1};
     private static GameManager instance;
     private final MinecraftServer server;
     private final CommandExecutor commandExecutor;
@@ -21,8 +23,8 @@ public class GameManager {
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
     private GameState state;
-    private long roundStartTimeSec;
-    private long roundTimeSec;
+    private long roundStartTimeMs;
+    private long roundTimeSecs;
 
     private GameManager() {
         this.server = FMLCommonHandler.instance().getMinecraftServerInstance();
@@ -53,13 +55,13 @@ public class GameManager {
     public void startRound() {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
             state = GameState.RUNNING;
-            roundStartTimeSec = System.currentTimeMillis();
+            roundStartTimeMs = System.currentTimeMillis();
 
             server.getPlayerList().getPlayers().forEach(player -> {
                 PlayerStats stats = getStats(player);
 
                 if (gameMode != GameMode.FFA && teams.get(Team.NONE).contains(player.getUniqueID()))
-                    broadcaster.broadcast(String.format("&e&lWARNING: &fplayer %s didn't join any team!", player.getName()));
+                    broadcaster.warning(String.format("&7Player &f&l%s &7didn't join any team!", player.getName()));
 
                 stats.resetStats();
 
@@ -70,7 +72,7 @@ public class GameManager {
             broadcaster.broadcast("&a&lRound started");
             broadcaster.playSound(SoundEvents.BLOCK_END_PORTAL_SPAWN);
         } else {
-            broadcaster.broadcast("&cThere is already a round in progress!");
+            broadcaster.error("&7There is already a round in progress!");
             broadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
         }
     }
@@ -85,7 +87,7 @@ public class GameManager {
             broadcaster.broadcast("&e&lRound continued");
             broadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
         } else {
-            broadcaster.broadcast("&cThere is no round in progress!");
+            broadcaster.error("&7There is no round in progress!");
             broadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
         }
     }
@@ -104,17 +106,25 @@ public class GameManager {
             broadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
             determineWinner();
         } else {
-            broadcaster.broadcast("&cThere is no round in progress!");
+            broadcaster.error("&7There is no round in progress!");
             broadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
         }
     }
 
-    public void tick() {
+    public void tick(boolean isSecondTick) {
         if (state != GameState.RUNNING) return;
 
-        roundTimeSec = (System.currentTimeMillis() - roundStartTimeSec) / 1000L;
+        roundTimeSecs = (System.currentTimeMillis() - roundStartTimeMs) / 1000L;
 
-        if (gameModeVariant == GameMode.Variant.TIME && roundTimeSec >= getRoundDurationSecs()) {
+        if (isSecondTick) {
+            long roundTimeLeftSecs = getRoundDurationSecs() - roundTimeSecs;
+
+            if (Arrays.stream(announcementIntervalsSecs).anyMatch(secs -> secs == roundTimeLeftSecs)) {
+                printRoundTimeLeft(roundTimeLeftSecs);
+            }
+        }
+
+        if (gameModeVariant == GameMode.Variant.TIME && roundTimeSecs >= getRoundDurationSecs()) {
             endRound();
         }
     }
@@ -135,6 +145,16 @@ public class GameManager {
         }
 
         checkRoundEndConditions();
+    }
+
+    public void printRoundTimeLeft(long timeLeftSecs) {
+        if (timeLeftSecs < 0) timeLeftSecs = 0;
+
+        long minutes = timeLeftSecs / 60;
+        long seconds = timeLeftSecs % 60;
+
+        broadcaster.broadcast(String.format("&e&lTime Left: &f%02d:%02d", minutes, seconds));
+        broadcaster.playSound(SoundEvents.BLOCK_NOTE_HAT);
     }
 
     public void printGameScoreboard() {
@@ -241,7 +261,7 @@ public class GameManager {
     }
 
     public long getRoundTime() {
-        return roundTimeSec;
+        return roundTimeSecs;
     }
 
     private void switchTeamTo(UUID uuid, Team targetTeam) {

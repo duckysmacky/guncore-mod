@@ -7,6 +7,7 @@ import io.github.duckysmacky.projectg.data.catalog.CatalogLoader;
 import io.github.duckysmacky.projectg.data.config.ConfigLoader;
 import io.github.duckysmacky.projectg.network.CommonProxy;
 import io.github.duckysmacky.projectg.network.PacketHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -44,6 +45,8 @@ public class ProjectGMod {
 
         ConfigLoader.instance().loadConfig();
         CatalogLoader.instance().loadConfig();
+
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
     @Mod.EventHandler

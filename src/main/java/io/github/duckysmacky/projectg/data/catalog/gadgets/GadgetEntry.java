@@ -67,7 +67,7 @@ public class GadgetEntry extends CatalogEntry {
 
         NBTTagCompound displayTag = new NBTTagCompound();
 
-        String coloredName = rarity.color + "" + TextFormatting.BOLD + name;
+        String coloredName = TextFormatting.WHITE + "" + TextFormatting.BOLD + name;
         displayTag.setString("Name", coloredName);
 
         NBTTagList loreList = new NBTTagList();

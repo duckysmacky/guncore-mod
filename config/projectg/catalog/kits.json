@@ -355,5 +355,17 @@
     "descriptionLines": [
       "&7The name speaks for itself"
     ]
+  },
+  {
+    "enabled": true,
+    "name": "Hostage",
+    "class": "special",
+    "tier": "special",
+    "kitId": "hostage",
+    "iconItemId": "minecraft:web",
+    "variantIds": [],
+    "descriptionLines": [
+      "&7A kit used for the hostage in the 'Hostage Rescue' gamemode"
+    ]
   }
 ]

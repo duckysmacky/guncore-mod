@@ -3,7 +3,7 @@ package io.github.duckysmacky.projectg.game;
 import net.minecraft.util.text.TextFormatting;
 
 public enum Team {
-    NONE("None", TextFormatting.WHITE),
+    NONE("No", TextFormatting.WHITE),
     BLUE("Blue", TextFormatting.BLUE),
     RED("Red", TextFormatting.RED),
     YELLOW("Yellow", TextFormatting.YELLOW),

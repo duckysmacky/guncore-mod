@@ -19,8 +19,25 @@ public class ServerBroadcaster {
     }
 
     public void broadcast(String message) {
-        ProjectGMod.LOGGER.info("[{}] {}", ID, message);
         String translated = TextUtils.translateColorCodes(message);
+        ProjectGMod.LOGGER.info("[{}] {}", ID, message);
+        forEachPlayer(p -> p.sendMessage(new TextComponentString(translated)));
+    }
+
+    public void broadcastRaw(String message) {
+        ProjectGMod.LOGGER.info("[{}] {}", ID, message);
+        forEachPlayer(p -> p.sendMessage(new TextComponentString(message)));
+    }
+
+    public void warning(String message) {
+        String translated = TextUtils.translateColorCodes("&e&lWARNING: " + message);
+        ProjectGMod.LOGGER.warn("[{}] {}", ID, message);
+        forEachPlayer(p -> p.sendMessage(new TextComponentString(translated)));
+    }
+
+    public void error(String message) {
+        String translated = TextUtils.translateColorCodes("&c&lERROR: " + message);
+        ProjectGMod.LOGGER.error("[{}] {}", ID, message);
         forEachPlayer(p -> p.sendMessage(new TextComponentString(translated)));
     }
 

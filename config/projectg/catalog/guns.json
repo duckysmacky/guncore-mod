@@ -1057,7 +1057,9 @@
     "gunItemId": "mw:ntw_20",
     "ammoItemId": "mw:ntw20mag",
     "ammoItemAmount": 3,
-    "descriptionLines": []
+    "descriptionLines": [
+      "&7Also known as a 'one-shot sniper'"
+    ]
   },
   {
     "enabled": true,
@@ -1100,19 +1102,6 @@
   },
   {
     "enabled": true,
-    "name": "PP-91 Kedr",
-    "category": "sidearm",
-    "rarity": "rare",
-    "gunItemId": "mw:pp91_kedr",
-    "ammoItemId": "mw:kedrmag_2",
-    "ammoItemAmount": 12,
-    "descriptionLines": [
-      "&7Russian compact submachine gun chambered in 9×18mm Makarov.",
-      "&7Simple blowback operation makes it reliable and inexpensive to manufacture."
-    ]
-  },
-  {
-    "enabled": true,
     "name": "Frommer Stop",
     "category": "sidearm",
     "rarity": "rare",
@@ -1126,22 +1115,35 @@
   },
   {
     "enabled": true,
-    "name": "ESA-23",
+    "name": "M17",
     "category": "sidearm",
-    "rarity": "rare",
-    "gunItemId": "mw:esa23",
-    "ammoItemId": "mw:energycase",
-    "ammoItemAmount": 192,
+    "rarity": "rary",
+    "gunItemId": "mw:m17",
+    "ammoItemId": "mw:m17mag",
+    "ammoItemAmount": 12,
     "descriptionLines": [
-      "&7Energy Sidearm from advanced military technology.",
-      "&7Utilizes compact energy cells for reliable sidearm performance in future combat."
+      "&7US Army's Modular Handgun System replacing the M9.",
+      "&7SIG Sauer P320-based pistol with improved ergonomics and modularity."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "PP-91 Kedr",
+    "category": "sidearm",
+    "rarity": "epic",
+    "gunItemId": "mw:pp91_kedr",
+    "ammoItemId": "mw:kedrmag_2",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Russian compact submachine gun chambered in 9×18mm Makarov.",
+      "&7Simple blowback operation makes it reliable and inexpensive to manufacture."
     ]
   },
   {
     "enabled": true,
     "name": "Taurus Hunter",
     "category": "sidearm",
-    "rarity": "rare",
+    "rarity": "epic",
     "gunItemId": "mw:taurus_raging_hunter",
     "ammoItemId": "mw:bullet44",
     "ammoItemAmount": 64,
@@ -1165,19 +1167,6 @@
   },
   {
     "enabled": true,
-    "name": "The Dechard",
-    "category": "sidearm",
-    "rarity": "epic",
-    "gunItemId": "mw:the_dechard",
-    "ammoItemId": "mw:bullet556x45",
-    "ammoItemAmount": 64,
-    "descriptionLines": [
-      "&7Unique pistol capable of firing rifle-caliber ammunition.",
-      "&7Special design allows for controlled firing of high-pressure cartridges in handgun format."
-    ]
-  },
-  {
-    "enabled": true,
     "name": "Desert Eagle",
     "category": "sidearm",
     "rarity": "epic",
@@ -1191,15 +1180,28 @@
   },
   {
     "enabled": true,
-    "name": "M17",
+    "name": "ESA-23",
     "category": "sidearm",
     "rarity": "legendary",
-    "gunItemId": "mw:m17",
-    "ammoItemId": "mw:m17mag",
-    "ammoItemAmount": 12,
+    "gunItemId": "mw:esa23",
+    "ammoItemId": "mw:energycase",
+    "ammoItemAmount": 192,
     "descriptionLines": [
-      "&7US Army's Modular Handgun System replacing the M9.",
-      "&7SIG Sauer P320-based pistol with improved ergonomics and modularity."
+      "&7Energy Sidearm from advanced military technology.",
+      "&7Utilizes compact energy cells for reliable sidearm performance in future combat."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "The Dechard",
+    "category": "sidearm",
+    "rarity": "legendary",
+    "gunItemId": "mw:the_dechard",
+    "ammoItemId": "mw:bullet556x45",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7Unique pistol capable of firing rifle-caliber ammunition.",
+      "&7Special design allows for controlled firing of high-pressure cartridges in handgun format."
     ]
   },
   {
@@ -1218,12 +1220,14 @@
   {
     "enabled": true,
     "name": "Chainsaw",
-    "category": "sidearm",
+    "category": "melee",
     "rarity": "legendary",
     "gunItemId": "mw:chainsaw",
     "ammoItemId": "mw:fuelcell",
     "ammoItemAmount": 1,
-    "descriptionLines": []
+    "descriptionLines": [
+      "&7brrrrrrr"
+    ]
   },
   {
     "enabled": true,

@@ -14,6 +14,20 @@ import net.minecraft.util.text.TextComponentString;
 import java.util.function.Consumer;
 
 public class GameCommand extends CommandBase {
+    private final static String[] subcommands = {
+        "start",
+        "end",
+        "reset",
+        "pause",
+        "kills",
+        "lives",
+        "deaths",
+        "mode",
+        "mode_variant",
+        "scoreboard",
+        "teams"
+    };
+
     @Override
     public String getName() {
         return "game";
@@ -21,7 +35,7 @@ public class GameCommand extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/game <start|end|reset|pause|kills|lives|deaths|mode|mode_variant>";
+        return "/game <" + String.join("|", subcommands) + ">";
     }
 
     @Override
@@ -68,6 +82,12 @@ public class GameCommand extends CommandBase {
                     throw new CommandException("Usage: /game mode_variant <time|lives>");
                 GameMode.Variant variant = parseVariant(args[1]);
                 gameManager.setGameModeVariant(variant);
+                break;
+            case "scoreboard":
+                gameManager.printGameScoreboard();
+                break;
+            case "teams":
+                gameManager.printTeams();
                 break;
             default:
                 throw new CommandException(getUsage(sender));

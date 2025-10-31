@@ -23,15 +23,15 @@ public class SettingsMenuPage extends StaticMenu {
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.DYE))
-                .setName("&f&lToggle Weather Cycle")
+                .setName("&f&lToggle")
                 .addLoreLine("&fClick to toggle the weather cycle")
                 .getItemStack(),
-            (player) -> player.sendMessage(new TextComponentString("Weather cycle toggled!"))
+            (player) -> player.sendMessage(new TextComponentString("Work in progress"))
         ), 2, 1);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.REDSTONE_TORCH))
-                .setName("&fSetup teams")
+                .setName("&f&lSetup teams")
                 .addLoreLine("&7Automatically sets up scoreboard teams and the death counter")
                 .getItemStack(),
             p -> GameManager.instance().setupScoreboardTeams()
