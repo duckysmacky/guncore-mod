@@ -27,8 +27,7 @@ public class KitsMenuPage extends DynamicMenu {
                 addEntry(new ActionEntry(kitIcon, (player) -> {
                     player.sendMessage(new TextComponentString("Selected kit: " + kitIcon.getDisplayName()));
 
-                    CommandExecutor commandExecutor = new CommandExecutor();
-                    commandExecutor.execute(kit.getCommand(player));
+                    CommandExecutor.execute(kit.getCommand(player));
 
                     player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1f, 1f);
                 }));

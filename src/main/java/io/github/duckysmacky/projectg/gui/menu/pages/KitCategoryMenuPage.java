@@ -86,8 +86,7 @@ public class KitCategoryMenuPage extends StaticMenu {
 
         player.sendMessage(new TextComponentString("Random kit selected: " + kit.getName()));
 
-        CommandExecutor commandExecutor = new CommandExecutor();
-        commandExecutor.execute(kit.getCommand(player));
+        CommandExecutor.execute(kit.getCommand(player));
 
         player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
     }

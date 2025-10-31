@@ -1,7 +1,10 @@
 package io.github.duckysmacky.projectg.game;
 
+import io.github.duckysmacky.projectg.ProjectGMod;
 import io.github.duckysmacky.projectg.data.config.ConfigLoader;
 import io.github.duckysmacky.projectg.data.config.GameConfig;
+import io.github.duckysmacky.projectg.network.PacketHandler;
+import io.github.duckysmacky.projectg.network.packets.UpdatePlayerListPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.server.MinecraftServer;
@@ -15,11 +18,8 @@ public class GameManager {
     private static final String ID = "GameManager";
     private static final int[] announcementIntervalsSecs = new int[]{600, 300, 180, 120, 60, 30, 10, 5, 4, 3, 2, 1};
     private static GameManager instance;
-    private final MinecraftServer server;
-    private final CommandExecutor commandExecutor;
     private final Map<UUID, PlayerStats> playerStats;
     private final Map<Team, List<UUID>> teams;
-    private final ServerBroadcaster broadcaster;
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
     private GameState state;
@@ -27,18 +27,12 @@ public class GameManager {
     private long roundTimeSecs;
 
     private GameManager() {
-        this.server = FMLCommonHandler.instance().getMinecraftServerInstance();
-        this.commandExecutor = new CommandExecutor();
         this.playerStats = new HashMap<>();
         this.teams = new EnumMap<>(Team.class);
         Arrays.stream(Team.values()).forEach(t -> teams.put(t, new ArrayList<>()));
 
-        server.getPlayerList().getPlayers().forEach(p -> {
-            playerStats.put(p.getUniqueID(), new PlayerStats(p.getName()));
-            teams.get(Team.NONE).add(p.getUniqueID());
-        });
+        updatePlayerList();
 
-        this.broadcaster = new ServerBroadcaster();
         this.gameMode = GameMode.TDM;
         this.gameModeVariant = GameMode.Variant.LIVES;
         this.state = GameState.NOT_STARTED;
@@ -52,62 +46,85 @@ public class GameManager {
         return instance;
     }
 
+    private void updatePlayerList() {
+        if (FMLCommonHandler.instance().getSide().isServer()) {
+            MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+            updatePlayerListAsServer(server);
+        } else {
+            ProjectGMod.LOGGER.info("[{}] Requesting a player list update from server", ID);
+            PacketHandler.instance().sendToServer(new UpdatePlayerListPacket());
+        }
+    }
+
+    public void updatePlayerListAsServer(MinecraftServer server) {
+        if (server == null) {
+            ProjectGMod.LOGGER.error("[{}] Cannot update player list: server is null!", ID);
+            return;
+        }
+
+        ProjectGMod.LOGGER.info("[{}] {}", ID, "Updating player list from server");
+        server.getPlayerList().getPlayers().forEach(
+            p -> playerStats.computeIfAbsent(p.getUniqueID(), k -> new PlayerStats(p.getName()))
+        );
+    }
+
     public void startRound() {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
             state = GameState.RUNNING;
             roundStartTimeMs = System.currentTimeMillis();
 
-            server.getPlayerList().getPlayers().forEach(player -> {
-                PlayerStats stats = getStats(player);
-
-                if (gameMode != GameMode.FFA && teams.get(Team.NONE).contains(player.getUniqueID()))
-                    broadcaster.warning(String.format("&7Player &f&l%s &7didn't join any team!", player.getName()));
-
-                stats.resetStats();
+            playerStats.values().forEach(p -> {
+                p.resetStats();
 
                 if (gameModeVariant == GameMode.Variant.LIVES)
-                    stats.setLives(getStartingLives());
+                    p.setLives(getStartingLives());
             });
 
-            broadcaster.broadcast("&a&lRound started");
-            broadcaster.playSound(SoundEvents.BLOCK_END_PORTAL_SPAWN);
+            if (gameMode != GameMode.FFA) {
+                teams.get(Team.NONE).forEach(p -> {
+                    ServerBroadcaster.warning(String.format("&7Player &f&l%s &7didn't join any team!", playerStats.get(p).getUsername()));
+                });
+            }
+
+            ServerBroadcaster.message("&a&lRound started");
+            ServerBroadcaster.playSound(SoundEvents.BLOCK_END_PORTAL_SPAWN);
         } else {
-            broadcaster.error("&7There is already a round in progress!");
-            broadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
+            ServerBroadcaster.error("&7There is already a round in progress!");
+            ServerBroadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
         }
     }
 
     public void toggleRoundPause() {
         if (state == GameState.RUNNING) {
             state = GameState.PAUSED;
-            broadcaster.broadcast("&e&lRound paused");
-            broadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
+            ServerBroadcaster.message("&e&lRound paused");
+            ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
         } else if (state == GameState.PAUSED) {
             state = GameState.RUNNING;
-            broadcaster.broadcast("&e&lRound continued");
-            broadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
+            ServerBroadcaster.message("&e&lRound continued");
+            ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
         } else {
-            broadcaster.error("&7There is no round in progress!");
-            broadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
+            ServerBroadcaster.error("&7There is no round in progress!");
+            ServerBroadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
         }
     }
 
     public void resetRound() {
         state = GameState.NOT_STARTED;
         playerStats.values().forEach(PlayerStats::resetStats);
-        broadcaster.broadcast("&c&lRound reset");
-        broadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
+        ServerBroadcaster.message("&c&lRound reset");
+        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
     }
 
     public void endRound() {
         if (state == GameState.RUNNING || state == GameState.PAUSED) {
             state = GameState.ENDED;
-            broadcaster.broadcast("&a&lRound ended");
-            broadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
+            ServerBroadcaster.message("&a&lRound ended");
+            ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
             determineWinner();
         } else {
-            broadcaster.error("&7There is no round in progress!");
-            broadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
+            ServerBroadcaster.error("&7There is no round in progress!");
+            ServerBroadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
         }
     }
 
@@ -140,8 +157,8 @@ public class GameManager {
 
         if (gameModeVariant == GameMode.Variant.LIVES && victimStats.getLives() <= 0) {
             victim.setGameType(GameType.SPECTATOR);
-            broadcaster.broadcast(String.format("&f&l%s &cis out of lives!", victim.getName()));
-            broadcaster.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL);
+            ServerBroadcaster.message(String.format("&f&l%s &cis out of lives!", victim.getName()));
+            ServerBroadcaster.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL);
         }
 
         checkRoundEndConditions();
@@ -153,16 +170,16 @@ public class GameManager {
         long minutes = timeLeftSecs / 60;
         long seconds = timeLeftSecs % 60;
 
-        broadcaster.broadcast(String.format("&e&lTime Left: &f%02d:%02d", minutes, seconds));
-        broadcaster.playSound(SoundEvents.BLOCK_NOTE_HAT);
+        ServerBroadcaster.message(String.format("&e&lTime Left: &f%02d:%02d", minutes, seconds));
+        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HAT);
     }
 
     public void printGameScoreboard() {
-        broadcaster.broadcast("&f&l--- Scoreboard ---");
+        ServerBroadcaster.message("&f&l--- Scoreboard ---");
 
         playerStats.values()
             .forEach(p ->
-                broadcaster.broadcast(
+                ServerBroadcaster.message(
                     String.format("&f%s: &7%s kills, %s deaths, %s lives",
                         p.getUsername(), p.getKills(), p.getDeaths(), p.getLives())
                 )
@@ -170,15 +187,15 @@ public class GameManager {
     }
 
     public void printTeams() {
-        broadcaster.broadcast("&f&l--- Teams ---");
+        ServerBroadcaster.message("&f&l--- Teams ---");
 
         teams.forEach((team, uuids) -> {
-            broadcaster.broadcast(team.color + team.display + " Team:");
+            ServerBroadcaster.message(team.color + team.display + " Team:");
             uuids.forEach(uuid -> {
                 PlayerStats p = playerStats.get(uuid);
 
                 if (p != null)
-                    broadcaster.broadcast(String.format(" - &f%s: &7(%s kills, %s deaths, %s lives)",
+                    ServerBroadcaster.message(String.format(" - &f%s: &7(%s kills, %s deaths, %s lives)",
                         p.getUsername(), p.getKills(), p.getDeaths(), p.getLives()));
             });
         });
@@ -203,15 +220,15 @@ public class GameManager {
             "scoreboard teams option purple nametagVisibility hideForOtherTeams"
         };
 
-        Arrays.stream(commandChain).forEach(commandExecutor::execute);
-        broadcaster.broadcast("&a&lTeams setup complete");
-        broadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+        Arrays.stream(commandChain).forEach(CommandExecutor::execute);
+        ServerBroadcaster.message("&a&lTeams setup complete");
+        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
     }
 
     public void resetScoreboardDeaths() {
-        commandExecutor.execute("scoreboard players set @a Deaths 0");
-        broadcaster.broadcast("&a&lScoreboard death counter reset");
-        broadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+        CommandExecutor.execute("scoreboard players set @a Deaths 0");
+        ServerBroadcaster.message("&a&lScoreboard death counter reset");
+        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
     }
 
     public void joinTeam(EntityPlayer player, Team team) {
@@ -220,30 +237,30 @@ public class GameManager {
 
         switchTeamTo(player.getUniqueID(), team);
         String command = String.format("scoreboard teams join %s %s", team.display.toLowerCase(), player.getName());
-        commandExecutor.execute(command);
+        CommandExecutor.execute(command);
 
-        broadcaster.broadcast(String.format(
+        ServerBroadcaster.message(String.format(
             "&7Player &f%s &7joined the %s%s Team",
             player.getName(), team.color, team.display
         ));
-        broadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
     }
 
     public void setGameMode(GameMode gameMode) {
         if (gameMode == GameMode.FFA) {
             playerStats.keySet().forEach(uuid -> switchTeamTo(uuid, Team.NONE));
-            commandExecutor.execute("scoreboard teams join none @a");
+            CommandExecutor.execute("scoreboard teams join none @a");
         }
 
         this.gameMode = gameMode;
-        broadcaster.broadcast("&a&lGame mode set to &f" + gameMode.display);
-        broadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+        ServerBroadcaster.message("&a&lGame mode set to &f" + gameMode.display);
+        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
     }
 
     public void setGameModeVariant(GameMode.Variant gameModeVariant) {
         this.gameModeVariant = gameModeVariant;
-        broadcaster.broadcast("&a&lGame mode variant set to &f" + gameModeVariant.display);
-        broadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+        ServerBroadcaster.message("&a&lGame mode variant set to &f" + gameModeVariant.display);
+        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
     }
 
     public PlayerStats getStats(EntityPlayer player) {
@@ -347,12 +364,12 @@ public class GameManager {
                     .orElse(null);
 
                 if (topPlayer != null) {
-                    broadcaster.broadcast(String.format("&6&lWinner: &f%s &7(%s kills)", topPlayer.getUsername(), topPlayer.getKills()));
+                    ServerBroadcaster.message(String.format("&6&lWinner: &f%s &7(%s kills)", topPlayer.getUsername(), topPlayer.getKills()));
                     printGameScoreboard();
                 }
                 else {
-                    broadcaster.broadcast("&c&lNobody won lmao");
-                    broadcaster.broadcast("&7yall suck");
+                    ServerBroadcaster.message("&c&lNobody won lmao");
+                    ServerBroadcaster.message("&7yall suck");
                 }
 
                 break;
@@ -368,7 +385,7 @@ public class GameManager {
                     .map(Map.Entry::getKey)
                     .orElse(Team.NONE);
 
-                broadcaster.broadcast(String.format("&6&lWinning team: %s%s Team", topTeam.color, topTeam.display));
+                ServerBroadcaster.message(String.format("&6&lWinning team: %s%s Team", topTeam.color, topTeam.display));
                 printTeams();
 
                 break;

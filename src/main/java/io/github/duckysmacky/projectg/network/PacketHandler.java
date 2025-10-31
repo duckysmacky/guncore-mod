@@ -1,7 +1,10 @@
 package io.github.duckysmacky.projectg.network;
 
 import io.github.duckysmacky.projectg.ProjectGMod;
+import io.github.duckysmacky.projectg.network.packets.BroadcastMessagePacket;
+import io.github.duckysmacky.projectg.network.packets.ExecuteCommandPacket;
 import io.github.duckysmacky.projectg.network.packets.OpenMainMenuPacket;
+import io.github.duckysmacky.projectg.network.packets.UpdatePlayerListPacket;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,5 +23,9 @@ public final class PacketHandler {
         networkWrapperInstance = NetworkRegistry.INSTANCE.newSimpleChannel(ProjectGMod.MODID);
 
         networkWrapperInstance.registerMessage(OpenMainMenuPacket.Handler.class, OpenMainMenuPacket.class, packetId++, Side.CLIENT);
+
+        networkWrapperInstance.registerMessage(ExecuteCommandPacket.Handler.class, ExecuteCommandPacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(BroadcastMessagePacket.Handler.class, BroadcastMessagePacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(UpdatePlayerListPacket.Handler.class, UpdatePlayerListPacket.class, packetId++, Side.SERVER);
     }
 }
