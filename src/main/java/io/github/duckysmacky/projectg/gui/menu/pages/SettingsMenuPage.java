@@ -1,6 +1,7 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
 import io.github.duckysmacky.projectg.game.CommandExecutor;
+import io.github.duckysmacky.projectg.game.GameManager;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
@@ -40,36 +41,7 @@ public class SettingsMenuPage extends StaticMenu {
                 .setName("&fSetup teams")
                 .addLoreLine("&7Automatically sets up scoreboard teams and the death counter")
                 .getItemStack(),
-            p -> setupTeams()
+            p -> GameManager.instance().setupScoreboardTeams()
         ), 4, 1);
     }
-
-    public void setupTeams() {
-        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-        CommandExecutor commandExecutor = new CommandExecutor();
-
-        String[] commandChain = new String[]{
-            "scoreboard objectives setdisplay sidebar Deaths",
-            "scoreboard teams add ffa",
-            "scoreboard teams add blue",
-            "scoreboard teams add red",
-            "scoreboard teams add yellow",
-            "scoreboard teams add green",
-            "scoreboard teams option ffa nametagVisibility never",
-            "scoreboard teams option blue nametagVisibility hideForOtherTeams",
-            "scoreboard teams option red nametagVisibility hideForOtherTeams",
-            "scoreboard teams option yellow nametagVisibility hideForOtherTeams",
-            "scoreboard teams option green nametagVisibility hideForOtherTeams"
-        };
-
-        Arrays.stream(commandChain).forEach(commandExecutor::execute);
-
-        String message = TextFormatting.GREEN + "" + TextFormatting.BOLD + "Teams setup completed";
-        server.getPlayerList().getPlayers()
-            .forEach(p -> {
-                p.sendMessage(new TextComponentString(message));
-                p.playSound(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
-            });
-    }
-
 }

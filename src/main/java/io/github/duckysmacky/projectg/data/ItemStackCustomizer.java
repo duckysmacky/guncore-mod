@@ -5,10 +5,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
-public class ItemStackCustomizer {
-    public static final String SIGN_CODE = "§";
-    public static final String AMPERSAND = "&";
+import static io.github.duckysmacky.projectg.util.ColorTranslator.translateColorCodes;
 
+public class ItemStackCustomizer {
     private net.minecraft.item.ItemStack item;
     private NBTTagCompound display;
     private NBTTagList loreList;
@@ -25,10 +24,6 @@ public class ItemStackCustomizer {
 
     public static ItemStackCustomizer from(String registryName) {
         return new ItemStackCustomizer(ItemFinder.findItemStack(registryName));
-    }
-
-    public static String translateColorCodes(String text) {
-        return text.replace(AMPERSAND, SIGN_CODE);
     }
 
     public ItemStackCustomizer setName(String name) {

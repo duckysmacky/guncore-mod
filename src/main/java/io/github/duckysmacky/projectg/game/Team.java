@@ -3,10 +3,12 @@ package io.github.duckysmacky.projectg.game;
 import net.minecraft.util.text.TextFormatting;
 
 public enum Team {
+    NONE("None", TextFormatting.WHITE),
     BLUE("Blue", TextFormatting.BLUE),
     RED("Red", TextFormatting.RED),
     YELLOW("Yellow", TextFormatting.YELLOW),
-    GREEN("Green", TextFormatting.GREEN);
+    GREEN("Green", TextFormatting.GREEN),
+    PURPLE("Purple", TextFormatting.DARK_PURPLE);
 
     public final String display;
     public final TextFormatting color;

@@ -1,112 +1,143 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.game.CommandExecutor;
+import io.github.duckysmacky.projectg.game.GameManager;
+import io.github.duckysmacky.projectg.game.GameMode;
 import io.github.duckysmacky.projectg.game.Team;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class GameMenuPage extends StaticMenu {
     public GameMenuPage(BaseMenu parent) {
-        super("Game", parent, 9, 9);
+        super("Game", parent, 7, 9);
 
         addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 8))
-                .setName("&fFFA")
-                .addLoreLine("&7Set the game mode to FFA")
+            new ItemStackCustomizer(new ItemStack(Items.GOLDEN_SWORD))
+                .setName("&f&lFree For All")
+                .addLoreLine("&7Set the game mode to Free For All")
                 .getItemStack(),
-            p -> setFFA()
+            p -> GameManager.instance().setGameMode(GameMode.FFA)
+        ), 1, 1);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.SHIELD))
+                .setName("&f&lTeam Deathmatch")
+                .addLoreLine("&7Set the game mode to Team Deathmatch")
+                .getItemStack(),
+            p -> GameManager.instance().setGameMode(GameMode.TDM)
         ), 1, 2);
 
         addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 14))
-                .setName("&cRed team")
-                .addLoreLine("&7Join the Red team")
+            new ItemStackCustomizer(new ItemStack(Items.GOLDEN_CHESTPLATE))
+                .setName("&f&lHostage Rescue")
+                .addLoreLine("&fWork In Progress")
+                .addLoreLine("&7Set the game mode to Hostage Rescue")
                 .getItemStack(),
-            (player) -> joinTeam(player, Team.RED)
+            p -> GameManager.instance().setGameMode(GameMode.HOSTAGE)
         ), 1, 3);
 
         addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 11))
-                .setName("&cBlue team")
-                .addLoreLine("&7Join the Blue team")
+            new ItemStackCustomizer(new ItemStack(Items.CLOCK))
+                .setName("&f&lTime-based")
+                .addLoreLine("&fDefault time limit: 10 minutes")
+                .addLoreLine("&7Make the game mode time-based")
+                .addLoreLine("&7The player/team with the most kills is considered to be the winner")
                 .getItemStack(),
-            (player) -> joinTeam(player, Team.BLUE)
-        ), 1, 4);
-
-        addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 4))
-                .setName("&cYellow team")
-                .addLoreLine("&7Join the Yellow team")
-                .getItemStack(),
-            (player) -> joinTeam(player, Team.YELLOW)
-        ), 1, 5);
-
-        addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 13))
-                .setName("&cGreen team")
-                .addLoreLine("&7Join the Green team")
-                .getItemStack(),
-            (player) -> joinTeam(player, Team.GREEN)
+            p -> GameManager.instance().setGameModeVariant(GameMode.Variant.TIME)
         ), 1, 6);
 
         addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Items.SLIME_BALL))
-                .setName("&fReset Deaths")
-                .addLoreLine("&7Reset the death counter")
+            new ItemStackCustomizer(new ItemStack(Items.APPLE))
+                .setName("&f&lLife-based")
+                .addLoreLine("&fDefault lives: 5")
+                .addLoreLine("&7Make the game mode life-based")
+                .addLoreLine("&7The only player/team left alive is considered to be the winner")
                 .getItemStack(),
-            p -> resetDeaths()
+            p -> GameManager.instance().setGameModeVariant(GameMode.Variant.LIVES)
+        ), 1, 7);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 14))
+                .setName("&c&lRed team")
+                .addLoreLine("&7Join the Red team")
+                .getItemStack(),
+            p -> GameManager.instance().joinTeam(p, Team.RED)
+        ), 3, 2);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 11))
+                .setName("&9&lBlue team")
+                .addLoreLine("&7Join the Blue team")
+                .getItemStack(),
+            p -> GameManager.instance().joinTeam(p, Team.BLUE)
+        ), 3, 3);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 4))
+                .setName("&e&lYellow team")
+                .addLoreLine("&7Join the Yellow team")
+                .getItemStack(),
+            p -> GameManager.instance().joinTeam(p, Team.YELLOW)
+        ), 3, 4);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 13))
+                .setName("&a&lGreen team")
+                .addLoreLine("&7Join the Green team")
+                .getItemStack(),
+            p -> GameManager.instance().joinTeam(p, Team.GREEN)
+        ), 3, 5);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 10))
+                .setName("&d&lPurple team")
+                .addLoreLine("&7Join the Purple team")
+                .getItemStack(),
+            p -> GameManager.instance().joinTeam(p, Team.PURPLE)
         ), 3, 6);
-    }
 
-    public void setFFA() {
-        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-        CommandExecutor commandExecutor = new CommandExecutor();
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.SLIME_BALL))
+                .setName("&a&lStart")
+                .addLoreLine("&7Start a new round")
+                .getItemStack(),
+            p -> GameManager.instance().startRound()
+        ), 5, 2);
 
-        String command = "scoreboard teams join ffa @a";
-        commandExecutor.execute(command);
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.GOLD_NUGGET))
+                .setName("&e&lPause")
+                .addLoreLine("&7Toggle round pause")
+                .getItemStack(),
+            p -> GameManager.instance().toggleRoundPause()
+        ), 5, 3);
 
-        String message = TextFormatting.GREEN + "" + TextFormatting.BOLD + "Game mode switched to FFA";
-        server.getPlayerList().getPlayers()
-            .forEach(p -> {
-                p.sendMessage(new TextComponentString(message));
-                p.playSound(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
-            });
-    }
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.BRICK))
+                .setName("&8&lEnd")
+                .addLoreLine("&7End (finish) the current round")
+                .getItemStack(),
+            p -> GameManager.instance().endRound()
+        ), 5, 4);
 
-    public void joinTeam(EntityPlayer player, Team team) {
-        CommandExecutor commandExecutor = new CommandExecutor();
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.BARRIER))
+                .setName("&c&lReset")
+                .addLoreLine("&7Reset the round")
+                .getItemStack(),
+            p -> GameManager.instance().resetRound()
+        ), 5, 5);
 
-        String command = String.format("scoreboard teams join %s %s", team.display.toLowerCase(), player.getName());
-        commandExecutor.execute(command);
-
-        String message = TextFormatting.WHITE + "Joined the " + team.color + team.display + TextFormatting.WHITE + " team";
-        player.sendMessage(new TextComponentString(message));
-        player.playSound(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
-    }
-
-    public void resetDeaths() {
-        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-        CommandExecutor commandExecutor = new CommandExecutor();
-
-        String command = "scoreboard players set @a Deaths 0";
-        commandExecutor.execute(command);
-
-        String message = TextFormatting.GREEN + "" + TextFormatting.BOLD + "Death counter was reset";
-        server.getPlayerList().getPlayers()
-            .forEach(p -> {
-                p.sendMessage(new TextComponentString(message));
-                p.playSound(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
-            });
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.WEB))
+                .setName("&f&lReset deaths")
+                .addLoreLine("&7Reset the scoreboard deaths")
+                .getItemStack(),
+            p -> GameManager.instance().resetScoreboardDeaths()
+        ), 5, 6);
     }
 }

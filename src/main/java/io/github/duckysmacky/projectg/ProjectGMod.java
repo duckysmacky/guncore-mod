@@ -13,7 +13,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ProjectGMod.MODID, name = ProjectGMod.NAME, version = ProjectGMod.VERSION)
+@Mod(
+    modid = ProjectGMod.MODID,
+    name = ProjectGMod.NAME,
+    version = ProjectGMod.VERSION
+)
 public class ProjectGMod {
     public static final String MODID = "projectg";
     public static final String NAME = "Project-G Mod";
