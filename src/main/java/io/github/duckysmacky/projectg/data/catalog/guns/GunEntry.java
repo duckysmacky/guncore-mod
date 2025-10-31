@@ -39,18 +39,19 @@ public class GunEntry extends CatalogEntry {
         this.ammoItemAmount = ammoItemAmount;
     }
 
-    public static GunEntry getExample() {
+    public static GunEntry createExample() {
         return new GunEntry(
             true,
-            "SOCOM M4A1",
+            "Bow",
             GunCategory.ASSAULT_RIFLE,
             Rarity.COMMON,
-            "mw:socom_m4a1",
-            "mw:socom_mag",
-            12,
+            "minecraft:bow",
+            "minecraft:arrow",
+            64,
             Arrays.asList(
-                "&7A versatile and reliable assault rifle favored by special operations forces.",
-                "&7Known for its accuracy and adaptability in various combat scenarios."
+                "&7The classic ranged weapon.",
+                "&7Reliable and effective for all situations.",
+                "&7This is an example gun."
             )
         );
     }

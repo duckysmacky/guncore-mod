@@ -38,7 +38,7 @@ public class GadgetEntry extends CatalogEntry {
         this.additionalItemIds = additionalItemIds;
     }
 
-    public static GadgetEntry getExample() {
+    public static GadgetEntry createExample() {
         return new GadgetEntry(
             true,
             "Water Bucket",
@@ -48,7 +48,8 @@ public class GadgetEntry extends CatalogEntry {
             Collections.emptyList(),
             Arrays.asList(
                 "&7A bucket filled with water.",
-                "&7Useful for putting out fires or landing safely from heights."
+                "&7Useful for putting out fires or landing safely from heights.",
+                "&7This is an example gadget."
             )
         );
     }

@@ -19,10 +19,10 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class CatalogLoader {
-    private static final String CONFIG_DIR_NAME = "projectg/";
+    private static final String CATALOG_CONFIG_DIRECTORY_NAME = "projectg/catalog/";
     private static CatalogLoader instance;
     private final Gson gson;
-    private File configDir;
+    private final File configDir;
     private List<GunEntry> cachedGuns;
     private List<KitEntry> cachedKits;
     private List<GadgetEntry> cachedGadgets;
@@ -42,10 +42,10 @@ public class CatalogLoader {
     }
 
     public void loadConfig() {
-        this.cachedGuns = loadCatalogEntries("guns.json", GunEntry.class, GunEntry::getExample);
-        this.cachedKits = loadCatalogEntries("kits.json", KitEntry.class, KitEntry::getExample);
-        this.cachedGadgets = loadCatalogEntries("gadgets.json", GadgetEntry.class, GadgetEntry::getExample);
-        this.cachedLocations = loadCatalogEntries("locations.json", LocationEntry.class, LocationEntry::getExample);
+        this.cachedGuns = loadCatalogEntries("guns.json", GunEntry.class, GunEntry::createExample);
+        this.cachedKits = loadCatalogEntries("kits.json", KitEntry.class, KitEntry::createExample);
+        this.cachedGadgets = loadCatalogEntries("gadgets.json", GadgetEntry.class, GadgetEntry::createExample);
+        this.cachedLocations = loadCatalogEntries("locations.json", LocationEntry.class, LocationEntry::createExample);
     }
 
     public List<GunEntry> getCachedGuns() {
@@ -65,7 +65,7 @@ public class CatalogLoader {
     }
 
     private File getConfigFile(String fileName) {
-        return new File(configDir, CONFIG_DIR_NAME + fileName);
+        return new File(configDir, CATALOG_CONFIG_DIRECTORY_NAME + fileName);
     }
 
     private <T extends CatalogEntry> List<T> loadCatalogEntries(String fileName, Class<T> entryClass, Supplier<T> defaultEntry) {

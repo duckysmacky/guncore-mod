@@ -30,13 +30,16 @@ public class LocationEntry extends CatalogEntry {
         this.coordinates = coordinates;
     }
 
-    public static LocationEntry getExample() {
+    public static LocationEntry createExample() {
         return new LocationEntry(
             true,
             CityMap.NEWPORT,
-            "Plaza",
-            new LocationCoordinates(-150, 160, 230),
-            Arrays.asList("&7An open plaza in the heart of Newport.")
+            "Spawn",
+            new LocationCoordinates(0, 80, 0),
+            Arrays.asList(
+                "&7The main spawn point of the city.",
+                "&7This is an example location."
+            )
         );
     }
 

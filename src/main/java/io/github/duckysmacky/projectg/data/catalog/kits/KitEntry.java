@@ -42,18 +42,18 @@ public class KitEntry extends CatalogEntry {
         this.variantIds = variantIds;
     }
 
-    public static KitEntry getExample() {
+    public static KitEntry createExample() {
         return new KitEntry(
           true,
-          "Soldier",
+          "Hunter",
             KitClass.ASSAULT,
             KitTier.BASIC,
-            "assault",
-            "minecraft:iron_helmet",
+            "hunter",
+            "minecraft:iron_sword",
             Collections.emptyList(),
             Arrays.asList(
-                "&7A well-rounded kit for frontline combat.",
-                "&7Everything you need to fight, survive and win in the same place"
+                "&7The Hunter Kit is perfect for players who want a balanced loadout for various combat situations.",
+                "&7This is an example kit"
             )
         );
     }
