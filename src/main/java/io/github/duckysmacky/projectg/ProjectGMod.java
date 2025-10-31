@@ -1,9 +1,10 @@
 package io.github.duckysmacky.projectg;
 
-import io.github.duckysmacky.projectg.commands.ConfigReloadCommand;
+import io.github.duckysmacky.projectg.commands.ProjectGConfigCommand;
 import io.github.duckysmacky.projectg.commands.GameCommand;
 import io.github.duckysmacky.projectg.commands.MenuCommand;
 import io.github.duckysmacky.projectg.data.catalog.CatalogLoader;
+import io.github.duckysmacky.projectg.data.config.ConfigLoader;
 import io.github.duckysmacky.projectg.network.CommonProxy;
 import io.github.duckysmacky.projectg.network.PacketHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -41,8 +42,8 @@ public class ProjectGMod {
 
         PacketHandler.init();
 
-        CatalogLoader catalogLoader = CatalogLoader.instance();
-        catalogLoader.loadConfig();
+        ConfigLoader.instance().loadConfig();
+        CatalogLoader.instance().loadConfig();
     }
 
     @Mod.EventHandler
@@ -59,7 +60,7 @@ public class ProjectGMod {
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new MenuCommand());
-        event.registerServerCommand(new ConfigReloadCommand());
+        event.registerServerCommand(new ProjectGConfigCommand());
         event.registerServerCommand(new GameCommand());
     }
 }

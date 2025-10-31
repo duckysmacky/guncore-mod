@@ -14,7 +14,7 @@ public class EventHandler {
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
-            GameManager.instance().tick(FMLCommonHandler.instance().getMinecraftServerInstance());
+            GameManager.instance().tick();
         }
     }
 

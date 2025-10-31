@@ -1,5 +1,7 @@
 package io.github.duckysmacky.projectg.game;
 
+import io.github.duckysmacky.projectg.data.config.ConfigLoader;
+import io.github.duckysmacky.projectg.data.config.GameConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.server.MinecraftServer;
@@ -10,8 +12,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameManager {
-    private static final int ROUND_TIME_DURATION_SEC = 10 * 60;
-    private static final int MAX_LIVES = 5;
     private static GameManager instance;
     private final MinecraftServer server;
     private final CommandExecutor commandExecutor;
@@ -50,10 +50,6 @@ public class GameManager {
         return instance;
     }
 
-    public static void recreateInstance() {
-        instance = new GameManager();
-    }
-
     public void startRound() {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
             state = GameState.RUNNING;
@@ -68,7 +64,7 @@ public class GameManager {
                 stats.resetStats();
 
                 if (gameModeVariant == GameMode.Variant.LIVES)
-                    stats.setLives(MAX_LIVES);
+                    stats.setLives(getStartingLives());
             });
 
             broadcaster.broadcast("&a&lRound started");
@@ -113,12 +109,12 @@ public class GameManager {
         }
     }
 
-    public void tick(MinecraftServer server) {
+    public void tick() {
         if (state != GameState.RUNNING) return;
 
         roundTimeSec = (System.currentTimeMillis() - roundStartTimeSec) / 1000L;
 
-        if (gameModeVariant == GameMode.Variant.TIME && roundTimeSec >= ROUND_TIME_DURATION_SEC) {
+        if (gameModeVariant == GameMode.Variant.TIME && roundTimeSec >= getRoundDurationSecs()) {
             endRound();
         }
     }
@@ -262,6 +258,36 @@ public class GameManager {
                 teams.get(Team.NONE).add(uuid);
                 return Team.NONE;
             });
+    }
+
+    private int getStartingLives() {
+        GameConfig gameConfig = ConfigLoader.instance().getCachedGameConfig();
+
+        switch (gameMode) {
+            case FFA:
+                return gameConfig.ffaConfig.startingLives;
+            case TDM:
+                return gameConfig.tdmConfig.startingLives;
+            case HOSTAGE:
+                return gameConfig.hostageConfig.startingLives;
+            default:
+                return 5;
+        }
+    }
+
+    private int getRoundDurationSecs() {
+        GameConfig gameConfig = ConfigLoader.instance().getCachedGameConfig();
+
+        switch (gameMode) {
+            case FFA:
+                return gameConfig.ffaConfig.roundDurationSecs;
+            case TDM:
+                return gameConfig.tdmConfig.roundDurationSecs;
+            case HOSTAGE:
+                return gameConfig.hostageConfig.roundDurationSecs;
+            default:
+                return 600;
+        }
     }
 
     private void checkRoundEndConditions() {
