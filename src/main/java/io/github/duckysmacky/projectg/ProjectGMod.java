@@ -1,6 +1,7 @@
 package io.github.duckysmacky.projectg;
 
 import io.github.duckysmacky.projectg.commands.ConfigReloadCommand;
+import io.github.duckysmacky.projectg.commands.GameCommand;
 import io.github.duckysmacky.projectg.commands.MenuCommand;
 import io.github.duckysmacky.projectg.data.ConfigLoader;
 import io.github.duckysmacky.projectg.network.CommonProxy;
@@ -59,5 +60,6 @@ public class ProjectGMod {
     public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new MenuCommand());
         event.registerServerCommand(new ConfigReloadCommand());
+        event.registerServerCommand(new GameCommand());
     }
 }

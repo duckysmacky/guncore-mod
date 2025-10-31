@@ -1,7 +1,7 @@
 package io.github.duckysmacky.projectg.game;
 
 public enum GameMode {
-    FFA("FFA"),
+    FFA("Free for all"),
     TDM("Team deathmatch"),
     HOSTAGE("Hostage rescue");
 
