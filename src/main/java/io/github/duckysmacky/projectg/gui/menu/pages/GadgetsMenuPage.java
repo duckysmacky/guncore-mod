@@ -1,8 +1,7 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.data.ConfigLoader;
+import io.github.duckysmacky.projectg.data.catalog.CatalogLoader;
 import io.github.duckysmacky.projectg.data.catalog.gadgets.GadgetEntry;
-import io.github.duckysmacky.projectg.data.catalog.guns.GunEntry;
 import io.github.duckysmacky.projectg.game.EquipmentManager;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
@@ -16,16 +15,14 @@ import net.minecraft.util.text.TextComponentString;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class GadgetsMenuPage extends DynamicMenu {
     public GadgetsMenuPage(BaseMenu parent) {
         super("Gadgets", parent, 9, 9);
 
-        ConfigLoader configLoader = ConfigLoader.instance();
+        CatalogLoader catalogLoader = CatalogLoader.instance();
 
-        configLoader.getCachedGadgets().stream()
+        catalogLoader.getCachedGadgets().stream()
             .sorted(Comparator.comparingInt(gadget -> gadget.getRarity().sortOrder))
             .forEach(gadget -> {
                 ItemStack gadgetItem = gadget.getItemStack();

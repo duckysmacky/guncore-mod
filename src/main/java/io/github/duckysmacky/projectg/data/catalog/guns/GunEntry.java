@@ -2,7 +2,7 @@ package io.github.duckysmacky.projectg.data.catalog.guns;
 
 import io.github.duckysmacky.projectg.data.catalog.CatalogEntry;
 import io.github.duckysmacky.projectg.data.catalog.Rarity;
-import io.github.duckysmacky.projectg.data.ItemFinder;
+import io.github.duckysmacky.projectg.data.items.ItemFinder;
 import io.github.duckysmacky.projectg.util.TextUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;

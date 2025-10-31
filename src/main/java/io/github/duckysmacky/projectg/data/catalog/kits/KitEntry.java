@@ -2,7 +2,7 @@ package io.github.duckysmacky.projectg.data.catalog.kits;
 
 import com.google.gson.annotations.SerializedName;
 import io.github.duckysmacky.projectg.data.catalog.CatalogEntry;
-import io.github.duckysmacky.projectg.data.ItemFinder;
+import io.github.duckysmacky.projectg.data.items.ItemFinder;
 import io.github.duckysmacky.projectg.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;

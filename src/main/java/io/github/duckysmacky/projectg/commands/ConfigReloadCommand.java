@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.commands;
 
-import io.github.duckysmacky.projectg.data.ConfigLoader;
+import io.github.duckysmacky.projectg.data.catalog.CatalogLoader;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -23,8 +23,8 @@ public class ConfigReloadCommand extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-        ConfigLoader configLoader = ConfigLoader.instance();
-        configLoader.loadConfig();
+        CatalogLoader catalogLoader = CatalogLoader.instance();
+        catalogLoader.loadConfig();
     }
 
     @Override

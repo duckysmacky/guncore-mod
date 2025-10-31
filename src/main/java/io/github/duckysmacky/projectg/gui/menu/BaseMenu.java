@@ -1,7 +1,7 @@
 package io.github.duckysmacky.projectg.gui.menu;
 
 import io.github.duckysmacky.projectg.gui.MenuGui;
-import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
+import io.github.duckysmacky.projectg.data.items.ItemStackCustomizer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;

@@ -3,7 +3,7 @@ package io.github.duckysmacky.projectg.gui.menu.pages;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.gui.menu.entry.SubpageEntry;
-import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
+import io.github.duckysmacky.projectg.data.items.ItemStackCustomizer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 

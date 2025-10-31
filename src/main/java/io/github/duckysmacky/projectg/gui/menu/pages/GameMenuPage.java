@@ -4,7 +4,7 @@ import io.github.duckysmacky.projectg.game.GameManager;
 import io.github.duckysmacky.projectg.game.GameMode;
 import io.github.duckysmacky.projectg.game.Team;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
-import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
+import io.github.duckysmacky.projectg.data.items.ItemStackCustomizer;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import net.minecraft.init.Blocks;

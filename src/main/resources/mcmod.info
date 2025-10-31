@@ -1,14 +1,14 @@
 [
   {
     "modid": "projectg",
-    "name": "Project G Mod",
-    "description": "GUI kit/gun selection system for the Project-G Server.",
+    "name": "Project-G Mod",
+    "description": "GUI utility system for the Project-G PVP Server",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "",
     "updateUrl": "",
     "authorList": ["duckysmacky"],
-    "credits": "Based on ProjectG plugin",
+    "credits": "Based on ProjectG plugin by me",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []

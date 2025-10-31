@@ -4,7 +4,7 @@ import io.github.duckysmacky.projectg.data.catalog.guns.GunCategory;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.gui.menu.entry.SubpageEntry;
-import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
+import io.github.duckysmacky.projectg.data.items.ItemStackCustomizer;
 
 public class WeaponsMenuPage extends StaticMenu {
     public WeaponsMenuPage(BaseMenu parent) {

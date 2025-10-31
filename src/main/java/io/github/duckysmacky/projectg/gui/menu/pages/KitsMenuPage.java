@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.data.ConfigLoader;
+import io.github.duckysmacky.projectg.data.catalog.CatalogLoader;
 import io.github.duckysmacky.projectg.data.catalog.kits.KitClass;
 import io.github.duckysmacky.projectg.game.CommandExecutor;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
@@ -16,9 +16,9 @@ public class KitsMenuPage extends DynamicMenu {
     public KitsMenuPage(BaseMenu parent, KitClass kitClass) {
         super(kitClass.display + " Kits", parent, 5, 9);
 
-        ConfigLoader configLoader = ConfigLoader.instance();
+        CatalogLoader catalogLoader = CatalogLoader.instance();
 
-        configLoader.getCachedKits().stream()
+        catalogLoader.getCachedKits().stream()
             .filter(kit -> kit.getKitClass() == kitClass)
             .sorted(Comparator.comparingInt(kit -> kit.getTier().sortOrder))
             .forEach(kit -> {

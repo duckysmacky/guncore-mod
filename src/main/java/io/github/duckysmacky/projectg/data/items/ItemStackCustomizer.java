@@ -1,4 +1,4 @@
-package io.github.duckysmacky.projectg.data;
+package io.github.duckysmacky.projectg.data.items;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;

@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.data.ConfigLoader;
+import io.github.duckysmacky.projectg.data.catalog.CatalogLoader;
 import io.github.duckysmacky.projectg.data.catalog.kits.KitClass;
 import io.github.duckysmacky.projectg.data.catalog.kits.KitEntry;
 import io.github.duckysmacky.projectg.game.CommandExecutor;
@@ -8,14 +8,13 @@ import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.gui.menu.entry.SubpageEntry;
-import io.github.duckysmacky.projectg.data.ItemStackCustomizer;
+import io.github.duckysmacky.projectg.data.items.ItemStackCustomizer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.text.TextComponentString;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Random;
 
@@ -79,8 +78,8 @@ public class KitCategoryMenuPage extends StaticMenu {
     }
 
     private void selectRandomKit(EntityPlayer player) {
-        ConfigLoader configLoader = ConfigLoader.instance();
-        List<KitEntry> kits = configLoader.getCachedKits();
+        CatalogLoader catalogLoader = CatalogLoader.instance();
+        List<KitEntry> kits = catalogLoader.getCachedKits();
 
         int randomIndex = random.nextInt(kits.size());
         KitEntry kit = kits.get(randomIndex);

@@ -1,9 +1,8 @@
-package io.github.duckysmacky.projectg.data;
+package io.github.duckysmacky.projectg.data.catalog;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.github.duckysmacky.projectg.ProjectGMod;
-import io.github.duckysmacky.projectg.data.catalog.*;
 import io.github.duckysmacky.projectg.data.catalog.gadgets.GadgetEntry;
 import io.github.duckysmacky.projectg.data.catalog.guns.GunEntry;
 import io.github.duckysmacky.projectg.data.catalog.kits.KitEntry;
@@ -19,9 +18,9 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class ConfigLoader {
+public class CatalogLoader {
     private static final String CONFIG_DIR_NAME = "projectg/";
-    private static ConfigLoader instance;
+    private static CatalogLoader instance;
     private final Gson gson;
     private File configDir;
     private List<GunEntry> cachedGuns;
@@ -29,14 +28,14 @@ public class ConfigLoader {
     private List<GadgetEntry> cachedGadgets;
     private List<LocationEntry> cachedLocations;
 
-    private ConfigLoader() {
+    private CatalogLoader() {
         this.gson = new Gson();
         this.configDir = Loader.instance().getConfigDir();
     }
 
-    public static ConfigLoader instance() {
+    public static CatalogLoader instance() {
         if (instance == null) {
-            instance = new ConfigLoader();
+            instance = new CatalogLoader();
         }
 
         return instance;
