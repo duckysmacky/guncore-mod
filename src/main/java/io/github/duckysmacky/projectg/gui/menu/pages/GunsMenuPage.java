@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.data.config.ConfigLoader;
+import io.github.duckysmacky.projectg.data.config.ConfigManager;
 import io.github.duckysmacky.projectg.data.config.catalog.guns.GunCategory;
 import io.github.duckysmacky.projectg.data.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.projectg.game.EquipmentManager;
@@ -20,9 +20,9 @@ public class GunsMenuPage extends DynamicMenu {
     public GunsMenuPage(BaseMenu parent, GunCategory gunCategory) {
         super(gunCategory.display + "s", parent, 6, 9);
 
-        ConfigLoader configLoader = ConfigLoader.instance();
+        ConfigManager configManager = ConfigManager.instance();
 
-        configLoader.getCachedGuns().stream()
+        configManager.getCachedGuns().stream()
             .filter(gun -> gun.getCategory() == gunCategory)
             .sorted(Comparator.comparingInt(gun -> gun.getRarity().sortOrder))
             .forEach(gun -> {

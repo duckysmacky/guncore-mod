@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.data.config.ConfigLoader;
+import io.github.duckysmacky.projectg.data.config.ConfigManager;
 import io.github.duckysmacky.projectg.data.config.catalog.gadgets.GadgetEntry;
 import io.github.duckysmacky.projectg.game.EquipmentManager;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
@@ -20,9 +20,9 @@ public class GadgetsMenuPage extends DynamicMenu {
     public GadgetsMenuPage(BaseMenu parent) {
         super("Gadgets", parent, 9, 9);
 
-        ConfigLoader configLoader = ConfigLoader.instance();
+        ConfigManager configManager = ConfigManager.instance();
 
-        configLoader.getCachedGadgets().stream()
+        configManager.getCachedGadgets().stream()
             .sorted(Comparator.comparingInt(gadget -> gadget.getRarity().sortOrder))
             .forEach(gadget -> {
                 ItemStack gadgetItem = gadget.getItemStack();

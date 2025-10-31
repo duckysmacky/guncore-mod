@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.data.config.ConfigLoader;
+import io.github.duckysmacky.projectg.data.config.ConfigManager;
 import io.github.duckysmacky.projectg.data.config.catalog.kits.KitClass;
 import io.github.duckysmacky.projectg.data.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.projectg.game.CommandExecutor;
@@ -78,8 +78,8 @@ public class KitCategoryMenuPage extends StaticMenu {
     }
 
     private void selectRandomKit(EntityPlayer player) {
-        ConfigLoader configLoader = ConfigLoader.instance();
-        List<KitEntry> kits = configLoader.getCachedKits();
+        ConfigManager configManager = ConfigManager.instance();
+        List<KitEntry> kits = configManager.getCachedKits();
 
         int randomIndex = random.nextInt(kits.size());
         KitEntry kit = kits.get(randomIndex);

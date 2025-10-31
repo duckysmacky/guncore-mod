@@ -1,7 +1,7 @@
 package io.github.duckysmacky.projectg.game;
 
 import io.github.duckysmacky.projectg.ProjectGMod;
-import io.github.duckysmacky.projectg.data.config.ConfigLoader;
+import io.github.duckysmacky.projectg.data.config.ConfigManager;
 import io.github.duckysmacky.projectg.data.config.GameConfig;
 import io.github.duckysmacky.projectg.network.PacketHandler;
 import io.github.duckysmacky.projectg.network.packets.UpdatePlayerListPacket;
@@ -298,7 +298,7 @@ public class GameManager {
     }
 
     private int getStartingLives() {
-        GameConfig gameConfig = ConfigLoader.instance().getCachedGameConfig();
+        GameConfig gameConfig = ConfigManager.instance().getCachedGameConfig();
 
         switch (gameMode) {
             case FFA:
@@ -313,7 +313,7 @@ public class GameManager {
     }
 
     private int getRoundDurationSecs() {
-        GameConfig gameConfig = ConfigLoader.instance().getCachedGameConfig();
+        GameConfig gameConfig = ConfigManager.instance().getCachedGameConfig();
 
         switch (gameMode) {
             case FFA:
