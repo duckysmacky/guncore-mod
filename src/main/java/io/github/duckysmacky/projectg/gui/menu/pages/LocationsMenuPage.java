@@ -1,7 +1,7 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.data.catalog.CatalogLoader;
-import io.github.duckysmacky.projectg.data.catalog.locations.CityMap;
+import io.github.duckysmacky.projectg.data.config.ConfigLoader;
+import io.github.duckysmacky.projectg.data.config.catalog.locations.CityMap;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.DynamicMenu;
@@ -13,9 +13,9 @@ public class LocationsMenuPage extends DynamicMenu {
     public LocationsMenuPage(BaseMenu parent, CityMap map) {
         super("Locations", parent, 7, 9);
 
-        CatalogLoader catalogLoader = CatalogLoader.instance();
+        ConfigLoader configLoader = ConfigLoader.instance();
 
-        catalogLoader.getCachedLocations().stream()
+        configLoader.getCachedLocations().stream()
             .filter(location -> location.getMap() == map)
             .forEach(location -> {
                 ItemStack locationIcon = location.getIconItem();

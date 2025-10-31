@@ -1,4 +1,4 @@
-package io.github.duckysmacky.projectg.data.catalog.guns;
+package io.github.duckysmacky.projectg.data.config.catalog.guns;
 
 import com.google.gson.annotations.SerializedName;
 

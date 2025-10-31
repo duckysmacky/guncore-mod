@@ -1,7 +1,7 @@
 package io.github.duckysmacky.projectg.game;
 
-import io.github.duckysmacky.projectg.data.catalog.gadgets.GadgetEntry;
-import io.github.duckysmacky.projectg.data.catalog.guns.GunEntry;
+import io.github.duckysmacky.projectg.data.config.catalog.gadgets.GadgetEntry;
+import io.github.duckysmacky.projectg.data.config.catalog.guns.GunEntry;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.HashMap;

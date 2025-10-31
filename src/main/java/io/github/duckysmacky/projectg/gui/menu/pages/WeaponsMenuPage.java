@@ -1,6 +1,6 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.data.catalog.guns.GunCategory;
+import io.github.duckysmacky.projectg.data.config.catalog.guns.GunCategory;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
 import io.github.duckysmacky.projectg.gui.menu.entry.SubpageEntry;
@@ -61,7 +61,7 @@ public class WeaponsMenuPage extends StaticMenu {
         ), 1, 7);
 
         addEntry(new SubpageEntry(
-            ItemStackCustomizer.from("mw:glock19")
+            ItemStackCustomizer.from("mw:m17")
                 .setName("&f&lSidearms")
                 .getItemStack(),
             new GunsMenuPage(this, GunCategory.SIDEARM)

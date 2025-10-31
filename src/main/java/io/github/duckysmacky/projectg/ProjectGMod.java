@@ -3,7 +3,6 @@ package io.github.duckysmacky.projectg;
 import io.github.duckysmacky.projectg.commands.ProjectGConfigCommand;
 import io.github.duckysmacky.projectg.commands.GameCommand;
 import io.github.duckysmacky.projectg.commands.MenuCommand;
-import io.github.duckysmacky.projectg.data.catalog.CatalogLoader;
 import io.github.duckysmacky.projectg.data.config.ConfigLoader;
 import io.github.duckysmacky.projectg.network.CommonProxy;
 import io.github.duckysmacky.projectg.network.PacketHandler;
@@ -44,7 +43,6 @@ public class ProjectGMod {
         PacketHandler.init();
 
         ConfigLoader.instance().loadConfig();
-        CatalogLoader.instance().loadConfig();
 
         MinecraftForge.EVENT_BUS.register(new EventHandler());
     }

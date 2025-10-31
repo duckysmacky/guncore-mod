@@ -1,6 +1,5 @@
 package io.github.duckysmacky.projectg.commands;
 
-import io.github.duckysmacky.projectg.data.catalog.CatalogLoader;
 import io.github.duckysmacky.projectg.data.config.ConfigLoader;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -36,7 +35,6 @@ public class ProjectGConfigCommand extends CommandBase {
         switch (subcommand) {
             case "reload":
                 ConfigLoader.instance().loadConfig();
-                CatalogLoader.instance().loadConfig();
                 break;
             default:
                 throw new CommandException(getUsage(sender));
