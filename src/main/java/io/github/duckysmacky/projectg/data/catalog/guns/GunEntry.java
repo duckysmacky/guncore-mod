@@ -13,6 +13,7 @@ import net.minecraft.util.text.TextFormatting;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class GunEntry extends CatalogEntry {
     private final GunCategory category;
@@ -32,10 +33,10 @@ public class GunEntry extends CatalogEntry {
         List<String> descriptionLines
     ) {
         super(enabled, name, descriptionLines);
-        this.category = category;
-        this.rarity = rarity;
-        this.gunItemId = gunItemId;
-        this.ammoItemId = ammoItemId;
+        this.category = Objects.requireNonNull(category);
+        this.rarity = Objects.requireNonNull(rarity);
+        this.gunItemId = Objects.requireNonNull(gunItemId);
+        this.ammoItemId = Objects.requireNonNull(ammoItemId);
         this.ammoItemAmount = ammoItemAmount;
     }
 

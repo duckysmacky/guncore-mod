@@ -12,6 +12,7 @@ import net.minecraft.util.text.TextFormatting;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class LocationEntry extends CatalogEntry {
     @SerializedName("mapId")
@@ -26,8 +27,8 @@ public class LocationEntry extends CatalogEntry {
         List<String> descriptionLines
     ) {
         super(enabled, name, descriptionLines);
-        this.map = map;
-        this.coordinates = coordinates;
+        this.map = Objects.requireNonNull(map);
+        this.coordinates = Objects.requireNonNull(coordinates);
     }
 
     public static LocationEntry createExample() {

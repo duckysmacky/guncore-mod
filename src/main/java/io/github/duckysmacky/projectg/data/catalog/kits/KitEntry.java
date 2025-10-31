@@ -15,6 +15,7 @@ import net.minecraft.util.text.TextFormatting;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class KitEntry extends CatalogEntry {
     @SerializedName("class")
@@ -35,11 +36,11 @@ public class KitEntry extends CatalogEntry {
         List<String> descriptionLines
     ) {
         super(enabled, name + " Kit", descriptionLines);
-        this.class_ = class_;
-        this.tier = tier;
-        this.kitId = kitId;
-        this.iconItemId = iconItemId;
-        this.variantIds = variantIds;
+        this.class_ = Objects.requireNonNull(class_);
+        this.tier = Objects.requireNonNull(tier);
+        this.kitId = Objects.requireNonNull(kitId);
+        this.iconItemId = Objects.requireNonNull(iconItemId);
+        this.variantIds = Objects.requireNonNull(variantIds);
     }
 
     public static KitEntry createExample() {

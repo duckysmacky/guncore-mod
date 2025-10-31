@@ -14,6 +14,7 @@ import net.minecraft.util.text.TextFormatting;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GadgetEntry extends CatalogEntry {
@@ -32,10 +33,10 @@ public class GadgetEntry extends CatalogEntry {
         List<String> descriptionLines
     ) {
         super(enabled, name, descriptionLines);
-        this.rarity = rarity;
-        this.itemId = itemId;
+        this.rarity = Objects.requireNonNull(rarity);
+        this.itemId = Objects.requireNonNull(itemId);
         this.itemAmount = itemAmount;
-        this.additionalItemIds = additionalItemIds;
+        this.additionalItemIds = Objects.requireNonNull(additionalItemIds);
     }
 
     public static GadgetEntry createExample() {

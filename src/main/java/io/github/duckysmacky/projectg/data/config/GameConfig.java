@@ -1,5 +1,7 @@
 package io.github.duckysmacky.projectg.data.config;
 
+import java.util.Objects;
+
 public class GameConfig {
     public final GameModeConfig ffaConfig;
     public final GameModeConfig tdmConfig;
@@ -10,9 +12,9 @@ public class GameConfig {
         GameModeConfig tdmConfig,
         GameModeConfig hostageConfig
     ) {
-        this.ffaConfig = ffaConfig;
-        this.tdmConfig = tdmConfig;
-        this.hostageConfig = hostageConfig;
+        this.ffaConfig = Objects.requireNonNull(ffaConfig);
+        this.tdmConfig = Objects.requireNonNull(tdmConfig);
+        this.hostageConfig = Objects.requireNonNull(hostageConfig);
     }
 
     public static GameConfig createDefault() {

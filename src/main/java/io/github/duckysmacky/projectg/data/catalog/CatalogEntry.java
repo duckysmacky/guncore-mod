@@ -1,6 +1,7 @@
 package io.github.duckysmacky.projectg.data.catalog;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class CatalogEntry {
     protected final boolean enabled;
@@ -13,8 +14,8 @@ public abstract class CatalogEntry {
         List<String> descriptionLines
     ) {
         this.enabled = enabled;
-        this.name = name;
-        this.descriptionLines = descriptionLines;
+        this.name = Objects.requireNonNull(name);
+        this.descriptionLines = Objects.requireNonNull(descriptionLines);
     }
 
     public boolean isEnabled() {

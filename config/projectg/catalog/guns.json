@@ -1117,7 +1117,7 @@
     "enabled": true,
     "name": "M17",
     "category": "sidearm",
-    "rarity": "rary",
+    "rarity": "rare",
     "gunItemId": "mw:m17",
     "ammoItemId": "mw:m17mag",
     "ammoItemAmount": 12,
