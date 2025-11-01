@@ -9,13 +9,12 @@ import io.github.duckysmacky.projectg.data.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.projectg.data.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.projectg.data.config.catalog.locations.LocationEntry;
 import io.github.duckysmacky.projectg.network.PacketHandler;
-import io.github.duckysmacky.projectg.network.packets.BroadcastMessagePacket;
 import io.github.duckysmacky.projectg.network.packets.LoadConfigPacket;
 import io.github.duckysmacky.projectg.network.packets.SyncConfigPacket;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ConfigManager {
-    public static final String ID = "ConfigLoader";
+    public static final String ID = "ConfigManager";
     private static ConfigManager instance;
     private final Gson gson;
     private GameConfig cachedGameConfig;
@@ -51,12 +50,38 @@ public class ConfigManager {
 
     public void loadConfig() {
         if (FMLCommonHandler.instance().getSide().isServer()) {
-            ConfigLoader configLoader = new ConfigLoader(Loader.instance().getConfigDir());
-            configLoader.syncWithClients();
+            syncWithClients();
         } else {
             ProjectGMod.LOGGER.info(String.format("[%s] Requesting config from server", ID));
             PacketHandler.instance().sendToServer(new LoadConfigPacket());
         }
+    }
+
+    public void syncWithClients() {
+        ProjectGMod.LOGGER.info(String.format("[%s] Syncing config with clients", ID));
+        ConfigLoader loader = new ConfigLoader(Loader.instance().getConfigDir());
+
+        String gameConfigJson = loader.readJSON("game.json", GameConfig::createDefault);
+        String gunsJson = loader.readJSON("catalog/guns.json", () -> Collections.singletonList(GunEntry.createExample()));
+        String kitsJson = loader.readJSON("catalog/kits.json", () -> Collections.singletonList(KitEntry.createExample()));
+        String gadgetsJson = loader.readJSON("catalog/gadgets.json", () -> Collections.singletonList(GadgetEntry.createExample()));
+        String locationsJson = loader.readJSON("catalog/locations.json", () -> Collections.singletonList(LocationEntry.createExample()));
+
+        cacheGameConfig(gameConfigJson);
+        cacheGuns(gunsJson);
+        cacheKits(kitsJson);
+        cacheGadgets(gadgetsJson);
+        cacheLocations(locationsJson);
+
+        SyncConfigPacket syncPacket = new SyncConfigPacket(
+            gameConfigJson,
+            gunsJson,
+            kitsJson,
+            gadgetsJson,
+            locationsJson
+        );
+
+        PacketHandler.instance().sendToAll(syncPacket);
     }
 
     public void cacheGameConfig(String json) {

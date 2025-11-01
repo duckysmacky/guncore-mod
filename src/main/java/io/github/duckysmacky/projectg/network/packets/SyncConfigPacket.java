@@ -1,23 +1,12 @@
 package io.github.duckysmacky.projectg.network.packets;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import io.github.duckysmacky.projectg.ProjectGMod;
 import io.github.duckysmacky.projectg.data.config.ConfigManager;
-import io.github.duckysmacky.projectg.data.config.GameConfig;
-import io.github.duckysmacky.projectg.data.config.catalog.gadgets.GadgetEntry;
-import io.github.duckysmacky.projectg.data.config.catalog.guns.GunEntry;
-import io.github.duckysmacky.projectg.data.config.catalog.kits.KitEntry;
-import io.github.duckysmacky.projectg.data.config.catalog.locations.LocationEntry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 public class SyncConfigPacket implements IMessage {
     private String gameConfigJson;

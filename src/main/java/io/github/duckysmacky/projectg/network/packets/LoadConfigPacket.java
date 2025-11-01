@@ -1,9 +1,8 @@
 package io.github.duckysmacky.projectg.network.packets;
 
-import io.github.duckysmacky.projectg.data.config.ConfigLoader;
+import io.github.duckysmacky.projectg.data.config.ConfigManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -23,8 +22,7 @@ public class LoadConfigPacket implements IMessage {
         public IMessage onMessage(LoadConfigPacket message, MessageContext context) {
             if (context.side == Side.SERVER) {
                 FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    ConfigLoader configLoader = new ConfigLoader(Loader.instance().getConfigDir());
-                    configLoader.syncWithClients();
+                    ConfigManager.instance().syncWithClients();
                 });
             }
             return null;
