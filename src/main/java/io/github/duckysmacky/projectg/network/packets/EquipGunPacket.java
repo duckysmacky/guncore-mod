@@ -37,7 +37,7 @@ public class EquipGunPacket implements IMessage {
         Gson gson = new Gson();
         String json = gson.toJson(this.gunEntry);
         ByteBufUtils.writeUTF8String(buf, json);
-    }
+        }
 
     public static class Handler implements IMessageHandler<EquipGunPacket, IMessage> {
         @Override

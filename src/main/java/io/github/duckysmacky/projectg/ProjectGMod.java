@@ -49,7 +49,6 @@ public class ProjectGMod {
     public void init(FMLInitializationEvent event) {
         PROXY.init(event);
         LOGGER.info("Project G mod has started.");
-        ConfigManager.instance().loadConfig();
     }
 
     @Mod.EventHandler

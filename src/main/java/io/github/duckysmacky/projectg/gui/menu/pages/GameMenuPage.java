@@ -1,12 +1,13 @@
 package io.github.duckysmacky.projectg.gui.menu.pages;
 
-import io.github.duckysmacky.projectg.game.GameManager;
 import io.github.duckysmacky.projectg.game.GameMode;
 import io.github.duckysmacky.projectg.game.Team;
 import io.github.duckysmacky.projectg.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.projectg.data.items.ItemStackCustomizer;
 import io.github.duckysmacky.projectg.gui.menu.BaseMenu;
 import io.github.duckysmacky.projectg.gui.menu.StaticMenu;
+import io.github.duckysmacky.projectg.network.PacketHandler;
+import io.github.duckysmacky.projectg.network.packets.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&f&lFree For All")
                 .addLoreLine("&7Set the game mode to Free For All")
                 .getItemStack(),
-            p -> GameManager.instance().setGameMode(GameMode.FFA)
+            p -> PacketHandler.instance().sendToServer(new SetGameModePacket(GameMode.FFA))
         ), 1, 1);
 
         addEntry(new ActionEntry(
@@ -28,7 +29,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&f&lTeam Deathmatch")
                 .addLoreLine("&7Set the game mode to Team Deathmatch")
                 .getItemStack(),
-            p -> GameManager.instance().setGameMode(GameMode.TDM)
+            p -> PacketHandler.instance().sendToServer(new SetGameModePacket(GameMode.TDM))
         ), 1, 2);
 
         addEntry(new ActionEntry(
@@ -37,7 +38,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&fWork In Progress")
                 .addLoreLine("&7Set the game mode to Hostage Rescue")
                 .getItemStack(),
-            p -> GameManager.instance().setGameMode(GameMode.HOSTAGE)
+            p -> PacketHandler.instance().sendToServer(new SetGameModePacket(GameMode.HOSTAGE))
         ), 1, 3);
 
         addEntry(new ActionEntry(
@@ -47,7 +48,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Make the game mode time-based")
                 .addLoreLine("&7The player/team with the most kills is considered to be the winner")
                 .getItemStack(),
-            p -> GameManager.instance().setGameModeVariant(GameMode.Variant.TIME)
+            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.TIME))
         ), 1, 6);
 
         addEntry(new ActionEntry(
@@ -57,7 +58,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Make the game mode life-based")
                 .addLoreLine("&7The only player/team left alive is considered to be the winner")
                 .getItemStack(),
-            p -> GameManager.instance().setGameModeVariant(GameMode.Variant.LIVES)
+            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.TIME))
         ), 1, 7);
 
         addEntry(new ActionEntry(
@@ -65,7 +66,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&c&lRed team")
                 .addLoreLine("&7Join the Red team")
                 .getItemStack(),
-            p -> GameManager.instance().joinTeam(p, Team.RED)
+            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.RED))
         ), 3, 2);
 
         addEntry(new ActionEntry(
@@ -73,7 +74,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&9&lBlue team")
                 .addLoreLine("&7Join the Blue team")
                 .getItemStack(),
-            p -> GameManager.instance().joinTeam(p, Team.BLUE)
+            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.BLUE))
         ), 3, 3);
 
         addEntry(new ActionEntry(
@@ -81,7 +82,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&e&lYellow team")
                 .addLoreLine("&7Join the Yellow team")
                 .getItemStack(),
-            p -> GameManager.instance().joinTeam(p, Team.YELLOW)
+            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.YELLOW))
         ), 3, 4);
 
         addEntry(new ActionEntry(
@@ -89,7 +90,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&a&lGreen team")
                 .addLoreLine("&7Join the Green team")
                 .getItemStack(),
-            p -> GameManager.instance().joinTeam(p, Team.GREEN)
+            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.GREEN))
         ), 3, 5);
 
         addEntry(new ActionEntry(
@@ -97,7 +98,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&d&lPurple team")
                 .addLoreLine("&7Join the Purple team")
                 .getItemStack(),
-            p -> GameManager.instance().joinTeam(p, Team.PURPLE)
+            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.PURPLE))
         ), 3, 6);
 
         addEntry(new ActionEntry(
@@ -105,7 +106,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&a&lStart")
                 .addLoreLine("&7Start a new round")
                 .getItemStack(),
-            p -> GameManager.instance().startRound()
+            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.START))
         ), 5, 2);
 
         addEntry(new ActionEntry(
@@ -113,7 +114,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&e&lPause")
                 .addLoreLine("&7Toggle round pause")
                 .getItemStack(),
-            p -> GameManager.instance().toggleRoundPause()
+            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.PAUSE))
         ), 5, 3);
 
         addEntry(new ActionEntry(
@@ -121,7 +122,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&8&lEnd")
                 .addLoreLine("&7End (finish) the current round")
                 .getItemStack(),
-            p -> GameManager.instance().endRound()
+            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.END))
         ), 5, 4);
 
         addEntry(new ActionEntry(
@@ -129,7 +130,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&c&lReset")
                 .addLoreLine("&7Reset the round")
                 .getItemStack(),
-            p -> GameManager.instance().resetRound()
+            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.RESET))
         ), 5, 5);
 
         addEntry(new ActionEntry(
@@ -137,7 +138,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&f&lReset deaths")
                 .addLoreLine("&7Reset the scoreboard deaths")
                 .getItemStack(),
-            p -> GameManager.instance().resetScoreboardDeaths()
+            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.RESET_SCOREBOARD_DEATHS))
         ), 5, 6);
     }
 }
