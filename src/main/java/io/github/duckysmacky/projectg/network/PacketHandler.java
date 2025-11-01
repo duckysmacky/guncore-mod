@@ -25,6 +25,8 @@ public final class PacketHandler {
         networkWrapperInstance.registerMessage(BroadcastMessagePacket.Handler.class, BroadcastMessagePacket.class, packetId++, Side.SERVER);
 
         networkWrapperInstance.registerMessage(UpdatePlayerListPacket.Handler.class, UpdatePlayerListPacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(EquipGunPacket.Handler.class, EquipGunPacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(EquipGadgetPacket.Handler.class, EquipGadgetPacket.class, packetId++, Side.SERVER);
 
         networkWrapperInstance.registerMessage(LoadConfigPacket.Handler.class, LoadConfigPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(SyncConfigPacket.Handler.class, SyncConfigPacket.class, packetId++, Side.CLIENT);
