@@ -1,7 +1,6 @@
 package io.github.duckysmacky.projectg.network.packets;
 
 import io.github.duckysmacky.projectg.game.GameManager;
-import io.github.duckysmacky.projectg.game.ServerBroadcaster;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -16,14 +15,10 @@ public class UpdatePlayerListPacket implements IMessage {
     public UpdatePlayerListPacket() {}
 
     @Override
-    public void fromBytes(ByteBuf buf) {
-
-    }
+    public void fromBytes(ByteBuf buf) {}
 
     @Override
-    public void toBytes(ByteBuf buf) {
-
-    }
+    public void toBytes(ByteBuf buf) {}
 
     public static class Handler implements IMessageHandler<UpdatePlayerListPacket, IMessage> {
         @Override

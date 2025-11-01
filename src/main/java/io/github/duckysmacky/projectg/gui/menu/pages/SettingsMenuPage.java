@@ -34,7 +34,7 @@ public class SettingsMenuPage extends StaticMenu {
                 .setName("&f&lSetup teams")
                 .addLoreLine("&7Automatically sets up scoreboard teams and the death counter")
                 .getItemStack(),
-            p -> GameManager.instance().setupScoreboardTeams()
+            p -> GameManager.setupScoreboardTeams()
         ), 4, 1);
     }
 }

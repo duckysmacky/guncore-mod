@@ -30,9 +30,6 @@ public class GameManager {
         this.playerStats = new HashMap<>();
         this.teams = new EnumMap<>(Team.class);
         Arrays.stream(Team.values()).forEach(t -> teams.put(t, new ArrayList<>()));
-
-        updatePlayerList();
-
         this.gameMode = GameMode.TDM;
         this.gameModeVariant = GameMode.Variant.LIVES;
         this.state = GameState.NOT_STARTED;
@@ -41,10 +38,36 @@ public class GameManager {
     public static GameManager instance() {
         if (instance == null) {
             instance = new GameManager();
+            instance.updatePlayerList();
         }
 
         return instance;
     }
+
+    public static void setupScoreboardTeams() {
+        String[] commandChain = new String[]{
+            "scoreboard objectives add Deaths deathCount",
+            "scoreboard objectives setdisplay sidebar Deaths",
+            "scoreboard players set @a Deaths 0",
+            "scoreboard teams add none",
+            "scoreboard teams add blue",
+            "scoreboard teams add red",
+            "scoreboard teams add yellow",
+            "scoreboard teams add green",
+            "scoreboard teams add purple",
+            "scoreboard teams option none nametagVisibility never",
+            "scoreboard teams option blue nametagVisibility hideForOtherTeams",
+            "scoreboard teams option red nametagVisibility hideForOtherTeams",
+            "scoreboard teams option yellow nametagVisibility hideForOtherTeams",
+            "scoreboard teams option green nametagVisibility hideForOtherTeams",
+            "scoreboard teams option purple nametagVisibility hideForOtherTeams"
+        };
+
+        Arrays.stream(commandChain).forEach(CommandExecutor::execute);
+        ServerBroadcaster.message("&a&lTeams setup complete");
+        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+    }
+
 
     private void updatePlayerList() {
         if (FMLCommonHandler.instance().getSide().isServer()) {
@@ -57,14 +80,23 @@ public class GameManager {
     }
 
     public void updatePlayerListAsServer(MinecraftServer server) {
+        System.out.println("UPDATING PLAYER LIST");
+
         if (server == null) {
             ProjectGMod.LOGGER.error("[{}] Cannot update player list: server is null!", ID);
             return;
         }
 
+        System.out.println(server.getPlayerList().getPlayers().stream().map(EntityPlayer::getName));
+
         ProjectGMod.LOGGER.info("[{}] {}", ID, "Updating player list from server");
         server.getPlayerList().getPlayers().forEach(
-            p -> playerStats.computeIfAbsent(p.getUniqueID(), k -> new PlayerStats(p.getName()))
+            p -> playerStats.computeIfAbsent(p.getUniqueID(), k -> {
+                switchTeamTo(p.getUniqueID(), Team.NONE);
+                String command = String.format("scoreboard teams join none %s", p.getName());
+                CommandExecutor.execute(command);
+                return new PlayerStats(p.getName());
+            })
         );
     }
 
@@ -175,6 +207,8 @@ public class GameManager {
     }
 
     public void printGameScoreboard() {
+        updatePlayerList();
+
         ServerBroadcaster.message("&f&l--- Scoreboard ---");
 
         playerStats.values()
@@ -187,6 +221,8 @@ public class GameManager {
     }
 
     public void printTeams() {
+        updatePlayerList();
+
         ServerBroadcaster.message("&f&l--- Teams ---");
 
         teams.forEach((team, uuids) -> {
@@ -200,31 +236,6 @@ public class GameManager {
             });
         });
     }
-
-    public void setupScoreboardTeams() {
-        String[] commandChain = new String[]{
-            "scoreboard objectives add Deaths deathCount",
-            "scoreboard objectives setdisplay sidebar Deaths",
-            "scoreboard players set @a Deaths 0",
-            "scoreboard teams add none",
-            "scoreboard teams add blue",
-            "scoreboard teams add red",
-            "scoreboard teams add yellow",
-            "scoreboard teams add green",
-            "scoreboard teams add purple",
-            "scoreboard teams option none nametagVisibility never",
-            "scoreboard teams option blue nametagVisibility hideForOtherTeams",
-            "scoreboard teams option red nametagVisibility hideForOtherTeams",
-            "scoreboard teams option yellow nametagVisibility hideForOtherTeams",
-            "scoreboard teams option green nametagVisibility hideForOtherTeams",
-            "scoreboard teams option purple nametagVisibility hideForOtherTeams"
-        };
-
-        Arrays.stream(commandChain).forEach(CommandExecutor::execute);
-        ServerBroadcaster.message("&a&lTeams setup complete");
-        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
-    }
-
     public void resetScoreboardDeaths() {
         CommandExecutor.execute("scoreboard players set @a Deaths 0");
         ServerBroadcaster.message("&a&lScoreboard death counter reset");
