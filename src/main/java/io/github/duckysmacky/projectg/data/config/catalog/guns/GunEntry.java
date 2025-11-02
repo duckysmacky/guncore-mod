@@ -100,7 +100,7 @@ public class GunEntry extends CatalogEntry {
     }
 
     public boolean isSecondary() {
-        return category == GunCategory.SIDEARM || category == GunCategory.MELEE;
+        return category == GunCategory.SIDEARM;
     }
 
     public String getGunItemId() {

@@ -18,7 +18,6 @@ public class GunsMenuPage extends DynamicMenu {
     public GunsMenuPage(BaseMenu parent, GunCategory gunCategory) {
         super(gunCategory.display + "s", parent, 6, 9);
 
-        Gson gson = new Gson();
         ConfigManager configManager = ConfigManager.instance();
 
         configManager.getCachedGuns().stream()

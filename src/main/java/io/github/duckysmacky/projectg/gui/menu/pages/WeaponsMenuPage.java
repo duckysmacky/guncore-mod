@@ -61,18 +61,18 @@ public class WeaponsMenuPage extends StaticMenu {
         ), 1, 7);
 
         addEntry(new SubpageEntry(
-            ItemStackCustomizer.from("mw:m17")
-                .setName("&f&lSidearms")
-                .getItemStack(),
-            new GunsMenuPage(this, GunCategory.SIDEARM)
-        ), 2, 2);
-
-        addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:chainsaw")
                 .setName("&f&lMelee Weapons")
                 .getItemStack(),
             new GunsMenuPage(this, GunCategory.MELEE)
         ), 2, 4);
+
+        addEntry(new SubpageEntry(
+            ItemStackCustomizer.from("mw:m17")
+                .setName("&f&lSidearms")
+                .getItemStack(),
+            new GunsMenuPage(this, GunCategory.SIDEARM)
+        ), 2, 2);
 
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from("mw:rpg7")
