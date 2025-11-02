@@ -1,14 +1,14 @@
 [
   {
-    "modid": "projectg",
-    "name": "Project-G Mod",
-    "description": "GUI utility system for the Project-G PVP Server",
+    "modid": "guncore",
+    "name": "Guncore",
+    "description": "Game control system for the \"Project-G\" Gun PVP Servers",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "",
     "updateUrl": "",
     "authorList": ["duckysmacky"],
-    "credits": "Based on ProjectG plugin by me",
+    "credits": "Based on Project-G plugin by me",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []

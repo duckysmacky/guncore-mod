@@ -1,0 +1,121 @@
+package io.github.duckysmacky.guncore.data.config.catalog.gadgets;
+
+import io.github.duckysmacky.guncore.data.config.catalog.CatalogEntry;
+import io.github.duckysmacky.guncore.data.config.catalog.Rarity;
+import io.github.duckysmacky.guncore.data.items.ItemFinder;
+import io.github.duckysmacky.guncore.util.TextUtils;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.text.TextFormatting;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+public class GadgetEntry extends CatalogEntry {
+    private final Rarity rarity;
+    private final String itemId;
+    private final int itemAmount;
+    private final List<String> additionalItemIds;
+
+    public GadgetEntry(
+        boolean enabled,
+        String name,
+        Rarity rarity,
+        String itemId,
+        int itemAmount,
+        List<String> additionalItemIds,
+        List<String> descriptionLines
+    ) {
+        super(enabled, name, descriptionLines);
+        this.rarity = Objects.requireNonNull(rarity);
+        this.itemId = Objects.requireNonNull(itemId);
+        this.itemAmount = itemAmount;
+        this.additionalItemIds = Objects.requireNonNull(additionalItemIds);
+    }
+
+    public static GadgetEntry createExample() {
+        return new GadgetEntry(
+            true,
+            "Water Bucket",
+            Rarity.COMMON,
+            "minecraft:water_bucket",
+            1,
+            Collections.emptyList(),
+            Arrays.asList(
+                "&7A bucket filled with water.",
+                "&7Useful for putting out fires or landing safely from heights.",
+                "&7This is an example gadget."
+            )
+        );
+    }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    public ItemStack getItemStack() {
+        ItemStack item = ItemFinder.findItemStack(itemId);
+        if (item == ItemStack.EMPTY)
+            item = new ItemStack(Blocks.DIRT);
+
+        item.setCount(itemAmount);
+
+        NBTTagCompound displayTag = new NBTTagCompound();
+
+        String coloredName = TextFormatting.WHITE + "" + TextFormatting.BOLD + name;
+        displayTag.setString("Name", coloredName);
+
+        NBTTagList loreList = new NBTTagList();
+
+        if (!descriptionLines.isEmpty()) {
+            for (String line : descriptionLines) {
+                String coloredLine = TextUtils.translateColorCodes(line);
+                loreList.appendTag(new NBTTagString(coloredLine));
+            }
+            loreList.appendTag(new NBTTagString(""));
+        }
+
+        if (!additionalItemIds.isEmpty()) {
+            String additionalItemsLine = TextFormatting.GREEN + "Additionally includes:";
+            loreList.appendTag(new NBTTagString(additionalItemsLine));
+            for (ItemStack additionalItem : getAdditionalItemStacks()) {
+                String line = TextFormatting.WHITE + "- " + additionalItem.getDisplayName();
+                loreList.appendTag(new NBTTagString(line));
+            }
+            loreList.appendTag(new NBTTagString(""));
+        }
+
+        String rarityLine = rarity.color + "" + TextFormatting.BOLD + rarity.display.toUpperCase();
+        loreList.appendTag(new NBTTagString(rarityLine));
+
+        displayTag.setTag("Lore", loreList);
+        item.setTagInfo("display", displayTag);
+
+        return item;
+    }
+
+    public List<ItemStack> getAdditionalItemStacks() {
+        return additionalItemIds.stream()
+            .map(id -> {
+                ItemStack item = ItemFinder.findItemStack(id);
+                if (item == ItemStack.EMPTY)
+                    item = new ItemStack(Blocks.DIRT);
+                return item;
+            })
+            .collect(Collectors.toList());
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public List<String> getAdditionalItemIds() {
+        return additionalItemIds;
+    }
+}

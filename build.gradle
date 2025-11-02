@@ -13,8 +13,8 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
 version = '1.0'
-group = 'io.github.duckysmacky.projectg'
-archivesBaseName = 'projectg'
+group = 'io.github.duckysmacky.guncore'
+archivesBaseName = 'guncore'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
@@ -52,7 +52,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "projectg",
+            "Specification-Title": "guncore",
             "Specification-Vendor": "duckysmacky",
             "Specification-Version": "1",
             "Implementation-Title": project.name,
