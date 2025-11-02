@@ -58,7 +58,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Make the game mode life-based")
                 .addLoreLine("&7The only player/team left alive is considered to be the winner")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.TIME))
+            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.LIVES))
         ), 1, 7);
 
         addEntry(new ActionEntry(
@@ -132,13 +132,5 @@ public class GameMenuPage extends StaticMenu {
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.RESET))
         ), 5, 5);
-
-        addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WEB))
-                .setName("&f&lReset deaths")
-                .addLoreLine("&7Reset the scoreboard deaths")
-                .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.RESET_SCOREBOARD_DEATHS))
-        ), 5, 6);
     }
 }

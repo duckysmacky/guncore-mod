@@ -31,10 +31,11 @@ public class SettingsMenuPage extends StaticMenu {
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.REDSTONE_TORCH))
-                .setName("&f&lSetup teams")
-                .addLoreLine("&7Automatically sets up scoreboard teams and the death counter")
+                .setName("&f&lSetup world settings")
+                .addLoreLine("&7Automatically setup world settings")
+                .addLoreLine("&7Sets up teams, game rules and other")
                 .getItemStack(),
-            p -> GameManager.setupScoreboardTeams()
+            p -> GameManager.setupWorldSettings()
         ), 4, 1);
     }
 }

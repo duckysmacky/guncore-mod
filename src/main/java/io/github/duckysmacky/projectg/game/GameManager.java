@@ -5,9 +5,11 @@ import io.github.duckysmacky.projectg.data.config.ConfigManager;
 import io.github.duckysmacky.projectg.data.config.GameConfig;
 import io.github.duckysmacky.projectg.network.PacketHandler;
 import io.github.duckysmacky.projectg.network.packets.UpdatePlayerListPacket;
+import io.github.duckysmacky.projectg.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class GameManager {
     private static final String ID = "GameManager";
-    private static final int[] announcementIntervalsSecs = new int[]{600, 300, 180, 120, 60, 30, 10, 5, 4, 3, 2, 1};
+    private static final int[] announcementIntervalsSecs = new int[]{1200, 900, 600, 300, 180, 120, 60, 30, 10, 5, 4, 3, 2, 1};
     private static GameManager instance;
     private final Map<UUID, PlayerStats> playerStats;
     private final Map<Team, List<UUID>> teams;
@@ -44,11 +46,8 @@ public class GameManager {
         return instance;
     }
 
-    public static void setupScoreboardTeams() {
+    public static void setupWorldSettings() {
         String[] commandChain = new String[]{
-            "scoreboard objectives add Deaths deathCount",
-            "scoreboard objectives setdisplay sidebar Deaths",
-            "scoreboard players set @a Deaths 0",
             "scoreboard teams add none",
             "scoreboard teams add blue",
             "scoreboard teams add red",
@@ -56,15 +55,24 @@ public class GameManager {
             "scoreboard teams add green",
             "scoreboard teams add purple",
             "scoreboard teams option none nametagVisibility never",
+            "scoreboard teams option none seeFriendlyInvisibles false",
             "scoreboard teams option blue nametagVisibility hideForOtherTeams",
             "scoreboard teams option red nametagVisibility hideForOtherTeams",
             "scoreboard teams option yellow nametagVisibility hideForOtherTeams",
             "scoreboard teams option green nametagVisibility hideForOtherTeams",
-            "scoreboard teams option purple nametagVisibility hideForOtherTeams"
+            "scoreboard teams option purple nametagVisibility hideForOtherTeams",
+            "gamerule doWeatherCycle false",
+            "gamerule doDaylightCycle false",
+            "gamerule doFireTick false",
+            "gamerule doTileDrops false",
+            "gamerule keepInventory true",
+            "gamerule doMobSpawning false",
+            "gamerule spawnRadius 0",
+            "gamerule naturalRegeneration true"
         };
 
         Arrays.stream(commandChain).forEach(CommandExecutor::execute);
-        ServerBroadcaster.message("&a&lTeams setup complete");
+        ServerBroadcaster.message("&a&lWorld setup complete");
         ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
     }
 
@@ -80,8 +88,6 @@ public class GameManager {
     }
 
     public void updatePlayerListAsServer(MinecraftServer server) {
-        System.out.println("UPDATING PLAYER LIST");
-
         if (server == null) {
             ProjectGMod.LOGGER.error("[{}] Cannot update player list: server is null!", ID);
             return;
@@ -165,6 +171,8 @@ public class GameManager {
 
         roundTimeSecs = (System.currentTimeMillis() - roundStartTimeMs) / 1000L;
 
+        if (gameModeVariant != GameMode.Variant.TIME) return;
+
         if (isSecondTick) {
             long roundTimeLeftSecs = getRoundDurationSecs() - roundTimeSecs;
 
@@ -173,7 +181,7 @@ public class GameManager {
             }
         }
 
-        if (gameModeVariant == GameMode.Variant.TIME && roundTimeSecs >= getRoundDurationSecs()) {
+        if (roundTimeSecs >= getRoundDurationSecs()) {
             endRound();
         }
     }
@@ -187,10 +195,22 @@ public class GameManager {
         PlayerStats victimStats = getStats(victim);
         victimStats.registerDeath();
 
-        if (gameModeVariant == GameMode.Variant.LIVES && victimStats.getLives() <= 0) {
-            victim.setGameType(GameType.SPECTATOR);
-            ServerBroadcaster.message(String.format("&f&l%s &cis out of lives!", victim.getName()));
-            ServerBroadcaster.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL);
+        killer.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.5f, 1f);
+
+        if (gameModeVariant == GameMode.Variant.LIVES) {
+            if (victimStats.getLives() <= 0) {
+                victim.setGameType(GameType.SPECTATOR);
+                ServerBroadcaster.message(String.format("&f&l%s &c&lis out of lives!", victim.getName()));
+                ServerBroadcaster.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL);
+            } else if (victimStats.getLives() == 1) {
+                String message = TextUtils.translateColorCodes("&c&lYou only have &f&l1 &e&llife left");
+                victim.sendMessage(new TextComponentString(message));
+                victim.playSound(SoundEvents.BLOCK_GLASS_BREAK, 1f, 1f);
+            } else {
+                String message = TextUtils.translateColorCodes(String.format("&e&lYou have &f&l%s &e&llives left", victimStats.getLives()));
+                victim.sendMessage(new TextComponentString(message));
+                victim.playSound(SoundEvents.BLOCK_GLASS_BREAK, 1f, 1f);
+            }
         }
 
         checkRoundEndConditions();
@@ -211,7 +231,8 @@ public class GameManager {
 
         ServerBroadcaster.message("&f&l--- Scoreboard ---");
 
-        playerStats.values()
+        playerStats.values().stream()
+            .sorted(Comparator.comparingInt(PlayerStats::getKills))
             .forEach(p ->
                 ServerBroadcaster.message(
                     String.format("&f%s: &7%s kills, %s deaths, %s lives",
@@ -227,7 +248,9 @@ public class GameManager {
 
         teams.forEach((team, uuids) -> {
             ServerBroadcaster.message(team.color + team.display + " Team:");
-            uuids.forEach(uuid -> {
+            uuids.stream()
+                .sorted(Comparator.comparingInt(u -> playerStats.get(u).getKills()))
+                .forEach(uuid -> {
                 PlayerStats p = playerStats.get(uuid);
 
                 if (p != null)
@@ -235,11 +258,6 @@ public class GameManager {
                         p.getUsername(), p.getKills(), p.getDeaths(), p.getLives()));
             });
         });
-    }
-    public void resetScoreboardDeaths() {
-        CommandExecutor.execute("scoreboard players set @a Deaths 0");
-        ServerBroadcaster.message("&a&lScoreboard death counter reset");
-        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
     }
 
     public void joinTeam(EntityPlayer player, Team team) {

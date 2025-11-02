@@ -55,9 +55,6 @@ public class ControlRoundPacket implements IMessage {
                         case RESET:
                             gameManager.resetRound();
                             break;
-                        case RESET_SCOREBOARD_DEATHS:
-                            gameManager.resetScoreboardDeaths();
-                            break;
                     }
                 });
             }
@@ -66,6 +63,6 @@ public class ControlRoundPacket implements IMessage {
     }
 
     public enum RoundAction {
-        START, PAUSE, END, RESET, RESET_SCOREBOARD_DEATHS;
+        START, PAUSE, END, RESET;
     }
 }
