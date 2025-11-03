@@ -282,13 +282,13 @@ public class GameManager {
         }
 
         this.gameMode = gameMode;
-        ServerBroadcaster.message("&a&lGame mode set to &f" + gameMode.display);
+        ServerBroadcaster.message("&fGame mode set to &l" + gameMode.display);
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
 
     public void setGameModeVariant(GameMode.Variant gameModeVariant) {
         this.gameModeVariant = gameModeVariant;
-        ServerBroadcaster.message("&a&lGame mode variant set to &f" + gameModeVariant.display);
+        ServerBroadcaster.message("&fGame mode variant set to &l" + gameModeVariant.display);
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
 
