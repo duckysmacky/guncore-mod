@@ -73,7 +73,7 @@ public class GameManager {
 
         Arrays.stream(commandChain).forEach(CommandExecutor::execute);
         ServerBroadcaster.message("&a&lWorld setup complete");
-        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
 
 
@@ -125,10 +125,10 @@ public class GameManager {
             }
 
             ServerBroadcaster.message("&a&lRound started");
-            ServerBroadcaster.playSound(SoundEvents.BLOCK_END_PORTAL_SPAWN);
+            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_END_PORTAL_SPAWN, 1f, 1f);
         } else {
             ServerBroadcaster.error("&7There is already a round in progress!");
-            ServerBroadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
+            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
         }
     }
 
@@ -136,14 +136,14 @@ public class GameManager {
         if (state == GameState.RUNNING) {
             state = GameState.PAUSED;
             ServerBroadcaster.message("&e&lRound paused");
-            ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
+            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
         } else if (state == GameState.PAUSED) {
             state = GameState.RUNNING;
             ServerBroadcaster.message("&e&lRound continued");
-            ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
+            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
         } else {
             ServerBroadcaster.error("&7There is no round in progress!");
-            ServerBroadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
+            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
         }
     }
 
@@ -151,18 +151,18 @@ public class GameManager {
         state = GameState.NOT_STARTED;
         playerStats.values().forEach(PlayerStats::resetStats);
         ServerBroadcaster.message("&c&lRound reset");
-        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
+        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
     }
 
     public void endRound() {
         if (state == GameState.RUNNING || state == GameState.PAUSED) {
             state = GameState.ENDED;
             ServerBroadcaster.message("&a&lRound ended");
-            ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_BASS);
+            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
             determineWinner();
         } else {
             ServerBroadcaster.error("&7There is no round in progress!");
-            ServerBroadcaster.playSound(SoundEvents.ENTITY_VILLAGER_NO);
+            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
         }
     }
 
@@ -201,15 +201,15 @@ public class GameManager {
             if (victimStats.getLives() <= 0) {
                 victim.setGameType(GameType.SPECTATOR);
                 ServerBroadcaster.message(String.format("&f&l%s &c&lis out of lives!", victim.getName()));
-                ServerBroadcaster.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL);
+                ServerSoundPlayer.playForAll(SoundEvents.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);
             } else if (victimStats.getLives() == 1) {
                 String message = TextUtils.translateColorCodes("&c&lYou only have &f&l1 &e&llife left");
                 victim.sendMessage(new TextComponentString(message));
-                victim.playSound(SoundEvents.BLOCK_GLASS_BREAK, 1f, 1f);
+                ServerSoundPlayer.playFor(victim, SoundEvents.BLOCK_GLASS_BREAK, 1f, 1f);
             } else {
                 String message = TextUtils.translateColorCodes(String.format("&e&lYou have &f&l%s &e&llives left", victimStats.getLives()));
                 victim.sendMessage(new TextComponentString(message));
-                victim.playSound(SoundEvents.BLOCK_GLASS_BREAK, 1f, 1f);
+                ServerSoundPlayer.playFor(victim, SoundEvents.BLOCK_GLASS_BREAK, 1f, 1f);
             }
         }
 
@@ -223,7 +223,7 @@ public class GameManager {
         long seconds = timeLeftSecs % 60;
 
         ServerBroadcaster.message(String.format("&e&lTime Left: &f%02d:%02d", minutes, seconds));
-        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HAT);
+        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HAT, 1f, 1f);
     }
 
     public void printGameScoreboard() {
@@ -272,7 +272,7 @@ public class GameManager {
             "&7Player &f%s &7joined the %s%s Team",
             player.getName(), team.color, team.display
         ));
-        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
 
     public void setGameMode(GameMode gameMode) {
@@ -283,13 +283,13 @@ public class GameManager {
 
         this.gameMode = gameMode;
         ServerBroadcaster.message("&a&lGame mode set to &f" + gameMode.display);
-        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
 
     public void setGameModeVariant(GameMode.Variant gameModeVariant) {
         this.gameModeVariant = gameModeVariant;
         ServerBroadcaster.message("&a&lGame mode variant set to &f" + gameModeVariant.display);
-        ServerBroadcaster.playSound(SoundEvents.BLOCK_NOTE_HARP);
+        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
 
     public PlayerStats getStats(EntityPlayer player) {
