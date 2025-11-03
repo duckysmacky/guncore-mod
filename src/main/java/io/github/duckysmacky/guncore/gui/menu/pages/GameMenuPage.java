@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.gui.menu.pages;
 
+import io.github.duckysmacky.guncore.game.CommandExecutor;
 import io.github.duckysmacky.guncore.game.GameMode;
 import io.github.duckysmacky.guncore.game.Team;
 import io.github.duckysmacky.guncore.gui.menu.entry.ActionEntry;
@@ -14,7 +15,7 @@ import net.minecraft.item.ItemStack;
 
 public class GameMenuPage extends StaticMenu {
     public GameMenuPage(BaseMenu parent) {
-        super("Game", parent, 7, 9);
+        super("Game", parent, 9, 9);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.GOLDEN_SWORD))
@@ -132,5 +133,40 @@ public class GameMenuPage extends StaticMenu {
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.RESET))
         ), 5, 5);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.CLAY_BALL))
+                .setName("&9&lPrepare everyone")
+                .addLoreLine("&7Clear everyone's inventory and put everyone in spectator mode")
+                .getItemStack(),
+            p -> {
+                CommandExecutor.execute("clear @a");
+                CommandExecutor.execute("gamemode 3 @a");
+            }
+        ), 5, 6);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.SPECTRAL_ARROW))
+                .setName("&e&lGlowing Event (1 sec)")
+                .addLoreLine("&7Give everyone glowing for 1 second")
+                .getItemStack(),
+            p -> CommandExecutor.execute("effect @a minecraft:glowing 1")
+        ), 7, 3);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.SPECTRAL_ARROW))
+                .setName("&e&lGlowing Event (5 secs)")
+                .addLoreLine("&7Give everyone glowing for 5 seconds")
+                .getItemStack(),
+            p -> CommandExecutor.execute("effect @a minecraft:glowing 5")
+        ), 7, 4);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.ELYTRA))
+                .setName("&e&lLevitation Event")
+                .addLoreLine("&7Give everyone levitation for 10 seconds")
+                .getItemStack(),
+            p -> CommandExecutor.execute("effect @a minecraft:levitation 10")
+        ), 7, 5);
     }
 }
