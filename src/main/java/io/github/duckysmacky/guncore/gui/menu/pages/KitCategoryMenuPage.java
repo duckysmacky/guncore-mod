@@ -9,6 +9,8 @@ import io.github.duckysmacky.guncore.gui.menu.StaticMenu;
 import io.github.duckysmacky.guncore.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.guncore.gui.menu.entry.SubpageEntry;
 import io.github.duckysmacky.guncore.data.items.ItemStackCustomizer;
+import io.github.duckysmacky.guncore.network.PacketHandler;
+import io.github.duckysmacky.guncore.network.packets.EquipKitPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -84,10 +86,9 @@ public class KitCategoryMenuPage extends StaticMenu {
         int randomIndex = random.nextInt(kits.size());
         KitEntry kit = kits.get(randomIndex);
 
+        PacketHandler.instance().sendToServer(new EquipKitPacket(kit));
+
         player.sendMessage(new TextComponentString("Random kit selected: " + kit.getName()));
-
-        CommandExecutor.execute(kit.getCommand(player));
-
         player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
     }
 }

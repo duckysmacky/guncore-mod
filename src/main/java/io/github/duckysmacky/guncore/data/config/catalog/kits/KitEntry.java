@@ -59,10 +59,6 @@ public class KitEntry extends CatalogEntry {
         );
     }
 
-    public String getCommand(EntityPlayer player) {
-        return String.format("csg_kit give %s %s", kitId, player.getName());
-    }
-
     public KitClass getKitClass() {
         return class_;
     }

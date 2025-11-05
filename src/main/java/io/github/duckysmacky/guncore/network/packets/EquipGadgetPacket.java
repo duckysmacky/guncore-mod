@@ -2,6 +2,7 @@ package io.github.duckysmacky.guncore.network.packets;
 
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.data.config.catalog.gadgets.GadgetEntry;
+import io.github.duckysmacky.guncore.game.EquipmentController;
 import io.github.duckysmacky.guncore.game.EquipmentManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -49,40 +50,10 @@ public class EquipGadgetPacket implements IMessage {
                     EntityPlayerMP player = context.getServerHandler().player;
                     GadgetEntry gadget = message.gadgetEntry;
 
-                    EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
-
-                    equipment.getGadget().ifPresent(g -> removeGadget(player, g));
-                    giveGadget(player, gadget);
-                    equipment.setGadget(gadget);
+                    EquipmentController.equipGadget(player, gadget);
                 });
             }
             return null;
-        }
-
-        private void removeGadget(EntityPlayerMP player, GadgetEntry gadget) {
-            InventoryPlayer inventory = player.inventory;
-            int slots = 9 * 4;
-
-            for (int i = 0; i < slots; i++) {
-                ItemStack item = inventory.getStackInSlot(i);
-
-                ResourceLocation registryName = item.getItem().getRegistryName();
-                if (registryName == null) continue;
-
-                String itemId = registryName.toString();
-                if (itemId.equals(gadget.getItemId()) || gadget.getAdditionalItemIds().stream().anyMatch(itemId::equals))
-                    inventory.setInventorySlotContents(i, new ItemStack(Items.AIR));
-            }
-        }
-
-        private void giveGadget(EntityPlayerMP player, GadgetEntry gadget) {
-            int mainSlot = 4;
-            player.inventory.mainInventory.set(mainSlot, gadget.getItemStack());
-
-            int extraSlot = mainSlot + 9 * 3;
-            List<ItemStack> extraItems = gadget.getAdditionalItemStacks();
-            for (int i = 0; i < extraItems.size() && i < 3; i++)
-                player.inventory.mainInventory.set(extraSlot - 9 * i, extraItems.get(i));
         }
     }
 }

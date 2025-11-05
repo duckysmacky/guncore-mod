@@ -2,10 +2,11 @@ package io.github.duckysmacky.guncore.gui.menu.pages;
 
 import io.github.duckysmacky.guncore.data.config.ConfigManager;
 import io.github.duckysmacky.guncore.data.config.catalog.kits.KitClass;
-import io.github.duckysmacky.guncore.game.CommandExecutor;
 import io.github.duckysmacky.guncore.gui.menu.entry.ActionEntry;
 import io.github.duckysmacky.guncore.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.gui.menu.DynamicMenu;
+import io.github.duckysmacky.guncore.network.PacketHandler;
+import io.github.duckysmacky.guncore.network.packets.EquipKitPacket;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
@@ -25,11 +26,12 @@ public class KitsMenuPage extends DynamicMenu {
                 ItemStack kitIcon = kit.getIconItem();
 
                 addEntry(new ActionEntry(kitIcon, (player) -> {
+                    PacketHandler.instance().sendToServer(new EquipKitPacket(kit));
+
                     player.sendMessage(new TextComponentString("Selected kit: " + kitIcon.getDisplayName()));
-
-                    CommandExecutor.execute(kit.getCommand(player));
-
                     player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+
+                    open(player);
                 }));
             });
     }

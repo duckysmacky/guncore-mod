@@ -30,6 +30,8 @@ public class GunsMenuPage extends DynamicMenu {
 
                     player.sendMessage(new TextComponentString("Selected gun: " + gunItem.getDisplayName()));
                     player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+
+                    open(player);
                 }));
             });
     }

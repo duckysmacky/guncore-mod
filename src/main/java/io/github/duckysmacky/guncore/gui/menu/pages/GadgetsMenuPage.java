@@ -28,6 +28,8 @@ public class GadgetsMenuPage extends DynamicMenu {
 
                     player.sendMessage(new TextComponentString("Selected gadget: " + gadgetItem.getDisplayName()));
                     player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+
+                    open(player);
                 }));
             });
     }
