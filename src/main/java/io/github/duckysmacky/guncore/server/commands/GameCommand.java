@@ -7,6 +7,7 @@ import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
@@ -72,6 +73,9 @@ public class GameCommand extends CommandBase {
             case "kills": case "lives": case "deaths":
                 handleStatCommand(server, sender, subcommand, args);
                 break;
+            case "register_death":
+                handleRegisterDeath(server, sender, args);
+                break;
             case "mode":
                 if (args.length < 2)
                     throw new CommandException("Usage: /game mode <ffa|tdm|hostage>");
@@ -132,6 +136,18 @@ public class GameCommand extends CommandBase {
             playerName, action, type, getStatValue(stats, type)
         ));
         sender.sendMessage(new TextComponentString(message));
+    }
+
+    private void handleRegisterDeath(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+        if (args.length < 2)
+            throw new CommandException("Usage: /game register_death <player>");
+
+        String playerName = args[1];
+        EntityPlayerMP target = getPlayerByName(server, playerName);
+
+        if (sender instanceof EntityPlayerMP) {
+            GameManager.instance().onPlayerKill((EntityPlayerMP) sender, target);
+        }
     }
 
     private void modifyStatValue(Supplier<Integer> getter, Consumer<Integer> setter, String statAction, int amount) throws CommandException {
