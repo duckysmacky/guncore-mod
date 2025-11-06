@@ -2,7 +2,7 @@ package io.github.duckysmacky.guncore.server.commands;
 
 import io.github.duckysmacky.guncore.server.game.GameManager;
 import io.github.duckysmacky.guncore.common.game.GameMode;
-import io.github.duckysmacky.guncore.server.game.PlayerStats;
+import io.github.duckysmacky.guncore.common.game.PlayerStats;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -12,6 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class GameCommand extends CommandBase {
     private final static String[] subcommands = {
@@ -116,30 +117,30 @@ public class GameCommand extends CommandBase {
 
         switch (type) {
             case "kills":
-                modifyStatValue(stats::addKills, stats::removeKills, stats::setKills, action, amount);
+                modifyStatValue(stats::getKills, stats::setKills, action, amount);
                 break;
             case "lives":
-                modifyStatValue(stats::addLives, stats::removeLives, stats::setLives, action, amount);
+                modifyStatValue(stats::getLives, stats::setLives, action, amount);
                 break;
             case "deaths":
-                modifyStatValue(stats::addDeaths, stats::removeDeaths, stats::setDeaths, action, amount);
+                modifyStatValue(stats::getDeaths, stats::setDeaths, action, amount);
                 break;
         }
 
         String message = TextUtils.translateColorCodes(String.format(
-            "&a%s %s -> %s = %d",
+            "&fUpdated %s's stats: &7%s -> %s = &a%d",
             playerName, action, type, getStatValue(stats, type)
         ));
         sender.sendMessage(new TextComponentString(message));
     }
 
-    private void modifyStatValue(Consumer<Integer> adder, Consumer<Integer> remover, Consumer<Integer> setter, String statAction, int amount) throws CommandException {
+    private void modifyStatValue(Supplier<Integer> getter, Consumer<Integer> setter, String statAction, int amount) throws CommandException {
         switch (statAction) {
             case "add":
-                adder.accept(amount);
+                setter.accept(getter.get() + amount);
                 break;
             case "remove":
-                remover.accept(amount);
+                setter.accept(getter.get() - amount);
                 break;
             case "set":
                 setter.accept(amount);
