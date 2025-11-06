@@ -5,6 +5,7 @@ import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.GameConfig;
 import io.github.duckysmacky.guncore.common.game.*;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
 import io.github.duckysmacky.guncore.common.network.packets.UpdatePlayerListPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayer;
@@ -168,13 +169,15 @@ public class GameManager {
     }
 
     public void tick(boolean isSecondTick) {
-        if (state != GameState.RUNNING) return;
+        if (isSecondTick) {
+            SyncGameInfoPacket packet = new SyncGameInfoPacket(gameMode, gameModeVariant, state, roundStartTime, playerStats);
+            PacketHandler.instance().sendToAll(packet);
+        }
 
-        long roundDurationSec = (System.currentTimeMillis() - roundStartTime) / 1000;
-
-        if (gameModeVariant != GameMode.Variant.TIME) return;
+        if (state != GameState.RUNNING || gameModeVariant != GameMode.Variant.TIME) return;
 
         if (isSecondTick) {
+            long roundDurationSec = (System.currentTimeMillis() - roundStartTime) / 1000;
             long roundTimeLeftSecs = getRoundLengthSec() - roundDurationSec;
 
             if (Arrays.stream(announcementIntervalsSecs).anyMatch(s -> s == roundTimeLeftSecs))
@@ -274,20 +277,30 @@ public class GameManager {
     }
 
     public void setGameMode(GameMode gameMode) {
-        if (gameMode == GameMode.FFA) {
-            playerStats.keySet().forEach(uuid -> switchTeamTo(uuid, Team.NONE));
-            CommandExecutor.execute("scoreboard teams join none @a");
-        }
+        if (state != GameState.RUNNING && state != GameState.PAUSED) {
+            if (gameMode == GameMode.FFA) {
+                playerStats.keySet().forEach(uuid -> switchTeamTo(uuid, Team.NONE));
+                CommandExecutor.execute("scoreboard teams join none @a");
+            }
 
-        this.gameMode = gameMode;
-        ServerBroadcaster.message("&fGame mode set to &l" + gameMode.display);
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+            this.gameMode = gameMode;
+            ServerBroadcaster.message("&fGame mode set to &l" + gameMode.display);
+            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+        } else {
+            ServerBroadcaster.error("&7There is already a round in progress!");
+            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
+        }
     }
 
     public void setGameModeVariant(GameMode.Variant gameModeVariant) {
-        this.gameModeVariant = gameModeVariant;
-        ServerBroadcaster.message("&fGame mode variant set to &l" + gameModeVariant.display);
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+        if (state != GameState.RUNNING && state != GameState.PAUSED) {
+            this.gameModeVariant = gameModeVariant;
+            ServerBroadcaster.message("&fGame mode variant set to &l" + gameModeVariant.display);
+            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+        } else {
+            ServerBroadcaster.error("&7There is already a round in progress!");
+            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
+        }
     }
 
     public PlayerStats getStats(EntityPlayer player) {
