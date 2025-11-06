@@ -1,10 +1,11 @@
 package io.github.duckysmacky.guncore;
 
-import io.github.duckysmacky.guncore.commands.GuncoreConfigCommand;
-import io.github.duckysmacky.guncore.commands.GameCommand;
-import io.github.duckysmacky.guncore.commands.MenuCommand;
-import io.github.duckysmacky.guncore.network.CommonProxy;
-import io.github.duckysmacky.guncore.network.PacketHandler;
+import io.github.duckysmacky.guncore.server.commands.GuncoreConfigCommand;
+import io.github.duckysmacky.guncore.server.commands.GameCommand;
+import io.github.duckysmacky.guncore.server.commands.MenuCommand;
+import io.github.duckysmacky.guncore.common.network.CommonProxy;
+import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.server.events.ServerEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -26,8 +27,8 @@ public class GuncoreMod {
     @Mod.Instance(MODID)
     public static GuncoreMod INSTANCE;
     @SidedProxy(
-        clientSide = "io.github.duckysmacky.guncore.network.ClientProxy",
-        serverSide = "io.github.duckysmacky.guncore.network.CommonProxy"
+        clientSide = "io.github.duckysmacky.guncore.client.network.ClientProxy",
+        serverSide = "io.github.duckysmacky.guncore.common.network.CommonProxy"
     )
     public static CommonProxy PROXY;
     public static Logger LOGGER;
@@ -41,7 +42,7 @@ public class GuncoreMod {
 
         PacketHandler.init();
 
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
+        MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
     }
 
     @Mod.EventHandler
