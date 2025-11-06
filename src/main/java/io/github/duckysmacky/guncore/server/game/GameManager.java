@@ -3,15 +3,10 @@ package io.github.duckysmacky.guncore.server.game;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.GameConfig;
-import io.github.duckysmacky.guncore.common.game.GameMode;
-import io.github.duckysmacky.guncore.common.game.GameState;
-import io.github.duckysmacky.guncore.common.game.Team;
+import io.github.duckysmacky.guncore.common.game.*;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.UpdatePlayerListPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
-import io.github.duckysmacky.guncore.common.game.CommandExecutor;
-import io.github.duckysmacky.guncore.common.game.ServerBroadcaster;
-import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.server.MinecraftServer;
@@ -20,6 +15,7 @@ import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class GameManager {
@@ -31,14 +27,13 @@ public class GameManager {
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
     private GameState state;
-    private long roundStartTimeMs;
-    private long roundTimeSecs;
+    private long roundStartTime;
 
     private GameManager() {
         this.playerStats = new HashMap<>();
         this.teams = new EnumMap<>(Team.class);
         Arrays.stream(Team.values()).forEach(t -> teams.put(t, new ArrayList<>()));
-        this.gameMode = GameMode.TDM;
+        this.gameMode = GameMode.FFA;
         this.gameModeVariant = GameMode.Variant.LIVES;
         this.state = GameState.NOT_STARTED;
     }
@@ -115,7 +110,7 @@ public class GameManager {
     public void startRound() {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
             state = GameState.RUNNING;
-            roundStartTimeMs = System.currentTimeMillis();
+            roundStartTime = System.currentTimeMillis();
 
             playerStats.values().forEach(p -> {
                 p.resetStats();
@@ -175,20 +170,18 @@ public class GameManager {
     public void tick(boolean isSecondTick) {
         if (state != GameState.RUNNING) return;
 
-        roundTimeSecs = (System.currentTimeMillis() - roundStartTimeMs) / 1000L;
+        long roundDurationSec = (System.currentTimeMillis() - roundStartTime) / 1000;
 
         if (gameModeVariant != GameMode.Variant.TIME) return;
 
         if (isSecondTick) {
-            long roundTimeLeftSecs = getRoundDurationSecs() - roundTimeSecs;
+            long roundTimeLeftSecs = getRoundLengthSec() - roundDurationSec;
 
-            if (Arrays.stream(announcementIntervalsSecs).anyMatch(secs -> secs == roundTimeLeftSecs)) {
+            if (Arrays.stream(announcementIntervalsSecs).anyMatch(s -> s == roundTimeLeftSecs))
                 printRoundTimeLeft(roundTimeLeftSecs);
-            }
-        }
 
-        if (roundTimeSecs >= getRoundDurationSecs()) {
-            endRound();
+            if (roundTimeLeftSecs <= 0)
+                endRound();
         }
     }
 
@@ -196,7 +189,7 @@ public class GameManager {
         if (state != GameState.RUNNING) return;
 
         PlayerStats killerStats = getStats(killer);
-        killerStats.addKills(1);
+        killerStats.setKills(killerStats.getKills() + 1);
 
         PlayerStats victimStats = getStats(victim);
         victimStats.registerDeath();
@@ -223,12 +216,8 @@ public class GameManager {
     }
 
     public void printRoundTimeLeft(long timeLeftSecs) {
-        if (timeLeftSecs < 0) timeLeftSecs = 0;
-
-        long minutes = timeLeftSecs / 60;
-        long seconds = timeLeftSecs % 60;
-
-        ServerBroadcaster.message(String.format("&e&lTime Left: &f%02d:%02d", minutes, seconds));
+        String time = TextUtils.formatTime((int) timeLeftSecs);
+        ServerBroadcaster.message(String.format("&e&lTime Left: &f%s", time));
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HAT, 1f, 1f);
     }
 
@@ -237,14 +226,17 @@ public class GameManager {
 
         ServerBroadcaster.message("&f&l--- Scoreboard ---");
 
+        AtomicInteger place = new AtomicInteger(1);
         playerStats.values().stream()
-            .sorted(Comparator.comparingInt(PlayerStats::getKills))
-            .forEach(p ->
-                ServerBroadcaster.message(
-                    String.format("&f%s: &7%s kills, %s deaths, %s lives",
-                        p.getUsername(), p.getKills(), p.getDeaths(), p.getLives())
-                )
-            );
+            .sorted(Comparator
+                .comparingInt(PlayerStats::getKills)
+                .thenComparing(PlayerStats::getDeaths, Comparator.reverseOrder())
+                .thenComparing(PlayerStats::getLives)
+            )
+            .forEach(p -> ServerBroadcaster.message(String.format(
+                "&f %d - %s &7(%s kills, %s deaths, %s lives)",
+                place.getAndIncrement(), p.getUsername(), p.getKills(), p.getDeaths(), p.getLives())
+            ));
     }
 
     public void printTeams() {
@@ -304,6 +296,36 @@ public class GameManager {
         return playerStats.get(uuid);
     }
 
+    private int getStartingLives() {
+        GameConfig gameConfig = ConfigManager.instance().getCachedGameConfig();
+
+        switch (gameMode) {
+            case FFA:
+                return gameConfig.ffaConfig.startingLives;
+            case TDM:
+                return gameConfig.tdmConfig.startingLives;
+            case HOSTAGE:
+                return gameConfig.hostageConfig.startingLives;
+            default:
+                return 5;
+        }
+    }
+
+    private int getRoundLengthSec() {
+        GameConfig gameConfig = ConfigManager.instance().getCachedGameConfig();
+
+        switch (gameMode) {
+            case FFA:
+                return gameConfig.ffaConfig.roundLengthSec;
+            case TDM:
+                return gameConfig.tdmConfig.roundLengthSec;
+            case HOSTAGE:
+                return gameConfig.hostageConfig.roundLengthSec;
+            default:
+                return 600;
+        }
+    }
+
     public GameMode getGameMode() {
         return gameMode;
     }
@@ -312,8 +334,8 @@ public class GameManager {
         return gameModeVariant;
     }
 
-    public long getRoundTime() {
-        return roundTimeSecs;
+    public long getRoundStartTime() {
+        return roundStartTime;
     }
 
     private void switchTeamTo(UUID uuid, Team targetTeam) {
@@ -330,36 +352,6 @@ public class GameManager {
                 teams.get(Team.NONE).add(uuid);
                 return Team.NONE;
             });
-    }
-
-    private int getStartingLives() {
-        GameConfig gameConfig = ConfigManager.instance().getCachedGameConfig();
-
-        switch (gameMode) {
-            case FFA:
-                return gameConfig.ffaConfig.startingLives;
-            case TDM:
-                return gameConfig.tdmConfig.startingLives;
-            case HOSTAGE:
-                return gameConfig.hostageConfig.startingLives;
-            default:
-                return 5;
-        }
-    }
-
-    private int getRoundDurationSecs() {
-        GameConfig gameConfig = ConfigManager.instance().getCachedGameConfig();
-
-        switch (gameMode) {
-            case FFA:
-                return gameConfig.ffaConfig.roundDurationSecs;
-            case TDM:
-                return gameConfig.tdmConfig.roundDurationSecs;
-            case HOSTAGE:
-                return gameConfig.hostageConfig.roundDurationSecs;
-            default:
-                return 600;
-        }
     }
 
     private void checkRoundEndConditions() {
@@ -395,14 +387,17 @@ public class GameManager {
         switch (gameMode) {
             case FFA: {
                 PlayerStats topPlayer = playerStats.values().stream()
-                    .max(Comparator.comparingInt(PlayerStats::getKills))
+                    .max(Comparator
+                        .comparingInt(PlayerStats::getKills)
+                        .thenComparing(PlayerStats::getDeaths, Comparator.reverseOrder())
+                        .thenComparing(PlayerStats::getLives)
+                    )
                     .orElse(null);
 
                 if (topPlayer != null) {
                     ServerBroadcaster.message(String.format("&6&lWinner: &f%s &7(%s kills)", topPlayer.getUsername(), topPlayer.getKills()));
                     printGameScoreboard();
-                }
-                else {
+                } else {
                     ServerBroadcaster.message("&c&lNobody won lmao");
                     ServerBroadcaster.message("&7yall suck");
                 }

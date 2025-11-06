@@ -26,14 +26,14 @@ public class GameConfig {
     }
 
     public static class GameModeConfig {
-        public final int roundDurationSecs;
+        public final int roundLengthSec;
         public final int startingLives;
 
         public GameModeConfig(
-            int roundDurationSecs,
+            int roundLengthSec,
             int startingLives
         ) {
-            this.roundDurationSecs = roundDurationSecs;
+            this.roundLengthSec = roundLengthSec;
             this.startingLives = startingLives;
         }
     }

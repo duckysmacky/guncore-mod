@@ -9,4 +9,13 @@ public final class TextUtils {
     public static String translateColorCodes(String text) {
         return text.replace(AMPERSAND, COLOR_SYMBOL);
     }
+
+    public static String formatTime(int secs) {
+        if (secs < 0) secs = 0;
+
+        int minutes = secs / 60;
+        int seconds = secs % 60;
+
+        return String.format("%02d:%02d", minutes, seconds);
+    }
 }
