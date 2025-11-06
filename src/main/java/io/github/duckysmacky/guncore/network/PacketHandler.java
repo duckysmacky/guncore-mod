@@ -20,10 +20,10 @@ public final class PacketHandler {
         networkWrapperInstance = NetworkRegistry.INSTANCE.newSimpleChannel(GuncoreMod.MODID);
 
         networkWrapperInstance.registerMessage(OpenMainMenuPacket.Handler.class, OpenMainMenuPacket.class, packetId++, Side.CLIENT);
+        networkWrapperInstance.registerMessage(ReopenMenuPacket.Handler.class, ReopenMenuPacket.class, packetId++, Side.CLIENT);
 
         networkWrapperInstance.registerMessage(ExecuteCommandPacket.Handler.class, ExecuteCommandPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(BroadcastMessagePacket.Handler.class, BroadcastMessagePacket.class, packetId++, Side.SERVER);
-
         networkWrapperInstance.registerMessage(EquipGunPacket.Handler.class, EquipGunPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(EquipGadgetPacket.Handler.class, EquipGadgetPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(EquipKitPacket.Handler.class, EquipKitPacket.class, packetId++, Side.SERVER);

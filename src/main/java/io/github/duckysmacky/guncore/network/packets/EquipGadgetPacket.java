@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.data.config.catalog.gadgets.GadgetEntry;
 import io.github.duckysmacky.guncore.game.EquipmentController;
 import io.github.duckysmacky.guncore.game.EquipmentManager;
+import io.github.duckysmacky.guncore.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -51,6 +52,8 @@ public class EquipGadgetPacket implements IMessage {
                     GadgetEntry gadget = message.gadgetEntry;
 
                     EquipmentController.equipGadget(player, gadget);
+
+                    PacketHandler.instance().sendTo(new ReopenMenuPacket(), player);
                 });
             }
             return null;

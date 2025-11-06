@@ -10,8 +10,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class OpenMainMenuPacket implements IMessage {
-    public OpenMainMenuPacket() {}
+public class ReopenMenuPacket implements IMessage {
+    public ReopenMenuPacket() {}
 
     @Override
     public void fromBytes(ByteBuf buf) {}
@@ -19,12 +19,12 @@ public class OpenMainMenuPacket implements IMessage {
     @Override
     public void toBytes(ByteBuf buf) {}
 
-    public static class Handler implements IMessageHandler<OpenMainMenuPacket, IMessage> {
+    public static class Handler implements IMessageHandler<ReopenMenuPacket, IMessage> {
         @Override
-        public IMessage onMessage(OpenMainMenuPacket message, MessageContext context) {
+        public IMessage onMessage(ReopenMenuPacket message, MessageContext context) {
             if (context.side == Side.CLIENT) {
                 Minecraft.getMinecraft().addScheduledTask(() -> {
-                    BaseMenu menu = MenuManager.instance().getMainMenu();
+                    BaseMenu menu = MenuManager.instance().getLastOpenedMenu();
 
                     GuncoreMod.PROXY.openMenuPage(menu);
                 });

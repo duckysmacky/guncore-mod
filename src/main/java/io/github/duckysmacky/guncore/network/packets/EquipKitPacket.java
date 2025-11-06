@@ -3,6 +3,7 @@ package io.github.duckysmacky.guncore.network.packets;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.data.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.game.EquipmentController;
+import io.github.duckysmacky.guncore.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -44,6 +45,8 @@ public class EquipKitPacket implements IMessage {
                     KitEntry kit = message.kitEntry;
 
                     EquipmentController.equipKit(player, kit);
+
+                    PacketHandler.instance().sendTo(new ReopenMenuPacket(), player);
                 });
             }
             return null;

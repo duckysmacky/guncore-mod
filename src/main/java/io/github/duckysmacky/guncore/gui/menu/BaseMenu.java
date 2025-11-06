@@ -8,6 +8,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class BaseMenu {
     protected final String title;
@@ -25,6 +26,10 @@ public abstract class BaseMenu {
     public void open(EntityPlayer player) {
         InventoryBasic inventory = new InventoryBasic(title, true, rows * cols);
         fillInventory(inventory);
+
+        if (FMLCommonHandler.instance().getSide().isClient()) {
+            MenuManager.instance().setLastOpenedMenu(this);
+        }
 
         FMLClientHandler.instance().displayGuiScreen(player, new MenuGui(inventory, this, player));
     }

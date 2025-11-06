@@ -25,7 +25,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void openMenuPage(BaseMenu menuPage) {
-        EntityPlayer player= Minecraft.getMinecraft().player;
+        EntityPlayer player = Minecraft.getMinecraft().player;
         menuPage.open(player);
     }
 }
