@@ -28,7 +28,7 @@ public class GameManager {
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
     private GameState state;
-    private long roundStartTime;
+    private int roundDurationSec;
 
     private GameManager() {
         this.playerStats = new HashMap<>();
@@ -111,7 +111,7 @@ public class GameManager {
     public void startRound() {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
             state = GameState.RUNNING;
-            roundStartTime = System.currentTimeMillis();
+            roundDurationSec = 0;
 
             playerStats.values().forEach(p -> {
                 p.resetStats();
@@ -151,6 +151,7 @@ public class GameManager {
 
     public void resetRound() {
         state = GameState.NOT_STARTED;
+        roundDurationSec = 0;
         playerStats.values().forEach(PlayerStats::resetStats);
         ServerBroadcaster.message("&c&lRound reset");
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
@@ -159,8 +160,9 @@ public class GameManager {
     public void endRound() {
         if (state == GameState.RUNNING || state == GameState.PAUSED) {
             state = GameState.ENDED;
+            roundDurationSec = 0;
             ServerBroadcaster.message("&a&lRound ended");
-            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
             determineWinner();
         } else {
             ServerBroadcaster.error("&7There is no round in progress!");
@@ -168,23 +170,26 @@ public class GameManager {
         }
     }
 
-    public void tick(boolean isSecondTick) {
-        if (isSecondTick) {
-            SyncGameInfoPacket packet = new SyncGameInfoPacket(gameMode, gameModeVariant, state, roundStartTime, playerStats);
-            PacketHandler.instance().sendToAll(packet);
+    public void tick(int tickCount) {
+        // every second
+        if (state == GameState.RUNNING & tickCount % 20 == 0) {
+            roundDurationSec++;
+
+            if (gameModeVariant == GameMode.Variant.TIME) {
+                int roundTimeLeftSecs = getRoundLengthSec() - roundDurationSec;
+
+                if (Arrays.stream(announcementIntervalsSecs).anyMatch(s -> s == roundTimeLeftSecs))
+                    printRoundTimeLeft(roundTimeLeftSecs);
+
+                if (roundTimeLeftSecs <= 0)
+                    endRound();
+            }
         }
 
-        if (state != GameState.RUNNING || gameModeVariant != GameMode.Variant.TIME) return;
-
-        if (isSecondTick) {
-            long roundDurationSec = (System.currentTimeMillis() - roundStartTime) / 1000;
-            long roundTimeLeftSecs = getRoundLengthSec() - roundDurationSec;
-
-            if (Arrays.stream(announcementIntervalsSecs).anyMatch(s -> s == roundTimeLeftSecs))
-                printRoundTimeLeft(roundTimeLeftSecs);
-
-            if (roundTimeLeftSecs <= 0)
-                endRound();
+        // every 0.5 second
+        if (tickCount % 10 == 0) {
+            SyncGameInfoPacket packet = new SyncGameInfoPacket(gameMode, gameModeVariant, state, roundDurationSec, playerStats);
+            PacketHandler.instance().sendToAll(packet);
         }
     }
 
@@ -197,7 +202,7 @@ public class GameManager {
         PlayerStats victimStats = getStats(victim);
         victimStats.registerDeath();
 
-        killer.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.5f, 1f);
+        ServerSoundPlayer.playFor(killer, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.5f, 1f);
 
         if (gameModeVariant == GameMode.Variant.LIVES) {
             if (victimStats.getLives() <= 0) {
@@ -218,9 +223,8 @@ public class GameManager {
         checkRoundEndConditions();
     }
 
-    public void printRoundTimeLeft(long timeLeftSecs) {
-        String time = TextUtils.formatTime((int) timeLeftSecs);
-        ServerBroadcaster.message(String.format("&e&lTime Left: &f%s", time));
+    public void printRoundTimeLeft(int timeLeftSecs) {
+        ServerBroadcaster.message(String.format("&e&lTime Left: &f%s", TextUtils.formatTime(timeLeftSecs)));
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HAT, 1f, 1f);
     }
 
@@ -347,8 +351,8 @@ public class GameManager {
         return gameModeVariant;
     }
 
-    public long getRoundStartTime() {
-        return roundStartTime;
+    public long getRoundDurationSec() {
+        return roundDurationSec;
     }
 
     private void switchTeamTo(UUID uuid, Team targetTeam) {

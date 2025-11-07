@@ -14,8 +14,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
 public class HudOverlay {
-    private static final int TOP_OFFSET = 30;
-    private static final int BOTTOM_OFFSET = 60;
+    private static final int TOP_OFFSET = 27;
+    private static final int BOTTOM_OFFSET = 70;
     private static final int TEXT_COLOR = 0xFFFFFF;
     private final Minecraft mc = Minecraft.getMinecraft();
 
@@ -37,22 +37,19 @@ public class HudOverlay {
 
         String timeText = "";
         if (game.getGameState() != GameState.NOT_STARTED && game.getGameState() != GameState.ENDED) {
-            long timeElapsed = System.currentTimeMillis() - game.getRoundStartTime();
-
             if (game.getGameModeVariant() == GameMode.Variant.TIME) {
-                int timeLeftSecs = (int) (game.getRoundLengthSec() - (timeElapsed / 1000L));
-
-                timeText = String.format("Time Left: %s", TextUtils.formatTime(timeLeftSecs));
+                int timeLeftSec = game.getRoundLengthSec() - game.getRoundDurationSec();
+                timeText = String.format("Time Left: %s", TextUtils.formatTime(timeLeftSec));
             } else {
-                timeText = String.format("Round time: %s", TextUtils.formatTime((int) (timeElapsed / 1000L)));
+                timeText = String.format("Round time: %s", TextUtils.formatTime(game.getRoundDurationSec()));
             }
         }
 
         int centerX = res.getScaledWidth() / 2;
         int y = TOP_OFFSET;
 
-        drawCentered(mc.fontRenderer, modeText, centerX, y, TEXT_COLOR);
-        drawCentered(mc.fontRenderer, timeText, centerX, y + 10, TEXT_COLOR);
+        //drawCentered(mc.fontRenderer, modeText, centerX, y, TEXT_COLOR);
+        drawCentered(mc.fontRenderer, timeText, centerX, y, TEXT_COLOR);
     }
 
     private void drawPlayerStats(ClientGameInfo game, ScaledResolution res) {

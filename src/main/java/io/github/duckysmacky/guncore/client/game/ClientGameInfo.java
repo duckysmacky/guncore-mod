@@ -16,14 +16,14 @@ public final class ClientGameInfo {
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
     private GameState gameState;
-    private long roundStartTime;
+    private int roundDurationSec;
 
     private ClientGameInfo() {
         this.stats = new PlayerStats(Minecraft.getMinecraft().player.getName());
         this.gameMode = GameMode.FFA;
         this.gameModeVariant = GameMode.Variant.LIVES;
         this.gameState = GameState.NOT_STARTED;
-        this.roundStartTime = 0;
+        this.roundDurationSec = 0;
     }
 
     public static ClientGameInfo instance() {
@@ -72,8 +72,8 @@ public final class ClientGameInfo {
         this.gameState = gameState;
     }
 
-    public void setRoundStartTime(long roundStartTime) {
-        this.roundStartTime = roundStartTime;
+    public void setRoundDurationSec(int roundDurationSec) {
+        this.roundDurationSec = roundDurationSec;
     }
 
     public PlayerStats getPlayerStats() {
@@ -92,7 +92,7 @@ public final class ClientGameInfo {
         return gameState;
     }
 
-    public long getRoundStartTime() {
-        return roundStartTime;
+    public int getRoundDurationSec() {
+        return roundDurationSec;
     }
 }

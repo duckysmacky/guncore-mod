@@ -20,7 +20,7 @@ public class SyncGameInfoPacket implements IMessage {
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
     private GameState gameState;
-    private long roundStartTime;
+    private int roundDurationSec;
     private Map<UUID, PlayerStats> playerStats;
 
     public SyncGameInfoPacket() {}
@@ -29,13 +29,13 @@ public class SyncGameInfoPacket implements IMessage {
         GameMode gameMode,
         GameMode.Variant gameModeVariant,
         GameState gameState,
-        long roundStartTime,
+        int roundDurationSec,
         Map<UUID, PlayerStats> playerStats
     ) {
         this.gameMode = gameMode;
         this.gameModeVariant = gameModeVariant;
         this.gameState = gameState;
-        this.roundStartTime = roundStartTime;
+        this.roundDurationSec = roundDurationSec;
         this.playerStats = playerStats;
     }
 
@@ -44,7 +44,7 @@ public class SyncGameInfoPacket implements IMessage {
         buf.writeInt(gameMode.ordinal());
         buf.writeInt(gameModeVariant.ordinal());
         buf.writeInt(gameState.ordinal());
-        buf.writeLong(roundStartTime);
+        buf.writeInt(roundDurationSec);
 
         buf.writeInt(playerStats.size());
         playerStats.forEach((uuid, s) -> {
@@ -61,7 +61,7 @@ public class SyncGameInfoPacket implements IMessage {
         gameMode = GameMode.values()[buf.readInt()];
         gameModeVariant = GameMode.Variant.values()[buf.readInt()];
         gameState = GameState.values()[buf.readInt()];
-        roundStartTime = buf.readLong();
+        roundDurationSec = buf.readInt();
 
         int size = buf.readInt();
         playerStats = new HashMap<>();
@@ -94,7 +94,7 @@ public class SyncGameInfoPacket implements IMessage {
                     gameInfo.setGameMode(message.gameMode);
                     gameInfo.setGameModeVariant(message.gameModeVariant);
                     gameInfo.setGameState(message.gameState);
-                    gameInfo.setRoundStartTime(message.roundStartTime);
+                    gameInfo.setRoundDurationSec(message.roundDurationSec);
                     gameInfo.updatePlayerStats(message.playerStats);
                 });
             }
