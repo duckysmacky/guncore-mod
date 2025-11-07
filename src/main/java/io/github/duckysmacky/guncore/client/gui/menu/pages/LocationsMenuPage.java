@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.catalog.locations.CityMap;
 import io.github.duckysmacky.guncore.common.config.catalog.locations.LocationEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
@@ -16,9 +17,7 @@ public class LocationsMenuPage extends DynamicMenu {
     public LocationsMenuPage(BaseMenu parent, CityMap map) {
         super("Locations", parent, 9, 9);
 
-        ConfigManager configManager = ConfigManager.instance();
-
-        configManager.getCachedLocations().stream()
+        ConfigManager.instance().getCatalogManager().<LocationEntry>getCatalog(CatalogType.LOCATIONS).stream()
             .filter(location -> location.getMap() == map)
             .forEach(location -> {
                 ItemStack locationIcon = location.getIconItem();

@@ -34,7 +34,7 @@ public class GuncoreConfigCommand extends CommandBase {
 
         switch (subcommand) {
             case "reload":
-                ConfigManager.instance().loadConfig();
+                ConfigManager.instance().load();
                 break;
             default:
                 throw new CommandException(getUsage(sender));

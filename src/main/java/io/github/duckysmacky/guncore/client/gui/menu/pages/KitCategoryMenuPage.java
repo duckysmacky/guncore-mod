@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitClass;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
@@ -79,8 +80,7 @@ public class KitCategoryMenuPage extends StaticMenu {
     }
 
     private void selectRandomKit(EntityPlayer player) {
-        ConfigManager configManager = ConfigManager.instance();
-        List<KitEntry> kits = configManager.getCachedKits();
+        List<KitEntry> kits = ConfigManager.instance().getCatalogManager().getCatalog(CatalogType.KITS);
 
         int randomIndex = random.nextInt(kits.size());
         KitEntry kit = kits.get(randomIndex);

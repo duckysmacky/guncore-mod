@@ -46,7 +46,7 @@ public final class ClientGameInfo {
     }
 
     public int getRoundLengthSec() {
-        GameConfig gameConfig = ConfigManager.instance().getCachedGameConfig();
+        GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
         switch (gameMode) {
             case FFA:

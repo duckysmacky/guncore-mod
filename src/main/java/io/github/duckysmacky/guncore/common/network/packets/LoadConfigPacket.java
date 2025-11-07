@@ -22,7 +22,7 @@ public class LoadConfigPacket implements IMessage {
         public IMessage onMessage(LoadConfigPacket message, MessageContext context) {
             if (context.side == Side.SERVER) {
                 FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    ConfigManager.instance().syncWithClients();
+                    ConfigManager.instance().load();
                 });
             }
             return null;

@@ -310,7 +310,7 @@ public class GameManager {
     }
 
     private int getStartingLives() {
-        GameConfig gameConfig = ConfigManager.instance().getCachedGameConfig();
+        GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
         switch (gameMode) {
             case FFA:
@@ -325,7 +325,7 @@ public class GameManager {
     }
 
     private int getRoundLengthSec() {
-        GameConfig gameConfig = ConfigManager.instance().getCachedGameConfig();
+        GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
         switch (gameMode) {
             case FFA:

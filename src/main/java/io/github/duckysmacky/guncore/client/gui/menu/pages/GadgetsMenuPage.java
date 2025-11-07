@@ -4,6 +4,8 @@ import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
+import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
+import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.EquipGadgetPacket;
 import net.minecraft.init.SoundEvents;
@@ -16,9 +18,7 @@ public class GadgetsMenuPage extends DynamicMenu {
     public GadgetsMenuPage(BaseMenu parent) {
         super("Gadgets", parent, 9, 9);
 
-        ConfigManager configManager = ConfigManager.instance();
-
-        configManager.getCachedGadgets().stream()
+        ConfigManager.instance().getCatalogManager().<GadgetEntry>getCatalog(CatalogType.GADGETS).stream()
             .sorted(Comparator.comparingInt(gadget -> gadget.getRarity().sortOrder))
             .forEach(gadget -> {
                 ItemStack gadgetItem = gadget.getItemStack();

@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore;
 
+import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.server.commands.GuncoreConfigCommand;
 import io.github.duckysmacky.guncore.server.commands.GameCommand;
 import io.github.duckysmacky.guncore.server.commands.MenuCommand;
@@ -49,6 +50,8 @@ public class GuncoreMod {
     public void init(FMLInitializationEvent event) {
         PROXY.init(event);
         LOGGER.info("Guncore mod has started.");
+
+        ConfigManager.instance().load();
     }
 
     @Mod.EventHandler
