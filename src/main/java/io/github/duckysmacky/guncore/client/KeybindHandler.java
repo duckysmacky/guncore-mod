@@ -15,7 +15,7 @@ public class KeybindHandler {
     public static final KeyBinding OPEN_MENU = new KeyBinding(
             "Open the Guncore menu",
             Keyboard.KEY_M,
-            "key.categories.guncore"
+            "Guncore"
     );
 
     public static void init() {

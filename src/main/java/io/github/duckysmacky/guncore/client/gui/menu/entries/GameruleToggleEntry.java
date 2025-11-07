@@ -10,11 +10,12 @@ import net.minecraft.util.text.TextFormatting;
 public class GameruleToggleEntry extends ToggleButtonEntry {
     public GameruleToggleEntry(
         BaseMenu menu,
+        boolean baseState,
         String gameruleName,
         String gamerule
     ) {
         super(menu,
-            () -> false, // TODO: find a way to actually load gamerule state into this
+            () -> baseState, // TODO: find a way to actually load gamerule state into this
             (player, state) -> {
             CommandExecutor.execute("gamerule " + gamerule + " " + state);
 

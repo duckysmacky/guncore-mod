@@ -23,12 +23,9 @@ public final class ServerSoundPlayer {
 
     public static void playAsServer(MinecraftServer server, EntityPlayer target, SoundEvent sound, float volume, float pitch) {
         if (server == null) {
-            GuncoreMod.LOGGER.error(String.format("[%s] Cannot play sound: server is null!", ID));
+            GuncoreMod.LOGGER.error(String.format("[%s] Cannot play sound: server is null", ID));
             return;
         }
-
-        System.out.println("PLAYING SOUND FROM SERVER");
-
 
         if (target == null) {
             server.getPlayerList().getPlayers().forEach(p -> {

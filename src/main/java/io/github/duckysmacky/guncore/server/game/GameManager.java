@@ -95,8 +95,6 @@ public class GameManager {
             return;
         }
 
-        System.out.println(server.getPlayerList().getPlayers().stream().map(EntityPlayer::getName));
-
         GuncoreMod.LOGGER.info("[{}] {}", ID, "Updating player list from server");
         server.getPlayerList().getPlayers().forEach(
             p -> playerStats.computeIfAbsent(p.getUniqueID(), k -> {
