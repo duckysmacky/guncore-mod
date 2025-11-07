@@ -25,7 +25,7 @@ public class ConfigLoader {
             try {
                 saveDefaultJSON(file, defaultValue);
             } catch (IOException e) {
-                GuncoreMod.LOGGER.error("Failed to create default '{}' config file: {}", file.getName(), e.getMessage());
+                GuncoreMod.LOGGER.error(String.format("[%s] Failed to create default '%s' config file: %s", ID, file.getName(), e.getMessage()));
                 return gson.toJson(defaultValue.get());
             }
         }
@@ -33,7 +33,7 @@ public class ConfigLoader {
         try {
             return new String(Files.readAllBytes(file.toPath()));
         } catch (Exception e) {
-            GuncoreMod.LOGGER.error("Failed to load '{}' config file: {}", file.getName(), e.getMessage());
+            GuncoreMod.LOGGER.error(String.format("[%s] Failed to load '%s' config file: %s", ID, file.getName(), e.getMessage()));
             return gson.toJson(defaultValue.get());
         }
     }

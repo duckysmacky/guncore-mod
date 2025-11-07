@@ -22,6 +22,7 @@ public final class PacketHandler {
         networkWrapperInstance.registerMessage(OpenMainMenuPacket.Handler.class, OpenMainMenuPacket.class, packetId++, Side.CLIENT);
         networkWrapperInstance.registerMessage(ReopenMenuPacket.Handler.class, ReopenMenuPacket.class, packetId++, Side.CLIENT);
         networkWrapperInstance.registerMessage(SyncGameInfoPacket.Handler.class, SyncGameInfoPacket.class, packetId++, Side.CLIENT);
+        networkWrapperInstance.registerMessage(RefreshMenuPacket.Handler.class, RefreshMenuPacket.class, packetId++, Side.CLIENT);
 
         networkWrapperInstance.registerMessage(ExecuteCommandPacket.Handler.class, ExecuteCommandPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(BroadcastMessagePacket.Handler.class, BroadcastMessagePacket.class, packetId++, Side.SERVER);

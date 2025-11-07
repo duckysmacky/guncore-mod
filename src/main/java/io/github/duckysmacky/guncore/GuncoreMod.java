@@ -50,8 +50,6 @@ public class GuncoreMod {
     public void init(FMLInitializationEvent event) {
         PROXY.init(event);
         LOGGER.info("Guncore mod has started.");
-
-        ConfigManager.instance().load();
     }
 
     @Mod.EventHandler
@@ -64,5 +62,7 @@ public class GuncoreMod {
         event.registerServerCommand(new MenuCommand());
         event.registerServerCommand(new GuncoreConfigCommand());
         event.registerServerCommand(new GameCommand());
+
+        ConfigManager.instance().load();
     }
 }

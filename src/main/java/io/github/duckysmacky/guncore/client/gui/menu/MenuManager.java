@@ -4,7 +4,7 @@ import io.github.duckysmacky.guncore.client.gui.menu.pages.MainMenuPage;
 
 public class MenuManager {
     private static MenuManager instance;
-    private final BaseMenu mainMenu;
+    private BaseMenu mainMenu;
     private BaseMenu lastOpenedMenu;
 
     private MenuManager() {
@@ -17,6 +17,11 @@ public class MenuManager {
         }
 
         return instance;
+    }
+
+    public void refreshMenu() {
+        this.mainMenu = new MainMenuPage();
+        lastOpenedMenu = null;
     }
 
     public void setLastOpenedMenu(BaseMenu lastOpenedMenu) {

@@ -11,7 +11,7 @@ public enum CatalogType {
     KITS("kits.json", KitEntry.class, KitEntry::createExample),
     GUNS("guns.json", GunEntry.class, GunEntry::createExample),
     GADGETS("gadgets.json", GadgetEntry.class, GunEntry::createExample),
-    LOCATIONS("locations.json", KitEntry.class, LocationEntry::createExample);
+    LOCATIONS("locations.json", LocationEntry.class, LocationEntry::createExample);
 
     public final String jsonFile;
     public final Class<? extends CatalogEntry> entryClass;
