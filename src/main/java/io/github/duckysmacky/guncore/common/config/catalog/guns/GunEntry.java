@@ -4,14 +4,14 @@ import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.util.ItemFinder;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,7 +49,7 @@ public class GunEntry extends CatalogEntry {
             "minecraft:bow",
             "minecraft:arrow",
             64,
-            Arrays.asList(
+            List.of(
                 "&7The classic ranged weapon.",
                 "&7Reliable and effective for all situations.",
                 "&7This is an example gun."
@@ -59,40 +59,41 @@ public class GunEntry extends CatalogEntry {
 
     public ItemStack getGunItemStack() {
         ItemStack item = ItemFinder.findItemStack(gunItemId);
-        if (item == ItemStack.EMPTY)
+        if (item.isEmpty())
             item = new ItemStack(Blocks.DIRT);
 
-        NBTTagCompound displayTag = new NBTTagCompound();
+        CompoundTag displayTag = item.getOrCreateTagElement("display");
 
-        String coloredName = TextFormatting.WHITE + "" + TextFormatting.BOLD + name;
-        displayTag.setString("Name", coloredName);
+        String coloredName = ChatFormatting.WHITE + "" + ChatFormatting.BOLD + name;
+        displayTag.putString("Name", Component.Serializer.toJson(Component.literal(coloredName)));
 
-        NBTTagList loreList = new NBTTagList();
+        ListTag loreList = new ListTag();
 
         if (!descriptionLines.isEmpty()) {
             for (String line : descriptionLines) {
                 String coloredLine = TextUtils.translateColorCodes(line);
-                loreList.appendTag(new NBTTagString(coloredLine));
+                loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coloredLine))));
             }
-            loreList.appendTag(new NBTTagString(""));
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
         }
 
-        String ammoLine = TextFormatting.GREEN + "Included ammo: " + TextFormatting.WHITE + ammoItemAmount + "x " + getAmmoItemStack().getDisplayName();
-        loreList.appendTag(new NBTTagString(ammoLine));
-        loreList.appendTag(new NBTTagString(""));
+        ItemStack ammo = getAmmoItemStack();
+        String ammoLine = TextUtils.translateColorCodes(String.format("&aIncluded ammo: &f%dx %s", ammoItemAmount, ammo.getDisplayName()));
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(ammoLine))));
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
 
-        String rarityLine = rarity.color + "" + TextFormatting.BOLD + rarity.display.toUpperCase();
-        loreList.appendTag(new NBTTagString(rarityLine));
+        String rarityLine = rarity.color + "" + ChatFormatting.BOLD + rarity.display.toUpperCase();
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(rarityLine))));
 
-        displayTag.setTag("Lore", loreList);
-        item.setTagInfo("display", displayTag);
+        displayTag.put("Lore", loreList);
+        item.addTagElement("display", displayTag);
 
         return item;
     }
 
     public ItemStack getAmmoItemStack() {
         ItemStack item = ItemFinder.findItemStack(ammoItemId);
-        if (item == ItemStack.EMPTY)
+        if (item.isEmpty())
             item = new ItemStack(Blocks.DIRT);
 
         item.setCount(ammoItemAmount);

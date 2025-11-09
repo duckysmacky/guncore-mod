@@ -4,14 +4,14 @@ import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.util.ItemFinder;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +47,7 @@ public class GadgetEntry extends CatalogEntry {
             "minecraft:water_bucket",
             1,
             Collections.emptyList(),
-            Arrays.asList(
+            List.of(
                 "&7A bucket filled with water.",
                 "&7Useful for putting out fires or landing safely from heights.",
                 "&7This is an example gadget."
@@ -61,41 +61,41 @@ public class GadgetEntry extends CatalogEntry {
 
     public ItemStack getItemStack() {
         ItemStack item = ItemFinder.findItemStack(itemId);
-        if (item == ItemStack.EMPTY)
+        if (item.isEmpty())
             item = new ItemStack(Blocks.DIRT);
 
         item.setCount(itemAmount);
 
-        NBTTagCompound displayTag = new NBTTagCompound();
+        CompoundTag displayTag = item.getOrCreateTagElement("display");
 
-        String coloredName = TextFormatting.WHITE + "" + TextFormatting.BOLD + name;
-        displayTag.setString("Name", coloredName);
+        String coloredName = ChatFormatting.WHITE + "" + ChatFormatting.BOLD + name;
+        displayTag.putString("Name", Component.Serializer.toJson(Component.literal(coloredName)));
 
-        NBTTagList loreList = new NBTTagList();
+        ListTag loreList = new ListTag();
 
         if (!descriptionLines.isEmpty()) {
             for (String line : descriptionLines) {
                 String coloredLine = TextUtils.translateColorCodes(line);
-                loreList.appendTag(new NBTTagString(coloredLine));
+                loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coloredLine))));
             }
-            loreList.appendTag(new NBTTagString(""));
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
         }
 
         if (!additionalItemIds.isEmpty()) {
-            String additionalItemsLine = TextFormatting.GREEN + "Additionally includes:";
-            loreList.appendTag(new NBTTagString(additionalItemsLine));
+            String additionalItemsLine = ChatFormatting.GREEN + "Additionally includes:";
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(additionalItemsLine))));
             for (ItemStack additionalItem : getAdditionalItemStacks()) {
-                String line = TextFormatting.WHITE + "- " + additionalItem.getDisplayName();
-                loreList.appendTag(new NBTTagString(line));
+                String coloredLine = ChatFormatting.WHITE + "- " + additionalItem.getDisplayName();
+                loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coloredLine))));
             }
-            loreList.appendTag(new NBTTagString(""));
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
         }
 
-        String rarityLine = rarity.color + "" + TextFormatting.BOLD + rarity.display.toUpperCase();
-        loreList.appendTag(new NBTTagString(rarityLine));
+        String rarityLine = rarity.color + "" + ChatFormatting.BOLD + rarity.display.toUpperCase();
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(rarityLine))));
 
-        displayTag.setTag("Lore", loreList);
-        item.setTagInfo("display", displayTag);
+        displayTag.put("Lore", loreList);
+        item.addTagElement("display", displayTag);
 
         return item;
     }
@@ -104,9 +104,7 @@ public class GadgetEntry extends CatalogEntry {
         return additionalItemIds.stream()
             .map(id -> {
                 ItemStack item = ItemFinder.findItemStack(id);
-                if (item == ItemStack.EMPTY)
-                    item = new ItemStack(Blocks.DIRT);
-                return item;
+                return item.isEmpty() ? new ItemStack(Blocks.DIRT) : item;
             })
             .collect(Collectors.toList());
     }

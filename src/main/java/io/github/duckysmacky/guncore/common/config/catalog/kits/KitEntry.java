@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.util.ItemFinder;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +51,7 @@ public class KitEntry extends CatalogEntry {
             "hunter",
             "minecraft:iron_sword",
             Collections.emptyList(),
-            Arrays.asList(
+            List.of(
                 "&7The Hunter Kit is perfect for players who want a balanced loadout for various combat situations.",
                 "&7This is an example kit"
             )
@@ -72,39 +72,41 @@ public class KitEntry extends CatalogEntry {
 
     public ItemStack getIconItem() {
         ItemStack item = ItemFinder.findItemStack(iconItemId);
-        if (item == ItemStack.EMPTY)
+        if (item.isEmpty())
             item = new ItemStack(Blocks.DIRT);
 
-        NBTTagCompound displayTag = new NBTTagCompound();
+        CompoundTag displayTag = item.getOrCreateTagElement("display");
 
-        String coloredName = TextFormatting.WHITE + "" + TextFormatting.BOLD + name;
-        displayTag.setString("Name", coloredName);
+        String coloredName = ChatFormatting.WHITE + "" + ChatFormatting.BOLD + name;
+        displayTag.putString("Name", Component.Serializer.toJson(Component.literal(coloredName)));
 
-        NBTTagList loreList = new NBTTagList();
+        ListTag loreList = new ListTag();
 
         if (!descriptionLines.isEmpty()) {
             for (String line : descriptionLines) {
                 String coloredLine = TextUtils.translateColorCodes(line);
-                loreList.appendTag(new NBTTagString(coloredLine));
+                loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coloredLine))));
             }
-            loreList.appendTag(new NBTTagString(""));
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
         }
 
         if (!variantIds.isEmpty()) {
-            loreList.appendTag(new NBTTagString(TextFormatting.GREEN + "Variants:"));
+            String additionalItemsLine = ChatFormatting.GREEN + "Variants:";
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(additionalItemsLine))));
             for (String variantId : variantIds) {
-                String line = TextFormatting.WHITE + "- " + variantId;
-                loreList.appendTag(new NBTTagString(line));
+                String coloredLine = ChatFormatting.WHITE + "- " + variantId;
+                loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coloredLine))));
             }
-            loreList.appendTag(new NBTTagString(TextFormatting.GRAY + "Variant selection available via '/csg_kit give <variant_id>' command."));
-            loreList.appendTag(new NBTTagString(""));
+            String tipLine = ChatFormatting.GRAY + "Variant selection available via '/csg_kit give <variant_id>' command.";
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(tipLine))));
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
         }
 
-        String tierLine = tier.color + "" + TextFormatting.BOLD + tier.display.toUpperCase() + " TIER";
-        loreList.appendTag(new NBTTagString(tierLine));
+        String rarityLine = tier.color + "" + ChatFormatting.BOLD + tier.display.toUpperCase();
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(rarityLine))));
 
-        displayTag.setTag("Lore", loreList);
-        item.setTagInfo("display", displayTag);
+        displayTag.put("Lore", loreList);
+        item.addTagElement("display", displayTag);
 
         return item;
     }

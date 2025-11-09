@@ -3,14 +3,14 @@ package io.github.duckysmacky.guncore.common.config.catalog.locations;
 import com.google.gson.annotations.SerializedName;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,7 +37,7 @@ public class LocationEntry extends CatalogEntry {
             CityMap.NEWPORT,
             "Spawn",
             new LocationCoordinates(0, 80, 0),
-            Arrays.asList(
+            List.of(
                 "&7The main spawn point of the city.",
                 "&7This is an example location."
             )
@@ -55,47 +55,32 @@ public class LocationEntry extends CatalogEntry {
     public ItemStack getIconItem() {
         ItemStack item = new ItemStack(Items.ENDER_PEARL);
 
-        NBTTagCompound displayTag = new NBTTagCompound();
+        CompoundTag displayTag = item.getOrCreateTagElement("display");
 
-        String coloredName = TextFormatting.WHITE + name;
-        displayTag.setString("Name", coloredName);
+        String coloredName = ChatFormatting.WHITE + "" + ChatFormatting.BOLD + name;
+        displayTag.putString("Name", Component.Serializer.toJson(Component.literal(coloredName)));
 
-        NBTTagList loreList = new NBTTagList();
+        ListTag loreList = new ListTag();
 
         if (!descriptionLines.isEmpty()) {
             for (String line : descriptionLines) {
                 String coloredLine = TextUtils.translateColorCodes(line);
-                loreList.appendTag(new NBTTagString(coloredLine));
+                loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coloredLine))));
             }
-            loreList.appendTag(new NBTTagString(""));
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
         }
 
-        String mapLine = TextFormatting.GREEN + "Map: " + TextFormatting.WHITE + map.display;
-        loreList.appendTag(new NBTTagString(mapLine));
+        String mapLine = ChatFormatting.GREEN + "Map: " + ChatFormatting.WHITE + map.display;
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(mapLine))));
 
-        String coordinatesLine = TextFormatting.GREEN + "Coordinates: " + TextFormatting.WHITE +
-            "(" + coordinates.x + ", " + coordinates.y + ", " + coordinates.z + ")";
-        loreList.appendTag(new NBTTagString(coordinatesLine));
+        String coordinatesLine = TextUtils.translateColorCodes(String.format("&aCoordinates: &f(%d, %d, %d)", coordinates.x, coordinates.y, coordinates.z));
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coordinatesLine))));
 
-        displayTag.setTag("Lore", loreList);
-        item.setTagInfo("display", displayTag);
+        displayTag.put("Lore", loreList);
+        item.addTagElement("display", displayTag);
 
         return item;
     }
 
-    public static class LocationCoordinates {
-        public final int x;
-        public final int y;
-        public final int z;
-
-        public LocationCoordinates(
-            int x,
-            int y,
-            int z
-        ) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-    }
+    public record LocationCoordinates(int x, int y, int z) {}
 }
