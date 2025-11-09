@@ -1,68 +1,63 @@
 package io.github.duckysmacky.guncore;
 
-import io.github.duckysmacky.guncore.common.config.ConfigManager;
-import io.github.duckysmacky.guncore.server.commands.GuncoreConfigCommand;
-import io.github.duckysmacky.guncore.server.commands.GameCommand;
-import io.github.duckysmacky.guncore.server.commands.MenuCommand;
-import io.github.duckysmacky.guncore.common.network.CommonProxy;
-import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import io.github.duckysmacky.guncore.server.events.ServerEventHandler;
+import com.mojang.logging.LogUtils;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import org.apache.logging.log4j.Logger;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.slf4j.Logger;
 
-@Mod(
-    modid = GuncoreMod.MODID,
-    name = GuncoreMod.NAME,
-    version = GuncoreMod.VERSION
-)
+@Mod(GuncoreMod.MODID)
 public class GuncoreMod {
     public static final String MODID = "guncore";
-    public static final String NAME = "Guncore";
-    public static final String VERSION = "0.4";
-    @Mod.Instance(MODID)
-    public static GuncoreMod INSTANCE;
-    @SidedProxy(
-        clientSide = "io.github.duckysmacky.guncore.client.network.ClientProxy",
-        serverSide = "io.github.duckysmacky.guncore.common.network.CommonProxy"
-    )
-    public static CommonProxy PROXY;
-    public static Logger LOGGER;
+    public static final Logger LOGGER = LogUtils.getLogger();
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        PROXY.preInit(event);
+    public GuncoreMod(FMLJavaModLoadingContext context) {
+        IEventBus modEventBus = context.getModEventBus();
 
-        LOGGER = event.getModLog();
-        LOGGER.info("Guncore mod is starting...");
+        modEventBus.addListener(this::commonSetup);
 
-        PacketHandler.init();
+        BLOCKS.register(modEventBus);
+        ITEMS.register(modEventBus);
+        CREATIVE_MODE_TABS.register(modEventBus);
 
-        MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
+        MinecraftForge.EVENT_BUS.register(this);
+
+        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
+        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        PROXY.init(event);
-        LOGGER.info("Guncore mod has started.");
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        // Some common setup code
+        LOGGER.info("Guncore mod started");
     }
 
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        PROXY.postInit(event);
+    @SubscribeEvent
+    public void onServerStarting(ServerStartingEvent event) {
+        // Do something when the server starts
     }
 
-    @Mod.EventHandler
-    public void serverStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new MenuCommand());
-        event.registerServerCommand(new GuncoreConfigCommand());
-        event.registerServerCommand(new GameCommand());
-
-        ConfigManager.instance().load();
+    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    public static class ClientModEvents {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            // Some client setup code
+            LOGGER.info("Guncore client has started");
+        }
     }
 }
