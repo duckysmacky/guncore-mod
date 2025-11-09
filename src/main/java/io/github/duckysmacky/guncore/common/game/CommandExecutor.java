@@ -4,7 +4,9 @@ import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.ExecuteCommandPacket;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public final class CommandExecutor {
     private static final String ID = "CommandExecutor";
@@ -12,13 +14,12 @@ public final class CommandExecutor {
     private CommandExecutor() {}
 
     public static void execute(String command) {
-        if (FMLCommonHandler.instance().getSide().isServer()) {
-            MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
+            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             executeAsServer(server, command);
         } else {
-            // send packet to server
             GuncoreMod.LOGGER.info("[{}] Sending command to server: {}", ID, command);
-            PacketHandler.instance().sendToServer(new ExecuteCommandPacket(command));
+            PacketHandler.CHANNEL.sendToServer(new ExecuteCommandPacket(command));
         }
     }
 
@@ -29,6 +30,6 @@ public final class CommandExecutor {
         }
 
         GuncoreMod.LOGGER.info("[{}] Executing command: {}", ID, command);
-        server.commandManager.executeCommand(server, command);
+        server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), command);
     }
 }

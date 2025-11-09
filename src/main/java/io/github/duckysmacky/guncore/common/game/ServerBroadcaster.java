@@ -4,9 +4,11 @@ import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.BroadcastMessagePacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public final class ServerBroadcaster {
     private static final String ID = "ServerBroadcaster";
@@ -30,21 +32,21 @@ public final class ServerBroadcaster {
 
     public static void broadcastAsServer(MinecraftServer server, String message) {
         if (server == null) {
-            GuncoreMod.LOGGER.error(String.format("[%s] Cannot send message: server is null!", ID));
+            GuncoreMod.LOGGER.error("[{}] Cannot send message: server is null!", ID);
             return;
         }
 
-        GuncoreMod.LOGGER.info(String.format("[%s] %s", ID, message));
+        GuncoreMod.LOGGER.info("[{}] {}", ID, message);
         server.getPlayerList().getPlayers()
-            .forEach(p -> p.sendMessage(new TextComponentString(message)));
+            .forEach(p -> p.sendSystemMessage(Component.literal(message)));
     }
 
     private static void broadcast(String message) {
-        if (FMLCommonHandler.instance().getSide().isServer()) {
-            MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
+            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             broadcastAsServer(server, message);
         } else {
-            PacketHandler.instance().sendToServer(new BroadcastMessagePacket(message));
+            PacketHandler.CHANNEL.sendToServer(new BroadcastMessagePacket(message));
         }
     }
 }

@@ -1,19 +1,22 @@
 package io.github.duckysmacky.guncore.common.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.core.Holder;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public final class ServerSoundPlayer {
     private static final String ID = "ServerSoundPlayer";
 
     private ServerSoundPlayer() {}
 
-    public static void playFor(EntityPlayer player, SoundEvent sound, float volume, float pitch) {
+    public static void playFor(Player player, SoundEvent sound, float volume, float pitch) {
         play(player, sound, volume, pitch);
     }
 
@@ -21,30 +24,31 @@ public final class ServerSoundPlayer {
         play(null, sound, volume, pitch);
     }
 
-    public static void playAsServer(MinecraftServer server, EntityPlayer target, SoundEvent sound, float volume, float pitch) {
+    public static void playAsServer(MinecraftServer server, Player target, SoundEvent sound, float volume, float pitch) {
         if (server == null) {
-            GuncoreMod.LOGGER.error(String.format("[%s] Cannot play sound: server is null", ID));
+            GuncoreMod.LOGGER.error("[{}] Cannot play sound: server is null", ID);
             return;
         }
 
-        if (target == null) {
-            server.getPlayerList().getPlayers().forEach(p -> {
-                WorldServer world = p.getServerWorld();
-                world.playSound(null, p.getPosition(), sound, SoundCategory.MASTER, volume, pitch);
-            });
-        } else {
-            WorldServer world = server.getWorld(0);
-            world.playSound(target, target.getPosition(), sound, SoundCategory.MASTER, volume, pitch);
-        }
+        server.getPlayerList().getPlayers().forEach(player -> {
+            if (target == null || target.getUUID().equals(player.getUUID())) {
+                player.connection.send(new ClientboundSoundPacket(
+                    Holder.direct(sound),
+                    SoundSource.MASTER,
+                    player.getX(), player.getY(), player.getZ(),
+                    volume, pitch, server.getNextTickTime()
+                ));
+            }
+        });
     }
 
-    private static void play(EntityPlayer target, SoundEvent sound, float volume, float pitch) {
-        if (FMLCommonHandler.instance().getSide().isServer()) {
-            MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+    private static void play(Player target, SoundEvent sound, float volume, float pitch) {
+        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
+            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             playAsServer(server, target, sound, volume, pitch);
         } else {
             // TODO: add client support
-            GuncoreMod.LOGGER.error(String.format("[%s] Cannot play sound globally from client", ID));
+            GuncoreMod.LOGGER.error("[{}] Cannot play sound globally from client", ID);
         }
     }
 }
