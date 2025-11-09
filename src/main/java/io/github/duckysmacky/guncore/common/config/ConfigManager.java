@@ -3,7 +3,10 @@ package io.github.duckysmacky.guncore.common.config;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogManager;
-import net.minecraftforge.fml.common.Loader;
+import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.network.packets.LoadConfigPacket;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.function.Supplier;
 
@@ -29,12 +32,18 @@ public class ConfigManager {
     }
 
     public void load() {
-        catalogManager.load();
+        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
+            GuncoreMod.LOGGER.info("[{}] Loading config", ID);
+            ConfigLoader loader = new ConfigLoader();
 
-        ConfigLoader loader = new ConfigLoader(Loader.instance().getConfigDir());
+            catalogManager.load(loader);
 
-        String gameConfigJson = loader.readJSON("game.json", GameConfig::createDefault);
-        gameConfig = parseConfigJson(gameConfigJson, GameConfig.class, GameConfig::createDefault);
+            String gameConfigJson = loader.readJSON("game.json", GameConfig::createDefault);
+            gameConfig = parseConfigJson(gameConfigJson, GameConfig.class, GameConfig::createDefault);
+        } else {
+            GuncoreMod.LOGGER.info("[{}] Requesting config from server", ID);
+            PacketHandler.CHANNEL.sendToServer(new LoadConfigPacket());
+        }
     }
 
     public CatalogManager getCatalogManager() {
@@ -49,7 +58,7 @@ public class ConfigManager {
         try {
             return gson.fromJson(json, configClass);
         } catch (Exception e) {
-            GuncoreMod.LOGGER.error(String.format("[%s] Error parsing '%s' JSON: %s", ID, configClass.getName(), e.getMessage()));
+            GuncoreMod.LOGGER.error("[{}] Error parsing '{}' JSON: {}", ID, configClass.getName(), e.getMessage());
             return defaultValue.get();
         }
     }

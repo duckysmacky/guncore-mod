@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 public enum CatalogType {
     KITS("kits.json", KitEntry.class, KitEntry::createExample),
     GUNS("guns.json", GunEntry.class, GunEntry::createExample),
-    GADGETS("gadgets.json", GadgetEntry.class, GunEntry::createExample),
+    GADGETS("gadgets.json", GadgetEntry.class, GadgetEntry::createExample),
     LOCATIONS("locations.json", LocationEntry.class, LocationEntry::createExample);
 
     public final String jsonFile;

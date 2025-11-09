@@ -38,9 +38,6 @@ public class GuncoreConfigCommand extends CommandBase {
         switch (subcommand) {
             case "reload":
                 ConfigManager.instance().load();
-                if (sender instanceof EntityPlayerMP) {
-                    PacketHandler.instance().sendTo(new RefreshMenuPacket(), (EntityPlayerMP) sender);
-                }
                 break;
             default:
                 throw new CommandException(getUsage(sender));
