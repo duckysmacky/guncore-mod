@@ -3,48 +3,33 @@ package io.github.duckysmacky.guncore.common.network.packets;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.server.game.GameManager;
 import io.github.duckysmacky.guncore.common.game.GameMode;
-import io.netty.buffer.ByteBuf;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 
-public class SetGameModePacket implements IMessage {
-    private final Gson gson;
-    private GameMode gameMode;
-
-    public SetGameModePacket() {
-        this.gson = new Gson();
-    }
+public class SetGameModePacket {
+    private static final Gson gson = new Gson();
+    private final GameMode gameMode;
 
     public SetGameModePacket(GameMode gameMode) {
-        this.gson = new Gson();
         this.gameMode = gameMode;
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        String json = ByteBufUtils.readUTF8String(buf);
-        this.gameMode = gson.fromJson(json, GameMode.class);
+    public static void encode(SetGameModePacket msg, FriendlyByteBuf buf) {
+        String json = gson.toJson(msg.gameMode);
+        buf.writeUtf(json);
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        String json = gson.toJson(this.gameMode);
-        ByteBufUtils.writeUTF8String(buf, json);
+    public static SetGameModePacket decode(FriendlyByteBuf buf) {
+        String json = buf.readUtf();
+        GameMode gameMode = gson.fromJson(json, GameMode.class);
+        return new SetGameModePacket(gameMode);
     }
 
-    public static class Handler implements IMessageHandler<SetGameModePacket, IMessage> {
-        @Override
-        public IMessage onMessage(SetGameModePacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
-                FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    GameManager.instance().setGameMode(message.gameMode);
-                });
-            }
-            return null;
-        }
+    public static void handle(SetGameModePacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            GameManager.instance().setGameMode(msg.gameMode);
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

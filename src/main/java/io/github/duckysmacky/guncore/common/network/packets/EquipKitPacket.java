@@ -4,52 +4,37 @@ import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.server.game.EquipmentController;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 
-public class EquipKitPacket implements IMessage {
-    private KitEntry kitEntry;
-
-    public EquipKitPacket() {}
+public class EquipKitPacket {
+    private static final Gson gson = new Gson();
+    private final KitEntry kitEntry;
 
     public EquipKitPacket(KitEntry kitEntry) {
         this.kitEntry = kitEntry;
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = ByteBufUtils.readUTF8String(buf);
-        this.kitEntry = gson.fromJson(json, KitEntry.class);
+    public static void encode(EquipKitPacket msg, FriendlyByteBuf buf) {
+        String json = gson.toJson(msg.kitEntry);
+        buf.writeUtf(json);
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = gson.toJson(this.kitEntry);
-        ByteBufUtils.writeUTF8String(buf, json);
+    public static EquipKitPacket decode(FriendlyByteBuf buf) {
+        String json = buf.readUtf();
+        KitEntry kitEntry = gson.fromJson(json, KitEntry.class);
+        return new EquipKitPacket(kitEntry);
     }
 
-    public static class Handler implements IMessageHandler<EquipKitPacket, IMessage> {
-        @Override
-        public IMessage onMessage(EquipKitPacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
-                FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    EntityPlayerMP player = context.getServerHandler().player;
-                    KitEntry kit = message.kitEntry;
-
-                    EquipmentController.equipKit(player, kit);
-
-                    PacketHandler.instance().sendTo(new ReopenMenuPacket(), player);
-                });
+    public static void handle(EquipKitPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            ServerPlayer player = ctx.get().getSender();
+            if (player != null) {
+                EquipmentController.equipKit(player, msg.kitEntry);
+                NetworkHandler.CHANNEL.sendTo(new ReopenMenuPacket(), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
             }
-            return null;
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

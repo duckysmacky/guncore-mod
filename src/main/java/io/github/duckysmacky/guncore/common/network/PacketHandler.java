@@ -2,40 +2,40 @@ package io.github.duckysmacky.guncore.common.network;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.network.packets.*;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
-public final class PacketHandler {
-    private static SimpleNetworkWrapper networkWrapperInstance;
+public class PacketHandler {
+    private static final String PROTOCOL_VERSION = "1.0.0";
+    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+        ResourceLocation.fromNamespaceAndPath(GuncoreMod.MODID, "main"),
+        () -> PROTOCOL_VERSION,
+        PROTOCOL_VERSION::equals,
+        PROTOCOL_VERSION::equals
+    );
+
     private static int packetId = 0;
 
-    private PacketHandler() {}
+    public static void register() {
+        // client packets
+        CHANNEL.registerMessage(packetId++, SyncCatalogPacket.class, SyncCatalogPacket::encode, SyncCatalogPacket::decode, SyncCatalogPacket::handle);
+        CHANNEL.registerMessage(packetId++, SyncGameInfoPacket.class, SyncGameInfoPacket::encode, SyncGameInfoPacket::decode, SyncGameInfoPacket::handle);
+        CHANNEL.registerMessage(packetId++, OpenMainMenuPacket.class, OpenMainMenuPacket::encode, OpenMainMenuPacket::decode, OpenMainMenuPacket::handle);
+        CHANNEL.registerMessage(packetId++, ReopenMenuPacket.class, ReopenMenuPacket::encode, ReopenMenuPacket::decode, ReopenMenuPacket::handle);
+        CHANNEL.registerMessage(packetId++, RefreshMenuPacket.class, RefreshMenuPacket::encode, RefreshMenuPacket::decode, RefreshMenuPacket::handle);
 
-    public static SimpleNetworkWrapper instance() {
-        return networkWrapperInstance;
-    }
-
-    public static void init() {
-        networkWrapperInstance = NetworkRegistry.INSTANCE.newSimpleChannel(GuncoreMod.MODID);
-
-        networkWrapperInstance.registerMessage(OpenMainMenuPacket.Handler.class, OpenMainMenuPacket.class, packetId++, Side.CLIENT);
-        networkWrapperInstance.registerMessage(ReopenMenuPacket.Handler.class, ReopenMenuPacket.class, packetId++, Side.CLIENT);
-        networkWrapperInstance.registerMessage(SyncGameInfoPacket.Handler.class, SyncGameInfoPacket.class, packetId++, Side.CLIENT);
-        networkWrapperInstance.registerMessage(RefreshMenuPacket.Handler.class, RefreshMenuPacket.class, packetId++, Side.CLIENT);
-
-        networkWrapperInstance.registerMessage(ExecuteCommandPacket.Handler.class, ExecuteCommandPacket.class, packetId++, Side.SERVER);
-        networkWrapperInstance.registerMessage(BroadcastMessagePacket.Handler.class, BroadcastMessagePacket.class, packetId++, Side.SERVER);
-        networkWrapperInstance.registerMessage(EquipGunPacket.Handler.class, EquipGunPacket.class, packetId++, Side.SERVER);
-        networkWrapperInstance.registerMessage(EquipGadgetPacket.Handler.class, EquipGadgetPacket.class, packetId++, Side.SERVER);
-        networkWrapperInstance.registerMessage(EquipKitPacket.Handler.class, EquipKitPacket.class, packetId++, Side.SERVER);
-        networkWrapperInstance.registerMessage(UpdatePlayerListPacket.Handler.class, UpdatePlayerListPacket.class, packetId++, Side.SERVER);
-        networkWrapperInstance.registerMessage(SetGameModePacket.Handler.class, SetGameModePacket.class, packetId++, Side.SERVER);
-        networkWrapperInstance.registerMessage(SetGameModeVariantPacket.Handler.class, SetGameModeVariantPacket.class, packetId++, Side.SERVER);
-        networkWrapperInstance.registerMessage(JoinTeamPacket.Handler.class, JoinTeamPacket.class, packetId++, Side.SERVER);
-        networkWrapperInstance.registerMessage(ControlRoundPacket.Handler.class, ControlRoundPacket.class, packetId++, Side.SERVER);
-
-        networkWrapperInstance.registerMessage(SyncCatalogPacket.Handler.class, SyncCatalogPacket.class, packetId++, Side.CLIENT);
-        networkWrapperInstance.registerMessage(LoadConfigPacket.Handler.class, LoadConfigPacket.class, packetId++, Side.SERVER);
+        // server packets
+        CHANNEL.registerMessage(packetId++, LoadConfigPacket.class, LoadConfigPacket::encode, LoadConfigPacket::decode, LoadConfigPacket::handle);
+        CHANNEL.registerMessage(packetId++, EquipGunPacket.class, EquipGunPacket::encode, EquipGunPacket::decode, EquipGunPacket::handle);
+        CHANNEL.registerMessage(packetId++, EquipKitPacket.class, EquipKitPacket::encode, EquipKitPacket::decode, EquipKitPacket::handle);
+        CHANNEL.registerMessage(packetId++, EquipGadgetPacket.class, EquipGadgetPacket::encode, EquipGadgetPacket::decode, EquipGadgetPacket::handle);
+        CHANNEL.registerMessage(packetId++, ControlRoundPacket.class, ControlRoundPacket::encode, ControlRoundPacket::decode, ControlRoundPacket::handle);
+        CHANNEL.registerMessage(packetId++, SetGameModePacket.class, SetGameModePacket::encode, SetGameModePacket::decode, SetGameModePacket::handle);
+        CHANNEL.registerMessage(packetId++, SetGameModeVariantPacket.class, SetGameModeVariantPacket::encode, SetGameModeVariantPacket::decode, SetGameModeVariantPacket::handle);
+        CHANNEL.registerMessage(packetId++, JoinTeamPacket.class, JoinTeamPacket::encode, JoinTeamPacket::decode, JoinTeamPacket::handle);
+        CHANNEL.registerMessage(packetId++, UpdatePlayerListPacket.class, UpdatePlayerListPacket::encode, UpdatePlayerListPacket::decode, UpdatePlayerListPacket::handle);
+        CHANNEL.registerMessage(packetId++, ExecuteCommandPacket.class, ExecuteCommandPacket::encode, ExecuteCommandPacket::decode, ExecuteCommandPacket::handle);
+        CHANNEL.registerMessage(packetId++, BroadcastMessagePacket.class, BroadcastMessagePacket::encode, BroadcastMessagePacket::decode, BroadcastMessagePacket::handle);
     }
 }

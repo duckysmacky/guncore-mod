@@ -2,64 +2,40 @@ package io.github.duckysmacky.guncore.common.network.packets;
 
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.server.game.GameManager;
-import io.netty.buffer.ByteBuf;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 
-public class ControlRoundPacket implements IMessage {
-    private final Gson gson;
-    private RoundAction action;
-
-    public ControlRoundPacket() {
-        this.gson = new Gson();
-    }
+public class ControlRoundPacket {
+    private static final Gson gson = new Gson();
+    private final RoundAction action;
 
     public ControlRoundPacket(RoundAction action) {
-        this.gson = new Gson();
         this.action = action;
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        String json = ByteBufUtils.readUTF8String(buf);
-        this.action = gson.fromJson(json, RoundAction.class);
+    public static void encode(ControlRoundPacket msg, FriendlyByteBuf buf) {
+        String json = gson.toJson(msg.action);
+        buf.writeUtf(json);
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        String json = gson.toJson(this.action);
-        ByteBufUtils.writeUTF8String(buf, json);
+    public static ControlRoundPacket decode(FriendlyByteBuf buf) {
+        String json = buf.readUtf();
+        RoundAction action = gson.fromJson(json, RoundAction.class);
+        return new ControlRoundPacket(action);
     }
 
-    public static class Handler implements IMessageHandler<ControlRoundPacket, IMessage> {
-        @Override
-        public IMessage onMessage(ControlRoundPacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
-                FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    GameManager gameManager = GameManager.instance();
-
-                    switch (message.action) {
-                        case START:
-                            gameManager.startRound();
-                            break;
-                        case PAUSE:
-                            gameManager.toggleRoundPause();
-                            break;
-                        case END:
-                            gameManager.endRound();
-                            break;
-                        case RESET:
-                            gameManager.resetRound();
-                            break;
-                    }
-                });
+    public static void handle(ControlRoundPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            GameManager gameManager = GameManager.instance();
+            switch (msg.action) {
+                case START -> gameManager.startRound();
+                case PAUSE -> gameManager.toggleRoundPause();
+                case END -> gameManager.endRound();
+                case RESET -> gameManager.resetRound();
             }
-            return null;
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 
     public enum RoundAction {

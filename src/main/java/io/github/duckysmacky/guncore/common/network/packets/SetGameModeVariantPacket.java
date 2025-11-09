@@ -3,48 +3,34 @@ package io.github.duckysmacky.guncore.common.network.packets;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.server.game.GameManager;
 import io.github.duckysmacky.guncore.common.game.GameMode;
-import io.netty.buffer.ByteBuf;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
-public class SetGameModeVariantPacket implements IMessage {
-    private final Gson gson;
-    private GameMode.Variant gameModeVariant;
+import java.util.function.Supplier;
 
-    public SetGameModeVariantPacket() {
-        this.gson = new Gson();
-    }
+public class SetGameModeVariantPacket {
+    private static final Gson gson = new Gson();
+    private final GameMode.Variant gameModeVariant;
 
     public SetGameModeVariantPacket(GameMode.Variant gameModeVariant) {
-        this.gson = new Gson();
         this.gameModeVariant = gameModeVariant;
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        String json = ByteBufUtils.readUTF8String(buf);
-        this.gameModeVariant = gson.fromJson(json, GameMode.Variant.class);
+    public static void encode(SetGameModeVariantPacket msg, FriendlyByteBuf buf) {
+        String json = gson.toJson(msg.gameModeVariant);
+        buf.writeUtf(json);
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        String json = gson.toJson(this.gameModeVariant);
-        ByteBufUtils.writeUTF8String(buf, json);
+    public static SetGameModeVariantPacket decode(FriendlyByteBuf buf) {
+        String json = buf.readUtf();
+        GameMode.Variant gameMode = gson.fromJson(json, GameMode.Variant.class);
+        return new SetGameModeVariantPacket(gameMode);
     }
 
-    public static class Handler implements IMessageHandler<SetGameModeVariantPacket, IMessage> {
-        @Override
-        public IMessage onMessage(SetGameModeVariantPacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
-                FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    GameManager.instance().setGameModeVariant(message.gameModeVariant);
-                });
-            }
-            return null;
-        }
+    public static void handle(SetGameModeVariantPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            GameManager.instance().setGameModeVariant(msg.gameModeVariant);
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

@@ -1,56 +1,40 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
-import com.google.gson.Gson;
-import io.github.duckysmacky.guncore.GuncoreMod;
-import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import io.github.duckysmacky.guncore.GuncoreMod;
 
-public class SyncCatalogPacket implements IMessage {
-    private CatalogType catalogType;
-    private String catalogJson;
-
-    public SyncCatalogPacket() {}
+public class SyncCatalogPacket {
+    private final CatalogType catalogType;
+    private final String catalogJson;
 
     public SyncCatalogPacket(CatalogType catalogType, String catalogJson) {
         this.catalogType = catalogType;
         this.catalogJson = catalogJson;
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        buf.writeInt(catalogType.ordinal());
-        byte[] bytes = catalogJson.getBytes();
-        buf.writeInt(bytes.length);
-        buf.writeBytes(bytes);
+    public static void encode(SyncCatalogPacket msg, FriendlyByteBuf buf) {
+        buf.writeEnum(msg.catalogType);
+        buf.writeUtf(msg.catalogJson);
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        this.catalogType = CatalogType.values()[buf.readInt()];
-        int length = buf.readInt();
-        byte[] bytes = new byte[length];
-        buf.readBytes(bytes);
-        this.catalogJson = new String(bytes);
+    public static SyncCatalogPacket decode(FriendlyByteBuf buf) {
+        CatalogType type = buf.readEnum(CatalogType.class);
+        String json = buf.readUtf();
+        return new SyncCatalogPacket(type, json);
     }
 
-    public static class Handler implements IMessageHandler<SyncCatalogPacket, IMessage> {
-        @Override
-        public IMessage onMessage(SyncCatalogPacket message, MessageContext context) {
-            if (context.side == Side.CLIENT) {
-                Minecraft.getMinecraft().addScheduledTask(() -> {
-                    ConfigManager.instance().getCatalogManager().cacheCatalog(message.catalogType, message.catalogJson);
+    public static void handle(SyncCatalogPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            if (ctx.get().getDirection().getReceptionSide().isClient()) {
+                ConfigManager.instance().getCatalogManager().cacheCatalog(msg.catalogType, msg.catalogJson);
 
-                    GuncoreMod.LOGGER.info("Synced " + message.catalogType.name() + " catalog");
-                });
+                GuncoreMod.LOGGER.info("Synced {} catalog", msg.catalogType.name());
             }
-            return null;
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

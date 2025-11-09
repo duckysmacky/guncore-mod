@@ -3,33 +3,27 @@ package io.github.duckysmacky.guncore.common.network.packets;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.MenuManager;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
-public class OpenMainMenuPacket implements IMessage {
+import java.util.function.Supplier;
+
+public class OpenMainMenuPacket {
     public OpenMainMenuPacket() {}
 
-    @Override
-    public void fromBytes(ByteBuf buf) {}
+    public static void encode(OpenMainMenuPacket msg, FriendlyByteBuf buf) {}
 
-    @Override
-    public void toBytes(ByteBuf buf) {}
+    public static OpenMainMenuPacket decode(FriendlyByteBuf buf) {
+        return new OpenMainMenuPacket();
+    }
 
-    public static class Handler implements IMessageHandler<OpenMainMenuPacket, IMessage> {
-        @Override
-        public IMessage onMessage(OpenMainMenuPacket message, MessageContext context) {
-            if (context.side == Side.CLIENT) {
-                Minecraft.getMinecraft().addScheduledTask(() -> {
-                    BaseMenu menu = MenuManager.instance().getMainMenu();
-
-                    GuncoreMod.PROXY.openMenuPage(menu);
-                });
+    public static void handle(OpenMainMenuPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            if (ctx.get().getDirection().getReceptionSide().isClient()) {
+                BaseMenu menu = MenuManager.instance().getMainMenu();
+                GuncoreMod.PROXY.openMenuPage(menu);
             }
-            return null;
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

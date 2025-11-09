@@ -1,55 +1,48 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
 import com.google.gson.Gson;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.server.game.EquipmentController;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.server.level.ServerPlayer;
 
-public class EquipGunPacket implements IMessage {
-    private GunEntry gunEntry;
-
-    public EquipGunPacket() {}
+public class EquipGunPacket {
+    private static final Gson gson = new Gson();
+    private final GunEntry gunEntry;
 
     public EquipGunPacket(GunEntry gunEntry) {
         this.gunEntry = gunEntry;
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = ByteBufUtils.readUTF8String(buf);
-        this.gunEntry = gson.fromJson(json, GunEntry.class);
+    public static void encode(EquipGunPacket msg, FriendlyByteBuf buf) {
+        String json = gson.toJson(msg.gunEntry);
+        buf.writeUtf(json);
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = gson.toJson(this.gunEntry);
-        ByteBufUtils.writeUTF8String(buf, json);
-        }
+    public static EquipGunPacket decode(FriendlyByteBuf buf) {
+        String json = buf.readUtf();
+        GunEntry gun = gson.fromJson(json, GunEntry.class);
+        return new EquipGunPacket(gun);
+    }
 
-    public static class Handler implements IMessageHandler<EquipGunPacket, IMessage> {
-        @Override
-        public IMessage onMessage(EquipGunPacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
-                FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    EntityPlayerMP player = context.getServerHandler().player;
-                    GunEntry gun = message.gunEntry;
+    public static void handle(EquipGunPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            ServerPlayer player = ctx.get().getSender();
 
-                    EquipmentController.equipGun(player, gun);
+            if (player != null) {
+                EquipmentController.equipGun(player, msg.gunEntry);
 
-                    PacketHandler.instance().sendTo(new ReopenMenuPacket(), player);
-                });
+                PacketHandler.CHANNEL.sendTo(
+                    new ReopenMenuPacket(),
+                    player.connection.connection,
+                    NetworkDirection.PLAY_TO_CLIENT
+                );
             }
-            return null;
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

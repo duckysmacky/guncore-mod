@@ -1,37 +1,29 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
 import io.github.duckysmacky.guncore.server.game.GameManager;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkEvent;
 
-public class UpdatePlayerListPacket implements IMessage {
+import java.util.function.Supplier;
+
+public class UpdatePlayerListPacket {
 
     public UpdatePlayerListPacket() {}
 
-    @Override
-    public void fromBytes(ByteBuf buf) {}
+    public static void encode(UpdatePlayerListPacket msg, FriendlyByteBuf buf) {}
 
-    @Override
-    public void toBytes(ByteBuf buf) {}
+    public static UpdatePlayerListPacket decode(FriendlyByteBuf buf) {
+        return new UpdatePlayerListPacket();
+    }
 
-    public static class Handler implements IMessageHandler<UpdatePlayerListPacket, IMessage> {
-        @Override
-        public IMessage onMessage(UpdatePlayerListPacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
-                FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    EntityPlayerMP player = context.getServerHandler().player;
-                    MinecraftServer server = player.getServer();
-
-                    GameManager.instance().updatePlayerListAsServer(server);
-                });
+    public static void handle(UpdatePlayerListPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            ServerPlayer player = ctx.get().getSender();
+            if (player != null) {
+                GameManager.instance().updatePlayerListAsServer(player.getServer());
             }
-            return null;
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

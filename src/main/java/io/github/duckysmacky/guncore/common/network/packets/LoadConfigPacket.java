@@ -1,31 +1,23 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
-import io.netty.buffer.ByteBuf;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 
-public class LoadConfigPacket implements IMessage {
+public class LoadConfigPacket {
     public LoadConfigPacket() {}
 
-    @Override
-    public void fromBytes(ByteBuf buf) {}
+    public static void encode(LoadConfigPacket msg, FriendlyByteBuf buf) {}
 
-    @Override
-    public void toBytes(ByteBuf buf) {}
+    public static LoadConfigPacket decode(FriendlyByteBuf buf) {
+        return new LoadConfigPacket();
+    }
 
-    public static class Handler implements IMessageHandler<LoadConfigPacket, IMessage> {
-        @Override
-        public IMessage onMessage(LoadConfigPacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
-                FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    ConfigManager.instance().load();
-                });
-            }
-            return null;
-        }
+    public static void handle(LoadConfigPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            ConfigManager.instance().load();
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

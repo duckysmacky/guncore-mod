@@ -4,52 +4,37 @@ import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
 import io.github.duckysmacky.guncore.server.game.EquipmentController;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 
-public class EquipGadgetPacket implements IMessage {
-    private GadgetEntry gadgetEntry;
-
-    public EquipGadgetPacket() {}
+public class EquipGadgetPacket {
+    private static final Gson gson = new Gson();
+    private final GadgetEntry gadgetEntry;
 
     public EquipGadgetPacket(GadgetEntry gadgetEntry) {
         this.gadgetEntry = gadgetEntry;
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = ByteBufUtils.readUTF8String(buf);
-        this.gadgetEntry = gson.fromJson(json, GadgetEntry.class);
+    public static void encode(EquipGadgetPacket msg, FriendlyByteBuf buf) {
+        String json = gson.toJson(msg.gadgetEntry);
+        buf.writeUtf(json);
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = gson.toJson(this.gadgetEntry);
-        ByteBufUtils.writeUTF8String(buf, json);
+    public static EquipGadgetPacket decode(FriendlyByteBuf buf) {
+        String json = buf.readUtf();
+        GadgetEntry gadgetEntry = gson.fromJson(json, GadgetEntry.class);
+        return new EquipGadgetPacket(gadgetEntry);
     }
 
-    public static class Handler implements IMessageHandler<EquipGadgetPacket, IMessage> {
-        @Override
-        public IMessage onMessage(EquipGadgetPacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
-                FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    EntityPlayerMP player = context.getServerHandler().player;
-                    GadgetEntry gadget = message.gadgetEntry;
-
-                    EquipmentController.equipGadget(player, gadget);
-
-                    PacketHandler.instance().sendTo(new ReopenMenuPacket(), player);
-                });
+    public static void handle(EquipGadgetPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            ServerPlayer player = ctx.get().getSender();
+            if (player != null) {
+                EquipmentController.equipGadget(player, msg.gadgetEntry);
+                NetworkHandler.CHANNEL.sendTo(new ReopenMenuPacket(), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
             }
-            return null;
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

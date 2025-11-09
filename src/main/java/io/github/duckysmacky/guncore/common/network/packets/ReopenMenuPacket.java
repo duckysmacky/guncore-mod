@@ -3,33 +3,28 @@ package io.github.duckysmacky.guncore.common.network.packets;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.MenuManager;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
-public class ReopenMenuPacket implements IMessage {
+import java.util.function.Supplier;
+
+public class ReopenMenuPacket {
     public ReopenMenuPacket() {}
 
-    @Override
-    public void fromBytes(ByteBuf buf) {}
+    public static void encode(ReopenMenuPacket msg, FriendlyByteBuf buf) {}
 
-    @Override
-    public void toBytes(ByteBuf buf) {}
+    public static ReopenMenuPacket decode(FriendlyByteBuf buf) {
+        return new ReopenMenuPacket();
+    }
 
-    public static class Handler implements IMessageHandler<ReopenMenuPacket, IMessage> {
-        @Override
-        public IMessage onMessage(ReopenMenuPacket message, MessageContext context) {
-            if (context.side == Side.CLIENT) {
-                Minecraft.getMinecraft().addScheduledTask(() -> {
-                    BaseMenu menu = MenuManager.instance().getLastOpenedMenu();
-
-                    GuncoreMod.PROXY.openMenuPage(menu);
-                });
+    public static void handle(ReopenMenuPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            if (ctx.get().getDirection().getReceptionSide().isClient()) {
+                BaseMenu menu = MenuManager.instance().getLastOpenedMenu();
+                // TODO: remove proxy code
+                GuncoreMod.PROXY.openMenuPage(menu);
             }
-            return null;
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

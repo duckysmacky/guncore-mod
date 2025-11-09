@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore;
 
 import com.mojang.logging.LogUtils;
+import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -44,12 +45,15 @@ public class GuncoreMod {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
+        event.enqueueWork(PacketHandler::register);
+
         LOGGER.info("Guncore mod started");
     }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
+        LOGGER.info("Guncore server has started");
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

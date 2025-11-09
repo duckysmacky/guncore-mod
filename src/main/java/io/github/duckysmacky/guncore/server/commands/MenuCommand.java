@@ -1,6 +1,5 @@
 package io.github.duckysmacky.guncore.server.commands;
 
-import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.network.packets.OpenMainMenuPacket;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import net.minecraft.command.CommandBase;

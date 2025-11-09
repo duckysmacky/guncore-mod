@@ -3,50 +3,37 @@ package io.github.duckysmacky.guncore.common.network.packets;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.server.game.GameManager;
 import io.github.duckysmacky.guncore.common.game.Team;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 
-public class JoinTeamPacket implements IMessage {
-    private final Gson gson;
-    private Team team;
-
-    public JoinTeamPacket() {
-        this.gson = new Gson();
-    }
+public class JoinTeamPacket {
+    private static final Gson gson = new Gson();
+    private final Team team;
 
     public JoinTeamPacket(Team team) {
-        this.gson = new Gson();
         this.team = team;
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        String json = ByteBufUtils.readUTF8String(buf);
-        this.team = gson.fromJson(json, Team.class);
+    public static void encode(JoinTeamPacket msg, FriendlyByteBuf buf) {
+        String json = gson.toJson(msg.team);
+        buf.writeUtf(json);
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        String json = gson.toJson(this.team);
-        ByteBufUtils.writeUTF8String(buf, json);
+    public static JoinTeamPacket decode(FriendlyByteBuf buf) {
+        String json = buf.readUtf();
+        Team team = gson.fromJson(json, Team.class);
+        return new JoinTeamPacket(team);
     }
 
-    public static class Handler implements IMessageHandler<JoinTeamPacket, IMessage> {
-        @Override
-        public IMessage onMessage(JoinTeamPacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
-                FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
-                    EntityPlayerMP player = context.getServerHandler().player;
-                    GameManager.instance().joinTeam(player, message.team);
-                });
+    public static void handle(JoinTeamPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            ServerPlayer player = ctx.get().getSender();
+            if (player != null) {
+                GameManager.instance().joinTeam(player, msg.team);
             }
-            return null;
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }
