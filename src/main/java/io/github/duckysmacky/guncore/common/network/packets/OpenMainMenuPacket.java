@@ -21,6 +21,7 @@ public class OpenMainMenuPacket {
         ctx.get().enqueueWork(() -> {
             if (ctx.get().getDirection().getReceptionSide().isClient()) {
                 BaseMenu menu = MenuManager.instance().getMainMenu();
+                // TODO: remove proxy
                 GuncoreMod.PROXY.openMenuPage(menu);
             }
         });

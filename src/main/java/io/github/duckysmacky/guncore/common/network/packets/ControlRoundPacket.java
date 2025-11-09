@@ -27,12 +27,14 @@ public class ControlRoundPacket {
 
     public static void handle(ControlRoundPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            GameManager gameManager = GameManager.instance();
-            switch (msg.action) {
-                case START -> gameManager.startRound();
-                case PAUSE -> gameManager.toggleRoundPause();
-                case END -> gameManager.endRound();
-                case RESET -> gameManager.resetRound();
+            if (ctx.get().getDirection().getReceptionSide().isServer()) {
+                GameManager gameManager = GameManager.instance();
+                switch (msg.action) {
+                    case START -> gameManager.startRound();
+                    case PAUSE -> gameManager.toggleRoundPause();
+                    case END -> gameManager.endRound();
+                    case RESET -> gameManager.resetRound();
+                }
             }
         });
         ctx.get().setPacketHandled(true);

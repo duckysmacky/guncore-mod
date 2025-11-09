@@ -16,7 +16,9 @@ public class LoadConfigPacket {
 
     public static void handle(LoadConfigPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            ConfigManager.instance().load();
+            if (ctx.get().getDirection().getReceptionSide().isServer()) {
+                ConfigManager.instance().load();
+            }
         });
         ctx.get().setPacketHandled(true);
     }

@@ -9,7 +9,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 public class PacketHandler {
     private static final String PROTOCOL_VERSION = "1.0.0";
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-        ResourceLocation.fromNamespaceAndPath(GuncoreMod.MODID, "main"),
+        ResourceLocation.fromNamespaceAndPath(GuncoreMod.MOD_ID, "main"),
         () -> PROTOCOL_VERSION,
         PROTOCOL_VERSION::equals,
         PROTOCOL_VERSION::equals
@@ -19,11 +19,10 @@ public class PacketHandler {
 
     public static void register() {
         // client packets
-        CHANNEL.registerMessage(packetId++, SyncCatalogPacket.class, SyncCatalogPacket::encode, SyncCatalogPacket::decode, SyncCatalogPacket::handle);
+        CHANNEL.registerMessage(packetId++, CacheCatalogPacket.class, CacheCatalogPacket::encode, CacheCatalogPacket::decode, CacheCatalogPacket::handle);
         CHANNEL.registerMessage(packetId++, SyncGameInfoPacket.class, SyncGameInfoPacket::encode, SyncGameInfoPacket::decode, SyncGameInfoPacket::handle);
         CHANNEL.registerMessage(packetId++, OpenMainMenuPacket.class, OpenMainMenuPacket::encode, OpenMainMenuPacket::decode, OpenMainMenuPacket::handle);
         CHANNEL.registerMessage(packetId++, ReopenMenuPacket.class, ReopenMenuPacket::encode, ReopenMenuPacket::decode, ReopenMenuPacket::handle);
-        CHANNEL.registerMessage(packetId++, RefreshMenuPacket.class, RefreshMenuPacket::encode, RefreshMenuPacket::decode, RefreshMenuPacket::handle);
 
         // server packets
         CHANNEL.registerMessage(packetId++, LoadConfigPacket.class, LoadConfigPacket::encode, LoadConfigPacket::decode, LoadConfigPacket::handle);
@@ -34,7 +33,6 @@ public class PacketHandler {
         CHANNEL.registerMessage(packetId++, SetGameModePacket.class, SetGameModePacket::encode, SetGameModePacket::decode, SetGameModePacket::handle);
         CHANNEL.registerMessage(packetId++, SetGameModeVariantPacket.class, SetGameModeVariantPacket::encode, SetGameModeVariantPacket::decode, SetGameModeVariantPacket::handle);
         CHANNEL.registerMessage(packetId++, JoinTeamPacket.class, JoinTeamPacket::encode, JoinTeamPacket::decode, JoinTeamPacket::handle);
-        CHANNEL.registerMessage(packetId++, UpdatePlayerListPacket.class, UpdatePlayerListPacket::encode, UpdatePlayerListPacket::decode, UpdatePlayerListPacket::handle);
         CHANNEL.registerMessage(packetId++, ExecuteCommandPacket.class, ExecuteCommandPacket::encode, ExecuteCommandPacket::decode, ExecuteCommandPacket::handle);
         CHANNEL.registerMessage(packetId++, BroadcastMessagePacket.class, BroadcastMessagePacket::encode, BroadcastMessagePacket::decode, BroadcastMessagePacket::handle);
     }

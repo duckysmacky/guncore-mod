@@ -24,7 +24,7 @@ public class LocationsMenuPage extends DynamicMenu {
 
                 addEntry(new ActionEntry(locationIcon, (player) -> {
                     LocationEntry.LocationCoordinates coords = location.getCoordinates();
-                    String command = String.format("tp %s %d %d %d", player.getName(), coords.x, coords.y, coords.z);
+                    String command = String.format("tp %s %d %d %d", player.getName(), coords.x(), coords.y(), coords.z());
                     CommandExecutor.execute(command);
 
                     player.sendMessage(new TextComponentString("Teleporting to '" + locationIcon.getDisplayName() + "'"));

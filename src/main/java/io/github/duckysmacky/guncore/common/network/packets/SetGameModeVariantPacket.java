@@ -29,7 +29,9 @@ public class SetGameModeVariantPacket {
 
     public static void handle(SetGameModeVariantPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            GameManager.instance().setGameModeVariant(msg.gameModeVariant);
+            if (ctx.get().getDirection().getReceptionSide().isServer()) {
+                GameManager.instance().setGameModeVariant(msg.gameModeVariant);
+            }
         });
         ctx.get().setPacketHandled(true);
     }

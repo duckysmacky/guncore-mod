@@ -5,6 +5,8 @@ import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.server.game.EquipmentController;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
@@ -29,10 +31,12 @@ public class EquipKitPacket {
 
     public static void handle(EquipKitPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
-            if (player != null) {
-                EquipmentController.equipKit(player, msg.kitEntry);
-                NetworkHandler.CHANNEL.sendTo(new ReopenMenuPacket(), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+            if (ctx.get().getDirection().getReceptionSide().isServer()) {
+                ServerPlayer player = ctx.get().getSender();
+                if (player != null) {
+                    EquipmentController.equipKit(player, msg.kitEntry);
+                    PacketHandler.CHANNEL.sendTo(new ReopenMenuPacket(), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+                }
             }
         });
         ctx.get().setPacketHandled(true);

@@ -2,9 +2,11 @@ package io.github.duckysmacky.guncore.common.network.packets;
 
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
-import io.github.duckysmacky.guncore.server.game.EquipmentController;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.server.game.EquipmentController;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
@@ -29,10 +31,13 @@ public class EquipGadgetPacket {
 
     public static void handle(EquipGadgetPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
-            if (player != null) {
-                EquipmentController.equipGadget(player, msg.gadgetEntry);
-                NetworkHandler.CHANNEL.sendTo(new ReopenMenuPacket(), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+            if (ctx.get().getDirection().getReceptionSide().isServer()) {
+                ServerPlayer player = ctx.get().getSender();
+
+                if (player != null) {
+                    EquipmentController.equipGadget(player, msg.gadgetEntry);
+                    PacketHandler.CHANNEL.sendTo(new ReopenMenuPacket(), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+                }
             }
         });
         ctx.get().setPacketHandled(true);

@@ -29,9 +29,11 @@ public class JoinTeamPacket {
 
     public static void handle(JoinTeamPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
-            if (player != null) {
-                GameManager.instance().joinTeam(player, msg.team);
+            if (ctx.get().getDirection().getReceptionSide().isServer()) {
+                ServerPlayer player = ctx.get().getSender();
+                if (player != null) {
+                    GameManager.instance().joinTeam(player, msg.team);
+                }
             }
         });
         ctx.get().setPacketHandled(true);

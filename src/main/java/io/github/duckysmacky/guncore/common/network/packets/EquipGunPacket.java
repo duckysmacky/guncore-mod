@@ -31,16 +31,12 @@ public class EquipGunPacket {
 
     public static void handle(EquipGunPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
-
-            if (player != null) {
-                EquipmentController.equipGun(player, msg.gunEntry);
-
-                PacketHandler.CHANNEL.sendTo(
-                    new ReopenMenuPacket(),
-                    player.connection.connection,
-                    NetworkDirection.PLAY_TO_CLIENT
-                );
+            if (ctx.get().getDirection().getReceptionSide().isServer()) {
+                ServerPlayer player = ctx.get().getSender();
+                if (player != null) {
+                    EquipmentController.equipGun(player, msg.gunEntry);
+                    PacketHandler.CHANNEL.sendTo(new ReopenMenuPacket(), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+                }
             }
         });
         ctx.get().setPacketHandled(true);
