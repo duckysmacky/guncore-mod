@@ -4,12 +4,17 @@ import com.mojang.logging.LogUtils;
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.LoadConfigPacket;
+import io.github.duckysmacky.guncore.server.ServerEventHandler;
+import io.github.duckysmacky.guncore.server.game.GameManager;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -40,6 +45,7 @@ public class GuncoreMod {
         CREATIVE_MODE_TABS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -49,17 +55,15 @@ public class GuncoreMod {
         LOGGER.info("Guncore mod started");
     }
 
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
-        ConfigManager.instance().load();
-    }
-
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
+        }
+
+        @SubscribeEvent
+        public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
             PacketHandler.CHANNEL.sendToServer(new LoadConfigPacket());
         }
     }
