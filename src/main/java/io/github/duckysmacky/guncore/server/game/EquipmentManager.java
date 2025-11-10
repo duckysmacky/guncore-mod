@@ -2,7 +2,7 @@ package io.github.duckysmacky.guncore.server.game;
 
 import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +25,8 @@ public class EquipmentManager {
         return instance;
     }
 
-    public PlayerEquipment getEquipment(EntityPlayer player) {
-        UUID uuid = player.getUniqueID();
+    public PlayerEquipment getEquipment(ServerPlayer player) {
+        UUID uuid = player.getUUID();
 
         return playerEquipment.computeIfAbsent(uuid, u -> new PlayerEquipment());
     }

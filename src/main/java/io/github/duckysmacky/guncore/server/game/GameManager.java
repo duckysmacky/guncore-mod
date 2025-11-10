@@ -6,14 +6,15 @@ import io.github.duckysmacky.guncore.common.config.GameConfig;
 import io.github.duckysmacky.guncore.common.game.*;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
-import io.github.duckysmacky.guncore.common.network.packets.UpdatePlayerListPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.GameType;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameType;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -75,21 +76,12 @@ public class GameManager {
 
         Arrays.stream(commandChain).forEach(CommandExecutor::execute);
         ServerBroadcaster.message("&a&lWorld setup complete");
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+        ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_HARP.get(), 1f, 1f);
     }
-
 
     private void updatePlayerList() {
-        if (FMLCommonHandler.instance().getSide().isServer()) {
-            MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-            updatePlayerListAsServer(server);
-        } else {
-            GuncoreMod.LOGGER.info("[{}] Requesting a player list update from server", ID);
-            PacketHandler.instance().sendToServer(new UpdatePlayerListPacket());
-        }
-    }
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
-    public void updatePlayerListAsServer(MinecraftServer server) {
         if (server == null) {
             GuncoreMod.LOGGER.error("[{}] Cannot update player list: server is null!", ID);
             return;
@@ -97,11 +89,11 @@ public class GameManager {
 
         GuncoreMod.LOGGER.info("[{}] {}", ID, "Updating player list from server");
         server.getPlayerList().getPlayers().forEach(
-            p -> playerStats.computeIfAbsent(p.getUniqueID(), k -> {
-                switchTeamTo(p.getUniqueID(), Team.NONE);
+            p -> playerStats.computeIfAbsent(p.getUUID(), k -> {
+                switchTeamTo(p.getUUID(), Team.NONE);
                 String command = String.format("scoreboard teams join none %s", p.getName());
                 CommandExecutor.execute(command);
-                return new PlayerStats(p.getName());
+                return new PlayerStats(p.getScoreboardName());
             })
         );
     }
@@ -119,16 +111,16 @@ public class GameManager {
             });
 
             if (gameMode != GameMode.FFA) {
-                teams.get(Team.NONE).forEach(p -> {
-                    ServerBroadcaster.warning(String.format("&7Player &f&l%s &7didn't join any team!", playerStats.get(p).getUsername()));
-                });
+                teams.get(Team.NONE).forEach(
+                    p -> ServerBroadcaster.warning(String.format("&7Player &f&l%s &7didn't join any team!", playerStats.get(p).getUsername()))
+                );
             }
 
             ServerBroadcaster.message("&a&lRound started");
-            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_END_PORTAL_SPAWN, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.END_PORTAL_SPAWN, 1f, 1f);
         } else {
             ServerBroadcaster.error("&7There is already a round in progress!");
-            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.VILLAGER_NO, 1f, 1f);
         }
     }
 
@@ -136,14 +128,14 @@ public class GameManager {
         if (state == GameState.RUNNING) {
             state = GameState.PAUSED;
             ServerBroadcaster.message("&e&lRound paused");
-            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_BASS.get(), 1f, 1f);
         } else if (state == GameState.PAUSED) {
             state = GameState.RUNNING;
             ServerBroadcaster.message("&e&lRound continued");
-            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_BASS.get(), 1f, 1f);
         } else {
             ServerBroadcaster.error("&7There is no round in progress!");
-            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.VILLAGER_NO, 1f, 1f);
         }
     }
 
@@ -152,7 +144,7 @@ public class GameManager {
         roundDurationSec = 0;
         playerStats.values().forEach(PlayerStats::resetStats);
         ServerBroadcaster.message("&c&lRound reset");
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
+        ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_BASS.get(), 1f, 1f);
     }
 
     public void endRound() {
@@ -164,7 +156,7 @@ public class GameManager {
             determineWinner();
         } else {
             ServerBroadcaster.error("&7There is no round in progress!");
-            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.VILLAGER_NO, 1f, 1f);
         }
     }
 
@@ -187,11 +179,11 @@ public class GameManager {
         // every 0.5 second
         if (tickCount % 10 == 0) {
             SyncGameInfoPacket packet = new SyncGameInfoPacket(gameMode, gameModeVariant, state, roundDurationSec, playerStats);
-            PacketHandler.instance().sendToAll(packet);
+            PacketHandler.CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
         }
     }
 
-    public void onPlayerKill(EntityPlayer killer, EntityPlayer victim) {
+    public void onPlayerKill(ServerPlayer killer, ServerPlayer victim) {
         if (state != GameState.RUNNING) return;
 
         PlayerStats killerStats = getStats(killer);
@@ -200,21 +192,21 @@ public class GameManager {
         PlayerStats victimStats = getStats(victim);
         victimStats.registerDeath();
 
-        ServerSoundPlayer.playFor(killer, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.5f, 1f);
+        ServerSoundPlayer.playFor(killer, SoundEvents.EXPERIENCE_ORB_PICKUP, 1.5f, 1f);
 
         if (gameModeVariant == GameMode.Variant.LIVES) {
             if (victimStats.getLives() <= 0) {
-                victim.setGameType(GameType.SPECTATOR);
+                victim.setGameMode(GameType.SPECTATOR);
                 ServerBroadcaster.message(String.format("&f&l%s &c&lis out of lives!", victim.getName()));
-                ServerSoundPlayer.playForAll(SoundEvents.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);
+                ServerSoundPlayer.playForAll(SoundEvents.ENDER_DRAGON_GROWL, 1f, 1f);
             } else if (victimStats.getLives() == 1) {
                 String message = TextUtils.translateColorCodes("&c&lYou only have &f&l1 &e&llife left");
-                victim.sendMessage(new TextComponentString(message));
-                ServerSoundPlayer.playFor(victim, SoundEvents.BLOCK_GLASS_BREAK, 1f, 1f);
+                victim.sendSystemMessage(Component.literal(message));
+                ServerSoundPlayer.playFor(victim, SoundEvents.GLASS_BREAK, 1f, 1f);
             } else {
                 String message = TextUtils.translateColorCodes(String.format("&e&lYou have &f&l%s &e&llives left", victimStats.getLives()));
-                victim.sendMessage(new TextComponentString(message));
-                ServerSoundPlayer.playFor(victim, SoundEvents.BLOCK_GLASS_BREAK, 1f, 1f);
+                victim.sendSystemMessage(Component.literal(message));
+                ServerSoundPlayer.playFor(victim, SoundEvents.GLASS_BREAK, 1f, 1f);
             }
         }
 
@@ -223,7 +215,7 @@ public class GameManager {
 
     public void printRoundTimeLeft(int timeLeftSecs) {
         ServerBroadcaster.message(String.format("&e&lTime Left: &f%s", TextUtils.formatTime(timeLeftSecs)));
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HAT, 1f, 1f);
+        ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_HAT.get(), 1f, 1f);
     }
 
     public void printGameScoreboard() {
@@ -263,11 +255,11 @@ public class GameManager {
         });
     }
 
-    public void joinTeam(EntityPlayer player, Team team) {
+    public void joinTeam(Player player, Team team) {
         if (gameMode == GameMode.FFA)
             setGameMode(GameMode.TDM);
 
-        switchTeamTo(player.getUniqueID(), team);
+        switchTeamTo(player.getUUID(), team);
         String command = String.format("scoreboard teams join %s %s", team.display.toLowerCase(), player.getName());
         CommandExecutor.execute(command);
 
@@ -275,7 +267,7 @@ public class GameManager {
             "&7Player &f%s &7joined the %s%s Team",
             player.getName(), team.color, team.display
         ));
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+        ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_HARP.get(), 1f, 1f);
     }
 
     public void setGameMode(GameMode gameMode) {
@@ -287,10 +279,10 @@ public class GameManager {
 
             this.gameMode = gameMode;
             ServerBroadcaster.message("&fGame mode set to &l" + gameMode.display);
-            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_HARP.get(), 1f, 1f);
         } else {
             ServerBroadcaster.error("&7There is already a round in progress!");
-            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.VILLAGER_NO, 1f, 1f);
         }
     }
 
@@ -298,47 +290,37 @@ public class GameManager {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
             this.gameModeVariant = gameModeVariant;
             ServerBroadcaster.message("&fGame mode variant set to &l" + gameModeVariant.display);
-            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_HARP.get(), 1f, 1f);
         } else {
             ServerBroadcaster.error("&7There is already a round in progress!");
-            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.VILLAGER_NO, 1f, 1f);
         }
     }
 
-    public PlayerStats getStats(EntityPlayer player) {
-        UUID uuid = player.getUniqueID();
-        playerStats.computeIfAbsent(uuid, k -> new PlayerStats(player.getName()));
+    public PlayerStats getStats(Player player) {
+        UUID uuid = player.getUUID();
+        playerStats.computeIfAbsent(uuid, k -> new PlayerStats(player.getScoreboardName()));
         return playerStats.get(uuid);
     }
 
     private int getStartingLives() {
         GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
-        switch (gameMode) {
-            case FFA:
-                return gameConfig.ffaConfig.startingLives;
-            case TDM:
-                return gameConfig.tdmConfig.startingLives;
-            case HOSTAGE:
-                return gameConfig.hostageConfig.startingLives;
-            default:
-                return 5;
-        }
+        return switch (gameMode) {
+            case FFA -> gameConfig.ffaConfig.startingLives;
+            case TDM -> gameConfig.tdmConfig.startingLives;
+            case HOSTAGE -> gameConfig.hostageConfig.startingLives;
+        };
     }
 
     private int getRoundLengthSec() {
         GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
-        switch (gameMode) {
-            case FFA:
-                return gameConfig.ffaConfig.roundLengthSec;
-            case TDM:
-                return gameConfig.tdmConfig.roundLengthSec;
-            case HOSTAGE:
-                return gameConfig.hostageConfig.roundLengthSec;
-            default:
-                return 600;
-        }
+        return switch (gameMode) {
+            case FFA -> gameConfig.ffaConfig.roundLengthSec;
+            case TDM -> gameConfig.tdmConfig.roundLengthSec;
+            case HOSTAGE -> gameConfig.hostageConfig.roundLengthSec;
+        };
     }
 
     public GameMode getGameMode() {
@@ -371,70 +353,56 @@ public class GameManager {
 
     private void checkRoundEndConditions() {
         if (gameModeVariant == GameMode.Variant.LIVES) {
-            switch (gameMode) {
-                case FFA: {
-                    long playersAlive = playerStats.values().stream()
-                        .filter(p -> p.getLives() > 0)
-                        .count();
+            if (gameMode == GameMode.FFA) {
+                long playersAlive = playerStats.values().stream()
+                    .filter(p -> p.getLives() > 0)
+                    .count();
 
-                    if (playersAlive <= 1)
-                        endRound();
+                if (playersAlive <= 1)
+                    endRound();
+            } else {
+                Set<Team> aliveTeams = playerStats.entrySet().stream()
+                    .filter(e -> e.getValue().getLives() > 0)
+                    .map(Map.Entry::getKey)
+                    .map(this::getPlayerTeam)
+                    .collect(Collectors.toSet());
 
-                    break;
-                }
-                default: {
-                    Set<Team> aliveTeams = playerStats.entrySet().stream()
-                        .filter(e -> e.getValue().getLives() > 0)
-                        .map(Map.Entry::getKey)
-                        .map(this::getPlayerTeam)
-                        .collect(Collectors.toSet());
-
-                    if (aliveTeams.size() <= 1)
-                        endRound();
-
-                    break;
-                }
+                if (aliveTeams.size() <= 1)
+                    endRound();
             }
         }
     }
 
     private void determineWinner() {
-        switch (gameMode) {
-            case FFA: {
-                PlayerStats topPlayer = playerStats.values().stream()
-                    .max(Comparator
-                        .comparingInt(PlayerStats::getKills)
-                        .thenComparing(PlayerStats::getDeaths, Comparator.reverseOrder())
-                        .thenComparing(PlayerStats::getLives)
-                    )
-                    .orElse(null);
+        if (gameMode == GameMode.FFA) {
+            PlayerStats topPlayer = playerStats.values().stream()
+                .max(Comparator
+                    .comparingInt(PlayerStats::getKills)
+                    .thenComparing(PlayerStats::getDeaths, Comparator.reverseOrder())
+                    .thenComparing(PlayerStats::getLives)
+                )
+                .orElse(null);
 
-                if (topPlayer != null) {
-                    ServerBroadcaster.message(String.format("&6&lWinner: &f%s &7(%s kills)", topPlayer.getUsername(), topPlayer.getKills()));
-                    printGameScoreboard();
-                } else {
-                    ServerBroadcaster.message("&c&lNobody won lmao");
-                    ServerBroadcaster.message("&7yall suck");
-                }
-
-                break;
+            if (topPlayer != null) {
+                ServerBroadcaster.message(String.format("&6&lWinner: &f%s &7(%s kills)", topPlayer.getUsername(), topPlayer.getKills()));
+                printGameScoreboard();
+            } else {
+                ServerBroadcaster.message("&c&lNobody won lmao");
+                ServerBroadcaster.message("&7yall suck");
             }
-            default: {
-                Map<Team, Integer> teamKills = new EnumMap<>(Team.class);
-                playerStats.forEach((uuid, stats) ->
-                    teamKills.merge(getPlayerTeam(uuid), stats.getKills(), Integer::sum)
-                );
+        } else {
+            Map<Team, Integer> teamKills = new EnumMap<>(Team.class);
+            playerStats.forEach((uuid, stats) ->
+                teamKills.merge(getPlayerTeam(uuid), stats.getKills(), Integer::sum)
+            );
 
-                Team topTeam = teamKills.entrySet().stream()
-                    .max(Map.Entry.comparingByValue())
-                    .map(Map.Entry::getKey)
-                    .orElse(Team.NONE);
+            Team topTeam = teamKills.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(Team.NONE);
 
-                ServerBroadcaster.message(String.format("&6&lWinning team: %s%s Team", topTeam.color, topTeam.display));
-                printTeams();
-
-                break;
-            }
+            ServerBroadcaster.message(String.format("&6&lWinning team: %s%s Team", topTeam.color, topTeam.display));
+            printTeams();
         }
     }
 }

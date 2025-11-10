@@ -5,19 +5,18 @@ import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-
-import java.util.List;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public final class EquipmentController {
 
     private EquipmentController() {}
 
-    public static void equipGun(EntityPlayerMP player, GunEntry gun) {
+    public static void equipGun(ServerPlayer player, GunEntry gun) {
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
 
         if (gun.isSecondary()) {
@@ -33,29 +32,27 @@ public final class EquipmentController {
         syncInventory(player);
     }
 
-    private static void removeGun(EntityPlayerMP player, GunEntry gun) {
-        InventoryPlayer inventory = player.inventory;
+    private static void removeGun(ServerPlayer player, GunEntry gun) {
+        Inventory inventory = player.getInventory();
 
-        for (int i = 0; i < inventory.mainInventory.size(); i++) {
-            ItemStack item = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.items.size(); i++) {
+            ItemStack item = inventory.getItem(i);
 
-            ResourceLocation registryName = item.getItem().getRegistryName();
-            if (registryName == null) continue;
-
-            String itemId = registryName.toString();
-            if (itemId.equals(gun.getGunItemId()) || itemId.equals(gun.getAmmoItemId()))
-                inventory.setInventorySlotContents(i, new ItemStack(Items.AIR));
+            if (ItemStack.isSameItem(item, gun.getGunItemStack()) || ItemStack.isSameItem(item, gun.getAmmoItemStack())) {
+                inventory.setItem(i, ItemStack.EMPTY);
+            }
         }
     }
 
-    private static void giveGun(EntityPlayerMP player, GunEntry gun, int hotbarSlot) {
-        player.inventory.mainInventory.set(hotbarSlot, gun.getGunItemStack());
+    private static void giveGun(ServerPlayer player, GunEntry gun, int hotbarSlot) {
+        Inventory inventory = player.getInventory();
+        inventory.setItem(hotbarSlot, gun.getGunItemStack());
 
-        int ammoSlot = hotbarSlot + 9 * 3; // above that slot
-        player.inventory.mainInventory.set(ammoSlot, gun.getAmmoItemStack());
+        int ammoSlot = hotbarSlot + 9 * 3; // one row above that slot
+        inventory.setItem(ammoSlot, gun.getAmmoItemStack());
     }
 
-    public static void equipGadget(EntityPlayerMP player, GadgetEntry gadget) {
+    public static void equipGadget(ServerPlayer player, GadgetEntry gadget) {
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
 
         equipment.getGadget().ifPresent(g -> removeGadget(player, g));
@@ -65,43 +62,42 @@ public final class EquipmentController {
         syncInventory(player);
     }
 
-    private static void removeGadget(EntityPlayerMP player, GadgetEntry gadget) {
-        InventoryPlayer inventory = player.inventory;
+    private static void removeGadget(ServerPlayer player, GadgetEntry gadget) {
+        Inventory inventory = player.getInventory();
 
-        for (int i = 0; i < inventory.mainInventory.size(); i++) {
-            ItemStack item = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.items.size(); i++) {
+            ItemStack item = inventory.getItem(i);
 
-            ResourceLocation registryName = item.getItem().getRegistryName();
-            if (registryName == null) continue;
-
-            String itemId = registryName.toString();
-            if (itemId.equals(gadget.getItemId()) || gadget.getAdditionalItemIds().stream().anyMatch(itemId::equals))
-                inventory.setInventorySlotContents(i, new ItemStack(Items.AIR));
+            if (ItemStack.isSameItem(item, gadget.getItemStack()) ||
+                gadget.getAdditionalItemStacks().stream().anyMatch(it -> ItemStack.isSameItem(item, it))
+            ) {
+                inventory.setItem(i, ItemStack.EMPTY);
+            }
         }
     }
 
-    private static void giveGadget(EntityPlayerMP player, GadgetEntry gadget) {
+    private static void giveGadget(ServerPlayer player, GadgetEntry gadget) {
         int mainSlot = 4;
-        player.inventory.mainInventory.set(mainSlot, gadget.getItemStack());
+        Inventory inventory = player.getInventory();
+        inventory.setItem(mainSlot, gadget.getItemStack());
 
         int extraSlot = mainSlot + 9 * 3;
-        List<ItemStack> extraItems = gadget.getAdditionalItemStacks();
-        for (int i = 0; i < extraItems.size() && i < 3; i++)
-            player.inventory.mainInventory.set(extraSlot - 9 * i, extraItems.get(i));
+        var extraItems = gadget.getAdditionalItemStacks();
+        for (int i = 0; i < extraItems.size() && i < 3; i++) {
+            inventory.setItem(extraSlot - 9 * i, extraItems.get(i));
+        }
     }
 
-    public static void equipKit(EntityPlayerMP player, KitEntry kit) {
-        String command = String.format("csg_kit give %s %s", kit.getKitId(), player.getName());
+    public static void equipKit(ServerPlayer player, KitEntry kit) {
+        String command = String.format("csg_kits give %s %s", kit.getKitId(), player.getName().getString());
         CommandExecutor.execute(command);
-
         syncInventory(player);
     }
 
-    private static void syncInventory(EntityPlayerMP player) {
-        player.inventory.markDirty();
-        player.inventoryContainer.detectAndSendChanges();
-        player.sendContainerToPlayer(player.inventoryContainer);
+    private static void syncInventory(ServerPlayer player) {
+        player.getInventory().setChanged();
+        player.containerMenu.broadcastChanges();
 
-        GuncoreMod.LOGGER.info("SYNCING PLAYER INVENTORY");
+        GuncoreMod.LOGGER.info("Syncing player {} inventory", player.getScoreboardName());
     }
 }
