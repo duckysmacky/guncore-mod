@@ -1,25 +1,25 @@
 package io.github.duckysmacky.guncore.common.util;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-
-import static io.github.duckysmacky.guncore.common.util.TextUtils.translateColorCodes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
 public class ItemStackCustomizer {
-    private net.minecraft.item.ItemStack item;
-    private NBTTagCompound display;
-    private NBTTagList loreList;
+    private ItemStack item;
+    private CompoundTag displayTag;
+    private ListTag loreList;
 
-    public ItemStackCustomizer(net.minecraft.item.ItemStack item) {
-        if (item != null && item != net.minecraft.item.ItemStack.EMPTY) {
-            this.item = item;
+    public ItemStackCustomizer(ItemStack item) {
+        if (item == null || item.isEmpty()) {
+            this.item = new ItemStack(Blocks.DIRT);
         } else {
-            this.item = new net.minecraft.item.ItemStack(Blocks.DIRT);
+            this.item = item;
         }
-        this.display = new NBTTagCompound();
-        this.loreList = new NBTTagList();
+        this.displayTag = item.getOrCreateTagElement("display");
+        this.loreList = new ListTag();
     }
 
     public static ItemStackCustomizer from(String registryName) {
@@ -27,23 +27,25 @@ public class ItemStackCustomizer {
     }
 
     public ItemStackCustomizer setName(String name) {
-        display.setString("Name", translateColorCodes(name));
+        String translated = TextUtils.translateColorCodes(name);
+        displayTag.putString("Name", Component.Serializer.toJson(Component.literal(translated)));
         return this;
     }
 
     public ItemStackCustomizer addLoreLine(String line) {
-        loreList.appendTag(new NBTTagString(translateColorCodes(line)));
+        String translated = TextUtils.translateColorCodes(line);
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(translated))));
         return this;
     }
 
     public ItemStackCustomizer resetLore() {
-        loreList = new NBTTagList();
+        loreList = new ListTag();
         return this;
     }
 
-    public net.minecraft.item.ItemStack getItemStack() {
-        display.setTag("Lore", loreList);
-        item.setTagInfo("display", display);
+    public ItemStack getItemStack() {
+        displayTag.put("Lore", loreList);
+        item.addTagElement("display", displayTag);
         return item;
     }
 }

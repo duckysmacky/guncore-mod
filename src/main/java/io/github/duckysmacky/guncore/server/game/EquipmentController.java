@@ -5,12 +5,9 @@ import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public final class EquipmentController {
 
@@ -89,7 +86,7 @@ public final class EquipmentController {
     }
 
     public static void equipKit(ServerPlayer player, KitEntry kit) {
-        String command = String.format("csg_kits give %s %s", kit.getKitId(), player.getName().getString());
+        String command = String.format("csg_kits give %s %s", kit.getKitId(), player.getScoreboardName());
         CommandExecutor.execute(command);
         syncInventory(player);
     }

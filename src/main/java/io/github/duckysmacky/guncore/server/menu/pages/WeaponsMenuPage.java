@@ -1,13 +1,13 @@
-package io.github.duckysmacky.guncore.client.gui.menu.pages;
+package io.github.duckysmacky.guncore.server.menu.pages;
 
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunCategory;
-import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
-import io.github.duckysmacky.guncore.client.gui.menu.StaticMenu;
-import io.github.duckysmacky.guncore.client.gui.menu.entries.SubpageEntry;
+import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
+import io.github.duckysmacky.guncore.server.menu.StaticMenuPage;
+import io.github.duckysmacky.guncore.server.menu.entries.SubpageEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 
-public class WeaponsMenuPage extends StaticMenu {
-    public WeaponsMenuPage(BaseMenu parent) {
+public class WeaponsMenuPage extends StaticMenuPage {
+    public WeaponsMenuPage(BaseMenuPage parent) {
         super("Weapons", parent, 4, 9);
 
         // Assault Rifles, Battle Rifles, DMRs, LMGs, SMGs, Shotguns, Sniper Rifles, Sidearms, Special Weapons

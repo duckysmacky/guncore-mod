@@ -1,20 +1,19 @@
-package io.github.duckysmacky.guncore.client.gui.menu.pages;
+package io.github.duckysmacky.guncore.server.menu.pages;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.catalog.locations.CityMap;
 import io.github.duckysmacky.guncore.common.config.catalog.locations.LocationEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
-import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
-import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
-import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
-import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
+import io.github.duckysmacky.guncore.server.menu.entries.ActionEntry;
+import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
+import io.github.duckysmacky.guncore.server.menu.DynamicMenuPage;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.ItemStack;
 
-public class LocationsMenuPage extends DynamicMenu {
-    public LocationsMenuPage(BaseMenu parent, CityMap map) {
+public class LocationsMenuPage extends DynamicMenuPage {
+    public LocationsMenuPage(BaseMenuPage parent, CityMap map) {
         super("Locations", parent, 9, 9);
 
         ConfigManager.instance().getCatalogManager().<LocationEntry>getCatalog(CatalogType.LOCATIONS).stream()
@@ -24,11 +23,11 @@ public class LocationsMenuPage extends DynamicMenu {
 
                 addEntry(new ActionEntry(locationIcon, (player) -> {
                     LocationEntry.LocationCoordinates coords = location.getCoordinates();
-                    String command = String.format("tp %s %d %d %d", player.getName(), coords.x(), coords.y(), coords.z());
+                    String command = String.format("tp %s %d %d %d", player.getScoreboardName(), coords.x(), coords.y(), coords.z());
                     CommandExecutor.execute(command);
 
-                    player.sendMessage(new TextComponentString("Teleporting to '" + locationIcon.getDisplayName() + "'"));
-                    ServerSoundPlayer.playFor(player, SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1f, 1f);
+                    player.sendSystemMessage(Component.literal("Teleporting to '" + locationIcon.getHoverName().getString() + "'"));
+                    player.playSound(SoundEvents.ENDERMAN_TELEPORT, 1f, 1f);
                 }));
             });
     }

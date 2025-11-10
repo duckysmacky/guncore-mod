@@ -1,19 +1,19 @@
 package io.github.duckysmacky.guncore.common.game;
 
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 
 public enum Team {
-    NONE("No", TextFormatting.WHITE),
-    BLUE("Blue", TextFormatting.BLUE),
-    RED("Red", TextFormatting.RED),
-    YELLOW("Yellow", TextFormatting.YELLOW),
-    GREEN("Green", TextFormatting.GREEN),
-    PURPLE("Purple", TextFormatting.DARK_PURPLE);
+    NONE("No", ChatFormatting.WHITE),
+    BLUE("Blue", ChatFormatting.BLUE),
+    RED("Red", ChatFormatting.RED),
+    YELLOW("Yellow", ChatFormatting.YELLOW),
+    GREEN("Green", ChatFormatting.GREEN),
+    PURPLE("Purple", ChatFormatting.DARK_PURPLE);
 
     public final String display;
-    public final TextFormatting color;
+    public final ChatFormatting color;
 
-    Team(String display, TextFormatting color) {
+    Team(String display, ChatFormatting color) {
         this.display = display;
         this.color = color;
     }

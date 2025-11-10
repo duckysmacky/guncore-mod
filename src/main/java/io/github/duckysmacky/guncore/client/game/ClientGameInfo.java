@@ -6,12 +6,15 @@ import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.GameState;
 import io.github.duckysmacky.guncore.common.game.PlayerStats;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public final class ClientGameInfo {
     private static ClientGameInfo instance;
+    private final LocalPlayer player;
     private final PlayerStats stats;
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
@@ -19,7 +22,8 @@ public final class ClientGameInfo {
     private int roundDurationSec;
 
     private ClientGameInfo() {
-        this.stats = new PlayerStats(Minecraft.getMinecraft().player.getName());
+        this.player = Objects.requireNonNull(Minecraft.getInstance().player);
+        this.stats = new PlayerStats(player.getScoreboardName());
         this.gameMode = GameMode.FFA;
         this.gameModeVariant = GameMode.Variant.LIVES;
         this.gameState = GameState.NOT_STARTED;
@@ -35,7 +39,7 @@ public final class ClientGameInfo {
     }
 
     public void updatePlayerStats(Map<UUID, PlayerStats> playerStats) {
-        UUID uuid = Minecraft.getMinecraft().player.getUniqueID();
+        UUID uuid = player.getUUID();
         PlayerStats stats = playerStats.get(uuid);
 
         if (stats != null) {
@@ -48,16 +52,11 @@ public final class ClientGameInfo {
     public int getRoundLengthSec() {
         GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
-        switch (gameMode) {
-            case FFA:
-                return gameConfig.ffaConfig.roundLengthSec;
-            case TDM:
-                return gameConfig.tdmConfig.roundLengthSec;
-            case HOSTAGE:
-                return gameConfig.hostageConfig.roundLengthSec;
-            default:
-                return 600;
-        }
+        return switch (gameMode) {
+            case FFA -> gameConfig.ffaConfig().roundLengthSec();
+            case TDM -> gameConfig.tdmConfig().roundLengthSec();
+            case HOSTAGE -> gameConfig.hostageConfig().roundLengthSec();
+        };
     }
 
     public void setGameMode(GameMode gameMode) {

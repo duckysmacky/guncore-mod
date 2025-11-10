@@ -1,7 +1,7 @@
-package io.github.duckysmacky.guncore.client.gui.menu.entries;
+package io.github.duckysmacky.guncore.server.menu.entries;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 
 public abstract class MenuEntry {
     protected ItemStack icon;
@@ -21,5 +21,5 @@ public abstract class MenuEntry {
     /**
      * Called when player clicks this entry
      */
-    public abstract void onClick(EntityPlayer player);
+    public abstract void onClick(ServerPlayer player);
 }

@@ -1,15 +1,15 @@
-package io.github.duckysmacky.guncore.client.gui.menu.entries;
+package io.github.duckysmacky.guncore.server.menu.entries;
 
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import io.github.duckysmacky.guncore.common.game.ServerBroadcaster;
 import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
-import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.text.TextFormatting;
+import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
+import net.minecraft.ChatFormatting;
+import net.minecraft.sounds.SoundEvents;
 
 public class GameruleToggleEntry extends ToggleButtonEntry {
     public GameruleToggleEntry(
-        BaseMenu menu,
+        BaseMenuPage menu,
         boolean baseState,
         String gameruleName,
         String gamerule
@@ -19,12 +19,12 @@ public class GameruleToggleEntry extends ToggleButtonEntry {
             (player, state) -> {
             CommandExecutor.execute("gamerule " + gamerule + " " + state);
 
-            TextFormatting color = state ? TextFormatting.GREEN : TextFormatting.GRAY;
-            String stateText = state ? "enabled" : "disabled";
-            String message = String.format("&f%s %s%s", gameruleName, color, stateText);
+            ChatFormatting color = state ? ChatFormatting.GREEN : ChatFormatting.GRAY;
+            String stateChat = state ? "enabled" : "disabled";
+            String message = String.format("&f%s %s%s", gameruleName, color, stateChat);
 
             ServerBroadcaster.message(message);
-            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+            ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_HARP.get(), 1f, 1f);
         });
     }
 }

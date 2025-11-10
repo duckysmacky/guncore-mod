@@ -21,18 +21,11 @@ public class PacketHandler {
         // client packets
         CHANNEL.registerMessage(packetId++, CacheCatalogPacket.class, CacheCatalogPacket::encode, CacheCatalogPacket::decode, CacheCatalogPacket::handle);
         CHANNEL.registerMessage(packetId++, SyncGameInfoPacket.class, SyncGameInfoPacket::encode, SyncGameInfoPacket::decode, SyncGameInfoPacket::handle);
-        CHANNEL.registerMessage(packetId++, OpenMainMenuPacket.class, OpenMainMenuPacket::encode, OpenMainMenuPacket::decode, OpenMainMenuPacket::handle);
-        CHANNEL.registerMessage(packetId++, ReopenMenuPacket.class, ReopenMenuPacket::encode, ReopenMenuPacket::decode, ReopenMenuPacket::handle);
 
         // server packets
+        CHANNEL.registerMessage(packetId++, OpenMainMenuPacket.class, OpenMainMenuPacket::encode, OpenMainMenuPacket::decode, OpenMainMenuPacket::handle);
+        CHANNEL.registerMessage(packetId++, ReopenMenuPagePacket.class, ReopenMenuPagePacket::encode, ReopenMenuPagePacket::decode, ReopenMenuPagePacket::handle);
         CHANNEL.registerMessage(packetId++, LoadConfigPacket.class, LoadConfigPacket::encode, LoadConfigPacket::decode, LoadConfigPacket::handle);
-        CHANNEL.registerMessage(packetId++, EquipGunPacket.class, EquipGunPacket::encode, EquipGunPacket::decode, EquipGunPacket::handle);
-        CHANNEL.registerMessage(packetId++, EquipKitPacket.class, EquipKitPacket::encode, EquipKitPacket::decode, EquipKitPacket::handle);
-        CHANNEL.registerMessage(packetId++, EquipGadgetPacket.class, EquipGadgetPacket::encode, EquipGadgetPacket::decode, EquipGadgetPacket::handle);
-        CHANNEL.registerMessage(packetId++, ControlRoundPacket.class, ControlRoundPacket::encode, ControlRoundPacket::decode, ControlRoundPacket::handle);
-        CHANNEL.registerMessage(packetId++, SetGameModePacket.class, SetGameModePacket::encode, SetGameModePacket::decode, SetGameModePacket::handle);
-        CHANNEL.registerMessage(packetId++, SetGameModeVariantPacket.class, SetGameModeVariantPacket::encode, SetGameModeVariantPacket::decode, SetGameModeVariantPacket::handle);
-        CHANNEL.registerMessage(packetId++, JoinTeamPacket.class, JoinTeamPacket::encode, JoinTeamPacket::decode, JoinTeamPacket::handle);
         CHANNEL.registerMessage(packetId++, ExecuteCommandPacket.class, ExecuteCommandPacket::encode, ExecuteCommandPacket::decode, ExecuteCommandPacket::handle);
         CHANNEL.registerMessage(packetId++, BroadcastMessagePacket.class, BroadcastMessagePacket::encode, BroadcastMessagePacket::decode, BroadcastMessagePacket::handle);
     }

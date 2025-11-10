@@ -1,23 +1,19 @@
-package io.github.duckysmacky.guncore.client.gui.menu.pages;
+package io.github.duckysmacky.guncore.server.menu.pages;
 
-import io.github.duckysmacky.guncore.common.network.packets.ControlRoundPacket;
-import io.github.duckysmacky.guncore.common.network.packets.JoinTeamPacket;
-import io.github.duckysmacky.guncore.common.network.packets.SetGameModePacket;
-import io.github.duckysmacky.guncore.common.network.packets.SetGameModeVariantPacket;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.Team;
-import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
+import io.github.duckysmacky.guncore.server.game.GameManager;
+import io.github.duckysmacky.guncore.server.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
-import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
-import io.github.duckysmacky.guncore.client.gui.menu.StaticMenu;
-import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
+import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
+import io.github.duckysmacky.guncore.server.menu.StaticMenuPage;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
-public class GameMenuPage extends StaticMenu {
-    public GameMenuPage(BaseMenu parent) {
+public class GameMenuPage extends StaticMenuPage {
+    public GameMenuPage(BaseMenuPage parent) {
         super("Game", parent, 9, 9);
 
         addEntry(new ActionEntry(
@@ -25,7 +21,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&f&lFree For All")
                 .addLoreLine("&7Set the game mode to Free For All")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModePacket(GameMode.FFA))
+            p -> GameManager.instance().setGameMode(GameMode.FFA)
         ), 1, 1);
 
         addEntry(new ActionEntry(
@@ -33,7 +29,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&f&lTeam Deathmatch")
                 .addLoreLine("&7Set the game mode to Team Deathmatch")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModePacket(GameMode.TDM))
+            p -> GameManager.instance().setGameMode(GameMode.TDM)
         ), 1, 2);
 
         addEntry(new ActionEntry(
@@ -42,7 +38,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&fWork In Progress")
                 .addLoreLine("&7Set the game mode to Hostage Rescue")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModePacket(GameMode.HOSTAGE))
+            p -> GameManager.instance().setGameMode(GameMode.HOSTAGE)
         ), 1, 3);
 
         addEntry(new ActionEntry(
@@ -52,7 +48,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Make the game mode time-based")
                 .addLoreLine("&7The player/team with the most kills is considered to be the winner")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.TIME))
+            p -> GameManager.instance().setGameModeVariant(GameMode.Variant.TIME)
         ), 1, 6);
 
         addEntry(new ActionEntry(
@@ -62,47 +58,47 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Make the game mode life-based")
                 .addLoreLine("&7The only player/team left alive is considered to be the winner")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.LIVES))
+            p -> GameManager.instance().setGameModeVariant(GameMode.Variant.LIVES)
         ), 1, 7);
 
         addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 14))
+            new ItemStackCustomizer(new ItemStack(Blocks.RED_WOOL))
                 .setName("&c&lRed team")
                 .addLoreLine("&7Join the Red team")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.RED))
+            p -> GameManager.instance().joinTeam(p, Team.RED)
         ), 3, 2);
 
         addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 11))
+            new ItemStackCustomizer(new ItemStack(Blocks.BLUE_WOOL))
                 .setName("&9&lBlue team")
                 .addLoreLine("&7Join the Blue team")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.BLUE))
+            p -> GameManager.instance().joinTeam(p, Team.BLUE)
         ), 3, 3);
 
         addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 4))
+            new ItemStackCustomizer(new ItemStack(Blocks.YELLOW_WOOL))
                 .setName("&e&lYellow team")
                 .addLoreLine("&7Join the Yellow team")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.YELLOW))
+            p -> GameManager.instance().joinTeam(p, Team.YELLOW)
         ), 3, 4);
 
         addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 13))
+            new ItemStackCustomizer(new ItemStack(Blocks.GREEN_WOOL))
                 .setName("&a&lGreen team")
                 .addLoreLine("&7Join the Green team")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.GREEN))
+            p -> GameManager.instance().joinTeam(p, Team.GREEN)
         ), 3, 5);
 
         addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 10))
+            new ItemStackCustomizer(new ItemStack(Blocks.PURPLE_WOOL))
                 .setName("&d&lPurple team")
                 .addLoreLine("&7Join the Purple team")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.PURPLE))
+            p -> GameManager.instance().joinTeam(p, Team.PURPLE)
         ), 3, 6);
 
         addEntry(new ActionEntry(
@@ -110,7 +106,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&a&lStart")
                 .addLoreLine("&7Start a new round")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.START))
+            p -> GameManager.instance().startRound()
         ), 5, 2);
 
         addEntry(new ActionEntry(
@@ -118,7 +114,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&e&lPause")
                 .addLoreLine("&7Toggle round pause")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.PAUSE))
+            p -> GameManager.instance().toggleRoundPause()
         ), 5, 3);
 
         addEntry(new ActionEntry(
@@ -126,7 +122,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&8&lEnd")
                 .addLoreLine("&7End (finish) the current round")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.END))
+            p -> GameManager.instance().endRound()
         ), 5, 4);
 
         addEntry(new ActionEntry(
@@ -134,7 +130,7 @@ public class GameMenuPage extends StaticMenu {
                 .setName("&c&lReset")
                 .addLoreLine("&7Reset the round")
                 .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.RESET))
+            p -> GameManager.instance().resetRound()
         ), 5, 5);
 
         addEntry(new ActionEntry(

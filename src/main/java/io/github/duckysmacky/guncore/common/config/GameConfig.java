@@ -2,11 +2,11 @@ package io.github.duckysmacky.guncore.common.config;
 
 import java.util.Objects;
 
-public class GameConfig {
-    public final GameModeConfig ffaConfig;
-    public final GameModeConfig tdmConfig;
-    public final GameModeConfig hostageConfig;
-
+public record GameConfig(
+    GameModeConfig ffaConfig,
+    GameModeConfig tdmConfig,
+    GameModeConfig hostageConfig
+) {
     public GameConfig(
         GameModeConfig ffaConfig,
         GameModeConfig tdmConfig,
@@ -25,16 +25,5 @@ public class GameConfig {
         );
     }
 
-    public static class GameModeConfig {
-        public final int roundLengthSec;
-        public final int startingLives;
-
-        public GameModeConfig(
-            int roundLengthSec,
-            int startingLives
-        ) {
-            this.roundLengthSec = roundLengthSec;
-            this.startingLives = startingLives;
-        }
-    }
+    public record GameModeConfig(int roundLengthSec, int startingLives) {}
 }

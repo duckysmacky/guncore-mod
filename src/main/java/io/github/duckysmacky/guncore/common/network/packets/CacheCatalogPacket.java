@@ -1,6 +1,5 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
-import io.github.duckysmacky.guncore.client.gui.menu.MenuManager;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
@@ -33,7 +32,6 @@ public class CacheCatalogPacket {
             if (ctx.get().getDirection().getReceptionSide().isClient()) {
                 GuncoreMod.LOGGER.info("Caching {} catalog", msg.catalogType.name());
                 ConfigManager.instance().getCatalogManager().cacheCatalog(msg.catalogType, msg.catalogJson);
-                MenuManager.instance().refreshMenu();
             }
         });
         ctx.get().setPacketHandled(true);

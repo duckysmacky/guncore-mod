@@ -1,18 +1,19 @@
-package io.github.duckysmacky.guncore.client.gui.menu.pages;
+package io.github.duckysmacky.guncore.server.menu.pages;
 
 import io.github.duckysmacky.guncore.common.config.catalog.locations.CityMap;
-import io.github.duckysmacky.guncore.client.gui.menu.entries.SubpageEntry;
+import io.github.duckysmacky.guncore.server.menu.entries.SubpageEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
-import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
-import io.github.duckysmacky.guncore.client.gui.menu.StaticMenu;
-import net.minecraft.init.Blocks;
+import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
+import io.github.duckysmacky.guncore.server.menu.StaticMenuPage;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
-public class MapsMenuPage extends StaticMenu {
-    public MapsMenuPage(BaseMenu parent) {
+public class MapsMenuPage extends StaticMenuPage {
+    public MapsMenuPage(BaseMenuPage parent) {
         super("Locations", parent, 3, 9);
 
         addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.IRON_BLOCK))
+            new ItemStackCustomizer(new ItemStack(Blocks.IRON_BLOCK))
                 .setName("&f&lNewport")
                 .addLoreLine("&7The original classic map")
                 .addLoreLine("&fComplexity: [3 / 5]")
@@ -24,7 +25,7 @@ public class MapsMenuPage extends StaticMenu {
         ), 1, 2);
 
         addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.QUARTZ_BLOCK))
+            new ItemStackCustomizer(new ItemStack(Blocks.QUARTZ_BLOCK))
                 .setName("&f&lRadiant")
                 .addLoreLine("&7The best map")
                 .addLoreLine("&fComplexity: [4 / 5]")
@@ -37,7 +38,7 @@ public class MapsMenuPage extends StaticMenu {
         ), 1, 3);
 
         addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.SANDSTONE))
+            new ItemStackCustomizer(new ItemStack(Blocks.SANDSTONE))
                 .setName("&f&lShmar")
                 .addLoreLine("&7The most open and the tallest map")
                 .addLoreLine("&fComplexity: [2 / 5]")
@@ -49,7 +50,7 @@ public class MapsMenuPage extends StaticMenu {
         ), 1, 4);
 
         addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.BRICK_BLOCK))
+            new ItemStackCustomizer(new ItemStack(Blocks.BRICKS))
                 .setName("&f&lAudia")
                 .addLoreLine("&7The biggest and the most diverse map")
                 .addLoreLine("&fComplexity: [4 / 5]")
@@ -62,7 +63,7 @@ public class MapsMenuPage extends StaticMenu {
         ), 1, 5);
 
         addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.STONE))
+            new ItemStackCustomizer(new ItemStack(Blocks.STONE))
                 .setName("&f&lCity 17")
                 .addLoreLine("&7A dystopian city under siege")
                 .addLoreLine("&fComplexity: [5 / 5]")

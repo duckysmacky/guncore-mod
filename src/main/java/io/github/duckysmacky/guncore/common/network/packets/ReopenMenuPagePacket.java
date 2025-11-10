@@ -7,22 +7,22 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class OpenMainMenuPacket {
-    public OpenMainMenuPacket() {}
+public class ReopenMenuPagePacket {
+    public ReopenMenuPagePacket() {}
 
-    public static void encode(OpenMainMenuPacket msg, FriendlyByteBuf buf) {}
+    public static void encode(ReopenMenuPagePacket msg, FriendlyByteBuf buf) {}
 
-    public static OpenMainMenuPacket decode(FriendlyByteBuf buf) {
-        return new OpenMainMenuPacket();
+    public static ReopenMenuPagePacket decode(FriendlyByteBuf buf) {
+        return new ReopenMenuPagePacket();
     }
 
-    public static void handle(OpenMainMenuPacket msg, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(ReopenMenuPagePacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             if (ctx.get().getDirection().getReceptionSide().isServer()) {
                 ServerPlayer player = ctx.get().getSender();
 
                 if (player != null) {
-                    MenuManager.instance().getMainMenu().open(player);
+                    MenuManager.instance().getLastOpenedMenu(player).open(player);
                 }
             }
         });

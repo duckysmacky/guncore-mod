@@ -40,9 +40,6 @@ public class ConfigManager {
 
             String gameConfigJson = loader.readJSON("game.json", GameConfig::createDefault);
             gameConfig = parseConfigJson(gameConfigJson, GameConfig.class, GameConfig::createDefault);
-        } else {
-            GuncoreMod.LOGGER.info("[{}] Requesting config from server", ID);
-            PacketHandler.CHANNEL.sendToServer(new LoadConfigPacket());
         }
     }
 

@@ -35,7 +35,6 @@ public class CatalogManager {
             String json = loader.readJSON(filePath, () -> List.of(catalog.exampleSupplier.get()));
 
             cacheCatalog(catalog, json);
-            PacketHandler.CHANNEL.send(PacketDistributor.ALL.noArg(), new CacheCatalogPacket(catalog, json));
         }
     }
 

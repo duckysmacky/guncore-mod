@@ -12,6 +12,7 @@ import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.PlayerStats;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import io.github.duckysmacky.guncore.server.game.GameManager;
+import io.github.duckysmacky.guncore.server.menu.MenuManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -20,6 +21,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -38,6 +40,7 @@ public class ModCommands {
             .then(Commands.literal("reload")
                 .executes(ctx -> {
                     ConfigManager.instance().load();
+                    MenuManager.instance().refreshMenu();
                     ctx.getSource().sendSuccess(() -> Component.literal(TextUtils.translateColorCodes("&a&lGuncore config reloaded")), false);
                     return 1;
                 })
@@ -45,12 +48,12 @@ public class ModCommands {
         );
 
         // menu
-        dispatcher.register(Commands.literal("m")
+        dispatcher.register(Commands.literal("menu")
             .requires(source -> source.hasPermission(0))
             .executes(ctx ->  {
                 if (ctx.getSource().isPlayer()) {
                     ServerPlayer player = ctx.getSource().getPlayer();
-                    // TODO
+                    MenuManager.instance().getMainMenu().open(player);
                 }
                 return 1;
             })

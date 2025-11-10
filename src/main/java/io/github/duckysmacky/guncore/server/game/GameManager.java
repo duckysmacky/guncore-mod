@@ -51,19 +51,19 @@ public class GameManager {
 
     public static void setupWorldSettings() {
         String[] commandChain = new String[]{
-            "scoreboard teams add none",
-            "scoreboard teams add blue",
-            "scoreboard teams add red",
-            "scoreboard teams add yellow",
-            "scoreboard teams add green",
-            "scoreboard teams add purple",
-            "scoreboard teams option none nametagVisibility never",
-            "scoreboard teams option none seeFriendlyInvisibles false",
-            "scoreboard teams option blue nametagVisibility hideForOtherTeams",
-            "scoreboard teams option red nametagVisibility hideForOtherTeams",
-            "scoreboard teams option yellow nametagVisibility hideForOtherTeams",
-            "scoreboard teams option green nametagVisibility hideForOtherTeams",
-            "scoreboard teams option purple nametagVisibility hideForOtherTeams",
+            "team add none",
+            "team add blue",
+            "team add red",
+            "team add yellow",
+            "team add green",
+            "team add purple",
+            "team modify none nametagVisibility never",
+            "team modify none seeFriendlyInvisibles false",
+            "team modify blue nametagVisibility hideForOtherTeams",
+            "team modify red nametagVisibility hideForOtherTeams",
+            "team modify yellow nametagVisibility hideForOtherTeams",
+            "team modify green nametagVisibility hideForOtherTeams",
+            "team modify purple nametagVisibility hideForOtherTeams",
             "gamerule doWeatherCycle false",
             "gamerule doDaylightCycle false",
             "gamerule doFireTick false",
@@ -91,7 +91,7 @@ public class GameManager {
         server.getPlayerList().getPlayers().forEach(
             p -> playerStats.computeIfAbsent(p.getUUID(), k -> {
                 switchTeamTo(p.getUUID(), Team.NONE);
-                String command = String.format("scoreboard teams join none %s", p.getName());
+                String command = String.format("team join none %s", p.getScoreboardName());
                 CommandExecutor.execute(command);
                 return new PlayerStats(p.getScoreboardName());
             })
@@ -255,12 +255,12 @@ public class GameManager {
         });
     }
 
-    public void joinTeam(Player player, Team team) {
+    public void joinTeam(ServerPlayer player, Team team) {
         if (gameMode == GameMode.FFA)
             setGameMode(GameMode.TDM);
 
         switchTeamTo(player.getUUID(), team);
-        String command = String.format("scoreboard teams join %s %s", team.display.toLowerCase(), player.getName());
+        String command = String.format("team join %s %s", team.display.toLowerCase(), player.getScoreboardName());
         CommandExecutor.execute(command);
 
         ServerBroadcaster.message(String.format(
@@ -274,7 +274,7 @@ public class GameManager {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
             if (gameMode == GameMode.FFA) {
                 playerStats.keySet().forEach(uuid -> switchTeamTo(uuid, Team.NONE));
-                CommandExecutor.execute("scoreboard teams join none @a");
+                CommandExecutor.execute("team join none @a");
             }
 
             this.gameMode = gameMode;
@@ -297,7 +297,7 @@ public class GameManager {
         }
     }
 
-    public PlayerStats getStats(Player player) {
+    public PlayerStats getStats(ServerPlayer player) {
         UUID uuid = player.getUUID();
         playerStats.computeIfAbsent(uuid, k -> new PlayerStats(player.getScoreboardName()));
         return playerStats.get(uuid);
@@ -307,9 +307,9 @@ public class GameManager {
         GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
         return switch (gameMode) {
-            case FFA -> gameConfig.ffaConfig.startingLives;
-            case TDM -> gameConfig.tdmConfig.startingLives;
-            case HOSTAGE -> gameConfig.hostageConfig.startingLives;
+            case FFA -> gameConfig.ffaConfig().startingLives();
+            case TDM -> gameConfig.tdmConfig().startingLives();
+            case HOSTAGE -> gameConfig.hostageConfig().startingLives();
         };
     }
 
@@ -317,9 +317,9 @@ public class GameManager {
         GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
         return switch (gameMode) {
-            case FFA -> gameConfig.ffaConfig.roundLengthSec;
-            case TDM -> gameConfig.tdmConfig.roundLengthSec;
-            case HOSTAGE -> gameConfig.hostageConfig.roundLengthSec;
+            case FFA -> gameConfig.ffaConfig().roundLengthSec();
+            case TDM -> gameConfig.tdmConfig().roundLengthSec();
+            case HOSTAGE -> gameConfig.hostageConfig().roundLengthSec();
         };
     }
 

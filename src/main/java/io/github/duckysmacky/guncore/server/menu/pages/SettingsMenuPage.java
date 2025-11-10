@@ -1,19 +1,19 @@
-package io.github.duckysmacky.guncore.client.gui.menu.pages;
+package io.github.duckysmacky.guncore.server.menu.pages;
 
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import io.github.duckysmacky.guncore.server.game.GameManager;
-import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
-import io.github.duckysmacky.guncore.client.gui.menu.StaticMenu;
-import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
-import io.github.duckysmacky.guncore.client.gui.menu.entries.DisplayEntry;
+import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
+import io.github.duckysmacky.guncore.server.menu.StaticMenuPage;
+import io.github.duckysmacky.guncore.server.menu.entries.ActionEntry;
+import io.github.duckysmacky.guncore.server.menu.entries.DisplayEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
-import io.github.duckysmacky.guncore.client.gui.menu.entries.GameruleToggleEntry;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
+import io.github.duckysmacky.guncore.server.menu.entries.GameruleToggleEntry;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
-public class SettingsMenuPage extends StaticMenu {
-    public SettingsMenuPage(BaseMenu parent) {
+public class SettingsMenuPage extends StaticMenuPage {
+    public SettingsMenuPage(BaseMenuPage parent) {
         super("Settings", parent, 6, 9);
 
         addEntry(new DisplayEntry(

@@ -1,24 +1,23 @@
-package io.github.duckysmacky.guncore.client.gui.menu.entries;
+package io.github.duckysmacky.guncore.server.menu.entries;
 
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
-import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
+import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class ToggleButtonEntry extends MenuEntry {
-    private final BaseMenu menu;
+    private final BaseMenuPage menu;
     private boolean state;
-    private final BiConsumer<EntityPlayer, Boolean> onToggle;
+    private final BiConsumer<ServerPlayer, Boolean> onToggle;
 
     public ToggleButtonEntry(
-        BaseMenu menu,
+        BaseMenuPage menu,
         Supplier<Boolean> stateSupplier,
-        BiConsumer<EntityPlayer, Boolean> onToggle
+        BiConsumer<ServerPlayer, Boolean> onToggle
     ) {
         super(getIcon(stateSupplier.get()));
         this.menu = menu;
@@ -27,9 +26,7 @@ public class ToggleButtonEntry extends MenuEntry {
     }
 
     private static ItemStack getIcon(boolean state) {
-        ItemStack iconItem = state
-            ? new ItemStack(Items.DYE, 1, 10) // lime green dye
-            : new ItemStack(Items.DYE, 1, 8); // light gray dye
+        ItemStack iconItem = new ItemStack(state ? Items.LIME_DYE : Items.GRAY_DYE);
 
         return new ItemStackCustomizer(iconItem)
             .setName(state ? "&a&lEnabled" : "&7&lDisabled")
@@ -38,11 +35,10 @@ public class ToggleButtonEntry extends MenuEntry {
     }
 
     @Override
-    public void onClick(EntityPlayer player) {
+    public void onClick(ServerPlayer player) {
         this.state = !this.state; // toggle state
         this.icon = getIcon(state); // update icon
 
-        player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
         onToggle.accept(player, state);
         menu.open(player);
     }
