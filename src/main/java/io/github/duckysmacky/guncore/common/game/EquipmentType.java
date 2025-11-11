@@ -1,27 +1,34 @@
 package io.github.duckysmacky.guncore.common.game;
 
+import io.github.duckysmacky.guncore.common.config.catalog.entries.ArmorEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.CatalogEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.GunEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.ItemEntry;
+
 public enum EquipmentType {
-    MAIN_WEAPON(0),
-    SECONDARY_WEAPON(1),
-    LETHAL(2),
-    TACTICAL(3),
-    GADGET(4),
-    UTILITY(5),
-    CONSUMABLE(6),
-    PERK(16),
-    ARMOR(36);
+    MAIN_WEAPON(0, GunEntry.class),
+    SECONDARY_WEAPON(1, GunEntry.class),
+    LETHAL(2, ItemEntry.class),
+    TACTICAL(3, ItemEntry.class),
+    GADGET(4, ItemEntry.class),
+    UTILITY(5, ItemEntry.class),
+    CONSUMABLE(6, ItemEntry.class),
+    PERK(16, ItemEntry.class),
+    ARMOR(36, ArmorEntry.class);
 
     public final int slot;
+    public final Class<? extends CatalogEntry> entryClass;
 
-    EquipmentType(int slot) {
+    EquipmentType(int slot, Class<? extends CatalogEntry> entryClass) {
         this.slot = slot;
+        this.entryClass = entryClass;
     }
 
-    enum ArmorType {
-        HELMET(39),
-        CHESTPLATE(38),
-        LEGGINGS(37),
-        BOOTS(36);
+    public enum ArmorType {
+        HELMET(3),
+        CHESTPLATE(2),
+        LEGGINGS(1),
+        BOOTS(0);
 
         public final int slot;
 

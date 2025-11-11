@@ -1,10 +1,9 @@
 package io.github.duckysmacky.guncore.server.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
-import io.github.duckysmacky.guncore.common.config.catalog.entries.ItemEntry;
-import io.github.duckysmacky.guncore.common.config.catalog.entries.GunEntry;
-import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
-import io.github.duckysmacky.guncore.common.game.CommandExecutor;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.ArmorEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.EquippableEntry;
+import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -13,88 +12,69 @@ public final class EquipmentController {
 
     private EquipmentController() {}
 
-    public static void equipGun(ServerPlayer player, GunEntry gun) {
-        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
+    public static void equip(ServerPlayer player, EquipmentType type, EquippableEntry equipment) {
+        var playerEquipment = EquipmentManager.instance().getEquipment(player);
 
-        if (gun.isSecondary()) {
-            equipment.getSecondaryWeapon().ifPresent(g -> removeGun(player, g));
-            giveGun(player, gun, 1);
-            equipment.setSecondaryWeapon(gun);
-        } else {
-            equipment.getMainWeapon().ifPresent(g -> removeGun(player, g));
-            giveGun(player, gun, 0);
-            equipment.setMainWeapon(gun);
+        EquippableEntry previous = playerEquipment.getEquipment(type);
+        if (previous != null)
+            removeEquipment(player, type, previous);
+
+        giveEquipment(player, type, equipment);
+        playerEquipment.setEquipment(type, equipment);
+
+        syncInventory(player);
+    }
+
+    private static void removeEquipment(ServerPlayer player, EquipmentType type, EquippableEntry equipment) {
+        Inventory inventory = player.getInventory();
+
+        if (type != EquipmentType.ARMOR) {
+            for (int i = 0; i < inventory.items.size(); i++) {
+                ItemStack item = inventory.getItem(i);
+
+                if (ItemStack.matches(item, equipment.getItemStack()) ||
+                    equipment.getAdditionalItemStacks().stream().anyMatch(it -> ItemStack.matches(item, it))
+                ) {
+                    inventory.setItem(i, ItemStack.EMPTY);
+                }
+            }
+        } else if (equipment instanceof ArmorEntry) {
+            inventory.armor.set(EquipmentType.ArmorType.BOOTS.slot, ItemStack.EMPTY);
+            inventory.armor.set(EquipmentType.ArmorType.LEGGINGS.slot, ItemStack.EMPTY);
+            inventory.armor.set(EquipmentType.ArmorType.CHESTPLATE.slot, ItemStack.EMPTY);
+            inventory.armor.set(EquipmentType.ArmorType.HELMET.slot, ItemStack.EMPTY);
         }
 
         syncInventory(player);
     }
 
-    private static void removeGun(ServerPlayer player, GunEntry gun) {
+    private static void giveEquipment(ServerPlayer player, EquipmentType type, EquippableEntry equipment) {
         Inventory inventory = player.getInventory();
 
-        for (int i = 0; i < inventory.items.size(); i++) {
-            ItemStack item = inventory.getItem(i);
+        if (type != EquipmentType.ARMOR) {
+            inventory.setItem(type.slot, equipment.getItemStack());
 
-            if (ItemStack.isSameItem(item, gun.getGunItemStack()) || ItemStack.isSameItem(item, gun.getAmmoItem())) {
-                inventory.setItem(i, ItemStack.EMPTY);
+            int extraSlot = type.slot + 9 * 3;
+            var extraItems = equipment.getAdditionalItemStacks();
+            for (int i = 0; i < extraItems.size() && i < 3; i++) {
+                inventory.setItem(extraSlot, extraItems.get(i));
+                extraSlot -= 9;
             }
+        } else if (equipment instanceof ArmorEntry armor) {
+            inventory.armor.set(EquipmentType.ArmorType.BOOTS.slot, armor.getBootsItemStack());
+            inventory.armor.set(EquipmentType.ArmorType.LEGGINGS.slot, armor.getLeggingsItemStack());
+            inventory.armor.set(EquipmentType.ArmorType.CHESTPLATE.slot, armor.getChestplateItemStack());
+            inventory.armor.set(EquipmentType.ArmorType.HELMET.slot, armor.getHelmetItemStack());
         }
-    }
 
-    private static void giveGun(ServerPlayer player, GunEntry gun, int hotbarSlot) {
-        Inventory inventory = player.getInventory();
-        inventory.setItem(hotbarSlot, gun.getGunItemStack());
-
-        int ammoSlot = hotbarSlot + 9 * 3; // one row above that slot
-        inventory.setItem(ammoSlot, gun.getAmmoItem());
-    }
-
-    public static void equipGadget(ServerPlayer player, ItemEntry gadget) {
-        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
-
-        equipment.getGadget().ifPresent(g -> removeGadget(player, g));
-        giveGadget(player, gadget);
-        equipment.setGadget(gadget);
-
-        syncInventory(player);
-    }
-
-    private static void removeGadget(ServerPlayer player, ItemEntry gadget) {
-        Inventory inventory = player.getInventory();
-
-        for (int i = 0; i < inventory.items.size(); i++) {
-            ItemStack item = inventory.getItem(i);
-
-            if (ItemStack.isSameItem(item, gadget.getItemStack()) ||
-                gadget.getAdditionalItemStacks().stream().anyMatch(it -> ItemStack.isSameItem(item, it))
-            ) {
-                inventory.setItem(i, ItemStack.EMPTY);
-            }
-        }
-    }
-
-    private static void giveGadget(ServerPlayer player, ItemEntry gadget) {
-        int mainSlot = 4;
-        Inventory inventory = player.getInventory();
-        inventory.setItem(mainSlot, gadget.getItemStack());
-
-        int extraSlot = mainSlot + 9 * 3;
-        var extraItems = gadget.getAdditionalItemStacks();
-        for (int i = 0; i < extraItems.size() && i < 3; i++) {
-            inventory.setItem(extraSlot - 9 * i, extraItems.get(i));
-        }
-    }
-
-    public static void equipKit(ServerPlayer player, KitEntry kit) {
-        String command = String.format("csg_kits give %s %s", kit.getKitId(), player.getScoreboardName());
-        CommandExecutor.execute(command);
         syncInventory(player);
     }
 
     private static void syncInventory(ServerPlayer player) {
         player.getInventory().setChanged();
+        player.inventoryMenu.broadcastChanges();
         player.containerMenu.broadcastChanges();
 
-        GuncoreMod.LOGGER.info("Syncing player {} inventory", player.getScoreboardName());
+        GuncoreMod.LOGGER.info("Synced player '{}' inventory", player.getScoreboardName());
     }
 }
