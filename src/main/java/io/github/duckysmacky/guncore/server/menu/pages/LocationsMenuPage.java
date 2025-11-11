@@ -19,7 +19,7 @@ public class LocationsMenuPage extends DynamicMenuPage {
         ConfigManager.instance().getCatalogManager().<LocationEntry>getCatalog(CatalogType.LOCATIONS).stream()
             .filter(location -> location.getMap() == map)
             .forEach(location -> {
-                ItemStack locationIcon = location.getIconItem();
+                ItemStack locationIcon = location.getIcon();
 
                 addEntry(new ActionEntry(locationIcon, (player) -> {
                     LocationEntry.LocationCoordinates coords = location.getCoordinates();

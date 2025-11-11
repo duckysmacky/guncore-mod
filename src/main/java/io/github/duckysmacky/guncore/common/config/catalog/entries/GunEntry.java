@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.Objects;
 
-public class GunEntry extends CatalogEntry implements ItemEntry {
+public class GunEntry extends CatalogEntry implements EquippableEntry {
     private final GunCategory category;
     private final Rarity rarity;
     private final String gunId;
@@ -69,7 +69,7 @@ public class GunEntry extends CatalogEntry implements ItemEntry {
             loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
         }
 
-        ItemStack ammo = getAmmoItemStack();
+        ItemStack ammo = getAmmoItem();
         String ammoLine = TextUtils.translateColorCodes(String.format("&aIncluded ammo: &f%dx %s", ammoAmount, ammo.getDisplayName().getString()));
         loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(ammoLine))));
         loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
@@ -83,7 +83,7 @@ public class GunEntry extends CatalogEntry implements ItemEntry {
         return item;
     }
 
-    public ItemStack getAmmoItemStack() {
+    public ItemStack getAmmoItem() {
         return ItemUtils.createTACZAmmo(ammoId, ammoAmount);
     }
 
@@ -112,6 +112,6 @@ public class GunEntry extends CatalogEntry implements ItemEntry {
 
     @Override
     public List<ItemStack> getAdditionalItemStacks() {
-        return List.of(getAmmoItemStack());
+        return List.of(getAmmoItem());
     }
 }

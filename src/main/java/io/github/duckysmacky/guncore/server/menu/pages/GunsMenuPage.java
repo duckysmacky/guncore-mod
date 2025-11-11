@@ -18,7 +18,7 @@ public class GunsMenuPage extends DynamicMenuPage {
     public GunsMenuPage(BaseMenuPage parent, GunCategory gunCategory) {
         super(gunCategory.display + "s", parent, 6, 9);
 
-        ConfigManager.instance().getCatalogManager().<GunEntry>getCatalog(CatalogType.GUNS).stream()
+        ConfigManager.instance().getCatalogManager().<GunEntry>getCatalog(CatalogType.SECONDARY_WEAPONS).stream()
             .filter(gun -> gun.getCategory() == gunCategory)
             .sorted(Comparator.comparingInt(gun -> gun.getRarity().sortOrder))
             .forEach(gun -> {

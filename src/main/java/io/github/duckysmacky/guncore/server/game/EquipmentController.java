@@ -1,7 +1,7 @@
 package io.github.duckysmacky.guncore.server.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
-import io.github.duckysmacky.guncore.common.config.catalog.entries.EquipmentEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.ItemEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.entries.GunEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
@@ -35,7 +35,7 @@ public final class EquipmentController {
         for (int i = 0; i < inventory.items.size(); i++) {
             ItemStack item = inventory.getItem(i);
 
-            if (ItemStack.isSameItem(item, gun.getGunItemStack()) || ItemStack.isSameItem(item, gun.getAmmoItemStack())) {
+            if (ItemStack.isSameItem(item, gun.getGunItemStack()) || ItemStack.isSameItem(item, gun.getAmmoItem())) {
                 inventory.setItem(i, ItemStack.EMPTY);
             }
         }
@@ -46,10 +46,10 @@ public final class EquipmentController {
         inventory.setItem(hotbarSlot, gun.getGunItemStack());
 
         int ammoSlot = hotbarSlot + 9 * 3; // one row above that slot
-        inventory.setItem(ammoSlot, gun.getAmmoItemStack());
+        inventory.setItem(ammoSlot, gun.getAmmoItem());
     }
 
-    public static void equipGadget(ServerPlayer player, EquipmentEntry gadget) {
+    public static void equipGadget(ServerPlayer player, ItemEntry gadget) {
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
 
         equipment.getGadget().ifPresent(g -> removeGadget(player, g));
@@ -59,7 +59,7 @@ public final class EquipmentController {
         syncInventory(player);
     }
 
-    private static void removeGadget(ServerPlayer player, EquipmentEntry gadget) {
+    private static void removeGadget(ServerPlayer player, ItemEntry gadget) {
         Inventory inventory = player.getInventory();
 
         for (int i = 0; i < inventory.items.size(); i++) {
@@ -73,7 +73,7 @@ public final class EquipmentController {
         }
     }
 
-    private static void giveGadget(ServerPlayer player, EquipmentEntry gadget) {
+    private static void giveGadget(ServerPlayer player, ItemEntry gadget) {
         int mainSlot = 4;
         Inventory inventory = player.getInventory();
         inventory.setItem(mainSlot, gadget.getItemStack());

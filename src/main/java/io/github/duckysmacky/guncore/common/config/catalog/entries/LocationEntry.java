@@ -33,11 +33,10 @@ public class LocationEntry extends CatalogEntry {
     public static LocationEntry createExample() {
         return new LocationEntry(
             true,
-            CityMap.NEWPORT,
+            CityMap.OTHER,
             "Spawn",
             new LocationCoordinates(0, 80, 0),
             List.of(
-                "&7The main spawn point of the city.",
                 "&7This is an example location."
             )
         );
@@ -51,7 +50,8 @@ public class LocationEntry extends CatalogEntry {
         return coordinates;
     }
 
-    public ItemStack getIconItem() {
+    @Override
+    public ItemStack getIcon() {
         ItemStack item = new ItemStack(Items.ENDER_PEARL);
 
         CompoundTag displayTag = item.getOrCreateTagElement("display");

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class ArmorEntry extends CatalogEntry implements ItemEntry {
+public class ArmorEntry extends CatalogEntry implements EquippableEntry {
     private final Rarity rarity;
     private final String helmetItemId;
     private final String chestplateItemId;
@@ -104,31 +104,7 @@ public class ArmorEntry extends CatalogEntry implements ItemEntry {
 
     @Override
     public ItemStack getIcon() {
-        ItemStack item = ItemUtils.findItemStack(helmetItemId);
-        if (item.isEmpty()) item = ItemUtils.placeholderItem();
-
-        CompoundTag displayTag = item.getOrCreateTagElement("display");
-
-        String coloredName = rarity.color + "" + ChatFormatting.BOLD + name;
-        displayTag.putString("Name", Component.Serializer.toJson(Component.literal(coloredName)));
-
-        ListTag loreList = new ListTag();
-
-        if (!descriptionLines.isEmpty()) {
-            for (String line : descriptionLines) {
-                String coloredLine = TextUtils.translateColorCodes(line);
-                loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coloredLine))));
-            }
-            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
-        }
-
-        String rarityLine = rarity.color + "" + ChatFormatting.BOLD + rarity.display.toUpperCase();
-        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(rarityLine))));
-
-        displayTag.put("Lore", loreList);
-        item.addTagElement("display", displayTag);
-
-        return item;
+        return getHelmetItemStack();
     }
 
     @Override

@@ -3,8 +3,6 @@ package io.github.duckysmacky.guncore.common.config;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogManager;
-import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import io.github.duckysmacky.guncore.common.network.packets.LoadConfigPacket;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 

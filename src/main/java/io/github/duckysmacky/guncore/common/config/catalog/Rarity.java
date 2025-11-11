@@ -15,7 +15,9 @@ public enum Rarity {
     @SerializedName("legendary")
     LEGENDARY("Legendary", ChatFormatting.GOLD, 4),
     @SerializedName("mythic")
-    MYTHIC("Mythic", ChatFormatting.DARK_RED, 5);
+    MYTHIC("Mythic", ChatFormatting.DARK_RED, 5),
+    @SerializedName("secret")
+    SECRET("Secret", ChatFormatting.DARK_GRAY, 6);
 
     public final String display;
     public final ChatFormatting color;

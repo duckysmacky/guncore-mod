@@ -1,17 +1,19 @@
 package io.github.duckysmacky.guncore.common.config.catalog;
 
-import io.github.duckysmacky.guncore.common.config.catalog.entries.CatalogEntry;
-import io.github.duckysmacky.guncore.common.config.catalog.entries.EquipmentEntry;
-import io.github.duckysmacky.guncore.common.config.catalog.entries.GunEntry;
-import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
-import io.github.duckysmacky.guncore.common.config.catalog.entries.LocationEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.*;
 
 import java.util.function.Supplier;
 
 public enum CatalogType {
-    KITS("kits.json", KitEntry.class, KitEntry::createExample),
-    GUNS("guns.json", GunEntry.class, GunEntry::createExample),
-    GADGETS("gadgets.json", EquipmentEntry.class, EquipmentEntry::createExample),
+    MAIN_WEAPONS("main-weapons.json", GunEntry.class, GunEntry::createExample),
+    SECONDARY_WEAPONS("secondary-weapons.json", GunEntry.class, GunEntry::createExample),
+    LETHALS("lethals.json", ItemEntry.class, ItemEntry::createExample),
+    TACTICALS("tacticals.json", ItemEntry.class, ItemEntry::createExample),
+    GADGETS("gadgets.json", ItemEntry.class, ItemEntry::createExample),
+    UTILITY("utility.json", ItemEntry.class, ItemEntry::createExample),
+    CONSUMABLES("consumables.json", ItemEntry.class, ItemEntry::createExample),
+    PERKS("perks.json", ItemEntry.class, ItemEntry::createExample),
+    ARMOR("armor.json", ArmorEntry.class, ArmorEntry::createExample),
     LOCATIONS("locations.json", LocationEntry.class, LocationEntry::createExample);
 
     public final String jsonFile;
