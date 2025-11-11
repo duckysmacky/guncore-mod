@@ -74,9 +74,9 @@ public final class EquipmentController {
     }
 
     private static void syncInventory(ServerPlayer player) {
+        player.getInventory().setChanged();
         player.inventoryMenu.broadcastChanges();
         player.containerMenu.broadcastChanges();
-        player.getInventory().setChanged();
 
         GuncoreMod.LOGGER.info("Synced player '{}' inventory", player.getScoreboardName());
     }

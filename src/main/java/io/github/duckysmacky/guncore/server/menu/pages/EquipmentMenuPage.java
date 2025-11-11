@@ -3,6 +3,7 @@ package io.github.duckysmacky.guncore.server.menu.pages;
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.catalog.entries.CatalogEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.entries.EquippableEntry;
+import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
@@ -28,11 +29,27 @@ public class EquipmentMenuPage extends StaticMenuPage {
     private final Random random;
 
     public EquipmentMenuPage(BaseMenuPage parent) {
-        super("Equipment", parent, 7, 9);
+        super("Equipment", parent, 8, 9);
         this.random = new Random();
 
         int row = 1;
-        int col = 3;
+        int col = 4;
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.DIAMOND))
+                .setName("&f&lGet base items")
+                .addLoreLine("&c&lWARNING&f: This will reset the inventory")
+                .addLoreLine("&7Give the base items (food, healing, etc.)")
+                .getItemStack(),
+            p -> {
+                String command = String.format("csg_kits give base %s", p.getScoreboardName());
+                CommandExecutor.execute(command);
+                p.sendSystemMessage(Component.literal(TextUtils.translateColorCodes("&aReceived base items")));
+                ServerSoundPlayer.playFor(p, SoundEvents.PLAYER_LEVELUP, 1f, 1f);
+            }
+        ), row, col);
+
+        row += 1;
+        col = 3;
         addEntry(new SubpageEntry(
             new ItemStackCustomizer(new ItemStack(Items.CROSSBOW))
                 .setName("&f&lMain weapon")
@@ -57,7 +74,7 @@ public class EquipmentMenuPage extends StaticMenuPage {
         ), row, ++col);
         addRandomButton(row, col, EquipmentType.ARMOR);
 
-        row = 4;
+        row += 3;
         col = 2;
         addItemButton(row, col, EquipmentType.LETHAL, Items.TNT);
         addItemButton(row, ++col, EquipmentType.TACTICAL, Items.COBWEB);

@@ -174,6 +174,6 @@ public class GameMenuPage extends StaticMenuPage {
                 .addLoreLine("&7Leave everyone at 1 HP")
                 .getItemStack(),
             p -> CommandExecutor.execute("effect give @a minecraft:poison infinite 255 true")
-        ), 7, 4);
+        ), 7, 5);
     }
 }

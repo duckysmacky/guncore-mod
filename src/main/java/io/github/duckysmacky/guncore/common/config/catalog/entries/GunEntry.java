@@ -22,6 +22,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
 
     public GunEntry(
         boolean enabled,
+        String name,
         GunCategory category,
         Rarity rarity,
         String gunId,
@@ -29,7 +30,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
         int ammoAmount,
         List<String> descriptionLines
     ) {
-        super(enabled, gunId, descriptionLines);
+        super(enabled, name, descriptionLines);
         this.category = Objects.requireNonNull(category);
         this.rarity = Objects.requireNonNull(rarity);
         this.gunId = Objects.requireNonNull(gunId);
@@ -40,6 +41,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
     public static GunEntry createExample() {
         return new GunEntry(
             true,
+            "Glock 17",
             GunCategory.ASSAULT_RIFLE,
             Rarity.COMMON,
             "tacz:glock_17",
@@ -56,7 +58,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
 
         CompoundTag displayTag = item.getOrCreateTagElement("display");
 
-        String coloredName = rarity.color + "" + ChatFormatting.BOLD + item.getDisplayName().getString();
+        String coloredName = rarity.color + "" + ChatFormatting.BOLD + name;
         displayTag.putString("Name", Component.Serializer.toJson(Component.literal(coloredName)));
 
         ListTag loreList = new ListTag();
@@ -93,11 +95,6 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
 
     public Rarity getRarity() {
         return rarity;
-    }
-
-    @Override
-    public String getName() {
-        return getGunItem().getDisplayName().getString();
     }
 
     @Override
