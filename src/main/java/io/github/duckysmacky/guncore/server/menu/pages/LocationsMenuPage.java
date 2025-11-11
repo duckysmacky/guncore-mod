@@ -2,8 +2,8 @@ package io.github.duckysmacky.guncore.server.menu.pages;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
-import io.github.duckysmacky.guncore.common.config.catalog.locations.CityMap;
-import io.github.duckysmacky.guncore.common.config.catalog.locations.LocationEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.CityMap;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.LocationEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import io.github.duckysmacky.guncore.server.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;

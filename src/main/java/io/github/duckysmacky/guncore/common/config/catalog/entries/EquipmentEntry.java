@@ -1,8 +1,7 @@
-package io.github.duckysmacky.guncore.common.config.catalog.gadgets;
+package io.github.duckysmacky.guncore.common.config.catalog.entries;
 
-import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
-import io.github.duckysmacky.guncore.common.util.ItemFinder;
+import io.github.duckysmacky.guncore.common.util.ItemUtils;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -17,13 +16,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class GadgetEntry extends CatalogEntry {
+public class EquipmentEntry extends CatalogEntry implements ItemEntry {
     private final Rarity rarity;
     private final String itemId;
     private final int itemAmount;
     private final List<String> additionalItemIds;
 
-    public GadgetEntry(
+    public EquipmentEntry(
         boolean enabled,
         String name,
         Rarity rarity,
@@ -39,8 +38,8 @@ public class GadgetEntry extends CatalogEntry {
         this.additionalItemIds = Objects.requireNonNull(additionalItemIds);
     }
 
-    public static GadgetEntry createExample() {
-        return new GadgetEntry(
+    public static EquipmentEntry createExample() {
+        return new EquipmentEntry(
             true,
             "Water Bucket",
             Rarity.COMMON,
@@ -59,16 +58,21 @@ public class GadgetEntry extends CatalogEntry {
         return rarity;
     }
 
+    @Override
+    public ItemStack getIcon() {
+        return getItemStack();
+    }
+
+    @Override
     public ItemStack getItemStack() {
-        ItemStack item = ItemFinder.findItemStack(itemId);
-        if (item.isEmpty())
-            item = new ItemStack(Blocks.DIRT);
+        ItemStack item = ItemUtils.findItemStack(itemId);
+        if (item.isEmpty()) item = ItemUtils.placeholderItem();
 
         item.setCount(itemAmount);
 
         CompoundTag displayTag = item.getOrCreateTagElement("display");
 
-        String coloredName = ChatFormatting.WHITE + "" + ChatFormatting.BOLD + name;
+        String coloredName = rarity.color + "" + ChatFormatting.BOLD + name;
         displayTag.putString("Name", Component.Serializer.toJson(Component.literal(coloredName)));
 
         ListTag loreList = new ListTag();
@@ -100,20 +104,13 @@ public class GadgetEntry extends CatalogEntry {
         return item;
     }
 
+    @Override
     public List<ItemStack> getAdditionalItemStacks() {
         return additionalItemIds.stream()
             .map(id -> {
-                ItemStack item = ItemFinder.findItemStack(id);
+                ItemStack item = ItemUtils.findItemStack(id);
                 return item.isEmpty() ? new ItemStack(Blocks.DIRT) : item;
             })
             .collect(Collectors.toList());
-    }
-
-    public String getItemId() {
-        return itemId;
-    }
-
-    public List<String> getAdditionalItemIds() {
-        return additionalItemIds;
     }
 }

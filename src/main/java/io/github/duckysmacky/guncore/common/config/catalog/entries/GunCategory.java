@@ -1,4 +1,4 @@
-package io.github.duckysmacky.guncore.common.config.catalog.guns;
+package io.github.duckysmacky.guncore.common.config.catalog.entries;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -17,12 +17,10 @@ public enum GunCategory {
     SHOTGUN("Shotgun"),
     @SerializedName("sniper_rifle")
     SNIPER_RIFLE("Sniper Rifle"),
-    @SerializedName("sidearm")
-    SIDEARM("Sidearm"),
-    @SerializedName("melee")
-    MELEE("Melee"),
     @SerializedName("special")
-    SPECIAL("Special Weapon");
+    SPECIAL("Special Weapon"),
+    @SerializedName("melee")
+    MELEE("Melee");
 
     public final String display;
 

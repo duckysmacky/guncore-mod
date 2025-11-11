@@ -1,7 +1,6 @@
-package io.github.duckysmacky.guncore.common.config.catalog.locations;
+package io.github.duckysmacky.guncore.common.config.catalog.entries;
 
 import com.google.gson.annotations.SerializedName;
-import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;

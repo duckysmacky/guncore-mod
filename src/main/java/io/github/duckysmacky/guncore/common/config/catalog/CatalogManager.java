@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.ConfigLoader;
-import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import io.github.duckysmacky.guncore.common.network.packets.CacheCatalogPacket;
-import net.minecraftforge.network.PacketDistributor;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.CatalogEntry;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.lang.reflect.Type;

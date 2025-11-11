@@ -1,4 +1,6 @@
-package io.github.duckysmacky.guncore.common.config.catalog;
+package io.github.duckysmacky.guncore.common.config.catalog.entries;
+
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,4 +31,6 @@ public abstract class CatalogEntry {
     public List<String> getDescriptionLines() {
         return descriptionLines;
     }
+
+    abstract public ItemStack getIcon();
 }

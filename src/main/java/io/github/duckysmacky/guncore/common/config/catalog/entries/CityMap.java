@@ -1,4 +1,4 @@
-package io.github.duckysmacky.guncore.common.config.catalog.locations;
+package io.github.duckysmacky.guncore.common.config.catalog.entries;
 
 import com.google.gson.annotations.SerializedName;
 

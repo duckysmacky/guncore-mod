@@ -23,7 +23,7 @@ public class ItemStackCustomizer {
     }
 
     public static ItemStackCustomizer from(String registryName) {
-        return new ItemStackCustomizer(ItemFinder.findItemStack(registryName));
+        return new ItemStackCustomizer(ItemUtils.findItemStack(registryName));
     }
 
     public ItemStackCustomizer setName(String name) {

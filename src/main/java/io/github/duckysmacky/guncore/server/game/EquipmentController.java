@@ -1,8 +1,8 @@
 package io.github.duckysmacky.guncore.server.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
-import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
-import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.EquipmentEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.GunEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import net.minecraft.server.level.ServerPlayer;
@@ -49,7 +49,7 @@ public final class EquipmentController {
         inventory.setItem(ammoSlot, gun.getAmmoItemStack());
     }
 
-    public static void equipGadget(ServerPlayer player, GadgetEntry gadget) {
+    public static void equipGadget(ServerPlayer player, EquipmentEntry gadget) {
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
 
         equipment.getGadget().ifPresent(g -> removeGadget(player, g));
@@ -59,7 +59,7 @@ public final class EquipmentController {
         syncInventory(player);
     }
 
-    private static void removeGadget(ServerPlayer player, GadgetEntry gadget) {
+    private static void removeGadget(ServerPlayer player, EquipmentEntry gadget) {
         Inventory inventory = player.getInventory();
 
         for (int i = 0; i < inventory.items.size(); i++) {
@@ -73,7 +73,7 @@ public final class EquipmentController {
         }
     }
 
-    private static void giveGadget(ServerPlayer player, GadgetEntry gadget) {
+    private static void giveGadget(ServerPlayer player, EquipmentEntry gadget) {
         int mainSlot = 4;
         Inventory inventory = player.getInventory();
         inventory.setItem(mainSlot, gadget.getItemStack());

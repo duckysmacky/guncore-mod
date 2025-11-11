@@ -1,8 +1,7 @@
-package io.github.duckysmacky.guncore.common.config.catalog.guns;
+package io.github.duckysmacky.guncore.common.config.catalog.entries;
 
-import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
-import io.github.duckysmacky.guncore.common.util.ItemFinder;
+import io.github.duckysmacky.guncore.common.util.ItemUtils;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -10,61 +9,54 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
 import java.util.Objects;
 
-public class GunEntry extends CatalogEntry {
+public class GunEntry extends CatalogEntry implements ItemEntry {
     private final GunCategory category;
     private final Rarity rarity;
-    private final String gunItemId;
-    private final String ammoItemId;
-    private final int ammoItemAmount;
+    private final String gunId;
+    private final String ammoId;
+    private final int ammoAmount;
 
     public GunEntry(
         boolean enabled,
-        String name,
         GunCategory category,
         Rarity rarity,
-        String gunItemId,
-        String ammoItemId,
-        int ammoItemAmount,
+        String gunId,
+        String ammoId,
+        int ammoAmount,
         List<String> descriptionLines
     ) {
-        super(enabled, name, descriptionLines);
+        super(enabled, gunId, descriptionLines);
         this.category = Objects.requireNonNull(category);
         this.rarity = Objects.requireNonNull(rarity);
-        this.gunItemId = Objects.requireNonNull(gunItemId);
-        this.ammoItemId = Objects.requireNonNull(ammoItemId);
-        this.ammoItemAmount = ammoItemAmount;
+        this.gunId = Objects.requireNonNull(gunId);
+        this.ammoId = Objects.requireNonNull(ammoId);
+        this.ammoAmount = ammoAmount;
     }
 
     public static GunEntry createExample() {
         return new GunEntry(
             true,
-            "Bow",
             GunCategory.ASSAULT_RIFLE,
             Rarity.COMMON,
-            "minecraft:bow",
-            "minecraft:arrow",
-            64,
+            "tacz:glock_17",
+            "tacz:9mm",
+            32,
             List.of(
-                "&7The classic ranged weapon.",
-                "&7Reliable and effective for all situations.",
-                "&7This is an example gun."
+                "&7The classic pistol"
             )
         );
     }
 
-    public ItemStack getGunItemStack() {
-        ItemStack item = ItemFinder.findItemStack(gunItemId);
-        if (item.isEmpty())
-            item = new ItemStack(Blocks.DIRT);
+    public ItemStack getGunItem() {
+        ItemStack item = ItemUtils.createTACZGun(gunId);
 
         CompoundTag displayTag = item.getOrCreateTagElement("display");
 
-        String coloredName = ChatFormatting.WHITE + "" + ChatFormatting.BOLD + name;
+        String coloredName = rarity.color + "" + ChatFormatting.BOLD + item.getDisplayName().getString();
         displayTag.putString("Name", Component.Serializer.toJson(Component.literal(coloredName)));
 
         ListTag loreList = new ListTag();
@@ -78,7 +70,7 @@ public class GunEntry extends CatalogEntry {
         }
 
         ItemStack ammo = getAmmoItemStack();
-        String ammoLine = TextUtils.translateColorCodes(String.format("&aIncluded ammo: &f%dx %s", ammoItemAmount, ammo.getDisplayName()));
+        String ammoLine = TextUtils.translateColorCodes(String.format("&aIncluded ammo: &f%dx %s", ammoAmount, ammo.getDisplayName().getString()));
         loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(ammoLine))));
         loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
 
@@ -92,24 +84,7 @@ public class GunEntry extends CatalogEntry {
     }
 
     public ItemStack getAmmoItemStack() {
-        ItemStack item = ItemFinder.findItemStack(ammoItemId);
-        if (item.isEmpty())
-            item = new ItemStack(Blocks.DIRT);
-
-        item.setCount(ammoItemAmount);
-        return item;
-    }
-
-    public boolean isSecondary() {
-        return category == GunCategory.SIDEARM;
-    }
-
-    public String getGunItemId() {
-        return gunItemId;
-    }
-
-    public String getAmmoItemId() {
-        return ammoItemId;
+        return ItemUtils.createTACZAmmo(ammoId, ammoAmount);
     }
 
     public GunCategory getCategory() {
@@ -118,5 +93,25 @@ public class GunEntry extends CatalogEntry {
 
     public Rarity getRarity() {
         return rarity;
+    }
+
+    @Override
+    public String getName() {
+        return getGunItem().getDisplayName().getString();
+    }
+
+    @Override
+    public ItemStack getIcon() {
+        return getGunItem();
+    }
+
+    @Override
+    public ItemStack getItemStack() {
+        return getGunItem();
+    }
+
+    @Override
+    public List<ItemStack> getAdditionalItemStacks() {
+        return List.of(getAmmoItemStack());
     }
 }

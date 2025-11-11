@@ -1,6 +1,6 @@
 package io.github.duckysmacky.guncore.server.menu.pages;
 
-import io.github.duckysmacky.guncore.common.config.catalog.guns.GunCategory;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.GunCategory;
 import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
 import io.github.duckysmacky.guncore.server.menu.StaticMenuPage;
 import io.github.duckysmacky.guncore.server.menu.entries.SubpageEntry;

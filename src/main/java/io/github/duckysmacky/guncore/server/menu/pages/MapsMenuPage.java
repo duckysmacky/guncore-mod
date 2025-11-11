@@ -1,6 +1,6 @@
 package io.github.duckysmacky.guncore.server.menu.pages;
 
-import io.github.duckysmacky.guncore.common.config.catalog.locations.CityMap;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.CityMap;
 import io.github.duckysmacky.guncore.server.menu.entries.SubpageEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;

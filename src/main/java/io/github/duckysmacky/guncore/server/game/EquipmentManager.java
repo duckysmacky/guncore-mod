@@ -1,7 +1,7 @@
 package io.github.duckysmacky.guncore.server.game;
 
-import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
-import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.EquipmentEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.entries.GunEntry;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class EquipmentManager {
     public static class PlayerEquipment {
         private GunEntry mainWeapon;
         private GunEntry secondaryWeapon;
-        private GadgetEntry gadget;
+        private EquipmentEntry gadget;
 
         public PlayerEquipment() {}
 
@@ -46,7 +46,7 @@ public class EquipmentManager {
             this.secondaryWeapon = secondaryWeapon;
         }
 
-        public void setGadget(GadgetEntry gadget) {
+        public void setGadget(EquipmentEntry gadget) {
             this.gadget = gadget;
         }
 
@@ -58,7 +58,7 @@ public class EquipmentManager {
             return Optional.ofNullable(secondaryWeapon);
         }
 
-        public Optional<GadgetEntry> getGadget() {
+        public Optional<EquipmentEntry> getGadget() {
             return Optional.ofNullable(gadget);
         }
     }
