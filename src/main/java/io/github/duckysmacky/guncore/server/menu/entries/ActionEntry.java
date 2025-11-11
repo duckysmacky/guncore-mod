@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.server.menu.entries;
 
+import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +17,7 @@ public class ActionEntry extends MenuEntry {
 
     @Override
     public void onClick(ServerPlayer player) {
-        player.playSound(SoundEvents.UI_BUTTON_CLICK.get(), 1.0f, 1.0f);
+        ServerSoundPlayer.playFor(player, SoundEvents.UI_BUTTON_CLICK.get(), 1f, 1f);
         action.accept(player);
     }
 }

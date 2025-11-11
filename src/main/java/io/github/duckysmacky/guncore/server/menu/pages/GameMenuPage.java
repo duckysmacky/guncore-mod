@@ -140,7 +140,7 @@ public class GameMenuPage extends StaticMenuPage {
                 .getItemStack(),
             p -> {
                 CommandExecutor.execute("clear @a");
-                CommandExecutor.execute("gamemode 3 @a");
+                CommandExecutor.execute("gamemode spectator @a");
             }
         ), 5, 6);
 
@@ -149,23 +149,31 @@ public class GameMenuPage extends StaticMenuPage {
                 .setName("&e&lGlowing Event (1 sec)")
                 .addLoreLine("&7Give everyone glowing for 1 second")
                 .getItemStack(),
-            p -> CommandExecutor.execute("effect @a minecraft:glowing 1")
-        ), 7, 3);
+            p -> CommandExecutor.execute("effect give @a minecraft:glowing 1 0 true")
+        ), 7, 2);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.SPECTRAL_ARROW))
                 .setName("&e&lGlowing Event (5 secs)")
                 .addLoreLine("&7Give everyone glowing for 5 seconds")
                 .getItemStack(),
-            p -> CommandExecutor.execute("effect @a minecraft:glowing 5")
-        ), 7, 4);
+            p -> CommandExecutor.execute("effect give @a minecraft:glowing 5 0 true")
+        ), 7, 3);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.ELYTRA))
                 .setName("&e&lLevitation Event")
                 .addLoreLine("&7Give everyone levitation for 10 seconds")
                 .getItemStack(),
-            p -> CommandExecutor.execute("effect @a minecraft:levitation 10")
-        ), 7, 5);
+            p -> CommandExecutor.execute("effect give @a minecraft:levitation 10 0 true")
+        ), 7, 4);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.POISONOUS_POTATO))
+                .setName("&e&l1 HP Event")
+                .addLoreLine("&7Leave everyone at 1 HP")
+                .getItemStack(),
+            p -> CommandExecutor.execute("effect give @a minecraft:poison infinite 255 true")
+        ), 7, 4);
     }
 }

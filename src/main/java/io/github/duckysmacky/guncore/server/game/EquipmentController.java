@@ -4,6 +4,7 @@ import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.entries.ArmorEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.entries.EquippableEntry;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -43,6 +44,8 @@ public final class EquipmentController {
             inventory.armor.set(EquipmentType.ArmorType.LEGGINGS.slot, ItemStack.EMPTY);
             inventory.armor.set(EquipmentType.ArmorType.CHESTPLATE.slot, ItemStack.EMPTY);
             inventory.armor.set(EquipmentType.ArmorType.HELMET.slot, ItemStack.EMPTY);
+
+            //syncArmorSlots(player);
         }
 
         syncInventory(player);
@@ -71,9 +74,9 @@ public final class EquipmentController {
     }
 
     private static void syncInventory(ServerPlayer player) {
-        player.getInventory().setChanged();
         player.inventoryMenu.broadcastChanges();
         player.containerMenu.broadcastChanges();
+        player.getInventory().setChanged();
 
         GuncoreMod.LOGGER.info("Synced player '{}' inventory", player.getScoreboardName());
     }

@@ -52,7 +52,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
     }
 
     public ItemStack getGunItem() {
-        ItemStack item = ItemUtils.createTACZGun(gunId);
+        ItemStack item = ItemUtils.getTACZGun(gunId);
 
         CompoundTag displayTag = item.getOrCreateTagElement("display");
 
@@ -84,7 +84,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
     }
 
     public ItemStack getAmmoItem() {
-        return ItemUtils.createTACZAmmo(ammoId, ammoAmount);
+        return ItemUtils.getTACZAmmo(ammoId, ammoAmount);
     }
 
     public GunCategory getCategory() {

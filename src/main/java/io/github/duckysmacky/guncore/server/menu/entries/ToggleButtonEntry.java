@@ -1,8 +1,10 @@
 package io.github.duckysmacky.guncore.server.menu.entries;
 
+import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -36,11 +38,11 @@ public class ToggleButtonEntry extends MenuEntry {
 
     @Override
     public void onClick(ServerPlayer player) {
-        this.state = !this.state; // toggle state
-        this.icon = getIcon(state); // update icon
+        this.state = !this.state;
+        this.icon = getIcon(state);
 
+        ServerSoundPlayer.playFor(player, SoundEvents.UI_BUTTON_CLICK.get(), 1f, 1f);
         onToggle.accept(player, state);
         menu.open(player);
     }
-
 }

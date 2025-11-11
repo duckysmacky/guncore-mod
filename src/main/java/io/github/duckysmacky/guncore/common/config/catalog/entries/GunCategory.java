@@ -17,6 +17,8 @@ public enum GunCategory {
     SHOTGUN("Shotgun"),
     @SerializedName("sniper_rifle")
     SNIPER_RIFLE("Sniper Rifle"),
+    @SerializedName("pistol")
+    PISTOL("Pistol"),
     @SerializedName("special")
     SPECIAL("Special Weapon"),
     @SerializedName("melee")

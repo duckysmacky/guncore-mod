@@ -3,6 +3,7 @@ package io.github.duckysmacky.guncore.server.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
 import io.github.duckysmacky.guncore.server.menu.entries.MenuEntry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -57,7 +58,7 @@ public abstract class DynamicMenuPage extends BaseMenuPage {
 
         // back button
         if (parent != null && slot == getBackButtonSlot()) {
-            player.playSound(SoundEvents.UI_BUTTON_CLICK.get(), 1.0f, 1.0f);
+            ServerSoundPlayer.playFor(player, SoundEvents.UI_BUTTON_CLICK.get(), 1f, 1f);
             openParent(player);
         }
     }

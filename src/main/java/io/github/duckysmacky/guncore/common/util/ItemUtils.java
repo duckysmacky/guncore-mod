@@ -44,8 +44,8 @@ public class ItemUtils {
      * @param gunId The gun ID (e.g., "tacz:p320", "tacz:ak47")
      * @return ItemStack of the TACZ gun with proper NBT data
      */
-    public static ItemStack createTACZGun(String gunId) {
-        return createTACZGun(gunId, "SEMI");
+    public static ItemStack getTACZGun(String gunId) {
+        return getTACZGun(gunId, "SEMI");
     }
 
     /**
@@ -54,10 +54,10 @@ public class ItemUtils {
      * @param fireMode The fire mode (e.g., "SEMI", "AUTO", "BURST")
      * @return ItemStack of the TACZ gun with proper NBT data
      */
-    public static ItemStack createTACZGun(String gunId, String fireMode) {
+    public static ItemStack getTACZGun(String gunId, String fireMode) {
         Item gunItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath("tacz", "modern_kinetic_gun"));
 
-        if (gunItem == null) {
+        if (gunItem == null || gunItem == Items.AIR) {
             return placeholderItem();
         }
 
@@ -78,13 +78,13 @@ public class ItemUtils {
      * @param count The stack size
      * @return ItemStack of the TACZ ammo with proper NBT data
      */
-    public static ItemStack createTACZAmmo(String ammoId, int count) {
+    public static ItemStack getTACZAmmo(String ammoId, int count) {
         // Get the base ammo item
         Item ammoItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath("tacz", "ammo"));
 
-        if (ammoItem == null) {
+        if (ammoItem == null || ammoItem == Items.AIR) {
             // Fallback in case the item doesn't exist
-            return ItemStack.EMPTY;
+            return placeholderItem();
         }
 
         ItemStack ammoStack = new ItemStack(ammoItem, count);

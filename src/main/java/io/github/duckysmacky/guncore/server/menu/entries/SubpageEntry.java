@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.server.menu.entries;
 
+import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
 import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -15,7 +16,7 @@ public class SubpageEntry extends MenuEntry {
 
     @Override
     public void onClick(ServerPlayer player) {
-        player.playSound(SoundEvents.UI_BUTTON_CLICK.get(), 1.0f, 1.0f);
+        ServerSoundPlayer.playFor(player, SoundEvents.UI_BUTTON_CLICK.get(), 1f, 1f);
         subPage.open(player);
     }
 }
