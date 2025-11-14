@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.common.config.catalog.entries;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.util.ItemUtils;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
@@ -7,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -20,6 +22,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
     private final Rarity rarity;
     private final String itemId;
     private final int itemAmount;
+    private final String nbtData;
     private final List<String> additionalItemIds;
 
     public ItemEntry(
@@ -28,6 +31,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
         Rarity rarity,
         String itemId,
         int itemAmount,
+        String nbtData,
         List<String> additionalItemIds,
         List<String> descriptionLines
     ) {
@@ -35,6 +39,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
         this.rarity = Objects.requireNonNull(rarity);
         this.itemId = Objects.requireNonNull(itemId);
         this.itemAmount = itemAmount;
+        this.nbtData = nbtData;
         this.additionalItemIds = Objects.requireNonNull(additionalItemIds);
     }
 
@@ -45,6 +50,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
             Rarity.COMMON,
             "minecraft:water_bucket",
             1,
+            null,
             Collections.emptyList(),
             List.of(
                 "&7A bucket filled with water.",
@@ -68,6 +74,8 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
         ItemStack item = ItemUtils.findItemStack(itemId);
         if (item.isEmpty()) item = ItemUtils.placeholderItem();
 
+        applyNBT(item, nbtData);
+
         item.setCount(itemAmount);
 
         CompoundTag displayTag = item.getOrCreateTagElement("display");
@@ -89,7 +97,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
             String additionalItemsLine = ChatFormatting.GREEN + "Additionally includes:";
             loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(additionalItemsLine))));
             for (ItemStack additionalItem : getAdditionalItemStacks()) {
-                String coloredLine = ChatFormatting.WHITE + "- " + additionalItem.getDisplayName();
+                String coloredLine = ChatFormatting.WHITE + "- " + additionalItem.getHoverName().getString();
                 loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coloredLine))));
             }
             loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
@@ -112,5 +120,33 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
                 return item.isEmpty() ? new ItemStack(Blocks.DIRT) : item;
             })
             .collect(Collectors.toList());
+    }
+
+    public static ItemStack applyNBT(ItemStack itemStack, String nbtString) {
+        try {
+            if (nbtString == null || nbtString.trim().isEmpty()) {
+                return itemStack;
+            }
+
+            CompoundTag nbt = parseNBT(nbtString);
+            itemStack.setTag(nbt);
+
+            return itemStack;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid NBT string format: " + nbtString, e);
+        }
+    }
+
+    private static CompoundTag parseNBT(String jsonString) {
+        try {
+            jsonString = jsonString.trim();
+            if (jsonString.endsWith(";")) {
+                jsonString = jsonString.substring(0, jsonString.length() - 1);
+            }
+
+            return TagParser.parseTag(jsonString);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to parse NBT string: " + jsonString, e);
+        }
     }
 }
