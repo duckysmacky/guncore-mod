@@ -90,10 +90,17 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+
+    maven {
+        name = "Curse Maven"
+        url = "https://www.cursemaven.com"
+        content { includeGroup "curse.maven" }
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:6632240-sources-6633203')
 }
 
 tasks.named('processResources', ProcessResources).configure {

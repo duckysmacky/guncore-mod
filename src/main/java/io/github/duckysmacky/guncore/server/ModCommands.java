@@ -21,7 +21,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -135,7 +134,7 @@ public class ModCommands {
                     .executes(ctx -> {
                         ServerPlayer victim = EntityArgument.getPlayer(ctx, "victim");
                         if (ctx.getSource().getEntity() instanceof ServerPlayer killer) {
-                            GameManager.instance().onPlayerKill(killer, victim);
+                            GameManager.instance().onPlayerDeath(victim, killer);
                             ctx.getSource().sendSuccess(() -> Component.literal(TextUtils.translateColorCodes("&aRegistered")), false);
                         }
                         return 1;

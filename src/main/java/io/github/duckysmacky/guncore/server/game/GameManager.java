@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -183,15 +182,18 @@ public class GameManager {
         }
     }
 
-    public void onPlayerKill(ServerPlayer killer, ServerPlayer victim) {
+    public void onPlayerDeath(ServerPlayer victim, ServerPlayer killer) {
         if (state != GameState.RUNNING) return;
+
+        PlayerStats victimStats = getStats(victim);
+        victimStats.setDeaths(victimStats.getDeaths() + 1);
+
+        if (killer == null) return;
+
+        victimStats.setLives(victimStats.getLives() - 1);
 
         PlayerStats killerStats = getStats(killer);
         killerStats.setKills(killerStats.getKills() + 1);
-
-        PlayerStats victimStats = getStats(victim);
-        victimStats.registerDeath();
-
         ServerSoundPlayer.playFor(killer, SoundEvents.EXPERIENCE_ORB_PICKUP, 1.5f, 1f);
 
         if (gameModeVariant == GameMode.Variant.LIVES) {

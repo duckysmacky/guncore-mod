@@ -26,11 +26,6 @@ public class PlayerStats {
         this.lives = 0;
     }
 
-    public void registerDeath() {
-        deaths++;
-        if (lives > 0) lives--;
-    }
-
     public void setKills(int count) {
         kills = count;
     }
