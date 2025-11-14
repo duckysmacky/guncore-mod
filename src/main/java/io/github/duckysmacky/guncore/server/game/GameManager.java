@@ -305,6 +305,16 @@ public class GameManager {
         return playerStats.get(uuid);
     }
 
+    private int getRoundLengthSec() {
+        GameConfig gameConfig = ConfigManager.instance().getGameConfig();
+
+        return switch (gameMode) {
+            case FFA -> gameConfig.ffaConfig().roundLengthSec();
+            case TDM -> gameConfig.tdmConfig().roundLengthSec();
+            case HOSTAGE -> gameConfig.hostageConfig().roundLengthSec();
+        };
+    }
+
     private int getStartingLives() {
         GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
@@ -315,13 +325,13 @@ public class GameManager {
         };
     }
 
-    private int getRoundLengthSec() {
+    private int getKillTarget() {
         GameConfig gameConfig = ConfigManager.instance().getGameConfig();
 
         return switch (gameMode) {
-            case FFA -> gameConfig.ffaConfig().roundLengthSec();
-            case TDM -> gameConfig.tdmConfig().roundLengthSec();
-            case HOSTAGE -> gameConfig.hostageConfig().roundLengthSec();
+            case FFA -> gameConfig.ffaConfig().killTarget();
+            case TDM -> gameConfig.tdmConfig().killTarget();
+            case HOSTAGE -> gameConfig.hostageConfig().killTarget();
         };
     }
 
@@ -372,6 +382,22 @@ public class GameManager {
                 if (aliveTeams.size() <= 1)
                     endRound();
             }
+        } else if (gameModeVariant == GameMode.Variant.KILLS) {
+            if (gameMode == GameMode.FFA) {
+                if (playerStats.values().stream().anyMatch(p -> p.getKills() >= getKillTarget()))
+                    endRound();
+            } else {
+                Map<Team, Integer> teamKills = teams.entrySet().stream()
+                    .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().stream()
+                            .mapToInt(uuid -> playerStats.get(uuid).getKills())
+                            .sum()
+                    ));
+
+                if (teamKills.values().stream().anyMatch(k -> k >= getKillTarget()))
+                    endRound();
+            }
         }
     }
 
@@ -393,10 +419,13 @@ public class GameManager {
                 ServerBroadcaster.message("&7yall suck");
             }
         } else {
-            Map<Team, Integer> teamKills = new EnumMap<>(Team.class);
-            playerStats.forEach((uuid, stats) ->
-                teamKills.merge(getPlayerTeam(uuid), stats.getKills(), Integer::sum)
-            );
+            Map<Team, Integer> teamKills = teams.entrySet().stream()
+                .collect(Collectors.toMap(
+                    Map.Entry::getKey,
+                    entry -> entry.getValue().stream()
+                        .mapToInt(uuid -> playerStats.get(uuid).getKills())
+                        .sum()
+                ));
 
             Team topTeam = teamKills.entrySet().stream()
                 .max(Map.Entry.comparingByValue())

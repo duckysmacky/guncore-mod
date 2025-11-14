@@ -49,7 +49,7 @@ public class GameMenuPage extends StaticMenuPage {
                 .addLoreLine("&7The player/team with the most kills is considered to be the winner")
                 .getItemStack(),
             p -> GameManager.instance().setGameModeVariant(GameMode.Variant.TIME)
-        ), 1, 6);
+        ), 1, 5);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.APPLE))
@@ -59,6 +59,16 @@ public class GameMenuPage extends StaticMenuPage {
                 .addLoreLine("&7The only player/team left alive is considered to be the winner")
                 .getItemStack(),
             p -> GameManager.instance().setGameModeVariant(GameMode.Variant.LIVES)
+        ), 1, 6);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.IRON_SWORD))
+                .setName("&f&lKill-based")
+                .addLoreLine("&fDefault kill target: 15")
+                .addLoreLine("&7Make the game mode kill-based")
+                .addLoreLine("&7The player/team to reach the kill target is considered to be the winner")
+                .getItemStack(),
+            p -> GameManager.instance().setGameModeVariant(GameMode.Variant.KILLS)
         ), 1, 7);
 
         addEntry(new ActionEntry(

@@ -13,7 +13,8 @@ public enum GameMode {
 
     public enum Variant {
         TIME("Time-based"),
-        LIVES("Life-based");
+        LIVES("Life-based"),
+        KILLS("Kill-based");
 
         public final String display;
 
