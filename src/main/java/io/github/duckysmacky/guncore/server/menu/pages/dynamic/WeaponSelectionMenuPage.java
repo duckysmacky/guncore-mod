@@ -18,7 +18,7 @@ import java.util.Comparator;
 
 public class WeaponSelectionMenuPage extends DynamicMenuPage {
     public WeaponSelectionMenuPage(BaseMenuPage parent, EquipmentType equipmentType, GunCategory gunCategory) {
-        super(gunCategory.display + "s", parent, 6, 9);
+        super(gunCategory.display + "s", parent, 9, 9);
 
         ConfigManager.instance().getCatalogManager().<GunEntry>getCatalog(equipmentType.catalog).stream()
             .filter(gun -> gun.getCategory() == gunCategory)

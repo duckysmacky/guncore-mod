@@ -65,7 +65,7 @@ public class ItemUtils {
 
         CompoundTag nbt = new CompoundTag();
         nbt.putString("GunId", gunId);
-        nbt.putString("GunFireMode", fireMode);
+        nbt.putString("GunFireMode", fireMode != null ? fireMode : "SEMI");
 
         gunStack.setTag(nbt);
 
@@ -75,25 +75,23 @@ public class ItemUtils {
     /**
      * Creates a TACZ ammo ItemStack with the specified ammo ID and count
      * @param ammoId The ammo ID (e.g., "tacz:9mm", "tacz:556x45")
-     * @param count The stack size
+     * @param amount The stack size
      * @return ItemStack of the TACZ ammo with proper NBT data
      */
-    public static ItemStack getTACZAmmo(String ammoId, int count) {
-        // Get the base ammo item
-        Item ammoItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath("tacz", "ammo"));
+    public static ItemStack getTACZAmmo(String ammoId, int amount) {
+        Item ammoItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath("tacz", "ammo_box"));
 
         if (ammoItem == null || ammoItem == Items.AIR) {
-            // Fallback in case the item doesn't exist
             return placeholderItem();
         }
 
-        ItemStack ammoStack = new ItemStack(ammoItem, count);
+        ItemStack ammoStack = new ItemStack(ammoItem);
 
-        // Create the NBT data
         CompoundTag nbt = new CompoundTag();
+        nbt.putInt("AmmoCount", amount);
         nbt.putString("AmmoId", ammoId);
+        nbt.putInt("Level", 2);
 
-        // Apply the NBT to the item stack
         ammoStack.setTag(nbt);
 
         return ammoStack;

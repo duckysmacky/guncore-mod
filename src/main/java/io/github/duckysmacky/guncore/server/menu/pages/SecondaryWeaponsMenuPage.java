@@ -8,6 +8,8 @@ import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
 import io.github.duckysmacky.guncore.server.menu.StaticMenuPage;
 import io.github.duckysmacky.guncore.server.menu.entries.SubpageEntry;
 import io.github.duckysmacky.guncore.server.menu.pages.dynamic.WeaponSelectionMenuPage;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class SecondaryWeaponsMenuPage extends StaticMenuPage {
     public SecondaryWeaponsMenuPage(BaseMenuPage parent) {
@@ -22,28 +24,28 @@ public class SecondaryWeaponsMenuPage extends StaticMenuPage {
         ), 1, 2);
 
         addEntry(new SubpageEntry(
-            new ItemStackCustomizer(ItemUtils.getTACZGun("tacz:glock_17"))
+            new ItemStackCustomizer(ItemUtils.getTACZGun("tacz:uzi"))
                 .setName("&f&lSMGs")
                 .getItemStack(),
             new WeaponSelectionMenuPage(this, type, GunCategory.SMG)
         ), 1, 3);
 
         addEntry(new SubpageEntry(
-            new ItemStackCustomizer(ItemUtils.getTACZGun("tacz:glock_17"))
+            new ItemStackCustomizer(ItemUtils.getTACZGun("tacz:db_short"))
                 .setName("&f&lShotguns")
                 .getItemStack(),
             new WeaponSelectionMenuPage(this, type, GunCategory.SHOTGUN)
         ), 1, 4);
 
         addEntry(new SubpageEntry(
-            new ItemStackCustomizer(ItemUtils.getTACZGun("tacz:glock_17"))
+            new ItemStackCustomizer(new ItemStack(Items.IRON_SWORD))
                 .setName("&f&lMelee Weapons")
                 .getItemStack(),
             new WeaponSelectionMenuPage(this, type, GunCategory.MELEE)
         ), 1, 5);
 
         addEntry(new SubpageEntry(
-            new ItemStackCustomizer(ItemUtils.getTACZGun("tacz:glock_17"))
+            new ItemStackCustomizer(ItemUtils.getTACZGun("lradd:nitro_505"))
                 .setName("&f&lSpecial Weapons")
                 .getItemStack(),
             new WeaponSelectionMenuPage(this, type, GunCategory.SPECIAL)

@@ -17,6 +17,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
     private final GunCategory category;
     private final Rarity rarity;
     private final String gunId;
+    private final String fireMode;
     private final String ammoId;
     private final int ammoAmount;
 
@@ -26,6 +27,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
         GunCategory category,
         Rarity rarity,
         String gunId,
+        String fireMode,
         String ammoId,
         int ammoAmount,
         List<String> descriptionLines
@@ -34,6 +36,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
         this.category = Objects.requireNonNull(category);
         this.rarity = Objects.requireNonNull(rarity);
         this.gunId = Objects.requireNonNull(gunId);
+        this.fireMode = fireMode;
         this.ammoId = Objects.requireNonNull(ammoId);
         this.ammoAmount = ammoAmount;
     }
@@ -45,6 +48,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
             GunCategory.ASSAULT_RIFLE,
             Rarity.COMMON,
             "tacz:glock_17",
+            null,
             "tacz:9mm",
             32,
             List.of(
@@ -54,7 +58,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
     }
 
     public ItemStack getGunItem() {
-        ItemStack item = ItemUtils.getTACZGun(gunId);
+        ItemStack item = ItemUtils.getTACZGun(gunId, fireMode);
 
         CompoundTag displayTag = item.getOrCreateTagElement("display");
 
