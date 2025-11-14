@@ -38,7 +38,7 @@ public class EquipmentMenuPage extends StaticMenuPage {
             new ItemStackCustomizer(new ItemStack(Items.DIAMOND))
                 .setName("&f&lGet base items")
                 .addLoreLine("&c&lWARNING&f: This will reset the inventory")
-                .addLoreLine("&7Give the base items (food, healing, etc.)")
+                .addLoreLine("&7Give the base items kit (food, healing, etc.)")
                 .getItemStack(),
             p -> {
                 String command = String.format("csg_kits give base %s", p.getScoreboardName());
@@ -58,6 +58,13 @@ public class EquipmentMenuPage extends StaticMenuPage {
         ), row, col);
         addRandomButton(row, col, EquipmentType.MAIN_WEAPON);
 
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.IRON_INGOT))
+                .setName("&f&lAttachments")
+                .getItemStack(),
+            p -> p.sendSystemMessage(Component.literal("Coming soon"))
+        ), row, ++col);
+
         addEntry(new SubpageEntry(
             new ItemStackCustomizer(new ItemStack(Items.BOW))
                 .setName("&f&lSecondary weapon")
@@ -66,6 +73,14 @@ public class EquipmentMenuPage extends StaticMenuPage {
         ), row, ++col);
         addRandomButton(row, col, EquipmentType.SECONDARY_WEAPON);
 
+        row += 3;
+        col = 1;
+        addItemButton(row, col, EquipmentType.LETHAL, Items.TNT);
+        addItemButton(row, ++col, EquipmentType.TACTICAL, Items.COBWEB);
+        addItemButton(row, ++col, EquipmentType.GADGET, Items.BEACON);
+        addItemButton(row, ++col, EquipmentType.UTILITY, Items.IRON_PICKAXE);
+        addItemButton(row, ++col, EquipmentType.CONSUMABLE, Items.GOLDEN_APPLE);
+        addItemButton(row, ++col, EquipmentType.PERK, Items.EXPERIENCE_BOTTLE);
         addEntry(new SubpageEntry(
             new ItemStackCustomizer(new ItemStack(Items.DIAMOND_CHESTPLATE))
                 .setName("&f&lArmor")
@@ -73,14 +88,6 @@ public class EquipmentMenuPage extends StaticMenuPage {
             new ArmorSelectionMenuPage(this)
         ), row, ++col);
         addRandomButton(row, col, EquipmentType.ARMOR);
-
-        row += 3;
-        col = 2;
-        addItemButton(row, col, EquipmentType.LETHAL, Items.TNT);
-        addItemButton(row, ++col, EquipmentType.TACTICAL, Items.COBWEB);
-        addItemButton(row, ++col, EquipmentType.GADGET, Items.BEACON);
-        addItemButton(row, ++col, EquipmentType.UTILITY, Items.IRON_PICKAXE);
-        addItemButton(row, ++col, EquipmentType.PERK, Items.EXPERIENCE_BOTTLE);
     }
 
     private void addItemButton(int row, int col, EquipmentType type, Item icon) {

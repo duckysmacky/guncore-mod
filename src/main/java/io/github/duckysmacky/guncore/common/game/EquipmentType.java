@@ -14,7 +14,7 @@ public enum EquipmentType {
     GADGET("Gadget", 4, ItemEntry.class, CatalogType.GADGETS),
     UTILITY("Utility item", 5, ItemEntry.class, CatalogType.UTILITY),
     CONSUMABLE("Consumable item", 6, ItemEntry.class, CatalogType.CONSUMABLES),
-    PERK("Perk", 16, ItemEntry.class, CatalogType.CONSUMABLES),
+    PERK("Perk", 15, ItemEntry.class, CatalogType.PERKS),
     ARMOR("Armor", 36, ArmorEntry.class, CatalogType.ARMOR);
 
     public final String display;
