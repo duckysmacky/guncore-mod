@@ -14,17 +14,17 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = GuncoreMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ServerEventHandler {
-    private int tickCount = 0;
+    private static int tickCount = 0;
 
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
+    public static void onServerStarting(ServerStartingEvent event) {
         ConfigManager.instance().load();
     }
 
     @SubscribeEvent
-    public void onServerTick(TickEvent.ServerTickEvent event) {
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             tickCount++;
 
@@ -35,7 +35,7 @@ public class ServerEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerDeath(LivingDeathEvent event) {
+    public static void onPlayerDeath(LivingDeathEvent event) {
         Entity victimEntity = event.getEntity();
         Entity killerEntity = event.getSource().getDirectEntity();
 

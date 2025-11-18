@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -299,7 +300,7 @@ public class GameManager {
         }
     }
 
-    public PlayerStats getStats(ServerPlayer player) {
+    public PlayerStats getStats(Player player) {
         UUID uuid = player.getUUID();
         playerStats.computeIfAbsent(uuid, k -> new PlayerStats(player.getScoreboardName()));
         return playerStats.get(uuid);
