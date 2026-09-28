@@ -341,6 +341,21 @@ public class GameManager {
         }
     }
 
+    private int getKillTarget() {
+        GameConfig gameConfig = ConfigManager.instance().getGameConfig();
+
+        switch (gameMode) {
+            case FFA:
+                return gameConfig.ffaConfig.killTarget;
+            case TDM:
+                return gameConfig.tdmConfig.killTarget;
+            case HOSTAGE:
+                return gameConfig.hostageConfig.killTarget;
+            default:
+                return 15;
+        }
+    }
+
     public GameMode getGameMode() {
         return gameMode;
     }
@@ -390,6 +405,32 @@ public class GameManager {
                         .collect(Collectors.toSet());
 
                     if (aliveTeams.size() <= 1)
+                        endRound();
+
+                    break;
+                }
+            }
+        } else if (gameModeVariant == GameMode.Variant.KILLS) {
+            switch (gameMode) {
+                case FFA: {
+                    boolean targetReached = playerStats.values().stream()
+                        .anyMatch(p -> p.getKills() >= getKillTarget());
+
+                    if (targetReached)
+                        endRound();
+
+                    break;
+                }
+                default: {
+                    Map<Team, Integer> teamKills = new EnumMap<>(Team.class);
+                    playerStats.forEach((uuid, stats) ->
+                        teamKills.merge(getPlayerTeam(uuid), stats.getKills(), Integer::sum)
+                    );
+
+                    boolean targetReached = teamKills.values().stream()
+                        .anyMatch(kills -> kills >= getKillTarget());
+
+                    if (targetReached)
                         endRound();
 
                     break;

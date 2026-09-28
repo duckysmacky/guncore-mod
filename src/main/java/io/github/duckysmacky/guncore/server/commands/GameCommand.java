@@ -24,6 +24,7 @@ public class GameCommand extends CommandBase {
         "kills",
         "lives",
         "deaths",
+        "register_kill",
         "mode",
         "mode_variant",
         "scoreboard",
@@ -73,8 +74,8 @@ public class GameCommand extends CommandBase {
             case "kills": case "lives": case "deaths":
                 handleStatCommand(server, sender, subcommand, args);
                 break;
-            case "register_death":
-                handleRegisterDeath(server, sender, args);
+            case "register_kill":
+                handleRegisterKill(server, sender, args);
                 break;
             case "mode":
                 if (args.length < 2)
@@ -84,7 +85,7 @@ public class GameCommand extends CommandBase {
                 break;
             case "mode_variant":
                 if (args.length < 2)
-                    throw new CommandException("Usage: /game mode_variant <time|lives>");
+                    throw new CommandException("Usage: /game mode_variant <time|lives|kills>");
                 GameMode.Variant variant = parseVariant(args[1]);
                 gameManager.setGameModeVariant(variant);
                 break;
@@ -138,16 +139,22 @@ public class GameCommand extends CommandBase {
         sender.sendMessage(new TextComponentString(message));
     }
 
-    private void handleRegisterDeath(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+    private void handleRegisterKill(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length < 2)
-            throw new CommandException("Usage: /game register_death <player>");
+            throw new CommandException("Usage: /game register_kill <victim> [killer]");
 
-        String playerName = args[1];
-        EntityPlayerMP target = getPlayerByName(server, playerName);
+        EntityPlayerMP victim = getPlayerByName(server, args[1]);
 
-        if (sender instanceof EntityPlayerMP) {
-            GameManager.instance().onPlayerKill((EntityPlayerMP) sender, target);
+        EntityPlayerMP killer;
+        if (args.length >= 3) {
+            killer = getPlayerByName(server, args[2]);
+        } else if (sender instanceof EntityPlayerMP) {
+            killer = (EntityPlayerMP) sender;
+        } else {
+            throw new CommandException("Console must specify a killer: /game register_kill <victim> <killer>");
         }
+
+        GameManager.instance().onPlayerKill(killer, victim);
     }
 
     private void modifyStatValue(Supplier<Integer> getter, Consumer<Integer> setter, String statAction, int amount) throws CommandException {
@@ -187,7 +194,7 @@ public class GameCommand extends CommandBase {
         try {
             return GameMode.Variant.valueOf(s.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new CommandException("Invalid variant! Valid: time, lives");
+            throw new CommandException("Invalid variant! Valid: time, lives, kills");
         }
     }
 
