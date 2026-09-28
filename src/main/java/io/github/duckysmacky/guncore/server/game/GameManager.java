@@ -442,13 +442,7 @@ public class GameManager {
     private void determineWinner() {
         switch (gameMode) {
             case FFA: {
-                PlayerStats topPlayer = playerStats.values().stream()
-                    .max(Comparator
-                        .comparingInt(PlayerStats::getKills)
-                        .thenComparing(PlayerStats::getDeaths, Comparator.reverseOrder())
-                        .thenComparing(PlayerStats::getLives)
-                    )
-                    .orElse(null);
+                PlayerStats topPlayer = pickFfaWinner();
 
                 if (topPlayer != null) {
                     ServerBroadcaster.message(String.format("&6&lWinner: &f%s &7(%s kills)", topPlayer.getUsername(), topPlayer.getKills()));
@@ -461,15 +455,7 @@ public class GameManager {
                 break;
             }
             default: {
-                Map<Team, Integer> teamKills = new EnumMap<>(Team.class);
-                playerStats.forEach((uuid, stats) ->
-                    teamKills.merge(getPlayerTeam(uuid), stats.getKills(), Integer::sum)
-                );
-
-                Team topTeam = teamKills.entrySet().stream()
-                    .max(Map.Entry.comparingByValue())
-                    .map(Map.Entry::getKey)
-                    .orElse(Team.NONE);
+                Team topTeam = pickTeamWinner();
 
                 ServerBroadcaster.message(String.format("&6&lWinning team: %s%s Team", topTeam.color, topTeam.display));
                 printTeams();
@@ -477,5 +463,46 @@ public class GameManager {
                 break;
             }
         }
+    }
+
+    private PlayerStats pickFfaWinner() {
+        Comparator<PlayerStats> byKills = Comparator
+            .comparingInt(PlayerStats::getKills)
+            .thenComparing(PlayerStats::getDeaths, Comparator.reverseOrder())
+            .thenComparing(PlayerStats::getLives);
+
+        if (gameModeVariant == GameMode.Variant.LIVES) {
+            Optional<PlayerStats> survivor = playerStats.values().stream()
+                .filter(p -> p.getLives() > 0)
+                .max(byKills);
+
+            if (survivor.isPresent())
+                return survivor.get();
+        }
+
+        return playerStats.values().stream().max(byKills).orElse(null);
+    }
+
+    private Team pickTeamWinner() {
+        if (gameModeVariant == GameMode.Variant.LIVES) {
+            Set<Team> aliveTeams = playerStats.entrySet().stream()
+                .filter(e -> e.getValue().getLives() > 0)
+                .map(Map.Entry::getKey)
+                .map(this::getPlayerTeam)
+                .collect(Collectors.toSet());
+
+            if (aliveTeams.size() == 1)
+                return aliveTeams.iterator().next();
+        }
+
+        Map<Team, Integer> teamKills = new EnumMap<>(Team.class);
+        playerStats.forEach((uuid, stats) ->
+            teamKills.merge(getPlayerTeam(uuid), stats.getKills(), Integer::sum)
+        );
+
+        return teamKills.entrySet().stream()
+            .max(Map.Entry.comparingByValue())
+            .map(Map.Entry::getKey)
+            .orElse(Team.NONE);
     }
 }
