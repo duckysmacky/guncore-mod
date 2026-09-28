@@ -1,7 +1,7 @@
 package io.github.duckysmacky.guncore;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
-import io.github.duckysmacky.guncore.server.commands.GuncoreConfigCommand;
+import io.github.duckysmacky.guncore.server.commands.GuncoreCommand;
 import io.github.duckysmacky.guncore.server.commands.GameCommand;
 import io.github.duckysmacky.guncore.server.commands.MenuCommand;
 import io.github.duckysmacky.guncore.common.network.CommonProxy;
@@ -60,7 +60,7 @@ public class GuncoreMod {
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new MenuCommand());
-        event.registerServerCommand(new GuncoreConfigCommand());
+        event.registerServerCommand(new GuncoreCommand());
         event.registerServerCommand(new GameCommand());
 
         ConfigManager.instance().load();
