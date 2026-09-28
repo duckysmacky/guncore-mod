@@ -53,7 +53,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7The player/team with the most kills is considered to be the winner")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.TIME))
-        ), 1, 6);
+        ), 1, 5);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.APPLE))
@@ -63,6 +63,16 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7The only player/team left alive is considered to be the winner")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.LIVES))
+        ), 1, 6);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.IRON_SWORD))
+                .setName("&f&lKill-based")
+                .addLoreLine("&fDefault kills required: 15")
+                .addLoreLine("&7Make the game mode kill-based")
+                .addLoreLine("&7The player/team who reaches the target kill amount is considered the winner")
+                .getItemStack(),
+            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.KILLS))
         ), 1, 7);
 
         addEntry(new ActionEntry(
@@ -146,7 +156,7 @@ public class GameMenuPage extends StaticMenu {
                 CommandExecutor.execute("clear @a");
                 CommandExecutor.execute("gamemode 3 @a");
             }
-        ), 5, 6);
+        ), 6, 3);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.BEDROCK))
@@ -155,7 +165,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Puts them in survival mode and places bedrock underneath")
                 .getItemStack(),
             p -> CommandExecutor.execute("game spawnpoint_all")
-        ), 5, 7);
+        ), 6, 5);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.SPECTRAL_ARROW))
