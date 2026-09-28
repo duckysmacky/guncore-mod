@@ -65,3 +65,6 @@ jar {
         ])
     }
 }
+
+// remap MCP (dev) names like getMinecraft() to SRG (production) names like func_71410_x(), otherwise the jar crashes outside of dev
+jar.finalizedBy('reobfJar')
