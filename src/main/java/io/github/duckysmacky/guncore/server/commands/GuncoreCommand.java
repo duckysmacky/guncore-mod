@@ -30,6 +30,8 @@ public class GuncoreCommand extends CommandBase {
         "&f/game kills|lives|deaths <add|remove|set> <player> <amount> &7- Edits player stats",
         "&f/game register_kill <victim> [killer] &7- Registers a kill and a death",
         "&f/game kill_only_lives <true|false> &7- Toggles life loss on non-player-caused deaths",
+        "&f/game spawnpoint [player] &7- Sets a spawnpoint, survival mode, and bedrock at the target's location",
+        "&f/game spawnpoint_all &7- Same, but for every online player",
         "&f/game scoreboard &7- Prints the scoreboard",
         "&f/game teams &7- Prints team rosters"
     };

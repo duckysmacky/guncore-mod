@@ -9,10 +9,14 @@ import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
 import io.github.duckysmacky.guncore.common.network.packets.UpdatePlayerListPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.*;
@@ -285,6 +289,19 @@ public class GameManager {
                         p.getUsername(), p.getKills(), p.getDeaths(), p.getLives()));
             });
         });
+    }
+
+    public void setSpawnpoint(EntityPlayerMP target) {
+        BlockPos pos = target.getPosition();
+
+        target.setSpawnPoint(pos, true);
+        target.setGameType(GameType.SURVIVAL);
+
+        WorldServer world = target.getServerWorld();
+        world.setBlockState(pos.down(), Blocks.BEDROCK.getDefaultState());
+
+        ServerBroadcaster.message(String.format("&fSet &f&l%s&f's spawnpoint at &7%s", target.getName(), pos));
+        ServerSoundPlayer.playFor(target, SoundEvents.BLOCK_ANVIL_LAND, 1f, 1f);
     }
 
     public void joinTeam(EntityPlayer player, Team team) {

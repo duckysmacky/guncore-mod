@@ -149,6 +149,15 @@ public class GameMenuPage extends StaticMenu {
         ), 5, 6);
 
         addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.BEDROCK))
+                .setName("&f&lSet Spawnpoints (All)")
+                .addLoreLine("&7Set every online player's spawnpoint to their current location")
+                .addLoreLine("&7Puts them in survival mode and places bedrock underneath")
+                .getItemStack(),
+            p -> CommandExecutor.execute("game spawnpoint_all")
+        ), 5, 7);
+
+        addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.SPECTRAL_ARROW))
                 .setName("&e&lGlowing Event (1 sec)")
                 .addLoreLine("&7Give everyone glowing for 1 second")

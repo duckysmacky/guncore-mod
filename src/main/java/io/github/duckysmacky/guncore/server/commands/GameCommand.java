@@ -26,6 +26,8 @@ public class GameCommand extends CommandBase {
         "deaths",
         "register_kill",
         "kill_only_lives",
+        "spawnpoint",
+        "spawnpoint_all",
         "mode",
         "mode_variant",
         "scoreboard",
@@ -82,6 +84,16 @@ public class GameCommand extends CommandBase {
                 if (args.length < 2)
                     throw new CommandException("Usage: /game kill_only_lives <true|false>");
                 gameManager.setKillOnlyLifeLoss(parseBoolean(args[1]));
+                break;
+            case "spawnpoint": {
+                EntityPlayerMP target = (args.length >= 2)
+                    ? getPlayerByName(server, args[1])
+                    : requireSenderPlayer(sender);
+                gameManager.setSpawnpoint(target);
+                break;
+            }
+            case "spawnpoint_all":
+                server.getPlayerList().getPlayers().forEach(gameManager::setSpawnpoint);
                 break;
             case "mode":
                 if (args.length < 2)
@@ -202,6 +214,11 @@ public class GameCommand extends CommandBase {
         } catch (IllegalArgumentException e) {
             throw new CommandException("Invalid variant! Valid: time, lives, kills");
         }
+    }
+
+    private EntityPlayerMP requireSenderPlayer(ICommandSender sender) throws CommandException {
+        if (sender instanceof EntityPlayerMP) return (EntityPlayerMP) sender;
+        throw new CommandException("Console must specify a player: /game spawnpoint <player>");
     }
 
     private EntityPlayerMP getPlayerByName(MinecraftServer server, String name) throws CommandException {
