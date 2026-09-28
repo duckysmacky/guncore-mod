@@ -21,8 +21,11 @@ public class ServerEventHandler {
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.player instanceof EntityPlayerMP)) return;
 
+        EntityPlayerMP player = (EntityPlayerMP) event.player;
+
         ConfigManager.instance().load();
-        PacketHandler.instance().sendTo(new RefreshMenuPacket(), (EntityPlayerMP) event.player);
+        GameManager.instance().updatePlayerListAsServer(player.getServer());
+        PacketHandler.instance().sendTo(new RefreshMenuPacket(), player);
     }
 
     @SubscribeEvent

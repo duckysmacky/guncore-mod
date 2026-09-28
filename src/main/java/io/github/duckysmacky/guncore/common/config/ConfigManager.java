@@ -34,7 +34,14 @@ public class ConfigManager {
         ConfigLoader loader = new ConfigLoader(Loader.instance().getConfigDir());
 
         String gameConfigJson = loader.readJSON("game.json", GameConfig::createDefault);
-        gameConfig = parseConfigJson(gameConfigJson, GameConfig.class, GameConfig::createDefault);
+        GameConfig parsedConfig = parseConfigJson(gameConfigJson, GameConfig.class, GameConfig::createDefault);
+        gameConfig = GameConfig.withDefaults(parsedConfig);
+
+        // write back so values added in newer versions (e.g. killTarget) show up in the file
+        if (!gson.toJson(gameConfig).equals(gson.toJson(parsedConfig))) {
+            GuncoreMod.LOGGER.warn("[{}] 'game.json' had missing or invalid values, filled them in with defaults", ID);
+            loader.writeJSON("game.json", gameConfig);
+        }
     }
 
     public CatalogManager getCatalogManager() {

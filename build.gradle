@@ -28,6 +28,9 @@ minecraft {
         client {
             workingDirectory project.file('run')
 
+            // weaponlib's (Vic's Modern Warfare) coremod produces invalid stackmap frames in dev (deobf) environment
+            jvmArg '-noverify'
+
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 

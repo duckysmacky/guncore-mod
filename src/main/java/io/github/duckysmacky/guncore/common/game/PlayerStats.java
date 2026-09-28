@@ -1,6 +1,14 @@
 package io.github.duckysmacky.guncore.common.game;
 
+import java.util.Comparator;
+
 public class PlayerStats {
+    /** Best first: most kills, then fewest deaths, then most lives */
+    public static final Comparator<PlayerStats> RANKING = Comparator
+        .comparingInt(PlayerStats::getKills).reversed()
+        .thenComparingInt(PlayerStats::getDeaths)
+        .thenComparing(Comparator.comparingInt(PlayerStats::getLives).reversed());
+
     private final String username;
     private int kills;
     private int deaths;

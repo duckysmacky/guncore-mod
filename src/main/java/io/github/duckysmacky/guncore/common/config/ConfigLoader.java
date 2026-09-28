@@ -38,6 +38,16 @@ public class ConfigLoader {
         }
     }
 
+    public void writeJSON(String filePath, Object value) {
+        File file = getConfigFile(filePath);
+
+        try (Writer writer = new FileWriter(file)) {
+            gson.toJson(value, writer);
+        } catch (IOException e) {
+            GuncoreMod.LOGGER.error(String.format("[%s] Failed to write '%s' config file: %s", ID, file.getName(), e.getMessage()));
+        }
+    }
+
     private <T> void saveDefaultJSON(File file, Supplier<T> defaultValue) throws IOException {
         boolean status;
         status = file.getParentFile().mkdirs();

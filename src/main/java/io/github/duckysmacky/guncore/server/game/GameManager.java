@@ -6,7 +6,6 @@ import io.github.duckysmacky.guncore.common.config.GameConfig;
 import io.github.duckysmacky.guncore.common.game.*;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
-import io.github.duckysmacky.guncore.common.network.packets.UpdatePlayerListPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -85,14 +84,9 @@ public class GameManager {
     }
 
 
+    // GameManager only runs on the logical server (dedicated or integrated), so the server instance is always available here
     private void updatePlayerList() {
-        if (FMLCommonHandler.instance().getSide().isServer()) {
-            MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-            updatePlayerListAsServer(server);
-        } else {
-            GuncoreMod.LOGGER.info("[{}] Requesting a player list update from server", ID);
-            PacketHandler.instance().sendToServer(new UpdatePlayerListPacket());
-        }
+        updatePlayerListAsServer(FMLCommonHandler.instance().getMinecraftServerInstance());
     }
 
     public void updatePlayerListAsServer(MinecraftServer server) {
@@ -114,6 +108,8 @@ public class GameManager {
 
     public void startRound() {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
+            updatePlayerList();
+
             state = GameState.RUNNING;
             roundDurationSec = 0;
 
@@ -192,7 +188,14 @@ public class GameManager {
 
         // every 0.5 second
         if (tickCount % 10 == 0) {
-            SyncGameInfoPacket packet = new SyncGameInfoPacket(gameMode, gameModeVariant, state, roundDurationSec, playerStats);
+            Map<UUID, Team> playerTeams = new HashMap<>();
+            playerStats.keySet().forEach(uuid -> playerTeams.put(uuid, getPlayerTeam(uuid)));
+
+            SyncGameInfoPacket packet = new SyncGameInfoPacket(
+                gameMode, gameModeVariant, state, roundDurationSec,
+                getRoundLengthSec(), getKillTarget(),
+                playerStats, playerTeams
+            );
             PacketHandler.instance().sendToAll(packet);
         }
     }
@@ -261,11 +264,7 @@ public class GameManager {
 
         AtomicInteger place = new AtomicInteger(1);
         playerStats.values().stream()
-            .sorted(Comparator
-                .comparingInt(PlayerStats::getKills)
-                .thenComparing(PlayerStats::getDeaths, Comparator.reverseOrder())
-                .thenComparing(PlayerStats::getLives)
-            )
+            .sorted(PlayerStats.RANKING)
             .forEach(p -> ServerBroadcaster.message(String.format(
                 "&f %d - %s &7(%s kills, %s deaths, %s lives)",
                 place.getAndIncrement(), p.getUsername(), p.getKills(), p.getDeaths(), p.getLives())
@@ -280,14 +279,11 @@ public class GameManager {
         teams.forEach((team, uuids) -> {
             ServerBroadcaster.message(team.color + team.display + " Team:");
             uuids.stream()
-                .sorted(Comparator.comparingInt(u -> playerStats.get(u).getKills()))
-                .forEach(uuid -> {
-                PlayerStats p = playerStats.get(uuid);
-
-                if (p != null)
-                    ServerBroadcaster.message(String.format(" - &f%s: &7(%s kills, %s deaths, %s lives)",
-                        p.getUsername(), p.getKills(), p.getDeaths(), p.getLives()));
-            });
+                .map(playerStats::get)
+                .filter(Objects::nonNull)
+                .sorted(PlayerStats.RANKING)
+                .forEach(p -> ServerBroadcaster.message(String.format(" - &f%s: &7(%s kills, %s deaths, %s lives)",
+                    p.getUsername(), p.getKills(), p.getDeaths(), p.getLives())));
         });
     }
 
@@ -517,21 +513,16 @@ public class GameManager {
     }
 
     private PlayerStats pickFfaWinner() {
-        Comparator<PlayerStats> byKills = Comparator
-            .comparingInt(PlayerStats::getKills)
-            .thenComparing(PlayerStats::getDeaths, Comparator.reverseOrder())
-            .thenComparing(PlayerStats::getLives);
-
         if (gameModeVariant == GameMode.Variant.LIVES) {
             Optional<PlayerStats> survivor = playerStats.values().stream()
                 .filter(p -> p.getLives() > 0)
-                .max(byKills);
+                .min(PlayerStats.RANKING);
 
             if (survivor.isPresent())
                 return survivor.get();
         }
 
-        return playerStats.values().stream().max(byKills).orElse(null);
+        return playerStats.values().stream().min(PlayerStats.RANKING).orElse(null);
     }
 
     private Team pickTeamWinner() {
