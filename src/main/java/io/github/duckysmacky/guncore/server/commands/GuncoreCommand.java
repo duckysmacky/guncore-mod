@@ -29,6 +29,7 @@ public class GuncoreCommand extends CommandBase {
         "&f/game mode_variant <time|lives|kills> &7- Sets the win condition",
         "&f/game kills|lives|deaths <add|remove|set> <player> <amount> &7- Edits player stats",
         "&f/game register_kill <victim> [killer] &7- Registers a kill and a death",
+        "&f/game kill_only_lives <true|false> &7- Toggles life loss on non-player-caused deaths",
         "&f/game scoreboard &7- Prints the scoreboard",
         "&f/game teams &7- Prints team rosters"
     };

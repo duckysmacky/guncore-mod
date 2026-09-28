@@ -25,6 +25,7 @@ public class GameCommand extends CommandBase {
         "lives",
         "deaths",
         "register_kill",
+        "kill_only_lives",
         "mode",
         "mode_variant",
         "scoreboard",
@@ -76,6 +77,11 @@ public class GameCommand extends CommandBase {
                 break;
             case "register_kill":
                 handleRegisterKill(server, sender, args);
+                break;
+            case "kill_only_lives":
+                if (args.length < 2)
+                    throw new CommandException("Usage: /game kill_only_lives <true|false>");
+                gameManager.setKillOnlyLifeLoss(parseBoolean(args[1]));
                 break;
             case "mode":
                 if (args.length < 2)

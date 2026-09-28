@@ -8,6 +8,7 @@ import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.DisplayEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.GameruleToggleEntry;
+import io.github.duckysmacky.guncore.client.gui.menu.entries.GameSettingToggleEntry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -81,6 +82,21 @@ public class SettingsMenuPage extends StaticMenu {
             "Natural regeneration",
             "naturaRegeneration"
         ), 2, 5);
+
+        addEntry(new DisplayEntry(
+            new ItemStackCustomizer(new ItemStack(Items.SKULL))
+                .setName("&f&lKill-only Life Loss")
+                .addLoreLine("&fIf enabled, only a death caused by another player costs a life")
+                .addLoreLine("&fIf disabled, any death (fall damage, self-kill, etc.) costs a life too")
+                .addLoreLine("&7Deaths are always counted either way")
+                .getItemStack()
+        ), 1, 6);
+
+        addEntry(new GameSettingToggleEntry(
+            this, true,
+            "Kill-only life loss",
+            "kill_only_lives"
+        ), 2, 6);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.REDSTONE_TORCH))

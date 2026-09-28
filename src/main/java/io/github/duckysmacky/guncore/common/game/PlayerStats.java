@@ -28,6 +28,9 @@ public class PlayerStats {
 
     public void registerDeath() {
         deaths++;
+    }
+
+    public void loseLife() {
         if (lives > 0) lives--;
     }
 

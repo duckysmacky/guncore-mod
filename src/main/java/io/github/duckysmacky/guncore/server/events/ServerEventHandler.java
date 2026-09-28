@@ -26,13 +26,15 @@ public class ServerEventHandler {
     @SubscribeEvent
     public void onPlayerDeath(LivingDeathEvent event) {
         Entity victimEntity = event.getEntity();
+        if (!(victimEntity instanceof EntityPlayer)) return;
+        EntityPlayer victim = (EntityPlayer) victimEntity;
+
         Entity killerEntity = event.getSource().getTrueSource();
 
-        if (victimEntity instanceof EntityPlayer && killerEntity instanceof EntityPlayer) {
-            EntityPlayer victim = (EntityPlayer) victimEntity;
-            EntityPlayer killer = (EntityPlayer) killerEntity;
-
-            GameManager.instance().onPlayerKill(killer, victim);
+        if (killerEntity instanceof EntityPlayer) {
+            GameManager.instance().onPlayerKill((EntityPlayer) killerEntity, victim);
+        } else {
+            GameManager.instance().onEnvironmentalDeath(victim);
         }
     }
 }
