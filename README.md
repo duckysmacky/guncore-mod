@@ -46,7 +46,7 @@ Guncore compiles directly against TACZ's API (`com.tacz.guns.api...`) to build g
 - `/game mode <ffa|tdm|hostage>` - sets the gamemode
 - `/game mode_variant <time|lives|kills>` - sets the win condition
 - `/game kills|lives|deaths <add|remove|set> <player> <amount>` - edits player stats
-- `/game register_kill <victim>` - registers a kill/death for the victim, attributed to whoever ran the command
+- `/game register_kill <victim> [killer]` - registers a kill/death for the victim, attributed to `killer` (or to whoever ran the command if omitted)
 - `/game scoreboard` / `/game teams` - prints current stats/team rosters
 
 ## Configuration

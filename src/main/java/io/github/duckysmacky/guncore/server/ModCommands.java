@@ -37,7 +37,7 @@ public class ModCommands {
         "&f/game mode <ffa|tdm|hostage> &7- Sets the game mode",
         "&f/game mode_variant <time|lives|kills> &7- Sets the win condition",
         "&f/game kills|lives|deaths <add|remove|set> <player> <amount> &7- Edits player stats",
-        "&f/game register_kill <victim> &7- Registers a kill and a death",
+        "&f/game register_kill <victim> [killer] &7- Registers a kill and a death",
         "&f/game scoreboard &7- Prints the scoreboard",
         "&f/game teams &7- Prints team rosters"
     };
@@ -151,14 +151,10 @@ public class ModCommands {
             )
             .then(Commands.literal("register_kill")
                 .then(Commands.argument("victim", EntityArgument.player())
-                    .executes(ctx -> {
-                        ServerPlayer victim = EntityArgument.getPlayer(ctx, "victim");
-                        if (ctx.getSource().getEntity() instanceof ServerPlayer killer) {
-                            GameManager.instance().onPlayerDeath(victim, killer);
-                            ctx.getSource().sendSuccess(() -> Component.literal(TextUtils.translateColorCodes("&aRegistered")), false);
-                        }
-                        return 1;
-                    })
+                    .executes(ctx -> registerKill(ctx, ctx.getSource().getPlayer()))
+                    .then(Commands.argument("killer", EntityArgument.player())
+                        .executes(ctx -> registerKill(ctx, EntityArgument.getPlayer(ctx, "killer")))
+                    )
                 )
             )
             // kills / lives / deaths <add|remove|set> <player> <amount>
@@ -172,6 +168,18 @@ public class ModCommands {
                 .then(makeStatCommand("deaths"))
             )
         );
+    }
+
+    private static int registerKill(CommandContext<CommandSourceStack> ctx, ServerPlayer killer) throws CommandSyntaxException {
+        if (killer == null) {
+            ctx.getSource().sendFailure(Component.literal("Console must specify a killer: /game register_kill <victim> <killer>"));
+            return 0;
+        }
+
+        ServerPlayer victim = EntityArgument.getPlayer(ctx, "victim");
+        GameManager.instance().onPlayerDeath(victim, killer);
+        ctx.getSource().sendSuccess(() -> Component.literal(TextUtils.translateColorCodes("&aRegistered")), false);
+        return 1;
     }
 
     private static ArgumentBuilder<CommandSourceStack, ?> makeStatCommand(String type) {
