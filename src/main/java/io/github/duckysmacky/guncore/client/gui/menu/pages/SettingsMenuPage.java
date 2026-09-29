@@ -66,7 +66,7 @@ public class SettingsMenuPage extends StaticMenu {
         addEntry(new GameruleToggleEntry(
             this, false,
             "Item drops",
-            "tileDrops"
+            "doTileDrops"
         ), 2, 4);
 
         addEntry(new DisplayEntry(
@@ -80,7 +80,7 @@ public class SettingsMenuPage extends StaticMenu {
         addEntry(new GameruleToggleEntry(
             this, true,
             "Natural regeneration",
-            "naturaRegeneration"
+            "naturalRegeneration"
         ), 2, 5);
 
         addEntry(new DisplayEntry(
