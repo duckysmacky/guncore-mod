@@ -7,12 +7,14 @@ import io.github.duckysmacky.guncore.common.game.*;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
@@ -270,6 +272,17 @@ public class GameManager {
                 .forEach(p -> ServerBroadcaster.message(String.format(" - &f%s: &7(%s kills, %s deaths, %s lives)",
                     p.getUsername(), p.getKills(), p.getDeaths(), p.getLives())));
         });
+    }
+
+    public void setSpawnpoint(ServerPlayer target) {
+        BlockPos pos = target.blockPosition();
+
+        target.setRespawnPosition(target.level().dimension(), pos, target.getYRot(), true, false);
+        target.setGameMode(GameType.SURVIVAL);
+        target.serverLevel().setBlockAndUpdate(pos.below(), Blocks.BEDROCK.defaultBlockState());
+
+        ServerBroadcaster.message(String.format("&fSet &f&l%s&f's spawnpoint at &7%s", target.getScoreboardName(), pos.toShortString()));
+        ServerSoundPlayer.playFor(target, SoundEvents.ANVIL_LAND, 1f, 1f);
     }
 
     public void joinTeam(ServerPlayer player, Team team) {

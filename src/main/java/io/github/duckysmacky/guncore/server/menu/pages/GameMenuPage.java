@@ -152,7 +152,16 @@ public class GameMenuPage extends StaticMenuPage {
                 CommandExecutor.execute("clear @a");
                 CommandExecutor.execute("gamemode spectator @a");
             }
-        ), 5, 6);
+        ), 6, 3);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.BEDROCK))
+                .setName("&f&lSet Spawnpoints (All)")
+                .addLoreLine("&7Set every online player's spawnpoint to their current location")
+                .addLoreLine("&7Puts them in survival mode and places bedrock underneath")
+                .getItemStack(),
+            p -> p.server.getPlayerList().getPlayers().forEach(GameManager.instance()::setSpawnpoint)
+        ), 6, 5);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.SPECTRAL_ARROW))

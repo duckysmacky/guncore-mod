@@ -48,6 +48,8 @@ Guncore compiles directly against TACZ's API (`com.tacz.guns.api...`) to build g
 - `/game kills|lives|deaths <add|remove|set> <player> <amount>` - edits player stats
 - `/game register_kill <victim> [killer]` - registers a kill/death for the victim, attributed to `killer` (or to whoever ran the command if omitted)
 - `/game kill_only_lives <true|false>` - if enabled (default), only a death caused by another player costs a life; if disabled, any death (fall damage, self-kill, etc.) does. Deaths are always counted. Also available in the menu's settings page
+- `/game spawnpoint [player]` - sets the spawnpoint of the player (defaults to you) to their current location, switches them to survival and places bedrock underneath
+- `/game spawnpoint_all` - same as above, for every online player (also a button in the game menu)
 - `/game scoreboard` / `/game teams` - prints current stats/team rosters
 
 ## Configuration

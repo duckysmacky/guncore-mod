@@ -40,6 +40,8 @@ public class ModCommands {
         "&f/game kills|lives|deaths <add|remove|set> <player> <amount> &7- Edits player stats",
         "&f/game register_kill <victim> [killer] &7- Registers a kill and a death",
         "&f/game kill_only_lives <true|false> &7- Toggles life loss on non-player-caused deaths",
+        "&f/game spawnpoint [player] &7- Sets a spawnpoint, survival mode, and bedrock at the target's location",
+        "&f/game spawnpoint_all &7- Same, but for every online player",
         "&f/game scoreboard &7- Prints the scoreboard",
         "&f/game teams &7- Prints team rosters"
     };
@@ -167,6 +169,18 @@ public class ModCommands {
                     })
                 )
             )
+            .then(Commands.literal("spawnpoint")
+                .executes(ctx -> setSpawnpoint(ctx, ctx.getSource().getPlayer()))
+                .then(Commands.argument("player", EntityArgument.player())
+                    .executes(ctx -> setSpawnpoint(ctx, EntityArgument.getPlayer(ctx, "player")))
+                )
+            )
+            .then(Commands.literal("spawnpoint_all")
+                .executes(ctx -> {
+                    ctx.getSource().getServer().getPlayerList().getPlayers().forEach(GameManager.instance()::setSpawnpoint);
+                    return 1;
+                })
+            )
             // kills / lives / deaths <add|remove|set> <player> <amount>
             .then(Commands.literal("kills")
                 .then(makeStatCommand("kills"))
@@ -189,6 +203,16 @@ public class ModCommands {
         ServerPlayer victim = EntityArgument.getPlayer(ctx, "victim");
         GameManager.instance().onPlayerKill(killer, victim);
         ctx.getSource().sendSuccess(() -> Component.literal(TextUtils.translateColorCodes("&aRegistered")), false);
+        return 1;
+    }
+
+    private static int setSpawnpoint(CommandContext<CommandSourceStack> ctx, ServerPlayer target) {
+        if (target == null) {
+            ctx.getSource().sendFailure(Component.literal("Console must specify a player: /game spawnpoint <player>"));
+            return 0;
+        }
+
+        GameManager.instance().setSpawnpoint(target);
         return 1;
     }
 
