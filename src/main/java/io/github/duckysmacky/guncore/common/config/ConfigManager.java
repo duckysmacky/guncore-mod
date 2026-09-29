@@ -3,8 +3,6 @@ package io.github.duckysmacky.guncore.common.config;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogManager;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.function.Supplier;
 
@@ -30,15 +28,13 @@ public class ConfigManager {
     }
 
     public void load() {
-        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
-            GuncoreMod.LOGGER.info("[{}] Loading config", ID);
-            ConfigLoader loader = new ConfigLoader();
+        GuncoreMod.LOGGER.info("[{}] Loading config", ID);
+        ConfigLoader loader = new ConfigLoader();
 
-            catalogManager.load(loader);
+        catalogManager.load(loader);
 
-            String gameConfigJson = loader.readJSON("game.json", GameConfig::createDefault);
-            gameConfig = parseConfigJson(gameConfigJson, GameConfig.class, GameConfig::createDefault);
-        }
+        String gameConfigJson = loader.readJSON("game.json", GameConfig::createDefault);
+        gameConfig = parseConfigJson(gameConfigJson, GameConfig.class, GameConfig::createDefault);
     }
 
     public CatalogManager getCatalogManager() {

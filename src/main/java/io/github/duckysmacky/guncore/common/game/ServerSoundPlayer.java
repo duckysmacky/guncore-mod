@@ -7,8 +7,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 public final class ServerSoundPlayer {
@@ -43,12 +41,6 @@ public final class ServerSoundPlayer {
     }
 
     private static void play(Player target, SoundEvent sound, float volume, float pitch) {
-        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
-            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            playAsServer(server, target, sound, volume, pitch);
-        } else {
-            // TODO: add client support
-            GuncoreMod.LOGGER.error("[{}] Cannot play sound globally from client", ID);
-        }
+        playAsServer(ServerLifecycleHooks.getCurrentServer(), target, sound, volume, pitch);
     }
 }

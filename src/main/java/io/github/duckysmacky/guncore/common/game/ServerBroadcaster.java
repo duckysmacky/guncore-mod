@@ -1,13 +1,9 @@
 package io.github.duckysmacky.guncore.common.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
-import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import io.github.duckysmacky.guncore.common.network.packets.BroadcastMessagePacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 public final class ServerBroadcaster {
@@ -42,11 +38,6 @@ public final class ServerBroadcaster {
     }
 
     private static void broadcast(String message) {
-        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
-            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            broadcastAsServer(server, message);
-        } else {
-            PacketHandler.CHANNEL.sendToServer(new BroadcastMessagePacket(message));
-        }
+        broadcastAsServer(ServerLifecycleHooks.getCurrentServer(), message);
     }
 }

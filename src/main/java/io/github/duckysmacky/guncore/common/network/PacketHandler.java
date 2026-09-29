@@ -25,7 +25,6 @@ public class PacketHandler {
         // server packets
         CHANNEL.registerMessage(packetId++, OpenMainMenuPacket.class, OpenMainMenuPacket::encode, OpenMainMenuPacket::decode, OpenMainMenuPacket::handle);
         CHANNEL.registerMessage(packetId++, ReopenMenuPagePacket.class, ReopenMenuPagePacket::encode, ReopenMenuPagePacket::decode, ReopenMenuPagePacket::handle);
-        CHANNEL.registerMessage(packetId++, LoadConfigPacket.class, LoadConfigPacket::encode, LoadConfigPacket::decode, LoadConfigPacket::handle);
         CHANNEL.registerMessage(packetId++, ExecuteCommandPacket.class, ExecuteCommandPacket::encode, ExecuteCommandPacket::decode, ExecuteCommandPacket::handle);
         CHANNEL.registerMessage(packetId++, BroadcastMessagePacket.class, BroadcastMessagePacket::encode, BroadcastMessagePacket::decode, BroadcastMessagePacket::handle);
     }

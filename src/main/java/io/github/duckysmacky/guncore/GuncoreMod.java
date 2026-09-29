@@ -6,7 +6,6 @@ import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
 import io.github.duckysmacky.guncore.server.menu.MenuPageContainer;
 import io.github.duckysmacky.guncore.client.gui.menu.MenuPageScreen;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import io.github.duckysmacky.guncore.common.network.packets.LoadConfigPacket;
 import io.github.duckysmacky.guncore.server.ServerEventHandler;
 import io.github.duckysmacky.guncore.server.menu.pages.MainMenuPage;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -80,11 +78,6 @@ public class GuncoreMod {
         public static void onClientSetup(FMLClientSetupEvent event) {
             // Client setup code
             MenuScreens.register(GAME_MENU.get(), MenuPageScreen::new);
-        }
-
-        @SubscribeEvent
-        public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-            PacketHandler.CHANNEL.sendToServer(new LoadConfigPacket());
         }
     }
 }
