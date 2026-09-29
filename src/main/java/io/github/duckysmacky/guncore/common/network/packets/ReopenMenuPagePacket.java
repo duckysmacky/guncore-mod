@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
+import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
 import io.github.duckysmacky.guncore.server.menu.MenuManager;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,7 +23,8 @@ public class ReopenMenuPagePacket {
                 ServerPlayer player = ctx.get().getSender();
 
                 if (player != null) {
-                    MenuManager.instance().getLastOpenedMenu(player).open(player);
+                    BaseMenuPage lastOpened = MenuManager.instance().getLastOpenedMenu(player);
+                    (lastOpened != null ? lastOpened : MenuManager.instance().getMainMenu()).open(player);
                 }
             }
         });

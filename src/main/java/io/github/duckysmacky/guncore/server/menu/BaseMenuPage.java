@@ -26,6 +26,8 @@ public abstract class BaseMenuPage {
     }
 
     public void open(ServerPlayer player) {
+        MenuManager.instance().setLastOpenedMenu(player, this);
+
         SimpleContainer inventory = new SimpleContainer(rows * cols);
         fillInventory(inventory);
 

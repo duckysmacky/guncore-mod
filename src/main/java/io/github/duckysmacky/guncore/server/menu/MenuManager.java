@@ -26,6 +26,8 @@ public class MenuManager {
     }
 
     public void refreshMenu() {
+        // remembered pages belong to the old menu tree
+        this.lastOpenedMenus.clear();
         this.mainMenu = new MainMenuPage();
     }
 
