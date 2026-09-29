@@ -30,6 +30,7 @@ public class GameManager {
     private GameMode.Variant gameModeVariant;
     private GameState state;
     private int roundDurationSec;
+    private boolean killOnlyLifeLoss;
 
     private GameManager() {
         this.playerStats = new HashMap<>();
@@ -38,6 +39,7 @@ public class GameManager {
         this.gameMode = GameMode.FFA;
         this.gameModeVariant = GameMode.Variant.LIVES;
         this.state = GameState.NOT_STARTED;
+        this.killOnlyLifeLoss = true;
     }
 
     public static GameManager instance() {
@@ -183,37 +185,56 @@ public class GameManager {
         }
     }
 
-    public void onPlayerDeath(ServerPlayer victim, ServerPlayer killer) {
+    public void onPlayerKill(ServerPlayer killer, ServerPlayer victim) {
         if (state != GameState.RUNNING) return;
-
-        PlayerStats victimStats = getStats(victim);
-        victimStats.setDeaths(victimStats.getDeaths() + 1);
-
-        if (killer == null) return;
-
-        victimStats.setLives(victimStats.getLives() - 1);
 
         PlayerStats killerStats = getStats(killer);
         killerStats.setKills(killerStats.getKills() + 1);
-        ServerSoundPlayer.playFor(killer, SoundEvents.EXPERIENCE_ORB_PICKUP, 1.5f, 1f);
 
-        if (gameModeVariant == GameMode.Variant.LIVES) {
-            if (victimStats.getLives() <= 0) {
-                victim.setGameMode(GameType.SPECTATOR);
-                ServerBroadcaster.message(String.format("&f&l%s &c&lis out of lives!", victim.getName()));
-                ServerSoundPlayer.playForAll(SoundEvents.ENDER_DRAGON_GROWL, 1f, 1f);
-            } else if (victimStats.getLives() == 1) {
-                String message = TextUtils.translateColorCodes("&c&lYou only have &f&l1 &e&llife left");
-                victim.sendSystemMessage(Component.literal(message));
-                ServerSoundPlayer.playFor(victim, SoundEvents.GLASS_BREAK, 1f, 1f);
-            } else {
-                String message = TextUtils.translateColorCodes(String.format("&e&lYou have &f&l%s &e&llives left", victimStats.getLives()));
-                victim.sendSystemMessage(Component.literal(message));
-                ServerSoundPlayer.playFor(victim, SoundEvents.GLASS_BREAK, 1f, 1f);
-            }
+        // a player kill always costs the victim a life, regardless of the kill-only life loss setting
+        registerDeath(victim, true);
+
+        ServerSoundPlayer.playFor(killer, SoundEvents.EXPERIENCE_ORB_PICKUP, 1.5f, 1f);
+    }
+
+    /**
+     * Registers a death with no attributable player killer (fall damage, self-inflicted, environmental).
+     * Only costs the victim a life when kill-only life loss is disabled.
+     */
+    public void onEnvironmentalDeath(ServerPlayer victim) {
+        if (state != GameState.RUNNING) return;
+
+        registerDeath(victim, !killOnlyLifeLoss);
+    }
+
+    private void registerDeath(ServerPlayer victim, boolean loseLife) {
+        PlayerStats victimStats = getStats(victim);
+        victimStats.registerDeath();
+
+        if (loseLife) {
+            victimStats.loseLife();
+            announceLivesLeft(victim, victimStats);
         }
 
         checkRoundEndConditions();
+    }
+
+    private void announceLivesLeft(ServerPlayer victim, PlayerStats victimStats) {
+        if (gameModeVariant != GameMode.Variant.LIVES) return;
+
+        if (victimStats.getLives() <= 0) {
+            victim.setGameMode(GameType.SPECTATOR);
+            ServerBroadcaster.message(String.format("&f&l%s &c&lis out of lives!", victim.getScoreboardName()));
+            ServerSoundPlayer.playForAll(SoundEvents.ENDER_DRAGON_GROWL, 1f, 1f);
+        } else if (victimStats.getLives() == 1) {
+            String message = TextUtils.translateColorCodes("&c&lYou only have &f&l1 &e&llife left");
+            victim.sendSystemMessage(Component.literal(message));
+            ServerSoundPlayer.playFor(victim, SoundEvents.GLASS_BREAK, 1f, 1f);
+        } else {
+            String message = TextUtils.translateColorCodes(String.format("&e&lYou have &f&l%s &e&llives left", victimStats.getLives()));
+            victim.sendSystemMessage(Component.literal(message));
+            ServerSoundPlayer.playFor(victim, SoundEvents.GLASS_BREAK, 1f, 1f);
+        }
     }
 
     public void printRoundTimeLeft(int timeLeftSecs) {
@@ -261,7 +282,7 @@ public class GameManager {
 
         ServerBroadcaster.message(String.format(
             "&7Player &f%s &7joined the %s%s Team",
-            player.getName(), team.color, team.display
+            player.getScoreboardName(), team.color, team.display
         ));
         ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_HARP.get(), 1f, 1f);
     }
@@ -335,6 +356,16 @@ public class GameManager {
 
     public GameMode.Variant getGameModeVariant() {
         return gameModeVariant;
+    }
+
+    public boolean isKillOnlyLifeLoss() {
+        return killOnlyLifeLoss;
+    }
+
+    public void setKillOnlyLifeLoss(boolean killOnlyLifeLoss) {
+        this.killOnlyLifeLoss = killOnlyLifeLoss;
+        ServerBroadcaster.message("&fKill-only life loss set to &l" + killOnlyLifeLoss);
+        ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_HARP.get(), 1f, 1f);
     }
 
     public long getRoundDurationSec() {

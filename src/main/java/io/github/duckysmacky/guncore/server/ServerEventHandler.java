@@ -6,7 +6,6 @@ import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.server.game.GameManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -36,13 +35,9 @@ public class ServerEventHandler {
 
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {
-        Entity victimEntity = event.getEntity();
-        Entity killerEntity = event.getSource().getDirectEntity();
-
-        if (victimEntity instanceof ServerPlayer victim) {
-            ServerPlayer killer = (killerEntity instanceof ServerPlayer) ? (ServerPlayer) killerEntity : null;
-
-            GameManager.instance().onPlayerDeath(victim, killer);
+        if (event.getEntity() instanceof ServerPlayer victim) {
+            // getEntity() is the one responsible for the damage (e.g. the shooter of an arrow), unlike getDirectEntity() (the arrow itself)
+            registerPlayerDeath(victim, event.getSource().getEntity());
         }
     }
 
@@ -50,13 +45,16 @@ public class ServerEventHandler {
     public void onGunKill(EntityKillByGunEvent event) {
         if (event.getLogicalSide() != LogicalSide.SERVER) return;
 
-        LivingEntity victimEntity = event.getKilledEntity();
-        LivingEntity killerEntity = event.getAttacker();
+        if (event.getKilledEntity() instanceof ServerPlayer victim) {
+            registerPlayerDeath(victim, event.getAttacker());
+        }
+    }
 
-        if (victimEntity instanceof ServerPlayer victim) {
-            ServerPlayer killer = (killerEntity instanceof ServerPlayer) ? (ServerPlayer) killerEntity : null;
-
-            GameManager.instance().onPlayerDeath(victim, killer);
+    private static void registerPlayerDeath(ServerPlayer victim, Entity killerEntity) {
+        if (killerEntity instanceof ServerPlayer killer && killer != victim) {
+            GameManager.instance().onPlayerKill(killer, victim);
+        } else {
+            GameManager.instance().onEnvironmentalDeath(victim);
         }
     }
 }

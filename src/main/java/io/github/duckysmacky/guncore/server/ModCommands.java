@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.server;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -38,6 +39,7 @@ public class ModCommands {
         "&f/game mode_variant <time|lives|kills> &7- Sets the win condition",
         "&f/game kills|lives|deaths <add|remove|set> <player> <amount> &7- Edits player stats",
         "&f/game register_kill <victim> [killer] &7- Registers a kill and a death",
+        "&f/game kill_only_lives <true|false> &7- Toggles life loss on non-player-caused deaths",
         "&f/game scoreboard &7- Prints the scoreboard",
         "&f/game teams &7- Prints team rosters"
     };
@@ -157,6 +159,14 @@ public class ModCommands {
                     )
                 )
             )
+            .then(Commands.literal("kill_only_lives")
+                .then(Commands.argument("enabled", BoolArgumentType.bool())
+                    .executes(ctx -> {
+                        GameManager.instance().setKillOnlyLifeLoss(BoolArgumentType.getBool(ctx, "enabled"));
+                        return 1;
+                    })
+                )
+            )
             // kills / lives / deaths <add|remove|set> <player> <amount>
             .then(Commands.literal("kills")
                 .then(makeStatCommand("kills"))
@@ -177,7 +187,7 @@ public class ModCommands {
         }
 
         ServerPlayer victim = EntityArgument.getPlayer(ctx, "victim");
-        GameManager.instance().onPlayerDeath(victim, killer);
+        GameManager.instance().onPlayerKill(killer, victim);
         ctx.getSource().sendSuccess(() -> Component.literal(TextUtils.translateColorCodes("&aRegistered")), false);
         return 1;
     }
