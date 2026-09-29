@@ -83,7 +83,7 @@ public class GameManager {
         ServerSoundPlayer.playForAll(SoundEvents.NOTE_BLOCK_HARP.get(), 1f, 1f);
     }
 
-    private void updatePlayerList() {
+    public void updatePlayerList() {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
         if (server == null) {
@@ -104,6 +104,8 @@ public class GameManager {
 
     public void startRound() {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
+            updatePlayerList();
+
             state = GameState.RUNNING;
             roundDurationSec = 0;
 

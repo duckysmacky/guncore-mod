@@ -1,22 +1,10 @@
 package io.github.duckysmacky.guncore.common.config;
 
-import java.util.Objects;
-
 public record GameConfig(
     GameModeConfig ffaConfig,
     GameModeConfig tdmConfig,
     GameModeConfig hostageConfig
 ) {
-    public GameConfig(
-        GameModeConfig ffaConfig,
-        GameModeConfig tdmConfig,
-        GameModeConfig hostageConfig
-    ) {
-        this.ffaConfig = Objects.requireNonNull(ffaConfig);
-        this.tdmConfig = Objects.requireNonNull(tdmConfig);
-        this.hostageConfig = Objects.requireNonNull(hostageConfig);
-    }
-
     public static GameConfig createDefault() {
         return new GameConfig(
             new GameModeConfig(10 * 60, 5, 15), // FFA: 10 minutes, 5 lives, 15 kills
@@ -25,5 +13,30 @@ public record GameConfig(
         );
     }
 
-    public record GameModeConfig(int roundLengthSec, int startingLives, int killTarget) {}
+    /**
+     * Gson leaves values missing from an older/partial game.json as null/0.
+     * Replaces those with the defaults.
+     */
+    public static GameConfig withDefaults(GameConfig config) {
+        GameConfig defaults = createDefault();
+        if (config == null) return defaults;
+
+        return new GameConfig(
+            GameModeConfig.withDefaults(config.ffaConfig(), defaults.ffaConfig()),
+            GameModeConfig.withDefaults(config.tdmConfig(), defaults.tdmConfig()),
+            GameModeConfig.withDefaults(config.hostageConfig(), defaults.hostageConfig())
+        );
+    }
+
+    public record GameModeConfig(int roundLengthSec, int startingLives, int killTarget) {
+        static GameModeConfig withDefaults(GameModeConfig config, GameModeConfig defaults) {
+            if (config == null) return defaults;
+
+            return new GameModeConfig(
+                config.roundLengthSec() > 0 ? config.roundLengthSec() : defaults.roundLengthSec(),
+                config.startingLives() > 0 ? config.startingLives() : defaults.startingLives(),
+                config.killTarget() > 0 ? config.killTarget() : defaults.killTarget()
+            );
+        }
+    }
 }

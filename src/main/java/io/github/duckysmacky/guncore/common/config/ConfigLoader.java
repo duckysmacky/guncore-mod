@@ -21,7 +21,7 @@ public class ConfigLoader {
     }
 
     public <T> String readJSON(String filePath, Supplier<T> defaultValue) {
-        File file = configPath.resolve(MOD_CONFIG_DIR + filePath).toFile();
+        File file = getConfigFile(filePath);
 
         if (!file.exists()) {
             try {
@@ -38,6 +38,20 @@ public class ConfigLoader {
             GuncoreMod.LOGGER.error("[{}] Failed to load '{}' config file: {}", ID, file.getName(), e.getMessage());
             return gson.toJson(defaultValue.get());
         }
+    }
+
+    public void writeJSON(String filePath, Object value) {
+        File file = getConfigFile(filePath);
+
+        try (Writer writer = new FileWriter(file)) {
+            gson.toJson(value, writer);
+        } catch (IOException e) {
+            GuncoreMod.LOGGER.error("[{}] Failed to write '{}' config file: {}", ID, file.getName(), e.getMessage());
+        }
+    }
+
+    private File getConfigFile(String filePath) {
+        return configPath.resolve(MOD_CONFIG_DIR + filePath).toFile();
     }
 
     private <T> void saveDefaultJSON(File file, Supplier<T> defaultValue) throws IOException {
