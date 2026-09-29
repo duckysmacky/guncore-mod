@@ -28,19 +28,39 @@ import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = GuncoreMod.MOD_ID)
 public class ModCommands {
+    private static final String[] HELP_LINES = {
+        "&6&l--- Guncore Commands ---",
+        "&f/menu &7- Opens the equipment/game menu",
+        "&f/guncore config_reload &7- Reloads the mod config from disk",
+        "&f/guncore help &7- Shows this list",
+        "&f/game start|end|reset|pause &7- Controls the current round",
+        "&f/game mode <ffa|tdm|hostage> &7- Sets the game mode",
+        "&f/game mode_variant <time|lives|kills> &7- Sets the win condition",
+        "&f/game kills|lives|deaths <add|remove|set> <player> <amount> &7- Edits player stats",
+        "&f/game register_kill <victim> &7- Registers a kill and a death",
+        "&f/game scoreboard &7- Prints the scoreboard",
+        "&f/game teams &7- Prints team rosters"
+    };
 
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 
-        // config
-        dispatcher.register(Commands.literal("guncore_config")
+        // mod utilities
+        dispatcher.register(Commands.literal("guncore")
             .requires(src -> src.hasPermission(0))
-            .then(Commands.literal("reload")
+            .then(Commands.literal("config_reload")
                 .executes(ctx -> {
                     ConfigManager.instance().load();
                     MenuManager.instance().refreshMenu();
                     ctx.getSource().sendSuccess(() -> Component.literal(TextUtils.translateColorCodes("&a&lGuncore config reloaded")), false);
+                    return 1;
+                })
+            )
+            .then(Commands.literal("help")
+                .executes(ctx -> {
+                    for (String line : HELP_LINES)
+                        ctx.getSource().sendSuccess(() -> Component.literal(TextUtils.translateColorCodes(line)), false);
                     return 1;
                 })
             )

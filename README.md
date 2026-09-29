@@ -40,7 +40,8 @@ Guncore compiles directly against TACZ's API (`com.tacz.guns.api...`) to build g
 ## Commands
 
 - `/menu` - opens the equipment/game GUI
-- `/guncore_config reload` - reloads config from disk and refreshes the menu, without a restart
+- `/guncore config_reload` - reloads config from disk and refreshes the menu, without a restart
+- `/guncore help` - lists all of the mod's commands
 - `/game start|end|reset|pause` - controls the current round
 - `/game mode <ffa|tdm|hostage>` - sets the gamemode
 - `/game mode_variant <time|lives|kills>` - sets the win condition
@@ -68,7 +69,7 @@ config/guncore/
     └── locations.json           # named teleport/spawn points per map
 ```
 
-Edit the JSON, then run `/guncore_config reload` - the server re-reads every catalog file and reopens/refreshes the menu for connected players.
+Edit the JSON, then run `/guncore config_reload` - the server re-reads every catalog file and reopens/refreshes the menu for connected players.
 
 ### `game.json`
 
