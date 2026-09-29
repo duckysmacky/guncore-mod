@@ -10,6 +10,7 @@ import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import io.github.duckysmacky.guncore.server.menu.entries.GameruleToggleEntry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 
 public class SettingsMenuPage extends StaticMenuPage {
@@ -24,9 +25,8 @@ public class SettingsMenuPage extends StaticMenuPage {
         ), 1, 1);
 
         addEntry(new GameruleToggleEntry(
-            this, false,
-            "Weather cycle",
-            "doWeatherCycle"
+            this, GameRules.RULE_WEATHER_CYCLE,
+            "Weather cycle"
         ), 2, 1);
 
         addEntry(new DisplayEntry(
@@ -37,9 +37,8 @@ public class SettingsMenuPage extends StaticMenuPage {
         ), 1, 2);
 
         addEntry(new GameruleToggleEntry(
-            this, false,
-            "Daylight cycle",
-            "doDaylightCycle"
+            this, GameRules.RULE_DAYLIGHT,
+            "Daylight cycle"
         ), 2, 2);
 
         addEntry(new DisplayEntry(
@@ -50,9 +49,8 @@ public class SettingsMenuPage extends StaticMenuPage {
         ), 1, 3);
 
         addEntry(new GameruleToggleEntry(
-            this, false,
-            "Fire spreading",
-            "doFireTick"
+            this, GameRules.RULE_DOFIRETICK,
+            "Fire spreading"
         ), 2, 3);
 
         addEntry(new DisplayEntry(
@@ -63,9 +61,8 @@ public class SettingsMenuPage extends StaticMenuPage {
         ), 1, 4);
 
         addEntry(new GameruleToggleEntry(
-            this, false,
-            "Item drops",
-            "tileDrops"
+            this, GameRules.RULE_DOBLOCKDROPS,
+            "Item drops"
         ), 2, 4);
 
         addEntry(new DisplayEntry(
@@ -77,9 +74,8 @@ public class SettingsMenuPage extends StaticMenuPage {
         ), 1, 5);
 
         addEntry(new GameruleToggleEntry(
-            this, true,
-            "Natural regeneration",
-            "naturaRegeneration"
+            this, GameRules.RULE_NATURAL_REGENERATION,
+            "Natural regeneration"
         ), 2, 5);
 
         addEntry(new ActionEntry(

@@ -1,23 +1,23 @@
 package io.github.duckysmacky.guncore.server.menu.entries;
 
-import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import io.github.duckysmacky.guncore.common.game.ServerBroadcaster;
 import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
 import io.github.duckysmacky.guncore.server.menu.BaseMenuPage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.GameRules;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class GameruleToggleEntry extends ToggleButtonEntry {
     public GameruleToggleEntry(
         BaseMenuPage menu,
-        boolean baseState,
-        String gameruleName,
-        String gamerule
+        GameRules.Key<GameRules.BooleanValue> gamerule,
+        String gameruleName
     ) {
         super(menu,
-            () -> baseState, // TODO: find a way to actually load gamerule state into this
+            () -> ServerLifecycleHooks.getCurrentServer().getGameRules().getBoolean(gamerule),
             (player, state) -> {
-            CommandExecutor.execute("gamerule " + gamerule + " " + state);
+            player.server.getGameRules().getRule(gamerule).set(state, player.server);
 
             ChatFormatting color = state ? ChatFormatting.GREEN : ChatFormatting.GRAY;
             String stateChat = state ? "enabled" : "disabled";

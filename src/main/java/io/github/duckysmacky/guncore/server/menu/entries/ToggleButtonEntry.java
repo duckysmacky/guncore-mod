@@ -11,9 +11,12 @@ import net.minecraft.world.item.Items;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
+/**
+ * Menu pages are shared between players, so the state is read from the supplier every time instead of being cached.
+ */
 public class ToggleButtonEntry extends MenuEntry {
     private final BaseMenuPage menu;
-    private boolean state;
+    private final Supplier<Boolean> stateSupplier;
     private final BiConsumer<ServerPlayer, Boolean> onToggle;
 
     public ToggleButtonEntry(
@@ -21,9 +24,9 @@ public class ToggleButtonEntry extends MenuEntry {
         Supplier<Boolean> stateSupplier,
         BiConsumer<ServerPlayer, Boolean> onToggle
     ) {
-        super(getIcon(stateSupplier.get()));
+        super(ItemStack.EMPTY);
         this.menu = menu;
-        this.state = stateSupplier.get();
+        this.stateSupplier = stateSupplier;
         this.onToggle = onToggle;
     }
 
@@ -37,12 +40,16 @@ public class ToggleButtonEntry extends MenuEntry {
     }
 
     @Override
+    public ItemStack getIcon() {
+        return getIcon(stateSupplier.get());
+    }
+
+    @Override
     public void onClick(ServerPlayer player) {
-        this.state = !this.state;
-        this.icon = getIcon(state);
+        boolean newState = !stateSupplier.get();
 
         ServerSoundPlayer.playFor(player, SoundEvents.UI_BUTTON_CLICK.get(), 1f, 1f);
-        onToggle.accept(player, state);
+        onToggle.accept(player, newState);
         menu.open(player);
     }
 }
