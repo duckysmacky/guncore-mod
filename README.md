@@ -107,7 +107,7 @@ Each file is a JSON **array** of entries, all sharing `enabled`, `name` and `des
 ```
 `category` is one of `assault_rifle`, `battle_rifle`, `dmr`, `lmg`, `smg`, `shotgun`, `sniper_rifle`, `pistol`, `special`, `melee`; `rarity` uses the shared values below.
 
-**`lethals.json`, `tacticals.json`, `gadgets.json`, `utility.json`, `consumables.json`, `perks.json`** - all identical structure, any vanilla or modded item, with optional raw NBT and bundled extra items:
+**`lethals.json`, `tacticals.json`, `gadgets.json`, `utility.json`, `consumables.json`, `perks.json`** - all identical structure, any vanilla or modded item, with optional raw NBT and bundled extra items (`additionalItems`, each an `{ id, amount }`; use `[]` for none):
 
 ```json
 {
@@ -117,7 +117,7 @@ Each file is a JSON **array** of entries, all sharing `enabled`, `name` and `des
   "itemId": "minecraft:water_bucket",
   "itemAmount": 1,
   "nbtData": null,
-  "additionalItemIds": [],
+  "additionalItems": [{ "id": "minecraft:bucket", "amount": 2 }],
   "descriptionLines": ["&7A bucket filled with water."]
 }
 ```

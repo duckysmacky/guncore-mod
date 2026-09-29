@@ -23,7 +23,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
     private final String itemId;
     private final int itemAmount;
     private final String nbtData;
-    private final List<String> additionalItemIds;
+    private final List<AdditionalItem> additionalItems;
 
     public ItemEntry(
         boolean enabled,
@@ -32,7 +32,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
         String itemId,
         int itemAmount,
         String nbtData,
-        List<String> additionalItemIds,
+        List<AdditionalItem> additionalItems,
         List<String> descriptionLines
     ) {
         super(enabled, name, descriptionLines);
@@ -40,7 +40,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
         this.itemId = Objects.requireNonNull(itemId);
         this.itemAmount = itemAmount;
         this.nbtData = nbtData;
-        this.additionalItemIds = Objects.requireNonNull(additionalItemIds);
+        this.additionalItems = Objects.requireNonNull(additionalItems);
     }
 
     public static ItemEntry createExample() {
@@ -93,11 +93,11 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
             loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
         }
 
-        if (!additionalItemIds.isEmpty()) {
+        if (!additionalItems.isEmpty()) {
             String additionalItemsLine = ChatFormatting.GREEN + "Additionally includes:";
             loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(additionalItemsLine))));
             for (ItemStack additionalItem : getAdditionalItemStacks()) {
-                String coloredLine = ChatFormatting.WHITE + "- " + additionalItem.getHoverName().getString();
+                String coloredLine = ChatFormatting.WHITE + "- " + additionalItem.getCount() + "x " + additionalItem.getHoverName().getString();
                 loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(coloredLine))));
             }
             loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(""))));
@@ -114,10 +114,12 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
 
     @Override
     public List<ItemStack> getAdditionalItemStacks() {
-        return additionalItemIds.stream()
-            .map(id -> {
-                ItemStack item = ItemUtils.findItemStack(id);
-                return item.isEmpty() ? new ItemStack(Blocks.DIRT) : item;
+        return additionalItems.stream()
+            .map(entry -> {
+                ItemStack item = ItemUtils.findItemStack(entry.id());
+                if (item.isEmpty()) item = new ItemStack(Blocks.DIRT);
+                item.setCount(entry.amount());
+                return item;
             })
             .collect(Collectors.toList());
     }
@@ -149,4 +151,6 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
             throw new IllegalArgumentException("Failed to parse NBT string: " + jsonString, e);
         }
     }
+
+    public record AdditionalItem(String id, int amount) {}
 }
