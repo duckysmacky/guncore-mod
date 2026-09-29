@@ -15,8 +15,8 @@ They target different Minecraft versions and different underlying weapon mods, s
 | Gamemodes (FFA / TDM / Hostage) | ✅ | ✅ |
 | Loadouts | Premade kits (via CSG mod) | Custom build-a-class equipment system |
 | Lives / kill-only death toggle | ✅ | ✅ |
-| Spawnpoint utility commands | ✅ | ❌ |
-| Custom HUD | Sidebar & tab menu | Simple text overlays |
+| Spawnpoint utility commands | ✅ | ✅ |
+| Custom HUD | Sidebar & tab menu | Sidebar & tab menu |
 | Weapon mod | Vic's Modern Warfare 2.0 | TACZ |
 
 ## Installation

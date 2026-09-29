@@ -7,7 +7,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public class PacketHandler {
-    private static final String PROTOCOL_VERSION = "1.0.0";
+    private static final String PROTOCOL_VERSION = "1.1.0";
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
         ResourceLocation.fromNamespaceAndPath(GuncoreMod.MOD_ID, "main"),
         () -> PROTOCOL_VERSION,

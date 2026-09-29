@@ -184,7 +184,14 @@ public class GameManager {
 
         // every 0.5 second
         if (tickCount % 10 == 0) {
-            SyncGameInfoPacket packet = new SyncGameInfoPacket(gameMode, gameModeVariant, state, roundDurationSec, playerStats);
+            Map<UUID, Team> playerTeams = new HashMap<>();
+            playerStats.keySet().forEach(uuid -> playerTeams.put(uuid, getPlayerTeam(uuid)));
+
+            SyncGameInfoPacket packet = new SyncGameInfoPacket(
+                gameMode, gameModeVariant, state, roundDurationSec,
+                getRoundLengthSec(), getKillTarget(),
+                playerStats, playerTeams
+            );
             PacketHandler.CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
         }
     }
