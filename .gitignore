@@ -20,6 +20,7 @@ build
 # other
 eclipse
 run
+server_config
 
 # Files from Forge MDK
 forge*changelog.txt
