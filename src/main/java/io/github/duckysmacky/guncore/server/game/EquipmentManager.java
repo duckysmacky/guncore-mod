@@ -1,12 +1,12 @@
 package io.github.duckysmacky.guncore.server.game;
 
-import io.github.duckysmacky.guncore.common.config.catalog.items.ItemEntry;
-import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
+import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import net.minecraft.entity.player.EntityPlayer;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 public class EquipmentManager {
@@ -32,34 +32,23 @@ public class EquipmentManager {
     }
 
     public static class PlayerEquipment {
-        private GunEntry mainWeapon;
-        private GunEntry secondaryWeapon;
-        private ItemEntry gadget;
+        private final Map<EquipmentType, CatalogEntry> equipped = new EnumMap<>(EquipmentType.class);
 
-        public PlayerEquipment() {}
-
-        public void setMainWeapon(GunEntry mainWeapon) {
-            this.mainWeapon = mainWeapon;
+        public void set(EquipmentType type, CatalogEntry entry) {
+            equipped.put(type, entry);
         }
 
-        public void setSecondaryWeapon(GunEntry secondaryWeapon) {
-            this.secondaryWeapon = secondaryWeapon;
+        @SuppressWarnings("unchecked")
+        public <T extends CatalogEntry> T get(EquipmentType type) {
+            return (T) equipped.get(type);
         }
 
-        public void setGadget(ItemEntry gadget) {
-            this.gadget = gadget;
+        public Map<EquipmentType, CatalogEntry> getAll() {
+            return equipped;
         }
 
-        public Optional<GunEntry> getMainWeapon() {
-            return Optional.ofNullable(mainWeapon);
-        }
-
-        public Optional<GunEntry> getSecondaryWeapon() {
-            return Optional.ofNullable(secondaryWeapon);
-        }
-
-        public Optional<ItemEntry> getGadget() {
-            return Optional.ofNullable(gadget);
+        public void clear() {
+            equipped.clear();
         }
     }
 }

@@ -2,6 +2,7 @@ package io.github.duckysmacky.guncore.common.config.catalog.items;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.EquippableEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.util.ItemFinder;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
@@ -22,7 +23,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /** Generic item with optional extra items; used by kit gadgets and all build-a-class item categories */
-public class ItemEntry extends CatalogEntry {
+public class ItemEntry extends CatalogEntry implements EquippableEntry {
     private final Rarity rarity;
     private final String itemId;
     private final int itemAmount;
@@ -68,8 +69,14 @@ public class ItemEntry extends CatalogEntry {
         );
     }
 
+    @Override
     public Rarity getRarity() {
         return rarity;
+    }
+
+    @Override
+    public ItemStack getIcon() {
+        return getItemStack();
     }
 
     public String getItemId() {

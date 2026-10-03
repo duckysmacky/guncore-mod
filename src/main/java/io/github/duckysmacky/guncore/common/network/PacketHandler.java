@@ -36,5 +36,7 @@ public final class PacketHandler {
 
         networkWrapperInstance.registerMessage(SyncCatalogPacket.Handler.class, SyncCatalogPacket.class, packetId++, Side.CLIENT);
         networkWrapperInstance.registerMessage(LoadConfigPacket.Handler.class, LoadConfigPacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(EquipBuildPacket.Handler.class, EquipBuildPacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(EquipBaseKitPacket.Handler.class, EquipBaseKitPacket.class, packetId++, Side.SERVER);
     }
 }
