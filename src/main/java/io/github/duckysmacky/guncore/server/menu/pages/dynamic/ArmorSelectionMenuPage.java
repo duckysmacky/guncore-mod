@@ -28,7 +28,7 @@ public class ArmorSelectionMenuPage extends DynamicMenuPage {
                 ItemStack icon = item.getIcon();
 
                 addEntry(new ActionEntry(icon, player -> {
-                    EquipmentController.equip(player, equipmentType, item);
+                    if (!EquipmentController.equip(player, equipmentType, item)) return;
 
                     player.sendSystemMessage(Component.literal(TextUtils.translateColorCodes(String.format(
                         "&a%s selected:&r %s", equipmentType.display, icon.getDisplayName().getString()

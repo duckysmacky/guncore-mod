@@ -115,7 +115,7 @@ public class EquipmentMenuPage extends StaticMenuPage {
         int randomIndex = random.nextInt(entries.size());
         EquippableEntry item = (EquippableEntry) entries.get(randomIndex);
 
-        EquipmentController.equip(player, equipmentType, item);
+        if (!EquipmentController.equip(player, equipmentType, item)) return;
 
         player.sendSystemMessage(Component.literal(TextUtils.translateColorCodes(String.format(
             "&eRandom %s selected:&r %s", equipmentType.display, item.getItemStack().getDisplayName().getString()

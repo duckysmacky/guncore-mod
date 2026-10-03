@@ -4,6 +4,8 @@ import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.entries.ArmorEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.entries.EquippableEntry;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
+import io.github.duckysmacky.guncore.common.util.TextUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,7 +15,15 @@ public final class EquipmentController {
 
     private EquipmentController() {}
 
-    public static void equip(ServerPlayer player, EquipmentType type, EquippableEntry equipment) {
+    /** @return false if equipping is blocked (round in progress) */
+    public static boolean equip(ServerPlayer player, EquipmentType type, EquippableEntry equipment) {
+        if (GameManager.instance().isRunning()) {
+            player.sendSystemMessage(Component.literal(TextUtils.translateColorCodes(
+                "&cCannot change equipment while the round is active"
+            )));
+            return false;
+        }
+
         var playerEquipment = EquipmentManager.instance().getEquipment(player);
 
         EquippableEntry previous = playerEquipment.getEquipment(type);
@@ -24,6 +34,7 @@ public final class EquipmentController {
         playerEquipment.setEquipment(type, equipment);
 
         syncInventory(player);
+        return true;
     }
 
     private static void removeEquipment(ServerPlayer player, EquipmentType type, EquippableEntry equipment) {

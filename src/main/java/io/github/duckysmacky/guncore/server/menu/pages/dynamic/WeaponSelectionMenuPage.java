@@ -27,7 +27,7 @@ public class WeaponSelectionMenuPage extends DynamicMenuPage {
                 ItemStack icon = gun.getIcon();
 
                 addEntry(new ActionEntry(icon, player -> {
-                    EquipmentController.equip(player, equipmentType, gun);
+                    if (!EquipmentController.equip(player, equipmentType, gun)) return;
 
                     player.sendSystemMessage(Component.literal(TextUtils.translateColorCodes(String.format(
                         "&a%s selected:&r %s", equipmentType.display, icon.getDisplayName().getString()

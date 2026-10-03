@@ -53,6 +53,10 @@ public class GameManager {
         return instance;
     }
 
+    public boolean isRunning() {
+        return state == GameState.RUNNING;
+    }
+
     public static void setupWorldSettings() {
         String[] commandChain = new String[]{
             "team add none",
