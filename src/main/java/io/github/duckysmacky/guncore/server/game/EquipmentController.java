@@ -5,10 +5,12 @@ import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
+import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.List;
@@ -17,7 +19,19 @@ public final class EquipmentController {
 
     private EquipmentController() {}
 
+    /** Equipment is frozen while a round is running (allowed when paused or not started) */
+    private static boolean isLocked(EntityPlayerMP player) {
+        if (!GameManager.instance().isRunning()) return false;
+
+        player.sendMessage(new TextComponentString(
+            TextUtils.translateColorCodes("&cCannot change equipment while the round is active")
+        ));
+        return true;
+    }
+
     public static void equipGun(EntityPlayerMP player, GunEntry gun) {
+        if (isLocked(player)) return;
+
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
 
         if (gun.isSecondary()) {
@@ -56,6 +70,8 @@ public final class EquipmentController {
     }
 
     public static void equipGadget(EntityPlayerMP player, GadgetEntry gadget) {
+        if (isLocked(player)) return;
+
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
 
         equipment.getGadget().ifPresent(g -> removeGadget(player, g));
@@ -91,6 +107,8 @@ public final class EquipmentController {
     }
 
     public static void equipKit(EntityPlayerMP player, KitEntry kit) {
+        if (isLocked(player)) return;
+
         String command = String.format("csg_kit give %s %s", kit.getKitId(), player.getName());
         CommandExecutor.execute(command);
 
