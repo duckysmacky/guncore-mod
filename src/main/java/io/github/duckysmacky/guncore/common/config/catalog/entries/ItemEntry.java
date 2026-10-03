@@ -118,6 +118,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
             .map(entry -> {
                 ItemStack item = ItemUtils.findItemStack(entry.id());
                 if (item.isEmpty()) item = new ItemStack(Blocks.DIRT);
+                applyNBT(item, entry.nbtData());
                 item.setCount(entry.amount());
                 return item;
             })
@@ -152,5 +153,5 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
         }
     }
 
-    public record AdditionalItem(String id, int amount) {}
+    public record AdditionalItem(String id, int amount, String nbtData) {}
 }
