@@ -33,6 +33,7 @@ public class GameManager {
     private GameState state;
     private int roundDurationSec;
     private boolean killOnlyLifeLoss;
+    private EquipmentMode equipmentMode;
 
     private GameManager() {
         this.playerStats = new HashMap<>();
@@ -42,6 +43,7 @@ public class GameManager {
         this.gameModeVariant = GameMode.Variant.LIVES;
         this.state = GameState.NOT_STARTED;
         this.killOnlyLifeLoss = true;
+        this.equipmentMode = EquipmentMode.KIT_BASED;
     }
 
     public static GameManager instance() {
@@ -196,7 +198,7 @@ public class GameManager {
             playerStats.keySet().forEach(uuid -> playerTeams.put(uuid, getPlayerTeam(uuid)));
 
             SyncGameInfoPacket packet = new SyncGameInfoPacket(
-                gameMode, gameModeVariant, state, roundDurationSec,
+                gameMode, gameModeVariant, equipmentMode, state, roundDurationSec,
                 getRoundLengthSec(), getKillTarget(),
                 playerStats, playerTeams
             );
@@ -403,6 +405,22 @@ public class GameManager {
 
     public GameMode.Variant getGameModeVariant() {
         return gameModeVariant;
+    }
+
+    public EquipmentMode getEquipmentMode() {
+        return equipmentMode;
+    }
+
+    public void setEquipmentMode(EquipmentMode equipmentMode) {
+        if (isRunning() || state == GameState.PAUSED) {
+            ServerBroadcaster.error("&7There is already a round in progress!");
+            ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
+            return;
+        }
+
+        this.equipmentMode = equipmentMode;
+        ServerBroadcaster.message("&fEquipment mode set to &l" + equipmentMode.display);
+        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
 
     public boolean isKillOnlyLifeLoss() {

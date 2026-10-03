@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.server.commands;
 
 import io.github.duckysmacky.guncore.server.game.GameManager;
+import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.PlayerStats;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -30,6 +32,7 @@ public class GameCommand extends CommandBase {
         "spawnpoint_all",
         "mode",
         "mode_variant",
+        "equipment",
         "scoreboard",
         "teams"
     };
@@ -106,6 +109,11 @@ public class GameCommand extends CommandBase {
                     throw new CommandException("Usage: /game mode_variant <time|lives|kills>");
                 GameMode.Variant variant = parseVariant(args[1]);
                 gameManager.setGameModeVariant(variant);
+                break;
+            case "equipment":
+                if (args.length < 2)
+                    throw new CommandException("Usage: /game equipment <kit-based|build-a-class>");
+                gameManager.setEquipmentMode(parseEquipmentMode(args[1]));
                 break;
             case "scoreboard":
                 gameManager.printGameScoreboard();
@@ -214,6 +222,13 @@ public class GameCommand extends CommandBase {
         } catch (IllegalArgumentException e) {
             throw new CommandException("Invalid variant! Valid: time, lives, kills");
         }
+    }
+
+    private EquipmentMode parseEquipmentMode(String s) throws CommandException {
+        return Arrays.stream(EquipmentMode.values())
+            .filter(m -> m.id.equalsIgnoreCase(s))
+            .findFirst()
+            .orElseThrow(() -> new CommandException("Invalid equipment mode! Valid: kit-based, build-a-class"));
     }
 
     private EntityPlayerMP requireSenderPlayer(ICommandSender sender) throws CommandException {

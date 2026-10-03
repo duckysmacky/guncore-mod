@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.client.game;
 
+import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.GameState;
 import io.github.duckysmacky.guncore.common.game.PlayerStats;
@@ -17,6 +18,7 @@ public final class ClientGameInfo {
     private static ClientGameInfo instance;
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
+    private EquipmentMode equipmentMode = EquipmentMode.KIT_BASED;
     private GameState gameState;
     private int roundDurationSec;
     private int roundLengthSec;
@@ -43,6 +45,7 @@ public final class ClientGameInfo {
     public void update(
         GameMode gameMode,
         GameMode.Variant gameModeVariant,
+        EquipmentMode equipmentMode,
         GameState gameState,
         int roundDurationSec,
         int roundLengthSec,
@@ -52,12 +55,17 @@ public final class ClientGameInfo {
     ) {
         this.gameMode = gameMode;
         this.gameModeVariant = gameModeVariant;
+        this.equipmentMode = equipmentMode;
         this.gameState = gameState;
         this.roundDurationSec = roundDurationSec;
         this.roundLengthSec = roundLengthSec;
         this.killTarget = killTarget;
         this.playerStats = playerStats;
         this.playerTeams = playerTeams;
+    }
+
+    public EquipmentMode getEquipmentMode() {
+        return equipmentMode;
     }
 
     public PlayerStats getStats(UUID uuid, String fallbackName) {

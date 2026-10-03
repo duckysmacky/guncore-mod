@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
 import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
+import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.GameState;
 import io.github.duckysmacky.guncore.common.game.PlayerStats;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class SyncGameInfoPacket implements IMessage {
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
+    private EquipmentMode equipmentMode;
     private GameState gameState;
     private int roundDurationSec;
     private int roundLengthSec;
@@ -32,6 +34,7 @@ public class SyncGameInfoPacket implements IMessage {
     public SyncGameInfoPacket(
         GameMode gameMode,
         GameMode.Variant gameModeVariant,
+        EquipmentMode equipmentMode,
         GameState gameState,
         int roundDurationSec,
         int roundLengthSec,
@@ -41,6 +44,7 @@ public class SyncGameInfoPacket implements IMessage {
     ) {
         this.gameMode = gameMode;
         this.gameModeVariant = gameModeVariant;
+        this.equipmentMode = equipmentMode;
         this.gameState = gameState;
         this.roundDurationSec = roundDurationSec;
         this.roundLengthSec = roundLengthSec;
@@ -53,6 +57,7 @@ public class SyncGameInfoPacket implements IMessage {
     public void toBytes(ByteBuf buf) {
         buf.writeInt(gameMode.ordinal());
         buf.writeInt(gameModeVariant.ordinal());
+        buf.writeInt(equipmentMode.ordinal());
         buf.writeInt(gameState.ordinal());
         buf.writeInt(roundDurationSec);
         buf.writeInt(roundLengthSec);
@@ -73,6 +78,7 @@ public class SyncGameInfoPacket implements IMessage {
     public void fromBytes(ByteBuf buf) {
         gameMode = GameMode.values()[buf.readInt()];
         gameModeVariant = GameMode.Variant.values()[buf.readInt()];
+        equipmentMode = EquipmentMode.values()[buf.readInt()];
         gameState = GameState.values()[buf.readInt()];
         roundDurationSec = buf.readInt();
         roundLengthSec = buf.readInt();
@@ -108,6 +114,7 @@ public class SyncGameInfoPacket implements IMessage {
                 Minecraft.getMinecraft().addScheduledTask(() -> ClientGameInfo.instance().update(
                     message.gameMode,
                     message.gameModeVariant,
+                    message.equipmentMode,
                     message.gameState,
                     message.roundDurationSec,
                     message.roundLengthSec,
