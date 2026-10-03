@@ -1,7 +1,8 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
-import com.google.gson.Gson;
-import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
+import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
+import io.github.duckysmacky.guncore.common.config.catalog.items.ItemEntry;
 import io.github.duckysmacky.guncore.server.game.EquipmentController;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
@@ -14,26 +15,22 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class EquipGadgetPacket implements IMessage {
-    private GadgetEntry gadgetEntry;
+    private String gadgetName;
 
     public EquipGadgetPacket() {}
 
-    public EquipGadgetPacket(GadgetEntry gadgetEntry) {
-        this.gadgetEntry = gadgetEntry;
+    public EquipGadgetPacket(ItemEntry gadget) {
+        this.gadgetName = gadget.getName();
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = ByteBufUtils.readUTF8String(buf);
-        this.gadgetEntry = gson.fromJson(json, GadgetEntry.class);
+        this.gadgetName = ByteBufUtils.readUTF8String(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = gson.toJson(this.gadgetEntry);
-        ByteBufUtils.writeUTF8String(buf, json);
+        ByteBufUtils.writeUTF8String(buf, gadgetName);
     }
 
     public static class Handler implements IMessageHandler<EquipGadgetPacket, IMessage> {
@@ -42,9 +39,9 @@ public class EquipGadgetPacket implements IMessage {
             if (context.side == Side.SERVER) {
                 FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
                     EntityPlayerMP player = context.getServerHandler().player;
-                    GadgetEntry gadget = message.gadgetEntry;
 
-                    EquipmentController.equipGadget(player, gadget);
+                    ConfigManager.instance().getCatalogManager().<ItemEntry>findEntry(CatalogType.KIT_GADGETS, message.gadgetName)
+                        .ifPresent(gadget -> EquipmentController.equipGadget(player, gadget));
 
                     PacketHandler.instance().sendTo(new ReopenMenuPacket(), player);
                 });

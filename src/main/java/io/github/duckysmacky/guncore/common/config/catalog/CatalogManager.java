@@ -67,6 +67,11 @@ public class CatalogManager {
         return list;
     }
 
+    public <T extends CatalogEntry> Optional<T> findEntry(CatalogType type, String name) {
+        List<T> list = getCatalog(type);
+        return list.stream().filter(e -> e.getName().equals(name)).findFirst();
+    }
+
     private <T extends CatalogEntry> List<T> parseCatalogJson(String json, Class<T> entryClass) {
         Type entryArrayType = TypeToken.getArray(entryClass).getType();
 

@@ -1,7 +1,7 @@
 package io.github.duckysmacky.guncore.server.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
-import io.github.duckysmacky.guncore.common.config.catalog.gadgets.GadgetEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.items.ItemEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
@@ -29,12 +29,12 @@ public final class EquipmentController {
         return true;
     }
 
-    public static void equipGun(EntityPlayerMP player, GunEntry gun) {
+    public static void equipGun(EntityPlayerMP player, GunEntry gun, boolean secondary) {
         if (isLocked(player)) return;
 
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
 
-        if (gun.isSecondary()) {
+        if (secondary) {
             equipment.getSecondaryWeapon().ifPresent(g -> removeGun(player, g));
             giveGun(player, gun, 1);
             equipment.setSecondaryWeapon(gun);
@@ -69,7 +69,7 @@ public final class EquipmentController {
         player.inventory.mainInventory.set(ammoSlot, gun.getAmmoItemStack());
     }
 
-    public static void equipGadget(EntityPlayerMP player, GadgetEntry gadget) {
+    public static void equipGadget(EntityPlayerMP player, ItemEntry gadget) {
         if (isLocked(player)) return;
 
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
@@ -81,7 +81,7 @@ public final class EquipmentController {
         syncInventory(player);
     }
 
-    private static void removeGadget(EntityPlayerMP player, GadgetEntry gadget) {
+    private static void removeGadget(EntityPlayerMP player, ItemEntry gadget) {
         InventoryPlayer inventory = player.inventory;
 
         for (int i = 0; i < inventory.mainInventory.size(); i++) {
@@ -91,12 +91,12 @@ public final class EquipmentController {
             if (registryName == null) continue;
 
             String itemId = registryName.toString();
-            if (itemId.equals(gadget.getItemId()) || gadget.getAdditionalItemIds().stream().anyMatch(itemId::equals))
+            if (gadget.getItemIds().contains(itemId))
                 inventory.setInventorySlotContents(i, new ItemStack(Items.AIR));
         }
     }
 
-    private static void giveGadget(EntityPlayerMP player, GadgetEntry gadget) {
+    private static void giveGadget(EntityPlayerMP player, ItemEntry gadget) {
         int mainSlot = 4;
         player.inventory.mainInventory.set(mainSlot, gadget.getItemStack());
 

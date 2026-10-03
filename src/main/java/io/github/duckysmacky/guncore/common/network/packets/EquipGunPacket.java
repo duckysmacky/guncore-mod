@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
-import com.google.gson.Gson;
+import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.server.game.EquipmentController;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
@@ -14,27 +15,27 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class EquipGunPacket implements IMessage {
-    private GunEntry gunEntry;
+    private boolean secondary;
+    private String gunName;
 
     public EquipGunPacket() {}
 
-    public EquipGunPacket(GunEntry gunEntry) {
-        this.gunEntry = gunEntry;
+    public EquipGunPacket(boolean secondary, GunEntry gun) {
+        this.secondary = secondary;
+        this.gunName = gun.getName();
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = ByteBufUtils.readUTF8String(buf);
-        this.gunEntry = gson.fromJson(json, GunEntry.class);
+        this.secondary = buf.readBoolean();
+        this.gunName = ByteBufUtils.readUTF8String(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        Gson gson = new Gson();
-        String json = gson.toJson(this.gunEntry);
-        ByteBufUtils.writeUTF8String(buf, json);
-        }
+        buf.writeBoolean(secondary);
+        ByteBufUtils.writeUTF8String(buf, gunName);
+    }
 
     public static class Handler implements IMessageHandler<EquipGunPacket, IMessage> {
         @Override
@@ -42,9 +43,10 @@ public class EquipGunPacket implements IMessage {
             if (context.side == Side.SERVER) {
                 FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
                     EntityPlayerMP player = context.getServerHandler().player;
-                    GunEntry gun = message.gunEntry;
+                    CatalogType type = message.secondary ? CatalogType.SECONDARY_WEAPONS : CatalogType.PRIMARY_WEAPONS;
 
-                    EquipmentController.equipGun(player, gun);
+                    ConfigManager.instance().getCatalogManager().<GunEntry>findEntry(type, message.gunName)
+                        .ifPresent(gun -> EquipmentController.equipGun(player, gun, message.secondary));
 
                     PacketHandler.instance().sendTo(new ReopenMenuPacket(), player);
                 });

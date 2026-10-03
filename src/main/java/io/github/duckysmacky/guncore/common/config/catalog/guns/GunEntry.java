@@ -99,10 +99,6 @@ public class GunEntry extends CatalogEntry {
         return item;
     }
 
-    public boolean isSecondary() {
-        return category == GunCategory.SIDEARM;
-    }
-
     public String getGunItemId() {
         return gunItemId;
     }
