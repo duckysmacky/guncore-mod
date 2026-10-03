@@ -13,7 +13,7 @@ They target different Minecraft versions and different underlying weapon mods, s
 | Feature | 1.12.2 | 1.20.1 |
 |---|---|---|
 | Gamemodes (FFA / TDM / Hostage) | ✅ | ✅ |
-| Loadouts | Premade kits (via CSG mod) | Custom build-a-class equipment system |
+| Loadouts | Premade kits (via CSG mod) **or** build-a-class (switchable) | Custom build-a-class equipment system |
 | Lives / kill-only death toggle | ✅ | ✅ |
 | Spawnpoint utility commands | ✅ | ❌ |
 | In-game GUI menu + HUD overlay | ✅ | ✅ |
@@ -33,8 +33,8 @@ Targets Minecraft 1.12.2 / Forge. Guncore itself doesn't add guns - it manages t
 
 ## Mod dependencies
 
-- [Vic's Modern Warfare 2.0](https://www.curseforge.com/minecraft/mc-mods/vics-modern-warfare) - source of gun/ammo items referenced in `guns.json`. **Version 2.0 in specific**, not 1.0, 3.0 or Cubed
-- [CSG Kits](https://www.curseforge.com/minecraft/mc-mods/csgo-kits) - loadout kits, given via the `csg_kit give <kit_id> <player>` command
+- [Vic's Modern Warfare 2.0](https://www.curseforge.com/minecraft/mc-mods/vics-modern-warfare) - source of gun/ammo items referenced in `primary-weapons.json` / `secondary-weapons.json`. **Version 2.0 in specific**, not 1.0, 3.0 or Cubed
+- [CSG Kits](https://www.curseforge.com/minecraft/mc-mods/csgo-kits) - loadout kits, given via the `csg_kit give <kit_id> <player>` command (build-a-class mode also needs a `base` kit defined in the CSG config, see below)
 
 Guncore calls their commands/items by ID, so any compatible replacement mod would also work as long as the IDs in the catalog match.
 
@@ -45,6 +45,7 @@ Guncore calls their commands/items by ID, so any compatible replacement mod woul
 - `/game start|end|reset|pause` - controls the current round
 - `/game mode <ffa|tdm|hostage>` / `/game mode_variant <time|lives|kills>` - sets gamemode and win condition
 - `/game kills|lives|deaths <add|remove|set> <player> <amount>` - edits player stats
+- `/game equipment <kit-based|build-a-class>` - switches the equipment selection system (default `kit-based`; global, resets on restart, can't be changed during a round)
 - `/game kill_only_lives <true|false>` - toggles whether only player-caused kills cost a life (vs. all deaths)
 - `/game spawnpoint [player]` / `/game spawnpoint_all` - sets spawnpoint, survival mode, and bedrock under the target(s)
 - `/game scoreboard` / `/game teams` - prints current stats/team rosters
@@ -59,10 +60,17 @@ All config lives **server-side** only, under the server's Forge config directory
 config/guncore/
 ├── game.json               # per-gamemode round settings
 └── catalog/
-    ├── kits.json           # loadout kits (CSG Kits IDs)
-    ├── guns.json           # guns + ammo (Vic's Modern Warfare item IDs)
-    ├── gadgets.json        # grenades, utility items, etc.
-    └── locations.json      # named teleport/spawn points per map
+    ├── kits.json               # kit-based: loadout kits (CSG Kits IDs)
+    ├── kit-gadgets.json        # kit-based: gadgets
+    ├── primary-weapons.json    # both modes: primary guns + ammo (Vic's Modern Warfare item IDs)
+    ├── secondary-weapons.json  # both modes: secondary guns + ammo
+    ├── lethals.json            # build-a-class: explosives and other killing tools
+    ├── tacticals.json          # build-a-class: debuff / utility grenades
+    ├── gadgets.json            # build-a-class: main special item (movement, deployables, mythic vouchers)
+    ├── utility.json            # build-a-class: helpful items (used for two utility slots)
+    ├── consumables.json        # build-a-class: healing, food, blocks, single-use items
+    ├── armor.json              # build-a-class: full armor sets
+    └── locations.json          # named teleport/spawn points per map
 ```
 
 Edit the JSON, then run `/guncore config_reload` (or restart) - the server re-reads the files and pushes the updated catalog to every connected client, no client-side files or restarts needed.
@@ -101,7 +109,7 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
 ```
 `class` is one of `assault`, `skirmisher`, `assassin`, `sentinel`, `special`; `tier` is one of `basic`, `advanced`, `complex`, `professional`, `forbidden`, `special`.
 
-**`guns.json`** - `gunItemId`/`ammoItemId` are registry names from Vic's Modern Warfare (or any mod using the same item IDs):
+**`primary-weapons.json` / `secondary-weapons.json`** - `gunItemId`/`ammoItemId` are registry names from Vic's Modern Warfare (or any mod using the same item IDs). Primary guns go to hotbar slot 1, secondary to slot 2, the ammo is placed above them. The same gun may be listed in both files:
 
 ```json
 {
@@ -115,22 +123,28 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
   "descriptionLines": ["&7A reliable, all-purpose assault rifle."]
 }
 ```
-`category` is one of `assault_rifle`, `battle_rifle`, `dmr`, `lmg`, `smg`, `shotgun`, `sniper_rifle`, `sidearm`, `melee`, `special`; `rarity` uses the same values as gadgets, below.
+`category` is one of `assault_rifle`, `battle_rifle`, `dmr`, `lmg`, `smg`, `shotgun`, `sniper_rifle`, `pistol`, `melee`, `special` (empty categories are hidden in the menu); `rarity` uses the same values as items, below.
 
-**`gadgets.json`** - any item (vanilla or modded), optionally bundled with extra items:
+**`kit-gadgets.json`, `gadgets.json`, `lethals.json`, `tacticals.json`, `utility.json`, `consumables.json`** - same item format everywhere: any item (vanilla or modded), optionally with `damage` (metadata), `nbtData` (SNBT) and bundled extra items (max 3 are placed):
 
 ```json
 {
   "enabled": true,
-  "name": "Water Bucket",
-  "rarity": "common",
-  "itemId": "minecraft:water_bucket",
+  "name": "Rocket Launcher",
+  "rarity": "epic",
+  "itemId": "somemod:rocket_launcher",
   "itemAmount": 1,
-  "additionalItemIds": [],
+  "damage": 0,
+  "nbtData": "{Charged:1b}",
+  "additionalItems": [
+    { "id": "somemod:rocket", "amount": 8, "damage": 0, "nbtData": "{Type:\"he\"}" }
+  ],
   "descriptionLines": ["&7Useful for putting out fires or landing safely from heights."]
 }
 ```
-`rarity` is one of `common`, `uncommon`, `rare`, `epic`, `legendary`, `mythic`.
+`damage`, `nbtData` (also inside `additionalItems`) are optional. `rarity` is one of `common`, `uncommon`, `rare`, `epic`, `legendary`, `mythic`.
+
+**`armor.json`** - a set of armor pieces (any piece may be omitted): `helmetItemId`, `chestplateItemId`, `leggingsItemId`, `bootsItemId`, plus `name`, `rarity`, `descriptionLines`.
 
 **`locations.json`** - named points used by teleport/spawn features, tied to a map:
 
@@ -144,3 +158,12 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
 }
 ```
 `mapId` is one of `newport`, `radiant`, `shmar`, `audia`, `city17`.
+
+## Equipment modes
+
+Switch with `/game equipment <kit-based|build-a-class>` (ops, not during a round). `/menu` -> Equipment opens the menu of the active mode.
+
+- **kit-based** (default): a CSG kit, a primary + secondary weapon (Weapons -> Primary/Secondary) and a gadget from `kit-gadgets.json`.
+- **build-a-class**: pick every slot yourself - primary weapon, secondary weapon, lethal, tactical, gadget, two utilities, consumable and an armor set. Hotbar slots 1-8 hold the main items (extras sit above them), so the CSG `base` kit - given by the "Get base items" button, which resets the inventory and then gives back your selection - must only use slots `0:8`, `0:17`, `0:26` and `0:35`. Mythic weapons are meant to need both "Mythic Weapon Voucher" items (one from gadgets, one from utility), this is not enforced by the mod.
+
+Equipment can't be changed while a round is running (paused and not-started rounds are fine).
