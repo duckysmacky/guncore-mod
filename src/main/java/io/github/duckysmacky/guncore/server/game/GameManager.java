@@ -78,6 +78,7 @@ public class GameManager {
                 CommandExecutor.execute("scoreboard teams option none seeFriendlyInvisibles false");
             } else {
                 CommandExecutor.execute("scoreboard teams option " + name + " nametagVisibility hideForOtherTeams");
+                CommandExecutor.execute("scoreboard teams option " + name + " color " + team.color.getFriendlyName());
             }
         }
     }
