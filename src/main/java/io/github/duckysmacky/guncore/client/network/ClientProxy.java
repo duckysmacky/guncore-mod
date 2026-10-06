@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.client.network;
 
 import io.github.duckysmacky.guncore.client.KeybindHandler;
+import io.github.duckysmacky.guncore.client.game.AllyGlow;
 import io.github.duckysmacky.guncore.client.gui.hud.ScoreboardTabOverlay;
 import io.github.duckysmacky.guncore.client.gui.hud.SidebarHud;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
@@ -21,6 +22,7 @@ public class ClientProxy extends CommonProxy {
 
         MinecraftForge.EVENT_BUS.register(new KeybindHandler());
         MinecraftForge.EVENT_BUS.register(new SidebarHud());
+        MinecraftForge.EVENT_BUS.register(new AllyGlow());
         MinecraftForge.EVENT_BUS.register(new ScoreboardTabOverlay());
     }
 
