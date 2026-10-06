@@ -17,4 +17,9 @@ public enum Team {
         this.display = display;
         this.color = color;
     }
+
+    /** Name of the matching vanilla scoreboard team */
+    public String scoreboardName() {
+        return this == NONE ? "none" : display.toLowerCase();
+    }
 }

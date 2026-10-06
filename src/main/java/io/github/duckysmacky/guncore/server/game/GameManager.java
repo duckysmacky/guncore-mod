@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -59,21 +60,32 @@ public class GameManager {
         return state == GameState.RUNNING;
     }
 
+    // Creates the vanilla scoreboard teams mirroring the mod ones; safe to call repeatedly
+    private static void ensureVanillaTeams() {
+        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        if (server == null) return;
+
+        Scoreboard scoreboard = server.getWorld(0).getScoreboard();
+
+        for (Team team : Team.values()) {
+            String name = team.scoreboardName();
+
+            if (scoreboard.getTeam(name) == null)
+                CommandExecutor.execute("scoreboard teams add " + name);
+
+            if (team == Team.NONE) {
+                CommandExecutor.execute("scoreboard teams option none nametagVisibility never");
+                CommandExecutor.execute("scoreboard teams option none seeFriendlyInvisibles false");
+            } else {
+                CommandExecutor.execute("scoreboard teams option " + name + " nametagVisibility hideForOtherTeams");
+            }
+        }
+    }
+
     public static void setupWorldSettings() {
+        ensureVanillaTeams();
+
         String[] commandChain = new String[]{
-            "scoreboard teams add none",
-            "scoreboard teams add blue",
-            "scoreboard teams add red",
-            "scoreboard teams add yellow",
-            "scoreboard teams add green",
-            "scoreboard teams add purple",
-            "scoreboard teams option none nametagVisibility never",
-            "scoreboard teams option none seeFriendlyInvisibles false",
-            "scoreboard teams option blue nametagVisibility hideForOtherTeams",
-            "scoreboard teams option red nametagVisibility hideForOtherTeams",
-            "scoreboard teams option yellow nametagVisibility hideForOtherTeams",
-            "scoreboard teams option green nametagVisibility hideForOtherTeams",
-            "scoreboard teams option purple nametagVisibility hideForOtherTeams",
             "gamerule doWeatherCycle false",
             "gamerule doDaylightCycle false",
             "gamerule doFireTick false",
@@ -102,6 +114,7 @@ public class GameManager {
         }
 
         GuncoreMod.LOGGER.info("[{}] {}", ID, "Updating player list from server");
+        ensureVanillaTeams();
         server.getPlayerList().getPlayers().forEach(
             p -> playerStats.computeIfAbsent(p.getUniqueID(), k -> {
                 switchTeamTo(p.getUniqueID(), Team.NONE);
@@ -310,8 +323,9 @@ public class GameManager {
         if (gameMode == GameMode.FFA)
             setGameMode(GameMode.TDM);
 
+        ensureVanillaTeams();
         switchTeamTo(player.getUniqueID(), team);
-        String command = String.format("scoreboard teams join %s %s", team.display.toLowerCase(), player.getName());
+        String command = String.format("scoreboard teams join %s %s", team.scoreboardName(), player.getName());
         CommandExecutor.execute(command);
 
         ServerBroadcaster.message(String.format(
