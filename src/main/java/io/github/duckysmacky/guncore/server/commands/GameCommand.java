@@ -11,11 +11,16 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class GameCommand extends CommandBase {
     private final static String[] subcommands = {
@@ -124,6 +129,45 @@ public class GameCommand extends CommandBase {
             default:
                 throw new CommandException(getUsage(sender));
         }
+    }
+
+    @Override
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+        if (args.length == 1)
+            return getListOfStringsMatchingLastWord(args, subcommands);
+
+        String subcommand = args[0].toLowerCase();
+
+        if (args.length == 2) {
+            switch (subcommand) {
+                case "kills": case "lives": case "deaths":
+                    return getListOfStringsMatchingLastWord(args, "add", "remove", "set");
+                case "kill_only_lives":
+                    return getListOfStringsMatchingLastWord(args, "true", "false");
+                case "mode":
+                    return getListOfStringsMatchingLastWord(args, lowerNames(GameMode.values()));
+                case "mode_variant":
+                    return getListOfStringsMatchingLastWord(args, lowerNames(GameMode.Variant.values()));
+                case "equipment":
+                    return getListOfStringsMatchingLastWord(args,
+                        Arrays.stream(EquipmentMode.values()).map(m -> m.id).collect(Collectors.toList()));
+                case "spawnpoint": case "register_kill":
+                    return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
+            }
+        }
+
+        if (args.length == 3) {
+            switch (subcommand) {
+                case "kills": case "lives": case "deaths": case "register_kill":
+                    return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
+            }
+        }
+
+        return Collections.emptyList();
+    }
+
+    private static List<String> lowerNames(Enum<?>[] values) {
+        return Arrays.stream(values).map(e -> e.name().toLowerCase()).collect(Collectors.toList());
     }
 
     private void handleStatCommand(MinecraftServer server, ICommandSender sender, String type, String[] args) throws CommandException {
