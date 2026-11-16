@@ -20,7 +20,7 @@ public class LoadConfigPacket implements IMessage {
     public static class Handler implements IMessageHandler<LoadConfigPacket, IMessage> {
         @Override
         public IMessage onMessage(LoadConfigPacket message, MessageContext context) {
-            if (context.side == Side.SERVER) {
+            if (context.side == Side.SERVER && context.getServerHandler().player.canUseCommand(2, "guncore")) {
                 FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
                     ConfigManager.instance().load();
                 });

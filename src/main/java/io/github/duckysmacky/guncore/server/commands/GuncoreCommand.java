@@ -7,11 +7,15 @@ import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class GuncoreCommand extends CommandBase {
     private final static String[] subcommands = {
@@ -22,7 +26,7 @@ public class GuncoreCommand extends CommandBase {
     private final static String[] helpLines = {
         "&6&l--- Guncore Commands ---",
         "&f/menu &7- Opens the equipment/game menu",
-        "&f/guncore config_reload &7- Reloads the mod config from disk",
+        "&f/guncore config_reload &7- (ops) Reloads the mod config from disk and refreshes every player's menu",
         "&f/guncore help &7- Shows this list",
         "&f/game start|end|reset|pause &7- Controls the current round",
         "&f/game mode <ffa|tdm|hostage> &7- Sets the game mode",
@@ -63,10 +67,9 @@ public class GuncoreCommand extends CommandBase {
 
         switch (subcommand) {
             case "config_reload":
+                if (!isAdmin(sender)) throw new CommandException("commands.generic.permission");
                 ConfigManager.instance().load();
-                if (sender instanceof EntityPlayerMP) {
-                    PacketHandler.instance().sendTo(new RefreshMenuPacket(), (EntityPlayerMP) sender);
-                }
+                PacketHandler.instance().sendToAll(new RefreshMenuPacket());
                 sender.sendMessage(new TextComponentString(TextUtils.translateColorCodes("&aGuncore config reloaded")));
                 break;
             case "help":
@@ -77,6 +80,19 @@ public class GuncoreCommand extends CommandBase {
             default:
                 throw new CommandException(getUsage(sender));
         }
+    }
+
+    @Override
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+        if (args.length != 1) return Collections.emptyList();
+
+        List<String> options = new ArrayList<>(Arrays.asList(subcommands));
+        if (!isAdmin(sender)) options.remove("config_reload");
+        return getListOfStringsMatchingLastWord(args, options);
+    }
+
+    private boolean isAdmin(ICommandSender sender) {
+        return sender.canUseCommand(2, getName());
     }
 
     @Override
