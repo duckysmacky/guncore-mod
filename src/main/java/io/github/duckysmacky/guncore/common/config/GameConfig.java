@@ -1,27 +1,33 @@
 package io.github.duckysmacky.guncore.common.config;
 
+import io.github.duckysmacky.guncore.common.game.EquipmentMode;
+
 import java.util.Objects;
 
 public class GameConfig {
     public final GameModeConfig ffaConfig;
     public final GameModeConfig tdmConfig;
     public final GameModeConfig hostageConfig;
+    public EquipmentMode equipmentMode;
 
     public GameConfig(
         GameModeConfig ffaConfig,
         GameModeConfig tdmConfig,
-        GameModeConfig hostageConfig
+        GameModeConfig hostageConfig,
+        EquipmentMode equipmentMode
     ) {
         this.ffaConfig = Objects.requireNonNull(ffaConfig);
         this.tdmConfig = Objects.requireNonNull(tdmConfig);
         this.hostageConfig = Objects.requireNonNull(hostageConfig);
+        this.equipmentMode = Objects.requireNonNull(equipmentMode);
     }
 
     public static GameConfig createDefault() {
         return new GameConfig(
             new GameModeConfig(10 * 60, 5, 15), // FFA: 10 minutes, 5 lives, 15 kills
             new GameModeConfig(15 * 60, 3, 15),  // TDM: 15 minutes, 3 lives, 15 kills
-            new GameModeConfig(20 * 60, 3, 15) // Hostage: 20 minutes, 3 lives, 15 kills
+            new GameModeConfig(20 * 60, 3, 15), // Hostage: 20 minutes, 3 lives, 15 kills
+            EquipmentMode.BUILDER
         );
     }
 
@@ -36,7 +42,8 @@ public class GameConfig {
         return new GameConfig(
             GameModeConfig.withDefaults(config.ffaConfig, defaults.ffaConfig),
             GameModeConfig.withDefaults(config.tdmConfig, defaults.tdmConfig),
-            GameModeConfig.withDefaults(config.hostageConfig, defaults.hostageConfig)
+            GameModeConfig.withDefaults(config.hostageConfig, defaults.hostageConfig),
+            config.equipmentMode != null ? config.equipmentMode : defaults.equipmentMode
         );
     }
 

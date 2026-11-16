@@ -27,7 +27,7 @@ public class GuncoreCommand extends CommandBase {
         "&f/game start|end|reset|pause &7- Controls the current round",
         "&f/game mode <ffa|tdm|hostage> &7- Sets the game mode",
         "&f/game mode_variant <time|lives|kills> &7- Sets the win condition",
-        "&f/game equipment <kit-based|build-a-class> &7- Sets the equipment selection system",
+        "&f/game equipment <kits|builder> &7- Sets the equipment selection system",
         "&f/game kills|lives|deaths <add|remove|set> <player> <amount> &7- Edits player stats",
         "&f/game register_kill <victim> [killer] &7- Registers a kill and a death",
         "&f/game kill_only_lives <true|false> &7- Toggles life loss on non-player-caused deaths",

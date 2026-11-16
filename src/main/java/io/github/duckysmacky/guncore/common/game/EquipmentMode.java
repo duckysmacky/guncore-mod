@@ -1,8 +1,10 @@
 package io.github.duckysmacky.guncore.common.game;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum EquipmentMode {
-    KIT_BASED("kit-based", "Kit-based"),
-    BUILD_A_CLASS("build-a-class", "Build-a-class");
+    @SerializedName("kits") KITS("kits", "Kit-based"),
+    @SerializedName("builder") BUILDER("builder", "Build-a-class");
 
     public final String id;
     public final String display;

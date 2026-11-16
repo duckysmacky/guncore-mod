@@ -21,7 +21,7 @@ public class MainMenuPage extends StaticMenu {
                 .addLoreLine("&7Choose your equipment")
                 .getItemStack(),
             player -> {
-                boolean buildAClass = ClientGameInfo.instance().getEquipmentMode() == EquipmentMode.BUILD_A_CLASS;
+                boolean buildAClass = ClientGameInfo.instance().getEquipmentMode() == EquipmentMode.BUILDER;
                 (buildAClass ? buildEquipmentPage : kitEquipmentPage).open(player);
             }
         ), 1, 1);

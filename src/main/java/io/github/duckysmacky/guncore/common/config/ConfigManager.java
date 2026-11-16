@@ -3,6 +3,7 @@ package io.github.duckysmacky.guncore.common.config;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogManager;
+import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import net.minecraftforge.fml.common.Loader;
 
 import java.util.function.Supplier;
@@ -42,6 +43,11 @@ public class ConfigManager {
             GuncoreMod.LOGGER.warn("[{}] 'game.json' had missing or invalid values, filled them in with defaults", ID);
             loader.writeJSON("game.json", gameConfig);
         }
+    }
+
+    public void setEquipmentMode(EquipmentMode mode) {
+        gameConfig.equipmentMode = mode;
+        new ConfigLoader(Loader.instance().getConfigDir()).writeJSON("game.json", gameConfig);
     }
 
     public CatalogManager getCatalogManager() {

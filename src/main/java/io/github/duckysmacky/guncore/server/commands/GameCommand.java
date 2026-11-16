@@ -112,7 +112,7 @@ public class GameCommand extends CommandBase {
                 break;
             case "equipment":
                 if (args.length < 2)
-                    throw new CommandException("Usage: /game equipment <kit-based|build-a-class>");
+                    throw new CommandException("Usage: /game equipment <kits|builder>");
                 gameManager.setEquipmentMode(parseEquipmentMode(args[1]));
                 break;
             case "scoreboard":
@@ -228,7 +228,7 @@ public class GameCommand extends CommandBase {
         return Arrays.stream(EquipmentMode.values())
             .filter(m -> m.id.equalsIgnoreCase(s))
             .findFirst()
-            .orElseThrow(() -> new CommandException("Invalid equipment mode! Valid: kit-based, build-a-class"));
+            .orElseThrow(() -> new CommandException("Invalid equipment mode! Valid: kits, builder"));
     }
 
     private EntityPlayerMP requireSenderPlayer(ICommandSender sender) throws CommandException {

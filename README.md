@@ -45,7 +45,7 @@ Guncore calls their commands/items by ID, so any compatible replacement mod woul
 - `/game start|end|reset|pause` - controls the current round
 - `/game mode <ffa|tdm|hostage>` / `/game mode_variant <time|lives|kills>` - sets gamemode and win condition
 - `/game kills|lives|deaths <add|remove|set> <player> <amount>` - edits player stats
-- `/game equipment <kit-based|build-a-class>` - switches the equipment selection system (default `kit-based`; global, resets on restart, can't be changed during a round)
+- `/game equipment <kits|builder>` - switches the equipment selection system (default `builder`; global, saved in `game.json`, can't be changed during a round)
 - `/game kill_only_lives <true|false>` - toggles whether only player-caused kills cost a life (vs. all deaths)
 - `/game spawnpoint [player]` / `/game spawnpoint_all` - sets spawnpoint, survival mode, and bedrock under the target(s)
 - `/game scoreboard` / `/game teams` - prints current stats/team rosters
@@ -77,13 +77,14 @@ Edit the JSON, then run `/guncore config_reload` (or restart) - the server re-re
 
 ### `game.json`
 
-One block per gamemode: `roundLengthSec`, `startingLives`, `killTarget`.
+One block per gamemode: `roundLengthSec`, `startingLives`, `killTarget`. Plus `equipmentMode` (`kits` or `builder`, default `builder`), which `/game equipment` updates.
 
 ```json
 {
   "ffaConfig": { "roundLengthSec": 600, "startingLives": 5, "killTarget": 15 },
   "tdmConfig": { "roundLengthSec": 900, "startingLives": 3, "killTarget": 15 },
-  "hostageConfig": { "roundLengthSec": 1200, "startingLives": 3, "killTarget": 15 }
+  "hostageConfig": { "roundLengthSec": 1200, "startingLives": 3, "killTarget": 15 },
+  "equipmentMode": "builder"
 }
 ```
 
@@ -161,9 +162,9 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
 
 ## Equipment modes
 
-Switch with `/game equipment <kit-based|build-a-class>` (ops, not during a round). `/menu` -> Equipment opens the menu of the active mode.
+Switch with `/game equipment <kits|builder>` (ops, not during a round). `/menu` -> Equipment opens the menu of the active mode.
 
-- **kit-based** (default): a CSG kit, a primary + secondary weapon (Weapons -> Primary/Secondary) and a gadget from `kit-gadgets.json`.
-- **build-a-class**: pick every slot yourself - primary weapon, secondary weapon, lethal, tactical, gadget, two utilities, consumable and an armor set. Hotbar slots 1-8 hold the main items (extras sit above them), so the CSG `base` kit - given by the "Get base items" button, which resets the inventory and then gives back your selection - must only use slots `0:8`, `0:17`, `0:26` and `0:35`. Mythic weapons are meant to need both "Mythic Weapon Voucher" items (one from gadgets, one from utility), this is not enforced by the mod.
+- **kits**: a CSG kit, a primary + secondary weapon (Weapons -> Primary/Secondary) and a gadget from `kit-gadgets.json`.
+- **builder** (default): pick every slot yourself - primary weapon, secondary weapon, lethal, tactical, gadget, two utilities, consumable and an armor set. Hotbar slots 1-8 hold the main items (extras sit above them), so the CSG `base` kit - given by the "Get base items" button, which resets the inventory and then gives back your selection - must only use slots `0:8`, `0:17`, `0:26` and `0:35`. Mythic weapons are meant to need both "Mythic Weapon Voucher" items (one from gadgets, one from utility), this is not enforced by the mod.
 
 Equipment can't be changed while a round is running (paused and not-started rounds are fine).

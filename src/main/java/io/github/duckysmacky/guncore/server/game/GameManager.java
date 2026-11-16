@@ -34,7 +34,6 @@ public class GameManager {
     private GameState state;
     private int roundDurationSec;
     private boolean killOnlyLifeLoss;
-    private EquipmentMode equipmentMode;
 
     private GameManager() {
         this.playerStats = new HashMap<>();
@@ -44,7 +43,6 @@ public class GameManager {
         this.gameModeVariant = GameMode.Variant.LIVES;
         this.state = GameState.NOT_STARTED;
         this.killOnlyLifeLoss = true;
-        this.equipmentMode = EquipmentMode.KIT_BASED;
     }
 
     public static GameManager instance() {
@@ -212,7 +210,7 @@ public class GameManager {
             playerStats.keySet().forEach(uuid -> playerTeams.put(uuid, getPlayerTeam(uuid)));
 
             SyncGameInfoPacket packet = new SyncGameInfoPacket(
-                gameMode, gameModeVariant, equipmentMode, state, roundDurationSec,
+                gameMode, gameModeVariant, getEquipmentMode(), state, roundDurationSec,
                 getRoundLengthSec(), getKillTarget(),
                 playerStats, playerTeams
             );
@@ -423,7 +421,7 @@ public class GameManager {
     }
 
     public EquipmentMode getEquipmentMode() {
-        return equipmentMode;
+        return ConfigManager.instance().getGameConfig().equipmentMode;
     }
 
     public void setEquipmentMode(EquipmentMode equipmentMode) {
@@ -433,7 +431,7 @@ public class GameManager {
             return;
         }
 
-        this.equipmentMode = equipmentMode;
+        ConfigManager.instance().setEquipmentMode(equipmentMode);
         ServerBroadcaster.message("&fEquipment mode set to &l" + equipmentMode.display);
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }

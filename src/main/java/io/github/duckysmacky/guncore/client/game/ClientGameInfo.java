@@ -18,7 +18,7 @@ public final class ClientGameInfo {
     private static ClientGameInfo instance;
     private GameMode gameMode;
     private GameMode.Variant gameModeVariant;
-    private EquipmentMode equipmentMode = EquipmentMode.KIT_BASED;
+    private EquipmentMode equipmentMode = EquipmentMode.BUILDER;
     private GameState gameState;
     private int roundDurationSec;
     private int roundLengthSec;

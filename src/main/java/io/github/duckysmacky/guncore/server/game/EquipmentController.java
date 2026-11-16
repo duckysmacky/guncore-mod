@@ -84,14 +84,14 @@ public final class EquipmentController {
     // Items (kit-based gadget and build-a-class item slots)
 
     public static void equipGadget(EntityPlayerMP player, ItemEntry gadget) {
-        if (isLocked(player) || isWrongMode(player, EquipmentMode.KIT_BASED)) return;
+        if (isLocked(player) || isWrongMode(player, EquipmentMode.KITS)) return;
 
         giveItem(player, EquipmentType.GADGET, gadget);
         syncInventory(player);
     }
 
     public static void equipBuildItem(EntityPlayerMP player, EquipmentType type, CatalogEntry entry) {
-        if (isLocked(player) || isWrongMode(player, EquipmentMode.BUILD_A_CLASS)) return;
+        if (isLocked(player) || isWrongMode(player, EquipmentMode.BUILDER)) return;
 
         if (entry instanceof ArmorEntry) giveArmor(player, (ArmorEntry) entry);
         else giveItem(player, type, (ItemEntry) entry);
@@ -141,7 +141,7 @@ public final class EquipmentController {
     // Kits
 
     public static void equipKit(EntityPlayerMP player, KitEntry kit) {
-        if (isLocked(player) || isWrongMode(player, EquipmentMode.KIT_BASED)) return;
+        if (isLocked(player) || isWrongMode(player, EquipmentMode.KITS)) return;
 
         String command = String.format("csg_kit give %s %s", kit.getKitId(), player.getName());
         CommandExecutor.execute(command);
@@ -152,7 +152,7 @@ public final class EquipmentController {
 
     /** Resets the inventory to the base kit, then gives back everything that was selected before */
     public static void equipBaseKit(EntityPlayerMP player) {
-        if (isLocked(player) || isWrongMode(player, EquipmentMode.BUILD_A_CLASS)) return;
+        if (isLocked(player) || isWrongMode(player, EquipmentMode.BUILDER)) return;
 
         String command = String.format("csg_kit give %s %s", BASE_KIT_ID, player.getName());
         CommandExecutor.execute(command);
