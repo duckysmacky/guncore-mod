@@ -47,6 +47,7 @@ Guncore calls their commands/items by ID, so any compatible replacement mod woul
 - `/game kills|lives|deaths <add|remove|set> <player> <amount>` - edits player stats
 - `/game equipment <kits|builder>` - switches the equipment selection system (default `builder`; global, saved in `settings.json`, can't be changed during a round)
 - `/game loadout_system <flexible|rarity_score>` - switches how loadouts are limited (default `flexible`, see [Rarity Score system](#rarity-score-system))
+- `/guncore location add <map> <name> [<x> <y> <z>]` - (ops) adds an entry to `locations.json` and refreshes the menus. Uses your position when no coordinates are given (`~` works). Wrap a name with spaces in double quotes, e.g. `"Main Spawn"`. The command rewrites the whole file, so anything in it that is not a regular location field (e.g. unknown keys) is dropped
 - `/game mythics <true|false>` - enables or disables mythic items and kits (default enabled); disabled mythics are hidden from the menus and can't be equipped
 - `/game world <gamerule> <true|false>` - sets a world gamerule from `world.gamerules` (saved to `settings.json`); `/game world setup` resets them to defaults and applies them
 - `/game kill_only_lives <true|false>` - toggles whether only player-caused kills cost a life (vs. all deaths)

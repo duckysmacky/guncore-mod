@@ -1,6 +1,11 @@
 package io.github.duckysmacky.guncore.server.commands;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
+import io.github.duckysmacky.guncore.common.config.catalog.locations.LocationEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.locations.LocationEntry.LocationCoordinates;
+import io.github.duckysmacky.guncore.common.config.menus.MenuSectionEntry;
+import io.github.duckysmacky.guncore.common.config.menus.MenuSectionType;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.RefreshMenuPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
@@ -8,6 +13,7 @@ import io.github.duckysmacky.guncore.server.game.GameManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -17,10 +23,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GuncoreCommand extends CommandBase {
     private final static String[] subcommands = {
         "config_reload",
+        "location",
         "help"
     };
 
@@ -28,6 +36,7 @@ public class GuncoreCommand extends CommandBase {
         "&6&l--- Guncore Commands ---",
         "&f/menu &7- Opens the equipment/game menu",
         "&f/guncore config_reload &7- (ops) Reloads the mod config from disk and refreshes every player's menu",
+        "&f/guncore location add <map> <name> [<x> <y> <z>] &7- (ops) Adds a catalog location, at your position if no coordinates are given. Wrap a name with spaces in \"quotes\"",
         "&f/guncore help &7- Shows this list",
         "&f/game start|end|reset|pause &7- Controls the current round",
         "&f/game mode <ffa|tdm|hostage> &7- Sets the game mode",
@@ -77,6 +86,10 @@ public class GuncoreCommand extends CommandBase {
                 PacketHandler.instance().sendToAll(new RefreshMenuPacket());
                 sender.sendMessage(new TextComponentString(TextUtils.translateColorCodes("&aGuncore config reloaded")));
                 break;
+            case "location":
+                if (!isAdmin(sender)) throw new CommandException("commands.generic.permission");
+                addLocation(sender, CommandArgs.tokenize(args));
+                break;
             case "help":
                 Arrays.stream(helpLines).forEach(line ->
                     sender.sendMessage(new TextComponentString(TextUtils.translateColorCodes(line)))
@@ -89,11 +102,62 @@ public class GuncoreCommand extends CommandBase {
 
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        if (args.length != 1) return Collections.emptyList();
+        if (args.length == 1) {
+            List<String> options = new ArrayList<>(Arrays.asList(subcommands));
+            if (!isAdmin(sender)) {
+                options.remove("config_reload");
+                options.remove("location");
+            }
+            return getListOfStringsMatchingLastWord(args, options);
+        }
 
-        List<String> options = new ArrayList<>(Arrays.asList(subcommands));
-        if (!isAdmin(sender)) options.remove("config_reload");
-        return getListOfStringsMatchingLastWord(args, options);
+        if (!args[0].equalsIgnoreCase("location") || !isAdmin(sender)) return Collections.emptyList();
+        if (args.length == 2) return getListOfStringsMatchingLastWord(args, "add");
+        if (args.length == 3 && args[1].equalsIgnoreCase("add")) {
+            return getListOfStringsMatchingLastWord(args, ConfigManager.instance().getMenuSectionManager()
+                .getSections(MenuSectionType.MAPS).stream()
+                .map(MenuSectionEntry::getId)
+                .collect(Collectors.toList()));
+        }
+        return Collections.emptyList();
+    }
+
+    /** {@code tokens}: location add <map> <name> [<x> <y> <z>] */
+    private void addLocation(ICommandSender sender, List<String> tokens) throws CommandException {
+        String usage = "/guncore location add <map> <name> [<x> <y> <z>]";
+        boolean hasCoordinates = tokens.size() == 7;
+        if ((tokens.size() != 4 && !hasCoordinates) || !tokens.get(1).equalsIgnoreCase("add")) {
+            throw new CommandException(usage);
+        }
+
+        String map = tokens.get(2);
+        String name = tokens.get(3);
+
+        if (!ConfigManager.instance().getMenuSectionManager().findSection(MenuSectionType.MAPS, map).isPresent()) {
+            throw new CommandException("Unknown map '" + map + "'");
+        }
+        if (ConfigManager.instance().getCatalogManager().findEntry(CatalogType.LOCATIONS, name).isPresent()) {
+            throw new CommandException("A location named '" + name + "' already exists");
+        }
+
+        BlockPos pos;
+        if (hasCoordinates) {
+            pos = parseBlockPos(sender, tokens.subList(4, 7).toArray(new String[0]), 0, false);
+        } else if (sender instanceof EntityPlayerMP) {
+            pos = sender.getPosition();
+        } else {
+            throw new CommandException("Coordinates are required when not run by a player: " + usage);
+        }
+
+        LocationEntry entry = new LocationEntry(
+            true, map, name, new LocationCoordinates(pos.getX(), pos.getY(), pos.getZ()), Collections.emptyList()
+        );
+        ConfigManager.instance().getCatalogManager().appendEntry(CatalogType.LOCATIONS, entry);
+        PacketHandler.instance().sendToAll(new RefreshMenuPacket());
+
+        sender.sendMessage(new TextComponentString(TextUtils.translateColorCodes(String.format(
+            "&aAdded location '%s' on map '%s' at (%d, %d, %d)", name, map, pos.getX(), pos.getY(), pos.getZ()
+        ))));
     }
 
     private boolean isAdmin(ICommandSender sender) {
