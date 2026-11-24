@@ -7,10 +7,12 @@ import net.minecraft.item.ItemStack;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class ActionEntry extends MenuEntry {
     private final Consumer<EntityPlayer> action;
     private final BooleanSupplier selected;
+    private final Supplier<ItemStack> iconSupplier;
 
     public ActionEntry(ItemStack icon, Consumer<EntityPlayer> action) {
         this(icon, action, null);
@@ -23,11 +25,23 @@ public class ActionEntry extends MenuEntry {
         super(icon);
         this.action = action;
         this.selected = selected;
+        this.iconSupplier = null;
+    }
+
+    /**
+     * An entry whose icon shows values that change while the menu page exists
+     */
+    public ActionEntry(Supplier<ItemStack> iconSupplier, Consumer<EntityPlayer> action) {
+        super(null);
+        this.action = action;
+        this.selected = null;
+        this.iconSupplier = iconSupplier;
     }
 
     @Override
     public ItemStack getIcon() {
-        return selected != null && selected.getAsBoolean() ? ItemStackCustomizer.withGlint(icon) : icon;
+        ItemStack current = iconSupplier != null ? iconSupplier.get() : icon;
+        return selected != null && selected.getAsBoolean() ? ItemStackCustomizer.withGlint(current) : current;
     }
 
     @Override

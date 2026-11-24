@@ -393,6 +393,24 @@ public class GameManager {
         }
     }
 
+    public void setGameValue(GameMode mode, GameValue value, int amount) {
+        Settings.GameModeSettings config = settings().game.configFor(mode);
+        int stored = amount * value.factor;
+
+        switch (value) {
+            case ROUND_TIME: config.roundLengthSec = stored; break;
+            case LIVES: config.startingLives = stored; break;
+            case KILL_TARGET: config.killTarget = stored; break;
+        }
+
+        ConfigManager.instance().saveSettings();
+        syncToClients();
+
+        String shown = value == GameValue.ROUND_TIME ? TextUtils.formatTime(stored) : String.valueOf(stored);
+        ServerBroadcaster.message(String.format("&f%s for %s set to &l%s", value.display, mode.display, shown));
+        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+    }
+
     public PlayerStats getStats(EntityPlayer player) {
         UUID uuid = player.getUniqueID();
         playerStats.computeIfAbsent(uuid, k -> new PlayerStats(player.getName()));

@@ -7,11 +7,14 @@ import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.DisplayEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.GameSettingToggleEntry;
 import io.github.duckysmacky.guncore.common.game.GameMode;
+import io.github.duckysmacky.guncore.common.game.GameValue;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.network.packets.EditGameValuePacket;
 import io.github.duckysmacky.guncore.common.network.packets.SetGameModePacket;
 import io.github.duckysmacky.guncore.common.network.packets.SetGameModeVariantPacket;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -79,24 +82,24 @@ public class GameSettingsMenuPage extends StaticMenu {
             () -> ClientGameInfo.instance().getGameModeVariant() == GameMode.Variant.KILLS
         ), 1, 7);
 
-        // values for the current game mode (display only)
-        addEntry(new DisplayEntry(() -> valueIcon(
-            new ItemStack(Items.CLOCK), "&f&lRound Time",
+        // values for the current game mode, click to edit in chat
+        addEntry(new ActionEntry(() -> valueIcon(
+            new ItemStack(Items.FEATHER), "&f&lRound Time",
             TextUtils.formatTime(ClientGameInfo.instance().getRoundLengthSec()),
             "&7Used by the time-based win condition"
-        )), 3, 5);
+        ), p -> editValue(GameValue.ROUND_TIME)), 2, 5);
 
-        addEntry(new DisplayEntry(() -> valueIcon(
-            new ItemStack(Items.APPLE), "&f&lLives",
+        addEntry(new ActionEntry(() -> valueIcon(
+            new ItemStack(Items.FEATHER), "&f&lLives",
             String.valueOf(ClientGameInfo.instance().getStartingLives()),
             "&7Used by the life-based win condition"
-        )), 3, 6);
+        ), p -> editValue(GameValue.LIVES)), 2, 6);
 
-        addEntry(new DisplayEntry(() -> valueIcon(
-            new ItemStack(Items.IRON_SWORD), "&f&lKill Target",
+        addEntry(new ActionEntry(() -> valueIcon(
+            new ItemStack(Items.FEATHER), "&f&lKill Target",
             String.valueOf(ClientGameInfo.instance().getKillTarget()),
             "&7Used by the kill-based win condition"
-        )), 3, 7);
+        ), p -> editValue(GameValue.KILL_TARGET)), 2, 7);
 
         // life loss rule
         addEntry(new DisplayEntry(
@@ -113,13 +116,18 @@ public class GameSettingsMenuPage extends StaticMenu {
         ), 4, 1);
     }
 
+    private static void editValue(GameValue value) {
+        Minecraft.getMinecraft().displayGuiScreen(null); // close the menu so the chat prompt is visible
+        PacketHandler.instance().sendToServer(new EditGameValuePacket(value));
+    }
+
     private static ItemStack valueIcon(ItemStack item, String name, String value, String usage) {
         return new ItemStackCustomizer(item)
             .setName(name)
             .addLoreLine("&fValue: &a" + value + " &7(" + ClientGameInfo.instance().getGameMode().display + ")")
             .addLoreLine(usage)
-            .addLoreLine("&7Display only, the actual values are set manually")
-            .addLoreLine("&7in config/guncore/settings.json")
+            .addLoreLine("&eClick to change the value in chat")
+            .addLoreLine("&7Also editable in config/guncore/settings.json")
             .getItemStack();
     }
 }

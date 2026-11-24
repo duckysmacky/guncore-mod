@@ -81,7 +81,7 @@ Edit the JSON, then run `/guncore config_reload` (or restart) - the server re-re
 Created with defaults on first start and rewritten whenever a setting is changed in-game or by command, so values survive restarts. Missing values are filled with defaults on load.
 
 - `game.mode` (`FFA`, `TDM`, `HOSTAGE`), `game.variant` (`TIME`, `LIVES`, `KILLS`) and `game.killOnlyLifeLoss` - the current game mode, win condition and life loss rule.
-- `game.ffa` / `game.tdm` / `game.hostage` - per-gamemode `roundLengthSec`, `startingLives`, `killTarget`. Only editable in the file (the in-game menu just displays them).
+- `game.ffa` / `game.tdm` / `game.hostage` - per-gamemode `roundLengthSec`, `startingLives`, `killTarget`. Editable in the file or in-game: click the value in Menu -> Settings -> Game and type the new number in chat (round time in minutes; send `cancel` to abort).
 - `equipment.mode` (`kits` or `builder`) - updated by `/game equipment`.
 - `world.gamerules` - gamerules (`true`/`false`). Applied to the world on server start and on `/guncore config_reload`. `keepInventory` is always forced to `true` and is not configurable.
 

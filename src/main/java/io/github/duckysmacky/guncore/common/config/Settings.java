@@ -97,9 +97,9 @@ public class Settings {
     }
 
     public static class GameModeSettings {
-        public final int roundLengthSec;
-        public final int startingLives;
-        public final int killTarget;
+        public int roundLengthSec;
+        public int startingLives;
+        public int killTarget;
 
         public GameModeSettings(int roundLengthSec, int startingLives, int killTarget) {
             this.roundLengthSec = roundLengthSec;

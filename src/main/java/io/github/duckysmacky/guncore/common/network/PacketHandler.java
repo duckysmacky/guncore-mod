@@ -38,5 +38,6 @@ public final class PacketHandler {
         networkWrapperInstance.registerMessage(LoadConfigPacket.Handler.class, LoadConfigPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(EquipBuildPacket.Handler.class, EquipBuildPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(EquipBaseKitPacket.Handler.class, EquipBaseKitPacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(EditGameValuePacket.Handler.class, EditGameValuePacket.class, packetId++, Side.SERVER);
     }
 }
