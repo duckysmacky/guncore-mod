@@ -48,6 +48,7 @@ Guncore calls their commands/items by ID, so any compatible replacement mod woul
 - `/game equipment <kits|builder>` - switches the equipment selection system (default `builder`; global, saved in `settings.json`, can't be changed during a round)
 - `/game world <gamerule> <true|false>` - sets a world gamerule from `world.gamerules` (saved to `settings.json`); `/game world setup` resets them to defaults and applies them
 - `/game kill_only_lives <true|false>` - toggles whether only player-caused kills cost a life (vs. all deaths)
+- `/game item_pickup <true|false>` - toggles whether players can pick up items (default `true`; useful when other mods still drop items)
 - `/game spawnpoint [player]` / `/game spawnpoint_all` - sets spawnpoint, survival mode, and bedrock under the target(s)
 - `/game scoreboard` / `/game teams` - prints current stats/team rosters
 
@@ -87,6 +88,7 @@ Created with defaults on first start and rewritten whenever a setting is changed
 - `game.mode` (`FFA`, `TDM`, `HOSTAGE`), `game.variant` (`TIME`, `LIVES`, `KILLS`) and `game.killOnlyLifeLoss` - the current game mode, win condition and life loss rule.
 - `game.ffa` / `game.tdm` / `game.hostage` - per-gamemode `roundLengthSec`, `startingLives`, `killTarget`. Editable in the file or in-game: click the value in Menu -> Settings -> Game and type the new number in chat (round time in minutes; send `cancel` to abort).
 - `equipment.mode` (`kits` or `builder`) - updated by `/game equipment`.
+- `world.itemPickup` - whether players can pick up items (`true` by default).
 - `world.gamerules` - gamerules (`true`/`false`). Applied to the world on server start and on `/guncore config_reload`. `keepInventory` is always forced to `true` and is not configurable.
 
 ```json
@@ -100,6 +102,7 @@ Created with defaults on first start and rewritten whenever a setting is changed
     "hostage": { "roundLengthSec": 1200, "startingLives": 3, "killTarget": 15 }
   },
   "world": {
+    "itemPickup": true,
     "gamerules": {
       "doWeatherCycle": false,
       "doDaylightCycle": false,

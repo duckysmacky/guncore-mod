@@ -58,6 +58,9 @@ public class Settings {
             d.hostage = GameModeSettings.withDefaults(g.hostage, d.hostage);
         }
 
+        if (settings.world != null && settings.world.itemPickup != null)
+            defaults.world.itemPickup = settings.world.itemPickup;
+
         if (settings.world != null && settings.world.gamerules != null) {
             defaults.world.gamerules.replaceAll((rule, value) -> {
                 Boolean configured = settings.world.gamerules.get(rule);
@@ -72,9 +75,11 @@ public class Settings {
     }
 
     public static class WorldSettings {
+        public Boolean itemPickup;
         public Map<String, Boolean> gamerules;
 
         public WorldSettings() {
+            this.itemPickup = true;
             this.gamerules = new LinkedHashMap<>();
         }
     }

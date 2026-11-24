@@ -247,7 +247,7 @@ public class GameManager {
         SyncGameInfoPacket packet = new SyncGameInfoPacket(
             getGameMode(), getGameModeVariant(), getEquipmentMode(), state, roundDurationSec,
             getRoundLengthSec(), getKillTarget(), getStartingLives(),
-            isKillOnlyLifeLoss(), settings().world.gamerules,
+            isKillOnlyLifeLoss(), isItemPickup(), settings().world.gamerules,
             playerStats, playerTeams
         );
         PacketHandler.instance().sendToAll(packet);
@@ -486,6 +486,17 @@ public class GameManager {
         ConfigManager.instance().saveSettings();
         syncToClients();
         announceSetting("Kill-only life loss", killOnlyLifeLoss ? "enabled" : "disabled");
+    }
+
+    public boolean isItemPickup() {
+        return settings().world.itemPickup;
+    }
+
+    public void setItemPickup(boolean itemPickup) {
+        settings().world.itemPickup = itemPickup;
+        ConfigManager.instance().saveSettings();
+        syncToClients();
+        announceSetting("Item pickup", itemPickup ? "enabled" : "disabled");
     }
 
     public long getRoundDurationSec() {

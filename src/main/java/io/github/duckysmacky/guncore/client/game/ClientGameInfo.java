@@ -25,6 +25,7 @@ public final class ClientGameInfo {
     private int killTarget;
     private int startingLives;
     private boolean killOnlyLifeLoss = true;
+    private boolean itemPickup = true;
     private Map<String, Boolean> gamerules = Collections.emptyMap();
     private Map<UUID, PlayerStats> playerStats;
     private Map<UUID, Team> playerTeams;
@@ -55,6 +56,7 @@ public final class ClientGameInfo {
         int killTarget,
         int startingLives,
         boolean killOnlyLifeLoss,
+        boolean itemPickup,
         Map<String, Boolean> gamerules,
         Map<UUID, PlayerStats> playerStats,
         Map<UUID, Team> playerTeams
@@ -68,6 +70,7 @@ public final class ClientGameInfo {
         this.killTarget = killTarget;
         this.startingLives = startingLives;
         this.killOnlyLifeLoss = killOnlyLifeLoss;
+        this.itemPickup = itemPickup;
         this.gamerules = gamerules;
         this.playerStats = playerStats;
         this.playerTeams = playerTeams;
@@ -183,6 +186,10 @@ public final class ClientGameInfo {
 
     public boolean isKillOnlyLifeLoss() {
         return killOnlyLifeLoss;
+    }
+
+    public boolean isItemPickup() {
+        return itemPickup;
     }
 
     public boolean getGamerule(String rule) {

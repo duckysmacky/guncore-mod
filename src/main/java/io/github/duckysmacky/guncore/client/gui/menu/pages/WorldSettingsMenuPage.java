@@ -7,6 +7,8 @@ import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.DisplayEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.GameruleToggleEntry;
+import io.github.duckysmacky.guncore.client.gui.menu.entries.GameSettingToggleEntry;
+import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -60,6 +62,18 @@ public class WorldSettingsMenuPage extends StaticMenu {
         ), 1, 5);
 
         addEntry(new GameruleToggleEntry(this, "naturalRegeneration"), 2, 5);
+
+        addEntry(new DisplayEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.HOPPER))
+                .setName("&f&lItem Pickup")
+                .addLoreLine("&fToggle whether players can pick up items")
+                .addLoreLine("&7Useful when other mods still drop items")
+                .getItemStack()
+        ), 1, 6);
+
+        addEntry(new GameSettingToggleEntry(
+            this, () -> ClientGameInfo.instance().isItemPickup(), "item_pickup"
+        ), 2, 6);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.REDSTONE_TORCH))

@@ -30,6 +30,7 @@ public class SyncGameInfoPacket implements IMessage {
     private int killTarget;
     private int startingLives;
     private boolean killOnlyLifeLoss;
+    private boolean itemPickup;
     private Map<String, Boolean> gamerules;
     private Map<UUID, PlayerStats> playerStats;
     private Map<UUID, Team> playerTeams;
@@ -46,6 +47,7 @@ public class SyncGameInfoPacket implements IMessage {
         int killTarget,
         int startingLives,
         boolean killOnlyLifeLoss,
+        boolean itemPickup,
         Map<String, Boolean> gamerules,
         Map<UUID, PlayerStats> playerStats,
         Map<UUID, Team> playerTeams
@@ -59,6 +61,7 @@ public class SyncGameInfoPacket implements IMessage {
         this.killTarget = killTarget;
         this.startingLives = startingLives;
         this.killOnlyLifeLoss = killOnlyLifeLoss;
+        this.itemPickup = itemPickup;
         this.gamerules = gamerules;
         this.playerStats = playerStats;
         this.playerTeams = playerTeams;
@@ -75,6 +78,7 @@ public class SyncGameInfoPacket implements IMessage {
         buf.writeInt(killTarget);
         buf.writeInt(startingLives);
         buf.writeBoolean(killOnlyLifeLoss);
+        buf.writeBoolean(itemPickup);
 
         buf.writeInt(gamerules.size());
         gamerules.forEach((rule, value) -> {
@@ -104,6 +108,7 @@ public class SyncGameInfoPacket implements IMessage {
         killTarget = buf.readInt();
         startingLives = buf.readInt();
         killOnlyLifeLoss = buf.readBoolean();
+        itemPickup = buf.readBoolean();
 
         int ruleCount = buf.readInt();
         gamerules = new HashMap<>();
@@ -148,6 +153,7 @@ public class SyncGameInfoPacket implements IMessage {
                         message.killTarget,
                         message.startingLives,
                         message.killOnlyLifeLoss,
+                        message.itemPickup,
                         message.gamerules,
                         message.playerStats,
                         message.playerTeams
