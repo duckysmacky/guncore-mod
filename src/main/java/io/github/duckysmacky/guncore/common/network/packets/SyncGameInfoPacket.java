@@ -26,6 +26,9 @@ public class SyncGameInfoPacket implements IMessage {
     private int roundDurationSec;
     private int roundLengthSec;
     private int killTarget;
+    private int startingLives;
+    private boolean killOnlyLifeLoss;
+    private Map<String, Boolean> gamerules;
     private Map<UUID, PlayerStats> playerStats;
     private Map<UUID, Team> playerTeams;
 
@@ -39,6 +42,9 @@ public class SyncGameInfoPacket implements IMessage {
         int roundDurationSec,
         int roundLengthSec,
         int killTarget,
+        int startingLives,
+        boolean killOnlyLifeLoss,
+        Map<String, Boolean> gamerules,
         Map<UUID, PlayerStats> playerStats,
         Map<UUID, Team> playerTeams
     ) {
@@ -49,6 +55,9 @@ public class SyncGameInfoPacket implements IMessage {
         this.roundDurationSec = roundDurationSec;
         this.roundLengthSec = roundLengthSec;
         this.killTarget = killTarget;
+        this.startingLives = startingLives;
+        this.killOnlyLifeLoss = killOnlyLifeLoss;
+        this.gamerules = gamerules;
         this.playerStats = playerStats;
         this.playerTeams = playerTeams;
     }
@@ -62,6 +71,14 @@ public class SyncGameInfoPacket implements IMessage {
         buf.writeInt(roundDurationSec);
         buf.writeInt(roundLengthSec);
         buf.writeInt(killTarget);
+        buf.writeInt(startingLives);
+        buf.writeBoolean(killOnlyLifeLoss);
+
+        buf.writeInt(gamerules.size());
+        gamerules.forEach((rule, value) -> {
+            ByteBufUtils.writeUTF8String(buf, rule);
+            buf.writeBoolean(value);
+        });
 
         buf.writeInt(playerStats.size());
         playerStats.forEach((uuid, s) -> {
@@ -83,6 +100,13 @@ public class SyncGameInfoPacket implements IMessage {
         roundDurationSec = buf.readInt();
         roundLengthSec = buf.readInt();
         killTarget = buf.readInt();
+        startingLives = buf.readInt();
+        killOnlyLifeLoss = buf.readBoolean();
+
+        int ruleCount = buf.readInt();
+        gamerules = new HashMap<>();
+        for (int i = 0; i < ruleCount; i++)
+            gamerules.put(ByteBufUtils.readUTF8String(buf), buf.readBoolean());
 
         int size = buf.readInt();
         playerStats = new HashMap<>();
@@ -119,6 +143,9 @@ public class SyncGameInfoPacket implements IMessage {
                     message.roundDurationSec,
                     message.roundLengthSec,
                     message.killTarget,
+                    message.startingLives,
+                    message.killOnlyLifeLoss,
+                    message.gamerules,
                     message.playerStats,
                     message.playerTeams
                 ));

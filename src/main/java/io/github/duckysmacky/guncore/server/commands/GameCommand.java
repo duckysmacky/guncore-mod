@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +39,7 @@ public class GameCommand extends CommandBase {
         "mode",
         "mode_variant",
         "equipment",
+        "world",
         "scoreboard",
         "teams"
     };
@@ -115,6 +117,9 @@ public class GameCommand extends CommandBase {
                 GameMode.Variant variant = parseVariant(args[1]);
                 gameManager.setGameModeVariant(variant);
                 break;
+            case "world":
+                handleWorld(args);
+                break;
             case "equipment":
                 if (args.length < 2)
                     throw new CommandException("Usage: /game equipment <kits|builder>");
@@ -148,6 +153,8 @@ public class GameCommand extends CommandBase {
                     return getListOfStringsMatchingLastWord(args, lowerNames(GameMode.values()));
                 case "mode_variant":
                     return getListOfStringsMatchingLastWord(args, lowerNames(GameMode.Variant.values()));
+                case "world":
+                    return getListOfStringsMatchingLastWord(args, worldOptions());
                 case "equipment":
                     return getListOfStringsMatchingLastWord(args,
                         Arrays.stream(EquipmentMode.values()).map(m -> m.id).collect(Collectors.toList()));
@@ -158,12 +165,38 @@ public class GameCommand extends CommandBase {
 
         if (args.length == 3) {
             switch (subcommand) {
+                case "world":
+                    return args[1].equalsIgnoreCase("setup")
+                        ? Collections.emptyList()
+                        : getListOfStringsMatchingLastWord(args, "true", "false");
                 case "kills": case "lives": case "deaths": case "register_kill":
                     return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
             }
         }
 
         return Collections.emptyList();
+    }
+
+    private static List<String> worldOptions() {
+        List<String> options = new ArrayList<>(GameManager.worldGamerules());
+        options.add("setup");
+        return options;
+    }
+
+    private void handleWorld(String[] args) throws CommandException {
+        String usage = "Usage: /game world <setup|<gamerule> <true|false>>";
+        if (args.length < 2) throw new CommandException(usage);
+
+        if (args[1].equalsIgnoreCase("setup")) {
+            GameManager.setupWorldSettings();
+            return;
+        }
+
+        if (args.length < 3) throw new CommandException(usage);
+        if (!GameManager.isWorldGamerule(args[1]))
+            throw new CommandException("Unknown gamerule! Valid: " + String.join(", ", GameManager.worldGamerules()));
+
+        GameManager.setWorldGamerule(args[1], parseBoolean(args[2]));
     }
 
     private static List<String> lowerNames(Enum<?>[] values) {

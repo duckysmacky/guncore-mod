@@ -31,7 +31,6 @@ public class Settings {
         settings.world.gamerules.put("doFireTick", false);
         settings.world.gamerules.put("doTileDrops", false);
         settings.world.gamerules.put("naturalRegeneration", true);
-        settings.world.gamerules.put("keepInventory", true);
         settings.world.gamerules.put("doMobSpawning", false);
 
         settings.equipment = new EquipmentSettings();

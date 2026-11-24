@@ -1,7 +1,7 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
-import io.github.duckysmacky.guncore.server.game.GameManager;
+import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.StaticMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
@@ -24,11 +24,7 @@ public class SettingsMenuPage extends StaticMenu {
                 .getItemStack()
         ), 1, 1);
 
-        addEntry(new GameruleToggleEntry(
-            this, false,
-            "Weather cycle",
-            "doWeatherCycle"
-        ), 2, 1);
+        addEntry(new GameruleToggleEntry(this, "doWeatherCycle"), 2, 1);
 
         addEntry(new DisplayEntry(
             new ItemStackCustomizer(new ItemStack(Items.CLOCK))
@@ -37,11 +33,7 @@ public class SettingsMenuPage extends StaticMenu {
                 .getItemStack()
         ), 1, 2);
 
-        addEntry(new GameruleToggleEntry(
-            this, false,
-            "Daylight cycle",
-            "doDaylightCycle"
-        ), 2, 2);
+        addEntry(new GameruleToggleEntry(this, "doDaylightCycle"), 2, 2);
 
         addEntry(new DisplayEntry(
             new ItemStackCustomizer(new ItemStack(Items.FIRE_CHARGE))
@@ -50,11 +42,7 @@ public class SettingsMenuPage extends StaticMenu {
                 .getItemStack()
         ), 1, 3);
 
-        addEntry(new GameruleToggleEntry(
-            this, false,
-            "Fire spreading",
-            "doFireTick"
-        ), 2, 3);
+        addEntry(new GameruleToggleEntry(this, "doFireTick"), 2, 3);
 
         addEntry(new DisplayEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.STONE_BUTTON))
@@ -63,11 +51,7 @@ public class SettingsMenuPage extends StaticMenu {
                 .getItemStack()
         ), 1, 4);
 
-        addEntry(new GameruleToggleEntry(
-            this, false,
-            "Item drops",
-            "doTileDrops"
-        ), 2, 4);
+        addEntry(new GameruleToggleEntry(this, "doTileDrops"), 2, 4);
 
         addEntry(new DisplayEntry(
             new ItemStackCustomizer(new ItemStack(Items.GOLDEN_APPLE))
@@ -77,11 +61,7 @@ public class SettingsMenuPage extends StaticMenu {
                 .getItemStack()
         ), 1, 5);
 
-        addEntry(new GameruleToggleEntry(
-            this, true,
-            "Natural regeneration",
-            "naturalRegeneration"
-        ), 2, 5);
+        addEntry(new GameruleToggleEntry(this, "naturalRegeneration"), 2, 5);
 
         addEntry(new DisplayEntry(
             new ItemStackCustomizer(new ItemStack(Items.SKULL))
@@ -93,9 +73,7 @@ public class SettingsMenuPage extends StaticMenu {
         ), 1, 6);
 
         addEntry(new GameSettingToggleEntry(
-            this, true,
-            "Kill-only life loss",
-            "kill_only_lives"
+            this, () -> ClientGameInfo.instance().isKillOnlyLifeLoss(), "kill_only_lives"
         ), 2, 6);
 
         addEntry(new ActionEntry(
@@ -104,7 +82,7 @@ public class SettingsMenuPage extends StaticMenu {
                 .addLoreLine("&7Automatically setup world settings")
                 .addLoreLine("&7Sets up teams, game rules and other")
                 .getItemStack(),
-            p -> GameManager.setupWorldSettings()
+            p -> CommandExecutor.execute("game world setup")
         ), 4, 1);
 
         addEntry(new ActionEntry(

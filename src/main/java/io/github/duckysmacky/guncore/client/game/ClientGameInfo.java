@@ -23,6 +23,9 @@ public final class ClientGameInfo {
     private int roundDurationSec;
     private int roundLengthSec;
     private int killTarget;
+    private int startingLives;
+    private boolean killOnlyLifeLoss = true;
+    private Map<String, Boolean> gamerules = Collections.emptyMap();
     private Map<UUID, PlayerStats> playerStats;
     private Map<UUID, Team> playerTeams;
 
@@ -50,6 +53,9 @@ public final class ClientGameInfo {
         int roundDurationSec,
         int roundLengthSec,
         int killTarget,
+        int startingLives,
+        boolean killOnlyLifeLoss,
+        Map<String, Boolean> gamerules,
         Map<UUID, PlayerStats> playerStats,
         Map<UUID, Team> playerTeams
     ) {
@@ -60,6 +66,9 @@ public final class ClientGameInfo {
         this.roundDurationSec = roundDurationSec;
         this.roundLengthSec = roundLengthSec;
         this.killTarget = killTarget;
+        this.startingLives = startingLives;
+        this.killOnlyLifeLoss = killOnlyLifeLoss;
+        this.gamerules = gamerules;
         this.playerStats = playerStats;
         this.playerTeams = playerTeams;
     }
@@ -166,5 +175,17 @@ public final class ClientGameInfo {
 
     public int getKillTarget() {
         return killTarget;
+    }
+
+    public int getStartingLives() {
+        return startingLives;
+    }
+
+    public boolean isKillOnlyLifeLoss() {
+        return killOnlyLifeLoss;
+    }
+
+    public boolean getGamerule(String rule) {
+        return gamerules.getOrDefault(rule, false);
     }
 }

@@ -4,6 +4,7 @@ import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.RefreshMenuPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
+import io.github.duckysmacky.guncore.server.game.GameManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -34,6 +35,8 @@ public class GuncoreCommand extends CommandBase {
         "&f/game equipment <kits|builder> &7- Sets the equipment selection system",
         "&f/game kills|lives|deaths <add|remove|set> <player> <amount> &7- Edits player stats",
         "&f/game register_kill <victim> [killer] &7- Registers a kill and a death",
+        "&f/game world <gamerule> <true|false> &7- Sets a world gamerule (saved to settings.json)",
+        "&f/game world setup &7- Resets world settings to the defaults and applies them",
         "&f/game kill_only_lives <true|false> &7- Toggles life loss on non-player-caused deaths",
         "&f/game spawnpoint [player] &7- Sets a spawnpoint, survival mode, and bedrock at the target's location",
         "&f/game spawnpoint_all &7- Same, but for every online player",
@@ -69,6 +72,7 @@ public class GuncoreCommand extends CommandBase {
             case "config_reload":
                 if (!isAdmin(sender)) throw new CommandException("commands.generic.permission");
                 ConfigManager.instance().load();
+                GameManager.applyWorldSettings(server);
                 PacketHandler.instance().sendToAll(new RefreshMenuPacket());
                 sender.sendMessage(new TextComponentString(TextUtils.translateColorCodes("&aGuncore config reloaded")));
                 break;

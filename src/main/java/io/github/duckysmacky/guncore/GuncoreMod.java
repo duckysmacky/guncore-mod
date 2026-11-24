@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import io.github.duckysmacky.guncore.server.game.GameManager;
 import io.github.duckysmacky.guncore.server.commands.GuncoreCommand;
 import io.github.duckysmacky.guncore.server.commands.GameCommand;
 import io.github.duckysmacky.guncore.server.commands.MenuCommand;
@@ -64,5 +65,6 @@ public class GuncoreMod {
         event.registerServerCommand(new GameCommand());
 
         ConfigManager.instance().load();
+        GameManager.applyWorldSettings(event.getServer());
     }
 }

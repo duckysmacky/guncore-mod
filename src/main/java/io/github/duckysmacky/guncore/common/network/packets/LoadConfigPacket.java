@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import io.github.duckysmacky.guncore.server.game.GameManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -23,6 +24,7 @@ public class LoadConfigPacket implements IMessage {
             if (context.side == Side.SERVER && context.getServerHandler().player.canUseCommand(2, "guncore")) {
                 FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
                     ConfigManager.instance().load();
+                    GameManager.applyWorldSettings(FMLCommonHandler.instance().getMinecraftServerInstance());
                 });
             }
             return null;

@@ -46,6 +46,7 @@ Guncore calls their commands/items by ID, so any compatible replacement mod woul
 - `/game mode <ffa|tdm|hostage>` / `/game mode_variant <time|lives|kills>` - sets gamemode and win condition
 - `/game kills|lives|deaths <add|remove|set> <player> <amount>` - edits player stats
 - `/game equipment <kits|builder>` - switches the equipment selection system (default `builder`; global, saved in `settings.json`, can't be changed during a round)
+- `/game world <gamerule> <true|false>` - sets a world gamerule from `world.gamerules` (saved to `settings.json`); `/game world setup` resets them to defaults and applies them
 - `/game kill_only_lives <true|false>` - toggles whether only player-caused kills cost a life (vs. all deaths)
 - `/game spawnpoint [player]` / `/game spawnpoint_all` - sets spawnpoint, survival mode, and bedrock under the target(s)
 - `/game scoreboard` / `/game teams` - prints current stats/team rosters
@@ -82,7 +83,7 @@ Created with defaults on first start and rewritten whenever a setting is changed
 - `game.mode` (`FFA`, `TDM`, `HOSTAGE`), `game.variant` (`TIME`, `LIVES`, `KILLS`) and `game.killOnlyLifeLoss` - the current game mode, win condition and life loss rule.
 - `game.ffa` / `game.tdm` / `game.hostage` - per-gamemode `roundLengthSec`, `startingLives`, `killTarget`. Only editable in the file (the in-game menu just displays them).
 - `equipment.mode` (`kits` or `builder`) - updated by `/game equipment`.
-- `world.gamerules` - gamerules (`true`/`false`).
+- `world.gamerules` - gamerules (`true`/`false`). Applied to the world on server start and on `/guncore config_reload`. `keepInventory` is always forced to `true` and is not configurable.
 
 ```json
 {
@@ -101,7 +102,6 @@ Created with defaults on first start and rewritten whenever a setting is changed
       "doFireTick": false,
       "doTileDrops": false,
       "naturalRegeneration": true,
-      "keepInventory": true,
       "doMobSpawning": false
     }
   },

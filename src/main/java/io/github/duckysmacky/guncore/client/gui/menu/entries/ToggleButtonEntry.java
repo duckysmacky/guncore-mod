@@ -11,19 +11,36 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class ToggleButtonEntry extends MenuEntry {
+    // how long a clicked state is shown before falling back to the synced server state
+    private static final long PENDING_MS = 2000;
     private final BaseMenu menu;
-    private boolean state;
+    private final Supplier<Boolean> stateSupplier;
     private final BiConsumer<EntityPlayer, Boolean> onToggle;
+    private Boolean pendingState;
+    private long pendingUntil;
 
     public ToggleButtonEntry(
         BaseMenu menu,
         Supplier<Boolean> stateSupplier,
         BiConsumer<EntityPlayer, Boolean> onToggle
     ) {
-        super(getIcon(stateSupplier.get()));
+        super(null);
         this.menu = menu;
-        this.state = stateSupplier.get();
+        this.stateSupplier = stateSupplier;
         this.onToggle = onToggle;
+    }
+
+    private boolean getState() {
+        boolean synced = stateSupplier.get();
+        if (pendingState != null && (pendingState == synced || System.currentTimeMillis() > pendingUntil))
+            pendingState = null;
+
+        return pendingState != null ? pendingState : synced;
+    }
+
+    @Override
+    public ItemStack getIcon() {
+        return getIcon(getState());
     }
 
     private static ItemStack getIcon(boolean state) {
@@ -39,11 +56,12 @@ public class ToggleButtonEntry extends MenuEntry {
 
     @Override
     public void onClick(EntityPlayer player) {
-        this.state = !this.state; // toggle state
-        this.icon = getIcon(state); // update icon
+        boolean newState = !getState();
+        pendingState = newState;
+        pendingUntil = System.currentTimeMillis() + PENDING_MS;
 
         player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
-        onToggle.accept(player, state);
+        onToggle.accept(player, newState);
         menu.open(player);
     }
 

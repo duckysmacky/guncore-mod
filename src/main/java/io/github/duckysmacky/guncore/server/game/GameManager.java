@@ -15,6 +15,7 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameType;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -78,22 +79,48 @@ public class GameManager {
     public static void setupWorldSettings() {
         ensureVanillaTeams();
 
-        String[] commandChain = new String[]{
-            "gamerule doWeatherCycle false",
-            "gamerule doDaylightCycle false",
-            "gamerule doFireTick false",
-            "gamerule doTileDrops false",
-            "gamerule keepInventory true",
-            "gamerule doMobSpawning false",
-            "gamerule spawnRadius 0",
-            "gamerule naturalRegeneration true"
-        };
+        settings().world = Settings.createDefault().world;
+        ConfigManager.instance().saveSettings();
 
-        Arrays.stream(commandChain).forEach(CommandExecutor::execute);
+        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        applyWorldSettings(server);
+        CommandExecutor.executeAsServer(server, "gamerule spawnRadius 0");
+
         ServerBroadcaster.message("&a&lWorld setup complete");
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
 
+    /**
+     * Runs every saved gamerule on the given server. Called on server start and config reload.
+     */
+    public static void applyWorldSettings(MinecraftServer server) {
+        // not configurable: the mod hands out kits itself, so dropped loadouts must never happen
+        CommandExecutor.executeAsServer(server, "gamerule keepInventory true");
+
+        settings().world.gamerules.forEach((rule, value) ->
+            CommandExecutor.executeAsServer(server, "gamerule " + rule + " " + value)
+        );
+    }
+
+    public static Set<String> worldGamerules() {
+        return settings().world.gamerules.keySet();
+    }
+
+    public static boolean isWorldGamerule(String rule) {
+        return settings().world.gamerules.containsKey(rule);
+    }
+
+    public static void setWorldGamerule(String rule, boolean value) {
+        if (!isWorldGamerule(rule)) return;
+
+        settings().world.gamerules.put(rule, value);
+        ConfigManager.instance().saveSettings();
+        CommandExecutor.executeAsServer(FMLCommonHandler.instance().getMinecraftServerInstance(), "gamerule " + rule + " " + value);
+
+        TextFormatting color = value ? TextFormatting.GREEN : TextFormatting.GRAY;
+        ServerBroadcaster.message(String.format("&f%s %s%s", rule, color, value ? "enabled" : "disabled"));
+        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+    }
 
     // GameManager only runs on the logical server (dedicated or integrated), so the server instance is always available here
     private void updatePlayerList() {
@@ -205,7 +232,8 @@ public class GameManager {
 
             SyncGameInfoPacket packet = new SyncGameInfoPacket(
                 getGameMode(), getGameModeVariant(), getEquipmentMode(), state, roundDurationSec,
-                getRoundLengthSec(), getKillTarget(),
+                getRoundLengthSec(), getKillTarget(), getStartingLives(),
+                isKillOnlyLifeLoss(), settings().world.gamerules,
                 playerStats, playerTeams
             );
             PacketHandler.instance().sendToAll(packet);
