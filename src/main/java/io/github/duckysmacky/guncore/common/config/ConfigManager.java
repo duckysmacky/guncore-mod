@@ -3,8 +3,14 @@ package io.github.duckysmacky.guncore.common.config;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogManager;
+import io.github.duckysmacky.guncore.common.config.registry.Registry;
+import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.network.packets.LoadConfigPacket;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ConfigManager {
@@ -13,11 +19,14 @@ public class ConfigManager {
     private static ConfigManager instance;
     private final Gson gson;
     private final CatalogManager catalogManager;
+    /** Load order: registries referencing other registries' ids come after them */
+    private final List<Registry<?>> registries;
     private Settings settings;
 
     private ConfigManager() {
         this.gson = new Gson();
         this.catalogManager = new CatalogManager();
+        this.registries = Arrays.asList(catalogManager);
         this.settings = Settings.createDefault();
     }
 
@@ -30,7 +39,13 @@ public class ConfigManager {
     }
 
     public void load() {
-        catalogManager.load();
+        // not getSide(): an integrated server runs in a client JVM, which would make it ask itself for the config forever
+        if (FMLCommonHandler.instance().getMinecraftServerInstance() != null) {
+            registries.forEach(Registry::syncWithClients);
+        } else {
+            GuncoreMod.LOGGER.info(String.format("[%s] Requesting config from server", ID));
+            PacketHandler.instance().sendToServer(new LoadConfigPacket());
+        }
 
         ConfigLoader loader = new ConfigLoader(Loader.instance().getConfigDir());
 
@@ -51,6 +66,13 @@ public class ConfigManager {
 
     public CatalogManager getCatalogManager() {
         return catalogManager;
+    }
+
+    public Registry<?> getRegistry(String id) {
+        return registries.stream()
+            .filter(registry -> registry.getId().equals(id))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Unknown config registry: " + id));
     }
 
     public Settings getSettings() {

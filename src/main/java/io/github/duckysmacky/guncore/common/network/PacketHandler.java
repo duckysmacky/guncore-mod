@@ -34,7 +34,7 @@ public final class PacketHandler {
         networkWrapperInstance.registerMessage(JoinTeamPacket.Handler.class, JoinTeamPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(ControlRoundPacket.Handler.class, ControlRoundPacket.class, packetId++, Side.SERVER);
 
-        networkWrapperInstance.registerMessage(SyncCatalogPacket.Handler.class, SyncCatalogPacket.class, packetId++, Side.CLIENT);
+        networkWrapperInstance.registerMessage(SyncRegistryPacket.Handler.class, SyncRegistryPacket.class, packetId++, Side.CLIENT);
         networkWrapperInstance.registerMessage(LoadConfigPacket.Handler.class, LoadConfigPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(EquipBuildPacket.Handler.class, EquipBuildPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(EquipBaseKitPacket.Handler.class, EquipBaseKitPacket.class, packetId++, Side.SERVER);

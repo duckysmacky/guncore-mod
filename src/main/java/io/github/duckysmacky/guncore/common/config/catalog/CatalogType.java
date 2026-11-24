@@ -6,9 +6,14 @@ import io.github.duckysmacky.guncore.common.config.catalog.items.ItemEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.locations.LocationEntry;
 
+import io.github.duckysmacky.guncore.common.config.registry.RegistryEntry;
+import io.github.duckysmacky.guncore.common.config.registry.RegistryType;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
-public enum CatalogType {
+public enum CatalogType implements RegistryType {
     KITS("kits.json", KitEntry.class, KitEntry::createExample),
     KIT_GADGETS("kit-gadgets.json", ItemEntry.class, ItemEntry::createExample),
     PRIMARY_WEAPONS("primary-weapons.json", GunEntry.class, GunEntry::createExample),
@@ -33,5 +38,20 @@ public enum CatalogType {
         this.jsonFile = jsonFile;
         this.entryClass = entryClass;
         this.exampleSupplier = exampleSupplier;
+    }
+
+    @Override
+    public String getJsonFile() {
+        return jsonFile;
+    }
+
+    @Override
+    public Class<? extends RegistryEntry> getEntryClass() {
+        return entryClass;
+    }
+
+    @Override
+    public List<? extends RegistryEntry> createDefaults() {
+        return Collections.singletonList(exampleSupplier.get());
     }
 }

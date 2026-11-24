@@ -1,9 +1,11 @@
 package io.github.duckysmacky.guncore.common.config.catalog;
 
+import io.github.duckysmacky.guncore.common.config.registry.RegistryEntry;
+
 import java.util.List;
 import java.util.Objects;
 
-public abstract class CatalogEntry {
+public abstract class CatalogEntry implements RegistryEntry {
     protected final boolean enabled;
     protected final String name;
     protected final List<String> descriptionLines;
@@ -18,6 +20,7 @@ public abstract class CatalogEntry {
         this.descriptionLines = Objects.requireNonNull(descriptionLines);
     }
 
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
