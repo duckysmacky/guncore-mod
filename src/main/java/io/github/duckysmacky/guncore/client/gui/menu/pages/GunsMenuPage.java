@@ -11,26 +11,28 @@ import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.EquipGunPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 
 import java.util.Comparator;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 public class GunsMenuPage extends DynamicMenu {
     public GunsMenuPage(BaseMenu parent, boolean secondary, MenuSectionEntry gunCategory) {
         super(gunCategory.getName(), parent, 6, 9);
 
-        ConfigManager.instance().getCatalogManager().<GunEntry>getCatalog(secondary ? CatalogType.SECONDARY_WEAPONS : CatalogType.PRIMARY_WEAPONS).stream()
+        List<GunEntry> guns = ConfigManager.instance().getCatalogManager().<GunEntry>getCatalog(secondary ? CatalogType.SECONDARY_WEAPONS : CatalogType.PRIMARY_WEAPONS).stream()
             .filter(gun -> gun.getCategory().equals(gunCategory.getId()))
             .sorted(Comparator.comparingInt(gun -> gun.getRarity().sortOrder))
-            .forEach(gun -> {
-                ItemStack gunItem = gun.getGunItemStack();
+            .collect(Collectors.toList());
 
-                addEntry(new ActionEntry(gunItem, player -> {
-                    equip(player, secondary, gun);
-                    open(player);
-                }));
-            });
+        BiConsumer<EntityPlayer, GunEntry> select = (player, gun) -> {
+            equip(player, secondary, gun);
+            open(player);
+        };
+        guns.forEach(gun -> addEntry(new ActionEntry(gun.getGunItemStack(), player -> select.accept(player, gun))));
+        setRandomEntry("&7Select a random weapon from this category", guns, select);
     }
 
     public static void equip(EntityPlayer player, boolean secondary, GunEntry gun) {

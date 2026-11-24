@@ -9,30 +9,36 @@ import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.EquipKitPacket;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 
 import java.util.Comparator;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 public class KitsMenuPage extends DynamicMenu {
     public KitsMenuPage(BaseMenu parent, MenuSectionEntry kitClass) {
         super(kitClass.getName(), parent, 5, 9);
 
-        ConfigManager.instance().getCatalogManager().<KitEntry>getCatalog(CatalogType.KITS).stream()
+        List<KitEntry> kits = ConfigManager.instance().getCatalogManager().<KitEntry>getCatalog(CatalogType.KITS).stream()
             .filter(kit -> kit.getKitClass().equals(kitClass.getId()))
             .sorted(Comparator.comparingInt(kit -> kit.getTier().sortOrder))
-            .forEach(kit -> {
-                ItemStack kitIcon = kit.getIconItem();
+            .collect(Collectors.toList());
 
-                addEntry(new ActionEntry(kitIcon, (player) -> {
-                    PacketHandler.instance().sendToServer(new EquipKitPacket(kit));
+        BiConsumer<EntityPlayer, KitEntry> select = (player, kit) -> {
+            equip(player, kit);
+            open(player);
+        };
+        kits.forEach(kit -> addEntry(new ActionEntry(kit.getIconItem(), player -> select.accept(player, kit))));
+        setRandomEntry("&7Select a random kit from this class", kits, select);
+    }
 
-                    player.sendMessage(new TextComponentString("Selected kit: " + kitIcon.getDisplayName()));
-                    player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+    public static void equip(EntityPlayer player, KitEntry kit) {
+        PacketHandler.instance().sendToServer(new EquipKitPacket(kit));
 
-                    open(player);
-                }));
-            });
+        player.sendMessage(new TextComponentString("Selected kit: " + kit.getName()));
+        player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1f, 1f);
     }
 }

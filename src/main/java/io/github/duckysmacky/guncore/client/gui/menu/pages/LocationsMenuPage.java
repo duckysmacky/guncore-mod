@@ -11,20 +11,21 @@ import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LocationsMenuPage extends DynamicMenu {
     public LocationsMenuPage(BaseMenu parent, MenuSectionEntry map) {
         super(map.getName(), parent, 9, 9);
 
-        ConfigManager.instance().getCatalogManager().<LocationEntry>getCatalog(CatalogType.LOCATIONS).stream()
+        List<LocationEntry> locations = ConfigManager.instance().getCatalogManager().<LocationEntry>getCatalog(CatalogType.LOCATIONS).stream()
             .filter(location -> location.getMap().equals(map.getId()))
-            .forEach(location -> {
-                ItemStack locationIcon = location.getIconItem();
+            .collect(Collectors.toList());
 
-                addEntry(new ActionEntry(locationIcon, player -> teleport(player, location)));
-            });
+        locations.forEach(location -> addEntry(new ActionEntry(location.getIconItem(), player -> teleport(player, location))));
+        setRandomEntry("&7Teleport to a random location on this map", locations, LocationsMenuPage::teleport);
     }
 
     public static void teleport(EntityPlayer player, LocationEntry location) {

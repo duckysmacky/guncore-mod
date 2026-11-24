@@ -2,7 +2,10 @@ package io.github.duckysmacky.guncore.client.gui.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.function.BiConsumer;
 
+import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.MenuEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +21,7 @@ import net.minecraft.item.ItemStack;
  */
 public abstract class DynamicMenu extends BaseMenu {
     private final List<MenuEntry> entries = new ArrayList<>();
+    private final Random random = new Random();
     private final boolean centered;
     private MenuEntry topEntry;
     private int page = 0;
@@ -38,6 +42,20 @@ public abstract class DynamicMenu extends BaseMenu {
     /** Entry shown on every page in the middle of the top row */
     public void setTopEntry(MenuEntry entry) {
         topEntry = entry;
+    }
+
+    /** Top entry which runs {@code action} on a random element of {@code pool} */
+    public <E> void setRandomEntry(String lore, List<E> pool, BiConsumer<EntityPlayer, E> action) {
+        setTopEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.NETHER_STAR))
+                .setName("&f&lSelect random")
+                .addLoreLine(lore)
+                .getItemStack(),
+            player -> {
+                if (pool.isEmpty()) return;
+                action.accept(player, pool.get(random.nextInt(pool.size())));
+            }
+        ));
     }
 
     private int topEntrySlot() {
