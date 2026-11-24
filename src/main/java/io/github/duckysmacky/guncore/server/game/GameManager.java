@@ -2,7 +2,7 @@ package io.github.duckysmacky.guncore.server.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
-import io.github.duckysmacky.guncore.common.config.GameConfig;
+import io.github.duckysmacky.guncore.common.config.Settings;
 import io.github.duckysmacky.guncore.common.game.*;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
@@ -29,20 +29,14 @@ public class GameManager {
     private static GameManager instance;
     private final Map<UUID, PlayerStats> playerStats;
     private final Map<Team, List<UUID>> teams;
-    private GameMode gameMode;
-    private GameMode.Variant gameModeVariant;
     private GameState state;
     private int roundDurationSec;
-    private boolean killOnlyLifeLoss;
 
     private GameManager() {
         this.playerStats = new HashMap<>();
         this.teams = new EnumMap<>(Team.class);
         Arrays.stream(Team.values()).forEach(t -> teams.put(t, new ArrayList<>()));
-        this.gameMode = GameMode.FFA;
-        this.gameModeVariant = GameMode.Variant.LIVES;
         this.state = GameState.NOT_STARTED;
-        this.killOnlyLifeLoss = true;
     }
 
     public static GameManager instance() {
@@ -134,11 +128,11 @@ public class GameManager {
             playerStats.values().forEach(p -> {
                 p.resetStats();
 
-                if (gameModeVariant == GameMode.Variant.LIVES)
+                if (getGameModeVariant() == GameMode.Variant.LIVES)
                     p.setLives(getStartingLives());
             });
 
-            if (gameMode != GameMode.FFA) {
+            if (getGameMode() != GameMode.FFA) {
                 teams.get(Team.NONE).forEach(p -> {
                     ServerBroadcaster.warning(String.format("&7Player &f&l%s &7didn't join any team!", playerStats.get(p).getUsername()));
                 });
@@ -193,7 +187,7 @@ public class GameManager {
         if (state == GameState.RUNNING & tickCount % 20 == 0) {
             roundDurationSec++;
 
-            if (gameModeVariant == GameMode.Variant.TIME) {
+            if (getGameModeVariant() == GameMode.Variant.TIME) {
                 int roundTimeLeftSecs = getRoundLengthSec() - roundDurationSec;
 
                 if (Arrays.stream(announcementIntervalsSecs).anyMatch(s -> s == roundTimeLeftSecs))
@@ -210,7 +204,7 @@ public class GameManager {
             playerStats.keySet().forEach(uuid -> playerTeams.put(uuid, getPlayerTeam(uuid)));
 
             SyncGameInfoPacket packet = new SyncGameInfoPacket(
-                gameMode, gameModeVariant, getEquipmentMode(), state, roundDurationSec,
+                getGameMode(), getGameModeVariant(), getEquipmentMode(), state, roundDurationSec,
                 getRoundLengthSec(), getKillTarget(),
                 playerStats, playerTeams
             );
@@ -237,7 +231,7 @@ public class GameManager {
     public void onEnvironmentalDeath(EntityPlayer victim) {
         if (state != GameState.RUNNING) return;
 
-        registerDeath(victim, !killOnlyLifeLoss);
+        registerDeath(victim, !isKillOnlyLifeLoss());
     }
 
     private void registerDeath(EntityPlayer victim, boolean loseLife) {
@@ -253,7 +247,7 @@ public class GameManager {
     }
 
     private void announceLivesLeft(EntityPlayer victim, PlayerStats victimStats) {
-        if (gameModeVariant != GameMode.Variant.LIVES) return;
+        if (getGameModeVariant() != GameMode.Variant.LIVES) return;
 
         if (victimStats.getLives() <= 0) {
             victim.setGameType(GameType.SPECTATOR);
@@ -319,7 +313,7 @@ public class GameManager {
     }
 
     public void joinTeam(EntityPlayer player, Team team) {
-        if (gameMode == GameMode.FFA)
+        if (getGameMode() == GameMode.FFA)
             setGameMode(GameMode.TDM);
 
         ensureVanillaTeams();
@@ -341,7 +335,8 @@ public class GameManager {
                 CommandExecutor.execute("scoreboard teams join none @a");
             }
 
-            this.gameMode = gameMode;
+            settings().game.mode = gameMode;
+            ConfigManager.instance().saveSettings();
             ServerBroadcaster.message("&fGame mode set to &l" + gameMode.display);
             ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
         } else {
@@ -352,7 +347,8 @@ public class GameManager {
 
     public void setGameModeVariant(GameMode.Variant gameModeVariant) {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
-            this.gameModeVariant = gameModeVariant;
+            settings().game.variant = gameModeVariant;
+            ConfigManager.instance().saveSettings();
             ServerBroadcaster.message("&fGame mode variant set to &l" + gameModeVariant.display);
             ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
         } else {
@@ -367,61 +363,32 @@ public class GameManager {
         return playerStats.get(uuid);
     }
 
-    private int getStartingLives() {
-        GameConfig gameConfig = ConfigManager.instance().getGameConfig();
+    private static Settings settings() {
+        return ConfigManager.instance().getSettings();
+    }
 
-        switch (gameMode) {
-            case FFA:
-                return gameConfig.ffaConfig.startingLives;
-            case TDM:
-                return gameConfig.tdmConfig.startingLives;
-            case HOSTAGE:
-                return gameConfig.hostageConfig.startingLives;
-            default:
-                return 5;
-        }
+    private int getStartingLives() {
+        return settings().game.configFor(getGameMode()).startingLives;
     }
 
     private int getRoundLengthSec() {
-        GameConfig gameConfig = ConfigManager.instance().getGameConfig();
-
-        switch (gameMode) {
-            case FFA:
-                return gameConfig.ffaConfig.roundLengthSec;
-            case TDM:
-                return gameConfig.tdmConfig.roundLengthSec;
-            case HOSTAGE:
-                return gameConfig.hostageConfig.roundLengthSec;
-            default:
-                return 600;
-        }
+        return settings().game.configFor(getGameMode()).roundLengthSec;
     }
 
     private int getKillTarget() {
-        GameConfig gameConfig = ConfigManager.instance().getGameConfig();
-
-        switch (gameMode) {
-            case FFA:
-                return gameConfig.ffaConfig.killTarget;
-            case TDM:
-                return gameConfig.tdmConfig.killTarget;
-            case HOSTAGE:
-                return gameConfig.hostageConfig.killTarget;
-            default:
-                return 15;
-        }
+        return settings().game.configFor(getGameMode()).killTarget;
     }
 
     public GameMode getGameMode() {
-        return gameMode;
+        return settings().game.mode;
     }
 
     public GameMode.Variant getGameModeVariant() {
-        return gameModeVariant;
+        return settings().game.variant;
     }
 
     public EquipmentMode getEquipmentMode() {
-        return ConfigManager.instance().getGameConfig().equipmentMode;
+        return settings().equipment.mode;
     }
 
     public void setEquipmentMode(EquipmentMode equipmentMode) {
@@ -431,17 +398,19 @@ public class GameManager {
             return;
         }
 
-        ConfigManager.instance().setEquipmentMode(equipmentMode);
+        settings().equipment.mode = equipmentMode;
+        ConfigManager.instance().saveSettings();
         ServerBroadcaster.message("&fEquipment mode set to &l" + equipmentMode.display);
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
 
     public boolean isKillOnlyLifeLoss() {
-        return killOnlyLifeLoss;
+        return settings().game.killOnlyLifeLoss;
     }
 
     public void setKillOnlyLifeLoss(boolean killOnlyLifeLoss) {
-        this.killOnlyLifeLoss = killOnlyLifeLoss;
+        settings().game.killOnlyLifeLoss = killOnlyLifeLoss;
+        ConfigManager.instance().saveSettings();
         ServerBroadcaster.message("&fKill-only life loss set to &l" + killOnlyLifeLoss);
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
@@ -467,8 +436,8 @@ public class GameManager {
     }
 
     private void checkRoundEndConditions() {
-        if (gameModeVariant == GameMode.Variant.LIVES) {
-            switch (gameMode) {
+        if (getGameModeVariant() == GameMode.Variant.LIVES) {
+            switch (getGameMode()) {
                 case FFA: {
                     long playersAlive = playerStats.values().stream()
                         .filter(p -> p.getLives() > 0)
@@ -492,8 +461,8 @@ public class GameManager {
                     break;
                 }
             }
-        } else if (gameModeVariant == GameMode.Variant.KILLS) {
-            switch (gameMode) {
+        } else if (getGameModeVariant() == GameMode.Variant.KILLS) {
+            switch (getGameMode()) {
                 case FFA: {
                     boolean targetReached = playerStats.values().stream()
                         .anyMatch(p -> p.getKills() >= getKillTarget());
@@ -522,7 +491,7 @@ public class GameManager {
     }
 
     private void determineWinner() {
-        switch (gameMode) {
+        switch (getGameMode()) {
             case FFA: {
                 PlayerStats topPlayer = pickFfaWinner();
 
@@ -548,7 +517,7 @@ public class GameManager {
     }
 
     private PlayerStats pickFfaWinner() {
-        if (gameModeVariant == GameMode.Variant.LIVES) {
+        if (getGameModeVariant() == GameMode.Variant.LIVES) {
             Optional<PlayerStats> survivor = playerStats.values().stream()
                 .filter(p -> p.getLives() > 0)
                 .min(PlayerStats.RANKING);
@@ -561,7 +530,7 @@ public class GameManager {
     }
 
     private Team pickTeamWinner() {
-        if (gameModeVariant == GameMode.Variant.LIVES) {
+        if (getGameModeVariant() == GameMode.Variant.LIVES) {
             Set<Team> aliveTeams = playerStats.entrySet().stream()
                 .filter(e -> e.getValue().getLives() > 0)
                 .map(Map.Entry::getKey)

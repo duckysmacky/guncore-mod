@@ -3,22 +3,22 @@ package io.github.duckysmacky.guncore.common.config;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogManager;
-import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import net.minecraftforge.fml.common.Loader;
 
 import java.util.function.Supplier;
 
 public class ConfigManager {
     public static final String ID = "ConfigManager";
+    private static final String SETTINGS_FILE = "settings.json";
     private static ConfigManager instance;
     private final Gson gson;
     private final CatalogManager catalogManager;
-    private GameConfig gameConfig;
+    private Settings settings;
 
     private ConfigManager() {
         this.gson = new Gson();
         this.catalogManager = new CatalogManager();
-        this.gameConfig = GameConfig.createDefault();
+        this.settings = Settings.createDefault();
     }
 
     public static ConfigManager instance() {
@@ -34,28 +34,27 @@ public class ConfigManager {
 
         ConfigLoader loader = new ConfigLoader(Loader.instance().getConfigDir());
 
-        String gameConfigJson = loader.readJSON("game.json", GameConfig::createDefault);
-        GameConfig parsedConfig = parseConfigJson(gameConfigJson, GameConfig.class, GameConfig::createDefault);
-        gameConfig = GameConfig.withDefaults(parsedConfig);
+        String settingsJson = loader.readJSON(SETTINGS_FILE, Settings::createDefault);
+        Settings parsedSettings = parseConfigJson(settingsJson, Settings.class, Settings::createDefault);
+        settings = Settings.withDefaults(parsedSettings);
 
-        // write back so values added in newer versions (e.g. killTarget) show up in the file
-        if (!gson.toJson(gameConfig).equals(gson.toJson(parsedConfig))) {
-            GuncoreMod.LOGGER.warn("[{}] 'game.json' had missing or invalid values, filled them in with defaults", ID);
-            loader.writeJSON("game.json", gameConfig);
+        // write back so values added in newer versions show up in the file
+        if (!gson.toJson(settings).equals(gson.toJson(parsedSettings))) {
+            GuncoreMod.LOGGER.warn("[{}] '{}' had missing or invalid values, filled them in with defaults", ID, SETTINGS_FILE);
+            saveSettings();
         }
     }
 
-    public void setEquipmentMode(EquipmentMode mode) {
-        gameConfig.equipmentMode = mode;
-        new ConfigLoader(Loader.instance().getConfigDir()).writeJSON("game.json", gameConfig);
+    public void saveSettings() {
+        new ConfigLoader(Loader.instance().getConfigDir()).writeJSON(SETTINGS_FILE, settings);
     }
 
     public CatalogManager getCatalogManager() {
         return catalogManager;
     }
 
-    public GameConfig getGameConfig() {
-        return gameConfig;
+    public Settings getSettings() {
+        return settings;
     }
 
     private <T> T parseConfigJson(String json, Class<T> configClass, Supplier<T> defaultValue) {

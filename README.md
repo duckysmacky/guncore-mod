@@ -45,7 +45,7 @@ Guncore calls their commands/items by ID, so any compatible replacement mod woul
 - `/game start|end|reset|pause` - controls the current round
 - `/game mode <ffa|tdm|hostage>` / `/game mode_variant <time|lives|kills>` - sets gamemode and win condition
 - `/game kills|lives|deaths <add|remove|set> <player> <amount>` - edits player stats
-- `/game equipment <kits|builder>` - switches the equipment selection system (default `builder`; global, saved in `game.json`, can't be changed during a round)
+- `/game equipment <kits|builder>` - switches the equipment selection system (default `builder`; global, saved in `settings.json`, can't be changed during a round)
 - `/game kill_only_lives <true|false>` - toggles whether only player-caused kills cost a life (vs. all deaths)
 - `/game spawnpoint [player]` / `/game spawnpoint_all` - sets spawnpoint, survival mode, and bedrock under the target(s)
 - `/game scoreboard` / `/game teams` - prints current stats/team rosters
@@ -58,7 +58,7 @@ All config lives **server-side** only, under the server's Forge config directory
 
 ```
 config/guncore/
-├── game.json               # per-gamemode round settings
+├── settings.json           # game / world / equipment settings (also edited in-game)
 └── catalog/
     ├── kits.json               # kit-based: loadout kits (CSG Kits IDs)
     ├── kit-gadgets.json        # kit-based: gadgets
@@ -75,16 +75,37 @@ config/guncore/
 
 Edit the JSON, then run `/guncore config_reload` (or restart) - the server re-reads the files and pushes the updated catalog to every connected client, no client-side files or restarts needed.
 
-### `game.json`
+### `settings.json`
 
-One block per gamemode: `roundLengthSec`, `startingLives`, `killTarget`. Plus `equipmentMode` (`kits` or `builder`, default `builder`), which `/game equipment` updates.
+Created with defaults on first start and rewritten whenever a setting is changed in-game or by command, so values survive restarts. Missing values are filled with defaults on load.
+
+- `game.mode` (`FFA`, `TDM`, `HOSTAGE`), `game.variant` (`TIME`, `LIVES`, `KILLS`) and `game.killOnlyLifeLoss` - the current game mode, win condition and life loss rule.
+- `game.ffa` / `game.tdm` / `game.hostage` - per-gamemode `roundLengthSec`, `startingLives`, `killTarget`. Only editable in the file (the in-game menu just displays them).
+- `equipment.mode` (`kits` or `builder`) - updated by `/game equipment`.
+- `world.gamerules` - gamerules (`true`/`false`).
 
 ```json
 {
-  "ffaConfig": { "roundLengthSec": 600, "startingLives": 5, "killTarget": 15 },
-  "tdmConfig": { "roundLengthSec": 900, "startingLives": 3, "killTarget": 15 },
-  "hostageConfig": { "roundLengthSec": 1200, "startingLives": 3, "killTarget": 15 },
-  "equipmentMode": "builder"
+  "game": {
+    "mode": "FFA",
+    "variant": "LIVES",
+    "killOnlyLifeLoss": true,
+    "ffa": { "roundLengthSec": 600, "startingLives": 5, "killTarget": 15 },
+    "tdm": { "roundLengthSec": 900, "startingLives": 3, "killTarget": 15 },
+    "hostage": { "roundLengthSec": 1200, "startingLives": 3, "killTarget": 15 }
+  },
+  "world": {
+    "gamerules": {
+      "doWeatherCycle": false,
+      "doDaylightCycle": false,
+      "doFireTick": false,
+      "doTileDrops": false,
+      "naturalRegeneration": true,
+      "keepInventory": true,
+      "doMobSpawning": false
+    }
+  },
+  "equipment": { "mode": "builder" }
 }
 ```
 

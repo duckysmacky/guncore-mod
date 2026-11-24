@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.common.config;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.github.duckysmacky.guncore.GuncoreMod;
 
 import java.io.*;
@@ -15,7 +16,7 @@ public class ConfigLoader {
 
     public ConfigLoader(File configDir) {
         this.configDir = configDir;
-        this.gson = new Gson();
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     public <T> String readJSON(String filePath, Supplier<T> defaultValue) {
