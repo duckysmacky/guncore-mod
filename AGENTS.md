@@ -6,7 +6,7 @@ This file provides guidance to agents when working with code in this repository.
 
 Guncore is a Forge mod (Minecraft 1.12.2, Java 8, ForgeGradle 3) that adds a game-control layer for gun PVP servers: 
 rounds (FFA / TDM / Hostage), equipment selection (CSG kits or build-a-class), stats, HUD and an in-game GUI menu. It 
-adds no guns itself; it references items from Vic's Modern Warfare 2.0 and runs CSG Kits commands by ID. See `README.md`
+adds no guns itself; it references weapon items from any weapon mod by ID (Vic's Modern Warfare 2.0 in the examples) and runs CSG Kits commands by ID. See `README.md`
 for the player/admin-facing config and command docs (keep it in sync when changing commands or JSON formats).
 
 Two version branches live in this repo: `1.12.2` (this one) and `1.20.1` (separate codebase, TACZ). Do not port code 

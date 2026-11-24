@@ -1,11 +1,16 @@
 # Guncore
 
-Guncore is a Forge mod adding a full game-control layer for gun PVP servers: round-based gamemodes (FFA, Team Deathmatch, Hostage), a kit/loadout system, live stats (kills/deaths/lives) shown via a HUD overlay and text scoreboard, and an in-game GUI menu for players and admins. It's built for the gun-PVP styled modpacks and servers, sitting on top of a separate weapon mod for the actual guns.
+![Platform](https://img.shields.io/badge/platform-Forge-E04E14)
+![Minecraft](https://img.shields.io/badge/minecraft-1.12.2-62B47A)
+[![Version](https://img.shields.io/github/v/release/duckysmacky/guncore-mod?include_prereleases&label=version)](https://github.com/duckysmacky/guncore-mod/releases)
+[![Downloads](https://img.shields.io/github/downloads/duckysmacky/guncore-mod/total?label=downloads)](https://github.com/duckysmacky/guncore-mod/releases)
+
+Guncore is a Forge mod adding a full game-control layer for gun PVP servers: round-based gamemodes (FFA, Team Deathmatch, Hostage), a kit/loadout system with optional rarity-based limits, live stats (kills/deaths/lives) shown via a HUD overlay and scoreboards, persistent player profiles with server-wide leaderboards, and an in-game GUI menu for players and admins. It's built for the gun-PVP styled modpacks and servers, sitting on top of a separate weapon mod for the actual guns.
 
 ## Supported versions
 
 This mod is developed on two parallel version branches:
-- `1.12.2`
+- `1.12.2` (upstream)
 - `1.20.1`
 
 They target different Minecraft versions and different underlying weapon mods, so features and configuration differ between them. Pick the branch matching your modpack's Minecraft version.
@@ -13,15 +18,20 @@ They target different Minecraft versions and different underlying weapon mods, s
 | Feature | 1.12.2 | 1.20.1 |
 |---|---|---|
 | Gamemodes (FFA / TDM / Hostage) | ✅ | ✅ |
-| Loadouts | Premade kits (via CSG mod) **or** build-a-class (switchable) | Custom build-a-class equipment system |
+| Equipment system | Switchable: premade kits (via CSG mod) **or** build-a-class | Only build-a-class loadouts |
 | Lives / kill-only death toggle | ✅ | ✅ |
-| Spawnpoint utility commands | ✅ | ❌ |
 | In-game GUI menu + HUD overlay | ✅ | ✅ |
-| Weapon mod | Vic's Modern Warfare 2.0 | TACZ |
+| Rarity Score loadout limits | ✅ | ❌ |
+| Player profiles + global stats | ✅ | ❌ |
+| Menu sections (categories, classes, maps) from config | ✅ | ❌ |
+| Spawnpoint utility commands | ✅ | ❌ |
+| Weapon mod | Any, referenced by item ID (e.g. Vic's Modern Warfare) | Depends on TACZ |
+
+The **1.12.2 version of the mod is upstream version**, meaning it is the most feature-complete and stable, while the 1.20.1 branch is a work-in-progress port to the modern Minecraft version. With time features from 1.12.2 are ported to 1.20.1, and potentially other more modern versions will be added in the future.
 
 ## Installation
 
-Download the `.jar` matching your branch/Minecraft version from the [Releases](https://github.com/duckysmacky/guncore-mod/releases) page and drop it into your server's (and client's) `mods` folder, alongside the required weapon mod listed above.
+Download the `.jar` matching your branch/Minecraft version from the [Releases](https://github.com/duckysmacky/guncore-mod/releases) page and drop it into your server's (and client's) `mods` folder, alongside the mods listed below.
 
 This is **both** a client and server mod, so the version of the mod should match in both places.
 
@@ -29,27 +39,29 @@ This is **both** a client and server mod, so the version of the mod should match
 
 # Guncore 1.12.2 overview
 
-Targets Minecraft 1.12.2 / Forge. Guncore itself doesn't add guns - it manages the game around them (rounds, kits, kills/deaths/lives, teams) and expects guns and ammo to come from the weapon mod below, referenced in the catalog by their item registry IDs.
+Targets Minecraft 1.12.2 / Forge. Guncore itself doesn't add guns - it manages the game around them (rounds, kits, kills/deaths/lives, teams) and expects guns and ammo to come from whichever weapon mod you use, referenced in the catalog by their item registry IDs.
 
-## Mod dependencies
+## Dependencies
 
-- [Vic's Modern Warfare 2.0](https://www.curseforge.com/minecraft/mc-mods/vics-modern-warfare) - source of gun/ammo items referenced in `primary-weapons.json` / `secondary-weapons.json`. **Version 2.0 in specific**, not 1.0, 3.0 or Cubed
-- [CSG Kits](https://www.curseforge.com/minecraft/mc-mods/csgo-kits) - loadout kits, given via the `csg_kit give <kit_id> <player>` command (build-a-class mode also needs a `base` kit defined in the CSG config, see below)
+- [CSG Kits](https://www.curseforge.com/minecraft/mc-mods/csgo-kits) (Custom Starting Gear, mod ID `customstartinggear`) - **required**, the game won't start without it on the server and on every client. Loadout kits, given via the `csg_kit give <kit_id> <player>` command (build-a-class mode also needs a `base` kit defined in the CSG config, see below)
 
-Guncore calls their commands/items by ID, so any compatible replacement mod would also work as long as the IDs in the catalog match.
+Guncore calls CSG Kits commands by ID, so a replacement command mod works as long as it accepts `csg_kit give <kit_id> <player>`.
+
+## Weapon mod (optional)
+
+Guncore has no weapon mod dependency. Guns and ammo are plain item registry IDs in `primary-weapons.json` / `secondary-weapons.json`, so use any weapon mod and fill in its IDs. The generated example catalog only uses vanilla items (a bow). The examples below use [Vic's Modern Warfare 2.0](https://www.curseforge.com/minecraft/mc-mods/vics-modern-warfare) IDs.
 
 ## Commands
 
 - `/menu` - opens the equipment/game GUI
-- `/guncore config_reload` - reloads config from disk without a restart
+- `/guncore config_reload` - (ops) reloads config from disk without a restart and refreshes every player's menu
+- `/guncore location add <map> <name> [<x> <y> <z>]` - (ops) adds an entry to `locations.json` and refreshes the menus. Uses your position when no coordinates are given (`~` works). Wrap a name with spaces in double quotes, e.g. `"Main Spawn"`. The command rewrites the whole file, so anything in it that is not a regular location field (e.g. unknown keys) is dropped
+- `/getitemnbt` - (ops) prints the held item's id, damage and NBT in chat, in the same format as the `nbtData` field of the item catalogs
 - `/game start|end|reset|pause` - controls the current round
 - `/game mode <ffa|tdm|hostage>` / `/game mode_variant <time|lives|kills>` - sets gamemode and win condition
 - `/game kills|lives|deaths <add|remove|set> <player> <amount>` - edits player stats
 - `/game equipment <kits|builder>` - switches the equipment selection system (default `builder`; global, saved in `settings.json`, can't be changed during a round)
 - `/game loadout_system <flexible|rarity_score>` - switches how loadouts are limited (default `flexible`, see [Rarity Score system](#rarity-score-system))
-- `/guncore location add <map> <name> [<x> <y> <z>]` - (ops) adds an entry to `locations.json` and refreshes the menus. Uses your position when no coordinates are given (`~` works). Wrap a name with spaces in double quotes, e.g. `"Main Spawn"`. The command rewrites the whole file, so anything in it that is not a regular location field (e.g. unknown keys) is dropped
-- `/getitemnbt` - (ops) prints the held item's id, damage and NBT in chat, in the same format as the `nbtData` field of the item catalogs
-- `/guncore location add <map> <name> [<x> <y> <z>]` - (ops) adds an entry to `locations.json` and refreshes the menus. Uses your position when no coordinates are given (`~` works). Wrap a name with spaces in double quotes, e.g. `"Main Spawn"`. The command rewrites the whole file, so anything in it that is not a regular location field (e.g. unknown keys) is dropped
 - `/game mythics <true|false>` - enables or disables mythic items and kits (default enabled); disabled mythics are hidden from the menus and can't be equipped
 - `/game world <gamerule> <true|false>` - sets a world gamerule from `world.gamerules` (saved to `settings.json`); `/game world setup` resets them to defaults and applies them
 - `/game kill_only_lives <true|false>` - toggles whether only player-caused kills cost a life (vs. all deaths)
@@ -91,7 +103,7 @@ config/guncore/
 └── catalog/
     ├── kits.json               # kit-based: loadout kits (CSG Kits IDs)
     ├── kit-gadgets.json        # kit-based: gadgets
-    ├── primary-weapons.json    # both modes: primary guns + ammo (Vic's Modern Warfare item IDs)
+    ├── primary-weapons.json    # both modes: primary guns + ammo (item IDs of your weapon mod)
     ├── secondary-weapons.json  # both modes: secondary guns + ammo
     ├── lethals.json            # build-a-class: explosives and other killing tools
     ├── tacticals.json          # build-a-class: debuff / utility grenades
@@ -116,50 +128,6 @@ Created with defaults on first start and rewritten whenever a setting is changed
 - `equipment.rarityPreset` / `equipment.rarityPresets` - the selected and all available rarity score presets, see [Rarity Score system](#rarity-score-system).
 - `world.itemPickup` - whether players can pick up items (`true` by default).
 - `world.gamerules` - gamerules (`true`/`false`). Applied to the world on server start and on `/guncore config_reload`. `keepInventory` is always forced to `true` and is not configurable.
-
-```json
-{
-  "game": {
-    "mode": "FFA",
-    "variant": "LIVES",
-    "killOnlyLifeLoss": true,
-    "ffa": { "roundLengthSec": 600, "startingLives": 5, "killTarget": 15 },
-    "tdm": { "roundLengthSec": 900, "startingLives": 3, "killTarget": 15 },
-    "hostage": { "roundLengthSec": 1200, "startingLives": 3, "killTarget": 15 }
-  },
-  "world": {
-    "itemPickup": true,
-    "gamerules": {
-      "doWeatherCycle": false,
-      "doDaylightCycle": false,
-      "doFireTick": false,
-      "doTileDrops": false,
-      "naturalRegeneration": true,
-      "doMobSpawning": false
-    }
-  },
-  "equipment": {
-    "mode": "builder",
-    "mythicsEnabled": true,
-    "loadoutSystem": "flexible",
-    "rarityPreset": "balanced",
-    "rarityPresets": {
-      "tight": {
-        "scores": { "common": 0, "uncommon": 1, "rare": 3, "epic": 6, "legendary": 10, "mythic": 25 },
-        "maxScore": { "kits": 25, "builder": 30 }
-      },
-      "balanced": {
-        "scores": { "common": 0, "uncommon": 1, "rare": 2, "epic": 5, "legendary": 8, "mythic": 20 },
-        "maxScore": { "kits": 20, "builder": 24 }
-      },
-      "loose": {
-        "scores": { "common": 0, "uncommon": 1, "rare": 2, "epic": 3, "legendary": 5, "mythic": 20 },
-        "maxScore": { "kits": 24, "builder": 32 }
-      }
-    }
-  }
-}
-```
 
 ### `menus/*.json`
 
@@ -198,7 +166,7 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
 ```
 `class` is an `id` from `menus/kit_classes.json`; `tier` is one of `basic`, `advanced`, `complex`, `professional`, `forbidden`, `special`.
 
-**`primary-weapons.json` / `secondary-weapons.json`** - `gunItemId`/`ammoItemId` are registry names from Vic's Modern Warfare (or any mod using the same item IDs). Primary guns go to hotbar slot 1, secondary to slot 2, the ammo is placed above them. The same gun may be listed in both files:
+**`primary-weapons.json` / `secondary-weapons.json`** - `gunItemId`/`ammoItemId` are item registry names from your weapon mod. Primary guns go to hotbar slot 1, secondary to slot 2, the ammo is placed above them. The same gun may be listed in both files:
 
 ```json
 {
@@ -265,12 +233,6 @@ With `/game loadout_system rarity_score` every pick costs points by its rarity, 
 - **Build-a-class**: every slot counts; replacing a slot only counts the new item.
 - Kits count by tier: basic = common, advanced = uncommon, complex = rare, professional = epic, forbidden = legendary, special = mythic.
 
-Scores come from the selected preset in `equipment.rarityPresets`. The built-in presets keep one mythic per loadout (two mythics always go over the max):
-
-| Preset | Uncommon | Rare | Epic | Legendary | Mythic | Max (kits / builder) |
-|---|---|---|---|---|---|---|
-| `tight` | 1 | 3 | 6 | 10 | 25 | 25 / 30 |
-| `balanced` (default) | 1 | 2 | 5 | 8 | 20 | 20 / 24 |
-| `loose` | 1 | 2 | 3 | 5 | 20 | 24 / 32 |
+Scores come from the selected preset in `equipment.rarityPresets`. The built-in presets keep one mythic per loadout (two mythics always go over the max).
 
 Common items cost 0 in every built-in preset. Menu -> Settings -> Equipment selects a preset by name and edits the scores and max scores of the selected preset in chat. To add a preset, add an entry to `equipment.rarityPresets` in `settings.json` and run `/guncore config_reload`; values left out are taken from the built-in preset of the same name, or from `balanced`. Removed built-in presets are not added back.
