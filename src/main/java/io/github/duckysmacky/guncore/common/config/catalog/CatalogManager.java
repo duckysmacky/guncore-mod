@@ -29,7 +29,8 @@ public class CatalogManager {
     }
 
     public void load() {
-        if (FMLCommonHandler.instance().getSide().isServer()) {
+        // not getSide(): an integrated server runs in a client JVM, which would make it ask itself for the config forever
+        if (FMLCommonHandler.instance().getMinecraftServerInstance() != null) {
             syncWithClients();
         } else {
             GuncoreMod.LOGGER.info(String.format("[%s] Requesting catalog config from server", ID));
