@@ -2,10 +2,7 @@ package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
 import io.github.duckysmacky.guncore.common.network.packets.ControlRoundPacket;
 import io.github.duckysmacky.guncore.common.network.packets.JoinTeamPacket;
-import io.github.duckysmacky.guncore.common.network.packets.SetGameModePacket;
-import io.github.duckysmacky.guncore.common.network.packets.SetGameModeVariantPacket;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
-import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.Team;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
@@ -18,62 +15,7 @@ import net.minecraft.item.ItemStack;
 
 public class GameMenuPage extends StaticMenu {
     public GameMenuPage(BaseMenu parent) {
-        super("Game", parent, 9, 9);
-
-        addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Items.GOLDEN_SWORD))
-                .setName("&f&lFree For All")
-                .addLoreLine("&7Set the game mode to Free For All")
-                .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModePacket(GameMode.FFA))
-        ), 1, 1);
-
-        addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Items.SHIELD))
-                .setName("&f&lTeam Deathmatch")
-                .addLoreLine("&7Set the game mode to Team Deathmatch")
-                .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModePacket(GameMode.TDM))
-        ), 1, 2);
-
-        addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Items.GOLDEN_CHESTPLATE))
-                .setName("&f&lHostage Rescue")
-                .addLoreLine("&fWork In Progress")
-                .addLoreLine("&7Set the game mode to Hostage Rescue")
-                .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModePacket(GameMode.HOSTAGE))
-        ), 1, 3);
-
-        addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Items.CLOCK))
-                .setName("&f&lTime-based")
-                .addLoreLine("&fDefault time limit: 10 minutes")
-                .addLoreLine("&7Make the game mode time-based")
-                .addLoreLine("&7The player/team with the most kills is considered to be the winner")
-                .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.TIME))
-        ), 1, 5);
-
-        addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Items.APPLE))
-                .setName("&f&lLife-based")
-                .addLoreLine("&fDefault lives: 5")
-                .addLoreLine("&7Make the game mode life-based")
-                .addLoreLine("&7The only player/team left alive is considered to be the winner")
-                .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.LIVES))
-        ), 1, 6);
-
-        addEntry(new ActionEntry(
-            new ItemStackCustomizer(new ItemStack(Items.IRON_SWORD))
-                .setName("&f&lKill-based")
-                .addLoreLine("&fDefault kills required: 15")
-                .addLoreLine("&7Make the game mode kill-based")
-                .addLoreLine("&7The player/team who reaches the target kill amount is considered the winner")
-                .getItemStack(),
-            p -> PacketHandler.instance().sendToServer(new SetGameModeVariantPacket(GameMode.Variant.KILLS))
-        ), 1, 7);
+        super("Game", parent, 6, 9);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 14))
@@ -81,7 +23,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Join the Red team")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.RED))
-        ), 3, 2);
+        ), 2, 2);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 11))
@@ -89,7 +31,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Join the Blue team")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.BLUE))
-        ), 3, 3);
+        ), 2, 3);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 4))
@@ -97,7 +39,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Join the Yellow team")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.YELLOW))
-        ), 3, 4);
+        ), 2, 4);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 13))
@@ -105,7 +47,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Join the Green team")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.GREEN))
-        ), 3, 5);
+        ), 2, 5);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.WOOL, 1, 10))
@@ -113,7 +55,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Join the Purple team")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new JoinTeamPacket(Team.PURPLE))
-        ), 3, 6);
+        ), 2, 6);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.SLIME_BALL))
@@ -121,7 +63,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Start a new round")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.START))
-        ), 5, 2);
+        ), 1, 2);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.GOLD_NUGGET))
@@ -129,7 +71,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Toggle round pause")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.PAUSE))
-        ), 5, 3);
+        ), 1, 3);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.BRICK))
@@ -137,7 +79,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7End (finish) the current round")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.END))
-        ), 5, 4);
+        ), 1, 4);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.BARRIER))
@@ -145,7 +87,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Reset the round")
                 .getItemStack(),
             p -> PacketHandler.instance().sendToServer(new ControlRoundPacket(ControlRoundPacket.RoundAction.RESET))
-        ), 5, 5);
+        ), 1, 5);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.CLAY_BALL))
@@ -156,7 +98,7 @@ public class GameMenuPage extends StaticMenu {
                 CommandExecutor.execute("clear @a");
                 CommandExecutor.execute("gamemode 3 @a");
             }
-        ), 6, 3);
+        ), 3, 3);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.BEDROCK))
@@ -165,7 +107,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Puts them in survival mode and places bedrock underneath")
                 .getItemStack(),
             p -> CommandExecutor.execute("game spawnpoint_all")
-        ), 6, 5);
+        ), 3, 5);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.SPECTRAL_ARROW))
@@ -173,7 +115,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Give everyone glowing for 1 second")
                 .getItemStack(),
             p -> CommandExecutor.execute("effect @a minecraft:glowing 1")
-        ), 7, 3);
+        ), 4, 3);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.SPECTRAL_ARROW))
@@ -181,7 +123,7 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Give everyone glowing for 5 seconds")
                 .getItemStack(),
             p -> CommandExecutor.execute("effect @a minecraft:glowing 5")
-        ), 7, 4);
+        ), 4, 4);
 
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.ELYTRA))
@@ -189,6 +131,6 @@ public class GameMenuPage extends StaticMenu {
                 .addLoreLine("&7Give everyone levitation for 10 seconds")
                 .getItemStack(),
             p -> CommandExecutor.execute("effect @a minecraft:levitation 10")
-        ), 7, 5);
+        ), 4, 5);
     }
 }

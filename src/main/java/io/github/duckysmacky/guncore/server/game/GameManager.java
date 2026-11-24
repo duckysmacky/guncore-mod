@@ -115,6 +115,7 @@ public class GameManager {
 
         settings().world.gamerules.put(rule, value);
         ConfigManager.instance().saveSettings();
+        GameManager.instance().syncToClients();
         CommandExecutor.executeAsServer(FMLCommonHandler.instance().getMinecraftServerInstance(), "gamerule " + rule + " " + value);
 
         TextFormatting color = value ? TextFormatting.GREEN : TextFormatting.GRAY;
@@ -226,18 +227,23 @@ public class GameManager {
         }
 
         // every 0.5 second
-        if (tickCount % 10 == 0) {
-            Map<UUID, Team> playerTeams = new HashMap<>();
-            playerStats.keySet().forEach(uuid -> playerTeams.put(uuid, getPlayerTeam(uuid)));
+        if (tickCount % 10 == 0) syncToClients();
+    }
 
-            SyncGameInfoPacket packet = new SyncGameInfoPacket(
-                getGameMode(), getGameModeVariant(), getEquipmentMode(), state, roundDurationSec,
-                getRoundLengthSec(), getKillTarget(), getStartingLives(),
-                isKillOnlyLifeLoss(), settings().world.gamerules,
-                playerStats, playerTeams
-            );
-            PacketHandler.instance().sendToAll(packet);
-        }
+    /**
+     * Sends the game info and settings to every client; also called right after a setting changes
+     */
+    private void syncToClients() {
+        Map<UUID, Team> playerTeams = new HashMap<>();
+        playerStats.keySet().forEach(uuid -> playerTeams.put(uuid, getPlayerTeam(uuid)));
+
+        SyncGameInfoPacket packet = new SyncGameInfoPacket(
+            getGameMode(), getGameModeVariant(), getEquipmentMode(), state, roundDurationSec,
+            getRoundLengthSec(), getKillTarget(), getStartingLives(),
+            isKillOnlyLifeLoss(), settings().world.gamerules,
+            playerStats, playerTeams
+        );
+        PacketHandler.instance().sendToAll(packet);
     }
 
     public void onPlayerKill(EntityPlayer killer, EntityPlayer victim) {
@@ -365,6 +371,7 @@ public class GameManager {
 
             settings().game.mode = gameMode;
             ConfigManager.instance().saveSettings();
+            syncToClients();
             ServerBroadcaster.message("&fGame mode set to &l" + gameMode.display);
             ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
         } else {
@@ -377,6 +384,7 @@ public class GameManager {
         if (state != GameState.RUNNING && state != GameState.PAUSED) {
             settings().game.variant = gameModeVariant;
             ConfigManager.instance().saveSettings();
+            syncToClients();
             ServerBroadcaster.message("&fGame mode variant set to &l" + gameModeVariant.display);
             ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
         } else {
@@ -428,6 +436,7 @@ public class GameManager {
 
         settings().equipment.mode = equipmentMode;
         ConfigManager.instance().saveSettings();
+        syncToClients();
         ServerBroadcaster.message("&fEquipment mode set to &l" + equipmentMode.display);
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }
@@ -439,6 +448,7 @@ public class GameManager {
     public void setKillOnlyLifeLoss(boolean killOnlyLifeLoss) {
         settings().game.killOnlyLifeLoss = killOnlyLifeLoss;
         ConfigManager.instance().saveSettings();
+        syncToClients();
         ServerBroadcaster.message("&fKill-only life loss set to &l" + killOnlyLifeLoss);
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
     }

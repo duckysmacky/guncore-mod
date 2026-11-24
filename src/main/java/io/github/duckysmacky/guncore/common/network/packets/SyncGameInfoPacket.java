@@ -7,7 +7,9 @@ import io.github.duckysmacky.guncore.common.game.GameState;
 import io.github.duckysmacky.guncore.common.game.PlayerStats;
 import io.github.duckysmacky.guncore.common.game.Team;
 import io.netty.buffer.ByteBuf;
+import io.github.duckysmacky.guncore.client.gui.menu.MenuGui;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -135,20 +137,25 @@ public class SyncGameInfoPacket implements IMessage {
         @Override
         public IMessage onMessage(SyncGameInfoPacket message, MessageContext context) {
             if (context.side == Side.CLIENT) {
-                Minecraft.getMinecraft().addScheduledTask(() -> ClientGameInfo.instance().update(
-                    message.gameMode,
-                    message.gameModeVariant,
-                    message.equipmentMode,
-                    message.gameState,
-                    message.roundDurationSec,
-                    message.roundLengthSec,
-                    message.killTarget,
-                    message.startingLives,
-                    message.killOnlyLifeLoss,
-                    message.gamerules,
-                    message.playerStats,
-                    message.playerTeams
-                ));
+                Minecraft.getMinecraft().addScheduledTask(() -> {
+                    ClientGameInfo.instance().update(
+                        message.gameMode,
+                        message.gameModeVariant,
+                        message.equipmentMode,
+                        message.gameState,
+                        message.roundDurationSec,
+                        message.roundLengthSec,
+                        message.killTarget,
+                        message.startingLives,
+                        message.killOnlyLifeLoss,
+                        message.gamerules,
+                        message.playerStats,
+                        message.playerTeams
+                    );
+
+                    GuiScreen screen = Minecraft.getMinecraft().currentScreen;
+                    if (screen instanceof MenuGui) ((MenuGui) screen).refresh();
+                });
             }
             return null;
         }

@@ -26,6 +26,13 @@ public class MenuGui extends GuiContainer {
         this.ySize = 114 + rows * 18;
     }
 
+    /**
+     * Re-reads the page's icons, so values changed by the server show up without reopening the menu
+     */
+    public void refresh() {
+        page.fillInventory(inventory);
+    }
+
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         mc.getTextureManager().bindTexture(CONTAINER_BACKGROUND);

@@ -2,6 +2,7 @@ package io.github.duckysmacky.guncore.common.util;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
@@ -39,6 +40,22 @@ public class ItemStackCustomizer {
     public ItemStackCustomizer resetLore() {
         loreList = new NBTTagList();
         return this;
+    }
+
+    /**
+     * Returns a copy of the item with the enchantment glint and no visible enchantment tooltip
+     */
+    public static net.minecraft.item.ItemStack withGlint(net.minecraft.item.ItemStack item) {
+        net.minecraft.item.ItemStack glowing = item.copy();
+        NBTTagCompound enchantment = new NBTTagCompound();
+        enchantment.setShort("id", (short) 0);
+        enchantment.setShort("lvl", (short) 1);
+        NBTTagList enchantments = new NBTTagList();
+        enchantments.appendTag(enchantment);
+
+        glowing.setTagInfo("ench", enchantments);
+        glowing.setTagInfo("HideFlags", new NBTTagInt(1)); // hide enchantments
+        return glowing;
     }
 
     public net.minecraft.item.ItemStack getItemStack() {
