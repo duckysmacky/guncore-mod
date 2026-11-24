@@ -39,5 +39,9 @@ public final class PacketHandler {
         networkWrapperInstance.registerMessage(EquipBuildPacket.Handler.class, EquipBuildPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(EquipBaseKitPacket.Handler.class, EquipBaseKitPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(StartPromptPacket.Handler.class, StartPromptPacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(RequestProfilePacket.Handler.class, RequestProfilePacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(OpenProfilePacket.Handler.class, OpenProfilePacket.class, packetId++, Side.CLIENT);
+        networkWrapperInstance.registerMessage(RequestLeaderboardsPacket.Handler.class, RequestLeaderboardsPacket.class, packetId++, Side.SERVER);
+        networkWrapperInstance.registerMessage(OpenLeaderboardsPacket.Handler.class, OpenLeaderboardsPacket.class, packetId++, Side.CLIENT);
     }
 }

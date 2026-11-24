@@ -40,6 +40,11 @@ public class EquipmentManager {
         playerEquipment.clear();
     }
 
+    /** Returns null when the player never selected anything */
+    public PlayerEquipment getEquipment(UUID uuid) {
+        return playerEquipment.get(uuid);
+    }
+
     public static class PlayerEquipment {
         private final Map<EquipmentType, CatalogEntry> equipped = new EnumMap<>(EquipmentType.class);
         /** Kit of the kit-based mode; the rest of the kit's items are not tracked */
@@ -56,6 +61,10 @@ public class EquipmentManager {
 
         public Map<EquipmentType, CatalogEntry> getAll() {
             return equipped;
+        }
+
+        public KitEntry getKit() {
+            return kit;
         }
 
         public void setKit(KitEntry kit) {

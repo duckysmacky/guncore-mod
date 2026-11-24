@@ -18,4 +18,9 @@ public final class TextUtils {
 
         return String.format("%02d:%02d", minutes, seconds);
     }
+
+    /** Long durations like total play time, e.g. "12h 5m" */
+    public static String formatDuration(long secs) {
+        return String.format("%dh %dm", secs / 3600, secs % 3600 / 60);
+    }
 }

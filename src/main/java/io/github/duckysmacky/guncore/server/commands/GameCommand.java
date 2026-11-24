@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.server.commands;
 
 import io.github.duckysmacky.guncore.server.game.GameManager;
+import io.github.duckysmacky.guncore.server.stats.Profiles;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.LoadoutSystem;
@@ -45,8 +46,11 @@ public class GameCommand extends CommandBase {
         "loadout_system",
         "world",
         "scoreboard",
-        "teams"
+        "teams",
+        "stats"
     };
+    /** Subcommands everyone can use, the rest need op */
+    private final static String[] publicSubcommands = {"stats"};
 
     @Override
     public String getName() {
@@ -60,7 +64,16 @@ public class GameCommand extends CommandBase {
 
     @Override
     public int getRequiredPermissionLevel() {
-        return 2; // only ops
+        return 2; // only ops, except for the public subcommands
+    }
+
+    @Override
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+        return true; // checked per subcommand in execute
+    }
+
+    private boolean isAdmin(ICommandSender sender) {
+        return sender.canUseCommand(getRequiredPermissionLevel(), getName());
     }
 
     @Override
@@ -74,7 +87,13 @@ public class GameCommand extends CommandBase {
 
         String subcommand = args[0].toLowerCase();
 
+        if (!isAdmin(sender) && !Arrays.asList(publicSubcommands).contains(subcommand))
+            throw new CommandException("commands.generic.permission");
+
         switch (subcommand) {
+            case "stats":
+                Profiles.show(server, sender, args.length >= 2 ? args[1] : null);
+                break;
             case "start":
                 gameManager.startRound();
                 break;
@@ -158,9 +177,14 @@ public class GameCommand extends CommandBase {
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
         if (args.length == 1)
-            return getListOfStringsMatchingLastWord(args, subcommands);
+            return getListOfStringsMatchingLastWord(args, isAdmin(sender) ? subcommands : publicSubcommands);
 
         String subcommand = args[0].toLowerCase();
+
+        if (subcommand.equals("stats"))
+            return args.length == 2 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : Collections.emptyList();
+
+        if (!isAdmin(sender)) return Collections.emptyList();
 
         if (args.length == 2) {
             switch (subcommand) {

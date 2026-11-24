@@ -7,6 +7,9 @@ import io.github.duckysmacky.guncore.client.gui.menu.StaticMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.SubpageEntry;
+import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.network.packets.RequestProfilePacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Items;
 
 public class MainMenuPage extends StaticMenu {
@@ -24,7 +27,7 @@ public class MainMenuPage extends StaticMenu {
                 boolean buildAClass = ClientGameInfo.instance().getEquipmentMode() == EquipmentMode.BUILDER;
                 (buildAClass ? buildEquipmentPage : kitEquipmentPage).open(player);
             }
-        ), 1, 1);
+        ), 1, 0);
 
         addEntry(new SubpageEntry(
             new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.COMPASS))
@@ -32,7 +35,15 @@ public class MainMenuPage extends StaticMenu {
                 .addLoreLine("&7Choose a location to fight in")
                 .getItemStack(),
             new MapsMenuPage(this)
-        ), 1, 3);
+        ), 1, 2);
+
+        addEntry(new ActionEntry(
+            () -> ProfileMenuPage.playerHead(Minecraft.getMinecraft().getSession().getUsername())
+                .setName("&f&lProfile")
+                .addLoreLine("&7Your stats and favorite loadouts")
+                .getItemStack(),
+            player -> PacketHandler.instance().sendToServer(new RequestProfilePacket())
+        ), 1, 4);
 
         addEntry(new SubpageEntry(
             new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.CLOCK))
@@ -40,7 +51,7 @@ public class MainMenuPage extends StaticMenu {
                 .addLoreLine("&7Set the game modes, join teams and other")
                 .getItemStack(),
             new GameMenuPage(this)
-        ), 1, 5);
+        ), 1, 6);
 
         addEntry(new SubpageEntry(
             new ItemStackCustomizer(new net.minecraft.item.ItemStack(Items.COMPARATOR))
@@ -48,6 +59,6 @@ public class MainMenuPage extends StaticMenu {
                 .addLoreLine("&7Adjust different settings")
                 .getItemStack(),
             new SettingsMenuPage(this)
-        ), 1, 7);
+        ), 1, 8);
     }
 }

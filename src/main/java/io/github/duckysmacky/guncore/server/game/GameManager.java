@@ -8,6 +8,7 @@ import io.github.duckysmacky.guncore.common.game.*;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
+import io.github.duckysmacky.guncore.server.stats.StatsDatabase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -30,6 +31,8 @@ public class GameManager {
     private static GameManager instance;
     private final Map<UUID, PlayerStats> playerStats;
     private final Map<Team, List<UUID>> teams;
+    /** What each player started the current round with; only these selections count towards favorites */
+    private final Map<UUID, List<StatsDatabase.Selection>> roundLoadouts = new HashMap<>();
     private GameState state;
     private int roundDurationSec;
 
@@ -168,6 +171,8 @@ public class GameManager {
                     p.setLives(getStartingLives());
             });
 
+            snapshotLoadouts();
+
             if (getGameMode() != GameMode.FFA) {
                 teams.get(Team.NONE).forEach(p -> {
                     ServerBroadcaster.warning(String.format("&7Player &f&l%s &7didn't join any team!", playerStats.get(p).getUsername()));
@@ -201,6 +206,7 @@ public class GameManager {
         state = GameState.NOT_STARTED;
         roundDurationSec = 0;
         playerStats.values().forEach(PlayerStats::resetStats);
+        roundLoadouts.clear(); // aborted rounds aren't recorded
         ServerBroadcaster.message("&c&lRound reset");
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_BASS, 1f, 1f);
     }
@@ -208,10 +214,11 @@ public class GameManager {
     public void endRound() {
         if (state == GameState.RUNNING || state == GameState.PAUSED) {
             state = GameState.ENDED;
+            int duration = roundDurationSec;
             roundDurationSec = 0;
             ServerBroadcaster.message("&a&lRound ended");
             ServerSoundPlayer.playForAll(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
-            determineWinner();
+            recordRound(determineWinner(), duration);
         } else {
             ServerBroadcaster.error("&7There is no round in progress!");
             ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
@@ -259,8 +266,7 @@ public class GameManager {
     public void onPlayerKill(EntityPlayer killer, EntityPlayer victim) {
         if (state != GameState.RUNNING) return;
 
-        PlayerStats killerStats = getStats(killer);
-        killerStats.setKills(killerStats.getKills() + 1);
+        getStats(killer).registerKill();
 
         // a player kill always costs the victim a life, regardless of the kill-only life loss setting
         registerDeath(victim, true);
@@ -658,7 +664,8 @@ public class GameManager {
         }
     }
 
-    private void determineWinner() {
+    /** Announces the winner and returns the winning players */
+    private Set<UUID> determineWinner() {
         switch (getGameMode()) {
             case FFA: {
                 PlayerStats topPlayer = pickFfaWinner();
@@ -671,7 +678,10 @@ public class GameManager {
                     ServerBroadcaster.message("&7yall suck");
                 }
 
-                break;
+                return playerStats.entrySet().stream()
+                    .filter(e -> e.getValue() == topPlayer)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toSet());
             }
             default: {
                 Team topTeam = pickTeamWinner();
@@ -679,9 +689,61 @@ public class GameManager {
                 ServerBroadcaster.message(String.format("&6&lWinning team: %s%s Team", topTeam.color, topTeam.display));
                 printTeams();
 
-                break;
+                return topTeam == Team.NONE ? Collections.emptySet() : new HashSet<>(teams.get(topTeam));
             }
         }
+    }
+
+    private void snapshotLoadouts() {
+        roundLoadouts.clear();
+        boolean kits = getEquipmentMode() == EquipmentMode.KITS;
+        String mode = getGameMode().display;
+
+        // online players only: playerStats keeps everyone who joined since the server started
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers().forEach(player -> {
+            UUID uuid = player.getUniqueID();
+            List<StatsDatabase.Selection> selections = new ArrayList<>();
+            selections.add(new StatsDatabase.Selection(UsageCategory.GAME_MODE, mode));
+
+            EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(uuid);
+            if (equipment != null) {
+                if (kits && equipment.getKit() != null)
+                    selections.add(new StatsDatabase.Selection(UsageCategory.KIT, equipment.getKit().getName()));
+
+                equipment.getAll().forEach((type, entry) -> {
+                    // leftovers from the other equipment mode stay in the map until replaced
+                    boolean usedInMode = !kits || type == EquipmentType.MAIN_WEAPON
+                        || type == EquipmentType.SECONDARY_WEAPON || type == EquipmentType.GADGET;
+                    if (usedInMode)
+                        selections.add(new StatsDatabase.Selection(UsageCategory.of(type), entry.getName()));
+                });
+            }
+
+            roundLoadouts.put(uuid, selections);
+        });
+    }
+
+    private void recordRound(Set<UUID> winners, int durationSec) {
+        UUID mvp = playerStats.entrySet().stream()
+            .filter(e -> e.getValue().getKills() > 0)
+            .min(Map.Entry.comparingByValue(PlayerStats.RANKING))
+            .map(Map.Entry::getKey)
+            .orElse(null);
+
+        List<StatsDatabase.RoundResult> results = new ArrayList<>();
+        playerStats.forEach((uuid, stats) -> {
+            // players who joined mid-round only count if they actually fought
+            if (!roundLoadouts.containsKey(uuid) && stats.getKills() + stats.getDeaths() == 0) return;
+
+            results.add(new StatsDatabase.RoundResult(
+                uuid, stats.getUsername(), stats.getKills(), stats.getDeaths(), stats.getBestStreak(),
+                winners.contains(uuid), uuid.equals(mvp), durationSec,
+                roundLoadouts.getOrDefault(uuid, Collections.emptyList())
+            ));
+        });
+
+        roundLoadouts.clear();
+        StatsDatabase.instance().recordRound(results);
     }
 
     private PlayerStats pickFfaWinner() {

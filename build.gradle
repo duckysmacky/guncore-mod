@@ -48,8 +48,21 @@ minecraft {
     }
 }
 
+configurations {
+    // libraries shaded into the mod jar, since Minecraft doesn't ship them
+    embed
+    implementation.extendsFrom embed
+}
+
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
+
+    // last version without the slf4j dependency (not available in 1.12.2); not relocated, since its JNI natives bind by class name
+    embed 'org.xerial:sqlite-jdbc:3.41.2.2'
 }
 
 jar {
@@ -64,6 +77,9 @@ jar {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+
+    from { configurations.embed.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/maven/**'
 }
 
 // remap MCP (dev) names like getMinecraft() to SRG (production) names like func_71410_x(), otherwise the jar crashes outside of dev

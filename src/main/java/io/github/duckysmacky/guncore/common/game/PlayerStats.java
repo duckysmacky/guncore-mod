@@ -13,6 +13,9 @@ public class PlayerStats {
     private int kills;
     private int deaths;
     private int lives;
+    // server only, not synced to clients
+    private int currentStreak;
+    private int bestStreak;
 
     public PlayerStats(String username) {
         this.username = username;
@@ -32,10 +35,23 @@ public class PlayerStats {
         this.kills = 0;
         this.deaths = 0;
         this.lives = 0;
+        this.currentStreak = 0;
+        this.bestStreak = 0;
+    }
+
+    public void registerKill() {
+        kills++;
+        currentStreak++;
+        bestStreak = Math.max(bestStreak, currentStreak);
     }
 
     public void registerDeath() {
         deaths++;
+        currentStreak = 0;
+    }
+
+    public int getBestStreak() {
+        return bestStreak;
     }
 
     public void loseLife() {

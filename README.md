@@ -53,10 +53,25 @@ Guncore calls their commands/items by ID, so any compatible replacement mod woul
 - `/game item_pickup <true|false>` - toggles whether players can pick up items (default `true`; useful when other mods still drop items)
 - `/game spawnpoint [player]` / `/game spawnpoint_all` - sets spawnpoint, survival mode, and bedrock under the target(s)
 - `/game scoreboard` / `/game teams` - prints current stats/team rosters
+- `/game stats [player]` - opens the profile of yourself or another player (online or offline); the console gets a chat printout. The only `/game` subcommand available to non-ops
 
 Run `/guncore help` in-game for the full up-to-date list.
 
 Items handed out by the equipment menu (guns, ammo, build-a-class items, armor; not CSG kit contents) can't be dropped while a round isn't running. During a round they can be thrown out.
+
+## Player profiles
+
+Every player has a persistent profile, opened from the player head in the middle of the main menu or with `/game stats`. It shows:
+
+- **Stats** - games played, wins, losses, win rate, kills, deaths, K/D
+- **Records** - most kills in a round, best kill streak, times MVP (top player of a round), time played, average kills per round
+- **Favorites** - top 5 game modes, kits, weapons (primary and secondary), lethals, tacticals, gadgets, utility, consumables and armor
+
+Stats are saved only when a round **ends** (`/game end` or a win condition), never on `/game reset`. Favorites count the equipment a player had selected when the round **started**, so browsing items before the round doesn't count. In team modes everyone on the winning team gets a win; players on no team and everyone else get a loss.
+
+The gold block on the profile page opens the **global stats** menu: one button per stat and record showing the top 10 players on the server, plus the 10 most picked kits, weapons, game modes and equipment across all players. Win rate, K/D and average kills per round only rank players with at least 5 games.
+
+Profiles are stored in a SQLite database at `config/guncore/stats.db`, created on the first server start (the SQLite driver is bundled in the mod jar). Favorites are keyed by the catalog entry `name`, so renaming an entry starts a new count. Delete the file to reset all stats.
 
 ## Configuration
 
@@ -65,6 +80,7 @@ All config lives **server-side** only, under the server's Forge config directory
 ```
 config/guncore/
 ├── settings.json           # game / world / equipment settings (also edited in-game)
+├── stats.db                # player profiles (SQLite, written by the mod, see "Player profiles")
 ├── menus/
 │   ├── gun_categories.json     # weapon categories shown in the weapon menus
 │   ├── kit_classes.json        # kit classes shown in the kits menu
