@@ -398,6 +398,21 @@ public class GameManager {
         }
     }
 
+    /**
+     * Chat prompts for the per-gamemode values; they edit the values of the game mode selected when they start
+     */
+    public static void registerPrompts() {
+        for (GameValue value : GameValue.values()) {
+            ChatPrompt.register(value.promptId(), player -> {
+                GameMode mode = instance().getGameMode();
+                return ChatPrompt.integer(
+                    String.format("Enter the new %s for %s (%s)", value.display.toLowerCase(), mode.display, value.unit),
+                    1, 9999, amount -> instance().setGameValue(mode, value, amount)
+                );
+            });
+        }
+    }
+
     public void setGameValue(GameMode mode, GameValue value, int amount) {
         Settings.GameModeSettings config = settings().game.configFor(mode);
         int stored = amount * value.factor;

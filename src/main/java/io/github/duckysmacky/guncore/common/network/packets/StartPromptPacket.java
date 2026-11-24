@@ -1,44 +1,44 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
-import io.github.duckysmacky.guncore.common.game.GameValue;
-import io.github.duckysmacky.guncore.server.game.ValuePrompt;
+import io.github.duckysmacky.guncore.server.game.ChatPrompt;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * Asks the server to prompt the sender in chat for a new value of a game setting
+ * Asks the server to start the chat prompt registered under the given id for the sender
  */
-public class EditGameValuePacket implements IMessage {
-    private GameValue value;
+public class StartPromptPacket implements IMessage {
+    private String promptId;
 
-    public EditGameValuePacket() {}
+    public StartPromptPacket() {}
 
-    public EditGameValuePacket(GameValue value) {
-        this.value = value;
+    public StartPromptPacket(String promptId) {
+        this.promptId = promptId;
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        value = GameValue.values()[buf.readInt()];
+        promptId = ByteBufUtils.readUTF8String(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(value.ordinal());
+        ByteBufUtils.writeUTF8String(buf, promptId);
     }
 
-    public static class Handler implements IMessageHandler<EditGameValuePacket, IMessage> {
+    public static class Handler implements IMessageHandler<StartPromptPacket, IMessage> {
         @Override
-        public IMessage onMessage(EditGameValuePacket message, MessageContext context) {
+        public IMessage onMessage(StartPromptPacket message, MessageContext context) {
             if (context.side == Side.SERVER) {
                 EntityPlayerMP player = context.getServerHandler().player;
                 FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(
-                    () -> ValuePrompt.start(player, message.value)
+                    () -> ChatPrompt.start(player, message.promptId)
                 );
             }
             return null;

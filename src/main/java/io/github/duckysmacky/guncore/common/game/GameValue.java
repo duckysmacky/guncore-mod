@@ -13,6 +13,11 @@ public enum GameValue {
     /** How many stored units one entered unit is worth */
     public final int factor;
 
+    /** Id of the chat prompt which edits this value, see GameManager.registerPrompts */
+    public String promptId() {
+        return "game_value." + name().toLowerCase();
+    }
+
     GameValue(String display, String unit, int factor) {
         this.display = display;
         this.unit = unit;

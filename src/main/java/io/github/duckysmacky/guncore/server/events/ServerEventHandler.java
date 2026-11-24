@@ -4,7 +4,7 @@ import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.RefreshMenuPacket;
 import io.github.duckysmacky.guncore.server.game.GameManager;
-import io.github.duckysmacky.guncore.server.game.ValuePrompt;
+import io.github.duckysmacky.guncore.server.game.ChatPrompt;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -32,12 +32,12 @@ public class ServerEventHandler {
 
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        if (event.player instanceof EntityPlayerMP) ValuePrompt.clear((EntityPlayerMP) event.player);
+        if (event.player instanceof EntityPlayerMP) ChatPrompt.clear((EntityPlayerMP) event.player);
     }
 
     @SubscribeEvent
     public void onChat(ServerChatEvent event) {
-        if (ValuePrompt.handleChat(event.getPlayer(), event.getMessage())) event.setCanceled(true);
+        if (ChatPrompt.handleChat(event.getPlayer(), event.getMessage())) event.setCanceled(true);
     }
 
     @SubscribeEvent

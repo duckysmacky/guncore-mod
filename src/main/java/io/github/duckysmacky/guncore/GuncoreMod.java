@@ -66,5 +66,6 @@ public class GuncoreMod {
 
         ConfigManager.instance().load();
         GameManager.applyWorldSettings(event.getServer());
+        GameManager.registerPrompts();
     }
 }
