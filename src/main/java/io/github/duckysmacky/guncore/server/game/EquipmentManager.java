@@ -1,6 +1,9 @@
 package io.github.duckysmacky.guncore.server.game;
 
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.EquippableEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
+import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -8,6 +11,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.ToIntFunction;
 
 public class EquipmentManager {
     private static EquipmentManager instance;
@@ -31,8 +35,15 @@ public class EquipmentManager {
         return playerEquipment.computeIfAbsent(uuid, u -> new PlayerEquipment());
     }
 
+    /** Forgets every player's selected equipment, items in inventories stay */
+    public void clearAll() {
+        playerEquipment.clear();
+    }
+
     public static class PlayerEquipment {
         private final Map<EquipmentType, CatalogEntry> equipped = new EnumMap<>(EquipmentType.class);
+        /** Kit of the kit-based mode; the rest of the kit's items are not tracked */
+        private KitEntry kit;
 
         public void set(EquipmentType type, CatalogEntry entry) {
             equipped.put(type, entry);
@@ -47,8 +58,21 @@ public class EquipmentManager {
             return equipped;
         }
 
+        public void setKit(KitEntry kit) {
+            this.kit = kit;
+        }
+
         public void clear() {
             equipped.clear();
+            kit = null;
+        }
+
+        /** Total rarity score of the kit and everything selected */
+        public int rarityScore(ToIntFunction<Rarity> cost) {
+            int score = kit != null ? cost.applyAsInt(kit.getRarity()) : 0;
+            for (CatalogEntry entry : equipped.values())
+                score += cost.applyAsInt(((EquippableEntry) entry).getRarity());
+            return score;
         }
     }
 }

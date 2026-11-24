@@ -2,7 +2,7 @@ package io.github.duckysmacky.guncore.common.config.catalog;
 
 import net.minecraft.item.ItemStack;
 
-/** Catalog entry which can be picked in a build-a-class slot menu */
+/** Catalog entry which can be picked for an equipment slot */
 public interface EquippableEntry {
     String getName();
 

@@ -1,15 +1,24 @@
 package io.github.duckysmacky.guncore.client.game;
 
+import io.github.duckysmacky.guncore.common.config.Settings;
+import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.GameState;
+import io.github.duckysmacky.guncore.common.game.LoadoutSystem;
 import io.github.duckysmacky.guncore.common.game.PlayerStats;
 import io.github.duckysmacky.guncore.common.game.Team;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraftforge.common.util.Constants;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.ToIntFunction;
@@ -26,6 +35,11 @@ public final class ClientGameInfo {
     private int startingLives;
     private boolean killOnlyLifeLoss = true;
     private boolean itemPickup = true;
+    private boolean mythicsEnabled = true;
+    private LoadoutSystem loadoutSystem = LoadoutSystem.FLEXIBLE;
+    private String rarityPresetName = Settings.DEFAULT_RARITY_PRESET;
+    private List<String> rarityPresetNames = Collections.emptyList();
+    private Settings.RarityPreset rarityPreset = Settings.createDefault().equipment.selectedPreset();
     private Map<String, Boolean> gamerules = Collections.emptyMap();
     private Map<UUID, PlayerStats> playerStats;
     private Map<UUID, Team> playerTeams;
@@ -57,6 +71,11 @@ public final class ClientGameInfo {
         int startingLives,
         boolean killOnlyLifeLoss,
         boolean itemPickup,
+        boolean mythicsEnabled,
+        LoadoutSystem loadoutSystem,
+        String rarityPresetName,
+        List<String> rarityPresetNames,
+        Settings.RarityPreset rarityPreset,
         Map<String, Boolean> gamerules,
         Map<UUID, PlayerStats> playerStats,
         Map<UUID, Team> playerTeams
@@ -71,6 +90,11 @@ public final class ClientGameInfo {
         this.startingLives = startingLives;
         this.killOnlyLifeLoss = killOnlyLifeLoss;
         this.itemPickup = itemPickup;
+        this.mythicsEnabled = mythicsEnabled;
+        this.loadoutSystem = loadoutSystem;
+        this.rarityPresetName = rarityPresetName;
+        this.rarityPresetNames = rarityPresetNames;
+        this.rarityPreset = rarityPreset;
         this.gamerules = gamerules;
         this.playerStats = playerStats;
         this.playerTeams = playerTeams;
@@ -190,6 +214,44 @@ public final class ClientGameInfo {
 
     public boolean isItemPickup() {
         return itemPickup;
+    }
+
+    public boolean isMythicsEnabled() {
+        return mythicsEnabled;
+    }
+
+    /** Whether items of this rarity can be selected; mythics can be disabled */
+    public boolean isAllowed(Rarity rarity) {
+        return mythicsEnabled || rarity != Rarity.MYTHIC;
+    }
+
+    /** Adds the rarity score below the icon's rarity line (its last lore line) while the Rarity Score system is used */
+    public ItemStack withRarityScore(ItemStack icon, Rarity rarity) {
+        if (loadoutSystem != LoadoutSystem.RARITY_SCORE)
+            return icon;
+
+        NBTTagCompound display = icon.getOrCreateSubCompound("display");
+        NBTTagList lore = display.getTagList("Lore", Constants.NBT.TAG_STRING);
+        lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Rarity Score: " + TextFormatting.WHITE + rarityPreset.scoreOf(rarity)));
+        display.setTag("Lore", lore);
+        return icon;
+    }
+
+    public LoadoutSystem getLoadoutSystem() {
+        return loadoutSystem;
+    }
+
+    public String getRarityPresetName() {
+        return rarityPresetName;
+    }
+
+    public List<String> getRarityPresetNames() {
+        return rarityPresetNames;
+    }
+
+    /** Values of the selected rarity preset */
+    public Settings.RarityPreset getRarityPreset() {
+        return rarityPreset;
     }
 
     public boolean getGamerule(String rule) {

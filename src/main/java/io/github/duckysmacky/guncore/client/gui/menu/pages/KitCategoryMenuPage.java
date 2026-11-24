@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
+import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.SubpageEntry;
@@ -25,6 +26,7 @@ public class KitCategoryMenuPage extends DynamicMenu {
             int before = shownKits.size();
             kits.stream()
                 .filter(kit -> kit.getKitClass().equals(kitClass.getId()))
+                .filter(kit -> ClientGameInfo.instance().isAllowed(kit.getRarity()))
                 .forEach(shownKits::add);
             if (shownKits.size() == before) continue;
 

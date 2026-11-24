@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
+import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.menus.MenuSectionEntry;
@@ -24,6 +25,7 @@ public class GunsMenuPage extends DynamicMenu {
 
         List<GunEntry> guns = ConfigManager.instance().getCatalogManager().<GunEntry>getCatalog(secondary ? CatalogType.SECONDARY_WEAPONS : CatalogType.PRIMARY_WEAPONS).stream()
             .filter(gun -> gun.getCategory().equals(gunCategory.getId()))
+            .filter(gun -> ClientGameInfo.instance().isAllowed(gun.getRarity()))
             .sorted(Comparator.comparingInt(gun -> gun.getRarity().sortOrder))
             .collect(Collectors.toList());
 
@@ -31,7 +33,7 @@ public class GunsMenuPage extends DynamicMenu {
             equip(player, secondary, gun);
             open(player);
         };
-        guns.forEach(gun -> addEntry(new ActionEntry(gun.getGunItemStack(), player -> select.accept(player, gun))));
+        guns.forEach(gun -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(gun.getGunItemStack(), gun.getRarity()), player -> select.accept(player, gun))));
         setRandomEntry("&7Select a random weapon from this category", guns, select);
     }
 

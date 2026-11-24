@@ -1,7 +1,10 @@
 package io.github.duckysmacky.guncore.server.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
+import io.github.duckysmacky.guncore.common.config.Settings;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.EquippableEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.config.catalog.armor.ArmorEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.items.ItemEntry;
@@ -9,6 +12,7 @@ import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
+import io.github.duckysmacky.guncore.common.game.LoadoutSystem;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -63,13 +67,60 @@ public final class EquipmentController {
         return stack.hasTagCompound() && stack.getTagCompound().getBoolean(EQUIPPED_TAG);
     }
 
+    /**
+     * Rejects picks the rarity rules don't allow
+     *
+     * @param slot slot the pick replaces, null for a kit (replaces the whole loadout)
+     */
+    private static boolean isDenied(EntityPlayerMP player, EquipmentType slot, Rarity rarity) {
+        GameManager game = GameManager.instance();
+
+        if (rarity == Rarity.MYTHIC && !game.isMythicsEnabled()) {
+            send(player, "&cMythic items are disabled");
+            return true;
+        }
+
+        if (game.getLoadoutSystem() != LoadoutSystem.RARITY_SCORE) return false;
+
+        Settings.RarityPreset preset = game.getRarityPreset();
+        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
+
+        int rest = 0;
+        if (slot != null) {
+            EquippableEntry replaced = equipment.get(slot);
+            rest = equipment.rarityScore(preset::scoreOf) - (replaced != null ? preset.scoreOf(replaced.getRarity()) : 0);
+        }
+
+        int total = rest + preset.scoreOf(rarity);
+        int max = preset.maxFor(game.getEquipmentMode());
+        if (total <= max) return false;
+
+        send(player, String.format("&cOver the rarity score limit: %d/%d", total, max));
+        return true;
+    }
+
+    private static void reportRarityScore(EntityPlayerMP player) {
+        GameManager game = GameManager.instance();
+        if (game.getLoadoutSystem() != LoadoutSystem.RARITY_SCORE) return;
+
+        Settings.RarityPreset preset = game.getRarityPreset();
+        int score = EquipmentManager.instance().getEquipment(player).rarityScore(preset::scoreOf);
+        send(player, String.format("&7Loadout rarity score: &f%d&7/&f%d", score, preset.maxFor(game.getEquipmentMode())));
+    }
+
+    private static void send(EntityPlayerMP player, String message) {
+        player.sendMessage(new TextComponentString(TextUtils.translateColorCodes(message)));
+    }
+
     // Weapons (both modes)
 
     public static void equipGun(EntityPlayerMP player, GunEntry gun, boolean secondary) {
-        if (isLocked(player)) return;
+        EquipmentType type = secondary ? EquipmentType.SECONDARY_WEAPON : EquipmentType.MAIN_WEAPON;
+        if (isLocked(player) || isDenied(player, type, gun.getRarity())) return;
 
-        giveGun(player, secondary ? EquipmentType.SECONDARY_WEAPON : EquipmentType.MAIN_WEAPON, gun);
+        giveGun(player, type, gun);
         syncInventory(player);
+        reportRarityScore(player);
     }
 
     private static void giveGun(EntityPlayerMP player, EquipmentType type, GunEntry gun) {
@@ -101,19 +152,22 @@ public final class EquipmentController {
     // Items (kit-based gadget and build-a-class item slots)
 
     public static void equipGadget(EntityPlayerMP player, ItemEntry gadget) {
-        if (isLocked(player) || isWrongMode(player, EquipmentMode.KITS)) return;
+        if (isLocked(player) || isWrongMode(player, EquipmentMode.KITS) || isDenied(player, EquipmentType.GADGET, gadget.getRarity())) return;
 
         giveItem(player, EquipmentType.GADGET, gadget);
         syncInventory(player);
+        reportRarityScore(player);
     }
 
     public static void equipBuildItem(EntityPlayerMP player, EquipmentType type, CatalogEntry entry) {
         if (isLocked(player) || isWrongMode(player, EquipmentMode.BUILDER)) return;
+        if (isDenied(player, type, ((EquippableEntry) entry).getRarity())) return;
 
         if (entry instanceof ArmorEntry) giveArmor(player, (ArmorEntry) entry);
         else giveItem(player, type, (ItemEntry) entry);
 
         syncInventory(player);
+        reportRarityScore(player);
     }
 
     private static void giveItem(EntityPlayerMP player, EquipmentType type, ItemEntry item) {
@@ -158,13 +212,16 @@ public final class EquipmentController {
     // Kits
 
     public static void equipKit(EntityPlayerMP player, KitEntry kit) {
-        if (isLocked(player) || isWrongMode(player, EquipmentMode.KITS)) return;
+        if (isLocked(player) || isWrongMode(player, EquipmentMode.KITS) || isDenied(player, null, kit.getRarity())) return;
 
         String command = String.format("csg_kit give %s %s", kit.getKitId(), player.getName());
         CommandExecutor.execute(command);
 
-        EquipmentManager.instance().getEquipment(player).clear(); // kit replaces the whole inventory
+        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
+        equipment.clear(); // kit replaces the whole inventory
+        equipment.setKit(kit);
         syncInventory(player);
+        reportRarityScore(player);
     }
 
     /** Resets the inventory to the base kit, then gives back everything that was selected before */

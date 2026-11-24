@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
+import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.menus.MenuSectionEntry;
@@ -24,6 +25,7 @@ public class KitsMenuPage extends DynamicMenu {
 
         List<KitEntry> kits = ConfigManager.instance().getCatalogManager().<KitEntry>getCatalog(CatalogType.KITS).stream()
             .filter(kit -> kit.getKitClass().equals(kitClass.getId()))
+            .filter(kit -> ClientGameInfo.instance().isAllowed(kit.getRarity()))
             .sorted(Comparator.comparingInt(kit -> kit.getTier().sortOrder))
             .collect(Collectors.toList());
 
@@ -31,7 +33,7 @@ public class KitsMenuPage extends DynamicMenu {
             equip(player, kit);
             open(player);
         };
-        kits.forEach(kit -> addEntry(new ActionEntry(kit.getIconItem(), player -> select.accept(player, kit))));
+        kits.forEach(kit -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(kit.getIconItem(), kit.getRarity()), player -> select.accept(player, kit))));
         setRandomEntry("&7Select a random kit from this class", kits, select);
     }
 

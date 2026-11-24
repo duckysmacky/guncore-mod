@@ -46,6 +46,8 @@ Guncore calls their commands/items by ID, so any compatible replacement mod woul
 - `/game mode <ffa|tdm|hostage>` / `/game mode_variant <time|lives|kills>` - sets gamemode and win condition
 - `/game kills|lives|deaths <add|remove|set> <player> <amount>` - edits player stats
 - `/game equipment <kits|builder>` - switches the equipment selection system (default `builder`; global, saved in `settings.json`, can't be changed during a round)
+- `/game loadout_system <flexible|rarity_score>` - switches how loadouts are limited (default `flexible`, see [Rarity Score system](#rarity-score-system))
+- `/game mythics <true|false>` - enables or disables mythic items and kits (default enabled); disabled mythics are hidden from the menus and can't be equipped
 - `/game world <gamerule> <true|false>` - sets a world gamerule from `world.gamerules` (saved to `settings.json`); `/game world setup` resets them to defaults and applies them
 - `/game kill_only_lives <true|false>` - toggles whether only player-caused kills cost a life (vs. all deaths)
 - `/game item_pickup <true|false>` - toggles whether players can pick up items (default `true`; useful when other mods still drop items)
@@ -90,6 +92,9 @@ Created with defaults on first start and rewritten whenever a setting is changed
 - `game.mode` (`FFA`, `TDM`, `HOSTAGE`), `game.variant` (`TIME`, `LIVES`, `KILLS`) and `game.killOnlyLifeLoss` - the current game mode, win condition and life loss rule.
 - `game.ffa` / `game.tdm` / `game.hostage` - per-gamemode `roundLengthSec`, `startingLives`, `killTarget`. Editable in the file or in-game: click the value in Menu -> Settings -> Game and type the new number in chat (round time in minutes; send `cancel` to abort).
 - `equipment.mode` (`kits` or `builder`) - updated by `/game equipment`.
+- `equipment.mythicsEnabled` - whether mythic items and kits can be selected, updated by `/game mythics`.
+- `equipment.loadoutSystem` (`flexible` or `rarity_score`) - updated by `/game loadout_system`.
+- `equipment.rarityPreset` / `equipment.rarityPresets` - the selected and all available rarity score presets, see [Rarity Score system](#rarity-score-system).
 - `world.itemPickup` - whether players can pick up items (`true` by default).
 - `world.gamerules` - gamerules (`true`/`false`). Applied to the world on server start and on `/guncore config_reload`. `keepInventory` is always forced to `true` and is not configurable.
 
@@ -114,7 +119,26 @@ Created with defaults on first start and rewritten whenever a setting is changed
       "doMobSpawning": false
     }
   },
-  "equipment": { "mode": "builder" }
+  "equipment": {
+    "mode": "builder",
+    "mythicsEnabled": true,
+    "loadoutSystem": "flexible",
+    "rarityPreset": "balanced",
+    "rarityPresets": {
+      "tight": {
+        "scores": { "common": 0, "uncommon": 1, "rare": 3, "epic": 6, "legendary": 10, "mythic": 25 },
+        "maxScore": { "kits": 25, "builder": 30 }
+      },
+      "balanced": {
+        "scores": { "common": 0, "uncommon": 1, "rare": 2, "epic": 5, "legendary": 8, "mythic": 20 },
+        "maxScore": { "kits": 20, "builder": 24 }
+      },
+      "loose": {
+        "scores": { "common": 0, "uncommon": 1, "rare": 2, "epic": 3, "legendary": 5, "mythic": 20 },
+        "maxScore": { "kits": 24, "builder": 32 }
+      }
+    }
+  }
 }
 ```
 
@@ -213,3 +237,21 @@ Switch with `/game equipment <kits|builder>` (ops, not during a round). `/menu` 
 - **builder** (default): pick every slot yourself - primary weapon, secondary weapon, lethal, tactical, gadget, two utilities, consumable and an armor set. Hotbar slots 1-8 hold the main items (extras sit above them), so the CSG `base` kit - given by the "Get base items" button, which resets the inventory and then gives back your selection - must only use slots `0:8`, `0:17`, `0:26` and `0:35`. Mythic weapons are meant to need both "Mythic Weapon Voucher" items (one from gadgets, one from utility), this is not enforced by the mod.
 
 Equipment can't be changed while a round is running (paused and not-started rounds are fine).
+
+### Rarity Score system
+
+With `/game loadout_system rarity_score` every pick costs points by its rarity, and a loadout can't go over the max score of the active equipment mode. Picks that would go over it are denied, and each accepted pick shows the loadout's score in chat. With `flexible` (default) there are no limits. Turning mythics off (`/game mythics false`) works with both systems.
+
+- **Kit-based**: the kit, both weapons and the kit gadget count. Picking a kit resets the score to the kit's own cost, since the kit replaces the whole inventory.
+- **Build-a-class**: every slot counts; replacing a slot only counts the new item.
+- Kits count by tier: basic = common, advanced = uncommon, complex = rare, professional = epic, forbidden = legendary, special = mythic.
+
+Scores come from the selected preset in `equipment.rarityPresets`. The built-in presets keep one mythic per loadout (two mythics always go over the max):
+
+| Preset | Uncommon | Rare | Epic | Legendary | Mythic | Max (kits / builder) |
+|---|---|---|---|---|---|---|
+| `tight` | 1 | 3 | 6 | 10 | 25 | 25 / 30 |
+| `balanced` (default) | 1 | 2 | 5 | 8 | 20 | 20 / 24 |
+| `loose` | 1 | 2 | 3 | 5 | 20 | 24 / 32 |
+
+Common items cost 0 in every built-in preset. Menu -> Settings -> Equipment selects a preset by name and edits the scores and max scores of the selected preset in chat. To add a preset, add an entry to `equipment.rarityPresets` in `settings.json` and run `/guncore config_reload`; values left out are taken from the built-in preset of the same name, or from `balanced`. Removed built-in presets are not added back.

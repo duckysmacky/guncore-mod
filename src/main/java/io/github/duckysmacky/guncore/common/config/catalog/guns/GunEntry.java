@@ -1,6 +1,7 @@
 package io.github.duckysmacky.guncore.common.config.catalog.guns;
 
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.EquippableEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.util.ItemFinder;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class GunEntry extends CatalogEntry {
+public class GunEntry extends CatalogEntry implements EquippableEntry {
     private final String category;
     private final Rarity rarity;
     private final String gunItemId;
@@ -64,7 +65,7 @@ public class GunEntry extends CatalogEntry {
 
         NBTTagCompound displayTag = new NBTTagCompound();
 
-        String coloredName = TextFormatting.WHITE + "" + TextFormatting.BOLD + name;
+        String coloredName = rarity.color + "" + TextFormatting.BOLD + name;
         displayTag.setString("Name", coloredName);
 
         NBTTagList loreList = new NBTTagList();
@@ -112,7 +113,13 @@ public class GunEntry extends CatalogEntry {
         return category;
     }
 
+    @Override
     public Rarity getRarity() {
         return rarity;
+    }
+
+    @Override
+    public ItemStack getIcon() {
+        return getGunItemStack();
     }
 }

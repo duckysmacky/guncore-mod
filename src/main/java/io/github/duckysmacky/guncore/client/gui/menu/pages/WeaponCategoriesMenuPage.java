@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
+import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.SubpageEntry;
@@ -26,6 +27,7 @@ public class WeaponCategoriesMenuPage extends DynamicMenu {
         for (MenuSectionEntry category : ConfigManager.instance().getMenuSectionManager().getSections(MenuSectionType.GUN_CATEGORIES)) {
             List<GunEntry> categoryGuns = guns.stream()
                 .filter(gun -> gun.getCategory().equals(category.getId()))
+                .filter(gun -> ClientGameInfo.instance().isAllowed(gun.getRarity()))
                 .collect(Collectors.toList());
             if (categoryGuns.isEmpty()) continue;
 

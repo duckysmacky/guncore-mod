@@ -3,6 +3,7 @@ package io.github.duckysmacky.guncore.server.commands;
 import io.github.duckysmacky.guncore.server.game.GameManager;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.GameMode;
+import io.github.duckysmacky.guncore.common.game.LoadoutSystem;
 import io.github.duckysmacky.guncore.common.game.PlayerStats;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.command.CommandBase;
@@ -40,6 +41,8 @@ public class GameCommand extends CommandBase {
         "mode",
         "mode_variant",
         "equipment",
+        "mythics",
+        "loadout_system",
         "world",
         "scoreboard",
         "teams"
@@ -131,6 +134,16 @@ public class GameCommand extends CommandBase {
                     throw new CommandException("Usage: /game equipment <kits|builder>");
                 gameManager.setEquipmentMode(parseEquipmentMode(args[1]));
                 break;
+            case "loadout_system":
+                if (args.length < 2)
+                    throw new CommandException("Usage: /game loadout_system <flexible|rarity_score>");
+                gameManager.setLoadoutSystem(parseLoadoutSystem(args[1]));
+                break;
+            case "mythics":
+                if (args.length < 2)
+                    throw new CommandException("Usage: /game mythics <true|false>");
+                gameManager.setMythicsEnabled(parseBoolean(args[1]));
+                break;
             case "scoreboard":
                 gameManager.printGameScoreboard();
                 break;
@@ -153,7 +166,7 @@ public class GameCommand extends CommandBase {
             switch (subcommand) {
                 case "kills": case "lives": case "deaths":
                     return getListOfStringsMatchingLastWord(args, "add", "remove", "set");
-                case "kill_only_lives": case "item_pickup":
+                case "kill_only_lives": case "item_pickup": case "mythics":
                     return getListOfStringsMatchingLastWord(args, "true", "false");
                 case "mode":
                     return getListOfStringsMatchingLastWord(args, lowerNames(GameMode.values()));
@@ -164,6 +177,9 @@ public class GameCommand extends CommandBase {
                 case "equipment":
                     return getListOfStringsMatchingLastWord(args,
                         Arrays.stream(EquipmentMode.values()).map(m -> m.id).collect(Collectors.toList()));
+                case "loadout_system":
+                    return getListOfStringsMatchingLastWord(args,
+                        Arrays.stream(LoadoutSystem.values()).map(s -> s.id).collect(Collectors.toList()));
                 case "spawnpoint": case "register_kill":
                     return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
             }
@@ -312,6 +328,13 @@ public class GameCommand extends CommandBase {
             .filter(m -> m.id.equalsIgnoreCase(s))
             .findFirst()
             .orElseThrow(() -> new CommandException("Invalid equipment mode! Valid: kits, builder"));
+    }
+
+    private LoadoutSystem parseLoadoutSystem(String s) throws CommandException {
+        return Arrays.stream(LoadoutSystem.values())
+            .filter(m -> m.id.equalsIgnoreCase(s))
+            .findFirst()
+            .orElseThrow(() -> new CommandException("Invalid loadout system! Valid: flexible, rarity_score"));
     }
 
     private EntityPlayerMP requireSenderPlayer(ICommandSender sender) throws CommandException {

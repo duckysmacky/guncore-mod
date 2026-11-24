@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
+import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
@@ -25,6 +26,7 @@ public class BuildSelectionMenuPage extends DynamicMenu {
 
         List<EquippableEntry> entries = ConfigManager.instance().getCatalogManager().<CatalogEntry>getCatalog(type.catalog).stream()
             .map(entry -> (EquippableEntry) entry)
+            .filter(entry -> ClientGameInfo.instance().isAllowed(entry.getRarity()))
             .sorted(Comparator.comparingInt(entry -> entry.getRarity().sortOrder))
             .collect(Collectors.toList());
 
@@ -36,7 +38,7 @@ public class BuildSelectionMenuPage extends DynamicMenu {
 
             open(player);
         };
-        entries.forEach(entry -> addEntry(new ActionEntry(entry.getIcon(), player -> select.accept(player, entry))));
+        entries.forEach(entry -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(entry.getIcon(), entry.getRarity()), player -> select.accept(player, entry))));
         setRandomEntry("&7Select a random " + type.display.toLowerCase(), entries, select);
     }
 }

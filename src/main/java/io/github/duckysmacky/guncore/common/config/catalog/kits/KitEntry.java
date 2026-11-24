@@ -2,6 +2,7 @@ package io.github.duckysmacky.guncore.common.config.catalog.kits;
 
 import com.google.gson.annotations.SerializedName;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.util.ItemFinder;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.init.Blocks;
@@ -67,6 +68,10 @@ public class KitEntry extends CatalogEntry {
         return tier;
     }
 
+    public Rarity getRarity() {
+        return tier.rarity;
+    }
+
     public String getKitId() {
         return kitId;
     }
@@ -78,7 +83,7 @@ public class KitEntry extends CatalogEntry {
 
         NBTTagCompound displayTag = new NBTTagCompound();
 
-        String coloredName = TextFormatting.WHITE + "" + TextFormatting.BOLD + name;
+        String coloredName = getRarity().color + "" + TextFormatting.BOLD + name;
         displayTag.setString("Name", coloredName);
 
         NBTTagList loreList = new NBTTagList();
@@ -103,6 +108,9 @@ public class KitEntry extends CatalogEntry {
 
         String tierLine = tier.color + "" + TextFormatting.BOLD + tier.display.toUpperCase() + " TIER";
         loreList.appendTag(new NBTTagString(tierLine));
+
+        String rarityLine = getRarity().color + "" + TextFormatting.BOLD + getRarity().display.toUpperCase();
+        loreList.appendTag(new NBTTagString(rarityLine));
 
         displayTag.setTag("Lore", loreList);
         item.setTagInfo("display", displayTag);

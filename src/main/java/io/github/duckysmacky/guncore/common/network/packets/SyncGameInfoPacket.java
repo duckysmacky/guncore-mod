@@ -1,13 +1,17 @@
 package io.github.duckysmacky.guncore.common.network.packets;
 
 import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
+import io.github.duckysmacky.guncore.common.config.Settings;
+import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.GameState;
+import io.github.duckysmacky.guncore.common.game.LoadoutSystem;
 import io.github.duckysmacky.guncore.common.game.PlayerStats;
 import io.github.duckysmacky.guncore.common.game.Team;
 import io.netty.buffer.ByteBuf;
 import io.github.duckysmacky.guncore.client.gui.menu.MenuGui;
+import io.github.duckysmacky.guncore.client.gui.menu.MenuManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -16,7 +20,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,6 +38,11 @@ public class SyncGameInfoPacket implements IMessage {
     private int startingLives;
     private boolean killOnlyLifeLoss;
     private boolean itemPickup;
+    private boolean mythicsEnabled;
+    private LoadoutSystem loadoutSystem;
+    private String rarityPresetName;
+    private List<String> rarityPresetNames;
+    private Settings.RarityPreset rarityPreset;
     private Map<String, Boolean> gamerules;
     private Map<UUID, PlayerStats> playerStats;
     private Map<UUID, Team> playerTeams;
@@ -48,6 +60,11 @@ public class SyncGameInfoPacket implements IMessage {
         int startingLives,
         boolean killOnlyLifeLoss,
         boolean itemPickup,
+        boolean mythicsEnabled,
+        LoadoutSystem loadoutSystem,
+        String rarityPresetName,
+        List<String> rarityPresetNames,
+        Settings.RarityPreset rarityPreset,
         Map<String, Boolean> gamerules,
         Map<UUID, PlayerStats> playerStats,
         Map<UUID, Team> playerTeams
@@ -62,6 +79,11 @@ public class SyncGameInfoPacket implements IMessage {
         this.startingLives = startingLives;
         this.killOnlyLifeLoss = killOnlyLifeLoss;
         this.itemPickup = itemPickup;
+        this.mythicsEnabled = mythicsEnabled;
+        this.loadoutSystem = loadoutSystem;
+        this.rarityPresetName = rarityPresetName;
+        this.rarityPresetNames = rarityPresetNames;
+        this.rarityPreset = rarityPreset;
         this.gamerules = gamerules;
         this.playerStats = playerStats;
         this.playerTeams = playerTeams;
@@ -79,6 +101,15 @@ public class SyncGameInfoPacket implements IMessage {
         buf.writeInt(startingLives);
         buf.writeBoolean(killOnlyLifeLoss);
         buf.writeBoolean(itemPickup);
+        buf.writeBoolean(mythicsEnabled);
+        buf.writeInt(loadoutSystem.ordinal());
+        ByteBufUtils.writeUTF8String(buf, rarityPresetName);
+        buf.writeInt(rarityPresetNames.size());
+        rarityPresetNames.forEach(name -> ByteBufUtils.writeUTF8String(buf, name));
+        for (Rarity rarity : Rarity.values())
+            buf.writeInt(rarityPreset.scoreOf(rarity));
+        for (EquipmentMode mode : EquipmentMode.values())
+            buf.writeInt(rarityPreset.maxFor(mode));
 
         buf.writeInt(gamerules.size());
         gamerules.forEach((rule, value) -> {
@@ -109,6 +140,20 @@ public class SyncGameInfoPacket implements IMessage {
         startingLives = buf.readInt();
         killOnlyLifeLoss = buf.readBoolean();
         itemPickup = buf.readBoolean();
+        mythicsEnabled = buf.readBoolean();
+        loadoutSystem = LoadoutSystem.values()[buf.readInt()];
+        rarityPresetName = ByteBufUtils.readUTF8String(buf);
+        int presetCount = buf.readInt();
+        rarityPresetNames = new ArrayList<>();
+        for (int i = 0; i < presetCount; i++)
+            rarityPresetNames.add(ByteBufUtils.readUTF8String(buf));
+        int[] scores = new int[Rarity.values().length];
+        for (int i = 0; i < scores.length; i++)
+            scores[i] = buf.readInt();
+        int[] maxScores = new int[EquipmentMode.values().length];
+        for (int i = 0; i < maxScores.length; i++)
+            maxScores[i] = buf.readInt();
+        rarityPreset = Settings.RarityPreset.create(scores, maxScores);
 
         int ruleCount = buf.readInt();
         gamerules = new HashMap<>();
@@ -143,7 +188,13 @@ public class SyncGameInfoPacket implements IMessage {
         public IMessage onMessage(SyncGameInfoPacket message, MessageContext context) {
             if (context.side == Side.CLIENT) {
                 Minecraft.getMinecraft().addScheduledTask(() -> {
-                    ClientGameInfo.instance().update(
+                    ClientGameInfo info = ClientGameInfo.instance();
+                    // menu pages build their entries (filters, score lore) once, so they have to be rebuilt after the update
+                    boolean rebuildMenu = message.mythicsEnabled != info.isMythicsEnabled()
+                        || message.loadoutSystem != info.getLoadoutSystem()
+                        || Arrays.stream(Rarity.values()).anyMatch(r -> message.rarityPreset.scoreOf(r) != info.getRarityPreset().scoreOf(r));
+
+                    info.update(
                         message.gameMode,
                         message.gameModeVariant,
                         message.equipmentMode,
@@ -154,10 +205,18 @@ public class SyncGameInfoPacket implements IMessage {
                         message.startingLives,
                         message.killOnlyLifeLoss,
                         message.itemPickup,
+                        message.mythicsEnabled,
+                        message.loadoutSystem,
+                        message.rarityPresetName,
+                        message.rarityPresetNames,
+                        message.rarityPreset,
                         message.gamerules,
                         message.playerStats,
                         message.playerTeams
                     );
+
+                    if (rebuildMenu)
+                        MenuManager.instance().refreshMenu();
 
                     GuiScreen screen = Minecraft.getMinecraft().currentScreen;
                     if (screen instanceof MenuGui) ((MenuGui) screen).refresh();

@@ -3,6 +3,7 @@ package io.github.duckysmacky.guncore.server.game;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.Settings;
+import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.game.*;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
@@ -247,7 +248,9 @@ public class GameManager {
         SyncGameInfoPacket packet = new SyncGameInfoPacket(
             getGameMode(), getGameModeVariant(), getEquipmentMode(), state, roundDurationSec,
             getRoundLengthSec(), getKillTarget(), getStartingLives(),
-            isKillOnlyLifeLoss(), isItemPickup(), settings().world.gamerules,
+            isKillOnlyLifeLoss(), isItemPickup(), isMythicsEnabled(), getLoadoutSystem(),
+            settings().equipment.rarityPreset, new ArrayList<>(settings().equipment.rarityPresets.keySet()), getRarityPreset(),
+            settings().world.gamerules,
             playerStats, playerTeams
         );
         PacketHandler.instance().sendToAll(packet);
@@ -411,6 +414,28 @@ public class GameManager {
                 );
             });
         }
+
+        ChatPrompt.register(LoadoutSystem.PRESET_PROMPT_ID, player -> {
+            String available = String.join(", ", settings().equipment.rarityPresets.keySet());
+            return new ChatPrompt(
+                "Enter the name of the rarity preset to use (" + available + ")",
+                answer -> instance().selectRarityPreset(answer) ? null : "Unknown preset, available: " + available
+            );
+        });
+
+        for (Rarity rarity : Rarity.values()) {
+            ChatPrompt.register(LoadoutSystem.scorePromptId(rarity), player -> ChatPrompt.integer(
+                String.format("Enter the new %s rarity score for the %s preset", rarity.display.toLowerCase(), settings().equipment.rarityPreset),
+                0, 999, score -> instance().setRarityScore(rarity, score)
+            ));
+        }
+
+        for (EquipmentMode mode : EquipmentMode.values()) {
+            ChatPrompt.register(LoadoutSystem.maxScorePromptId(mode), player -> ChatPrompt.integer(
+                String.format("Enter the new max rarity score of %s loadouts for the %s preset", mode.display.toLowerCase(), settings().equipment.rarityPreset),
+                0, 9999, score -> instance().setMaxRarityScore(mode, score)
+            ));
+        }
     }
 
     public void setGameValue(GameMode mode, GameValue value, int amount) {
@@ -473,8 +498,67 @@ public class GameManager {
 
         settings().equipment.mode = equipmentMode;
         ConfigManager.instance().saveSettings();
+        EquipmentManager.instance().clearAll(); // picks of the other mode would count towards the rarity score
         syncToClients();
         announceSetting("Equipment system", equipmentMode.display);
+    }
+
+    public LoadoutSystem getLoadoutSystem() {
+        return settings().equipment.loadoutSystem;
+    }
+
+    public void setLoadoutSystem(LoadoutSystem loadoutSystem) {
+        settings().equipment.loadoutSystem = loadoutSystem;
+        ConfigManager.instance().saveSettings();
+        syncToClients();
+        announceSetting("Loadout system", loadoutSystem.display);
+    }
+
+    public Settings.RarityPreset getRarityPreset() {
+        return settings().equipment.selectedPreset();
+    }
+
+    /**
+     * Selects a rarity preset by name, ignoring case; returns false if there is no such preset
+     */
+    public boolean selectRarityPreset(String name) {
+        Optional<String> preset = settings().equipment.rarityPresets.keySet().stream()
+            .filter(n -> n.equalsIgnoreCase(name))
+            .findFirst();
+        if (!preset.isPresent()) return false;
+
+        settings().equipment.rarityPreset = preset.get();
+        ConfigManager.instance().saveSettings();
+        syncToClients();
+        announceSetting("Rarity preset", preset.get());
+        return true;
+    }
+
+    /** Edits the selected rarity preset */
+    public void setRarityScore(Rarity rarity, int score) {
+        getRarityPreset().scores.put(Settings.RarityPreset.key(rarity), score);
+        ConfigManager.instance().saveSettings();
+        syncToClients();
+        announceSetting(String.format("%s rarity score (%s)", rarity.display, settings().equipment.rarityPreset), String.valueOf(score));
+    }
+
+    /** Edits the selected rarity preset */
+    public void setMaxRarityScore(EquipmentMode mode, int score) {
+        getRarityPreset().maxScore.put(mode.id, score);
+        ConfigManager.instance().saveSettings();
+        syncToClients();
+        announceSetting(String.format("Max rarity score (%s, %s)", mode.display, settings().equipment.rarityPreset), String.valueOf(score));
+    }
+
+    public boolean isMythicsEnabled() {
+        return settings().equipment.mythicsEnabled;
+    }
+
+    public void setMythicsEnabled(boolean mythicsEnabled) {
+        settings().equipment.mythicsEnabled = mythicsEnabled;
+        ConfigManager.instance().saveSettings();
+        syncToClients();
+        announceSetting("Mythic items", mythicsEnabled ? "enabled" : "disabled");
     }
 
     public boolean isKillOnlyLifeLoss() {

@@ -1,7 +1,9 @@
 package io.github.duckysmacky.guncore.common.config;
 
+import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.GameMode;
+import io.github.duckysmacky.guncore.common.game.LoadoutSystem;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -10,6 +12,8 @@ import java.util.Map;
  * Server-side settings persisted in {@code config/guncore/settings.json}.
  */
 public class Settings {
+    public static final String DEFAULT_RARITY_PRESET = "balanced";
+
     public GameSettings game;
     public WorldSettings world;
     public EquipmentSettings equipment;
@@ -35,6 +39,14 @@ public class Settings {
 
         settings.equipment = new EquipmentSettings();
         settings.equipment.mode = EquipmentMode.BUILDER;
+        settings.equipment.mythicsEnabled = true;
+        settings.equipment.loadoutSystem = LoadoutSystem.FLEXIBLE;
+        settings.equipment.rarityPreset = DEFAULT_RARITY_PRESET;
+        // scores by rarity (common to mythic), max scores by equipment mode (kits, builder)
+        settings.equipment.rarityPresets = new LinkedHashMap<>();
+        settings.equipment.rarityPresets.put("tight", RarityPreset.create(new int[]{0, 1, 3, 6, 10, 25}, new int[]{25, 30}));
+        settings.equipment.rarityPresets.put(DEFAULT_RARITY_PRESET, RarityPreset.create(new int[]{0, 1, 2, 5, 8, 20}, new int[]{20, 24}));
+        settings.equipment.rarityPresets.put("loose", RarityPreset.create(new int[]{0, 1, 2, 3, 5, 20}, new int[]{24, 32}));
 
         return settings;
     }
@@ -68,8 +80,29 @@ public class Settings {
             });
         }
 
-        if (settings.equipment != null && settings.equipment.mode != null)
-            defaults.equipment.mode = settings.equipment.mode;
+        if (settings.equipment != null) {
+            EquipmentSettings e = settings.equipment;
+            EquipmentSettings d = defaults.equipment;
+            if (e.mode != null) d.mode = e.mode;
+            if (e.mythicsEnabled != null) d.mythicsEnabled = e.mythicsEnabled;
+            if (e.loadoutSystem != null) d.loadoutSystem = e.loadoutSystem;
+
+            // presets added in the file are kept; their missing values come from the built-in preset of the same name
+            if (e.rarityPresets != null && !e.rarityPresets.isEmpty()) {
+                Map<String, RarityPreset> builtIn = d.rarityPresets;
+                d.rarityPresets = new LinkedHashMap<>();
+                e.rarityPresets.forEach((name, preset) -> d.rarityPresets.put(name, RarityPreset.withDefaults(
+                    preset, builtIn.getOrDefault(name, builtIn.get(DEFAULT_RARITY_PRESET))
+                )));
+            }
+
+            if (e.rarityPreset != null) d.rarityPreset = e.rarityPreset;
+            if (!d.rarityPresets.containsKey(d.rarityPreset)) {
+                d.rarityPreset = d.rarityPresets.containsKey(DEFAULT_RARITY_PRESET)
+                    ? DEFAULT_RARITY_PRESET
+                    : d.rarityPresets.keySet().iterator().next();
+            }
+        }
 
         return defaults;
     }
@@ -125,5 +158,67 @@ public class Settings {
 
     public static class EquipmentSettings {
         public EquipmentMode mode;
+        public Boolean mythicsEnabled;
+        public LoadoutSystem loadoutSystem;
+        /** Name of the selected entry of {@link #rarityPresets} */
+        public String rarityPreset;
+        public Map<String, RarityPreset> rarityPresets;
+
+        public RarityPreset selectedPreset() {
+            return rarityPresets.get(rarityPreset);
+        }
+    }
+
+    /**
+     * Rarity scores used by the Rarity Score loadout system. Maps are keyed by strings (lowercase rarity names and
+     * equipment mode ids), since Gson can't read back enum map keys which use {@code @SerializedName}.
+     */
+    public static class RarityPreset {
+        public Map<String, Integer> scores;
+        public Map<String, Integer> maxScore;
+
+        /**
+         * @param scores by {@link Rarity} order
+         * @param maxScores by {@link EquipmentMode} order
+         */
+        public static RarityPreset create(int[] scores, int[] maxScores) {
+            RarityPreset preset = new RarityPreset();
+            preset.scores = new LinkedHashMap<>();
+            for (Rarity rarity : Rarity.values())
+                preset.scores.put(key(rarity), scores[rarity.ordinal()]);
+            preset.maxScore = new LinkedHashMap<>();
+            for (EquipmentMode mode : EquipmentMode.values())
+                preset.maxScore.put(mode.id, maxScores[mode.ordinal()]);
+            return preset;
+        }
+
+        /** Fills missing values from the defaults and drops unknown keys */
+        static RarityPreset withDefaults(RarityPreset preset, RarityPreset defaults) {
+            RarityPreset result = new RarityPreset();
+            result.scores = merge(preset == null ? null : preset.scores, defaults.scores);
+            result.maxScore = merge(preset == null ? null : preset.maxScore, defaults.maxScore);
+            return result;
+        }
+
+        private static Map<String, Integer> merge(Map<String, Integer> values, Map<String, Integer> defaults) {
+            Map<String, Integer> merged = new LinkedHashMap<>(defaults);
+            if (values != null) merged.replaceAll((key, value) -> {
+                Integer configured = values.get(key);
+                return configured != null ? configured : value;
+            });
+            return merged;
+        }
+
+        public static String key(Rarity rarity) {
+            return rarity.name().toLowerCase();
+        }
+
+        public int scoreOf(Rarity rarity) {
+            return scores.get(key(rarity));
+        }
+
+        public int maxFor(EquipmentMode mode) {
+            return maxScore.get(mode.id);
+        }
     }
 }
