@@ -3,13 +3,17 @@ package io.github.duckysmacky.guncore.server.events;
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.RefreshMenuPacket;
+import io.github.duckysmacky.guncore.common.util.TextUtils;
+import io.github.duckysmacky.guncore.server.game.EquipmentController;
 import io.github.duckysmacky.guncore.server.game.GameManager;
 import io.github.duckysmacky.guncore.server.game.ChatPrompt;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -50,6 +54,21 @@ public class ServerEventHandler {
 
             if (tickCount >= 20) tickCount = 0;
         }
+    }
+
+    /** Stops equipped items from being thrown out and re-picked up to dodge selection rules */
+    @SubscribeEvent
+    public void onItemToss(ItemTossEvent event) {
+        if (GameManager.instance().isRunning()) return;
+        if (!EquipmentController.isEquipped(event.getEntityItem().getItem())) return;
+
+        event.setCanceled(true);
+
+        EntityPlayer player = event.getPlayer();
+        player.sendMessage(new TextComponentString(
+            TextUtils.translateColorCodes("&cCannot drop equipped items")
+        ));
+        player.inventoryContainer.detectAndSendChanges();
     }
 
     @SubscribeEvent

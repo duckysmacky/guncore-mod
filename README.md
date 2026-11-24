@@ -54,6 +54,8 @@ Guncore calls their commands/items by ID, so any compatible replacement mod woul
 
 Run `/guncore help` in-game for the full up-to-date list.
 
+Items handed out by the equipment menu (guns, ammo, build-a-class items, armor; not CSG kit contents) can't be dropped while a round isn't running. During a round they can be thrown out.
+
 ## Configuration
 
 All config lives **server-side** only, under the server's Forge config directory (the same folder holding `config/` for every other mod - typically `<server_root>/config/guncore/`). Files are generated with example content the first time the server starts; only the server's copy matters, clients receive it over the network and never read local files.

@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
@@ -24,6 +25,7 @@ import java.util.Map;
 public final class EquipmentController {
     private static final String BASE_KIT_ID = "base";
     private static final int MAX_EXTRA_ITEMS = 3;
+    private static final String EQUIPPED_TAG = "guncoreEquipped";
 
     private EquipmentController() {}
 
@@ -46,6 +48,21 @@ public final class EquipmentController {
         return true;
     }
 
+    /** Marks a stack as handed out by the equipment menu (CSG kit contents are not marked) */
+    private static ItemStack tag(ItemStack stack) {
+        if (stack.isEmpty()) return stack;
+
+        NBTTagCompound nbt = stack.getTagCompound();
+        if (nbt == null) nbt = new NBTTagCompound();
+        nbt.setBoolean(EQUIPPED_TAG, true);
+        stack.setTagCompound(nbt);
+        return stack;
+    }
+
+    public static boolean isEquipped(ItemStack stack) {
+        return stack.hasTagCompound() && stack.getTagCompound().getBoolean(EQUIPPED_TAG);
+    }
+
     // Weapons (both modes)
 
     public static void equipGun(EntityPlayerMP player, GunEntry gun, boolean secondary) {
@@ -61,8 +78,8 @@ public final class EquipmentController {
         GunEntry previous = equipment.get(type);
         if (previous != null) removeGun(player, previous);
 
-        player.inventory.mainInventory.set(type.slot, gun.getGunItemStack());
-        player.inventory.mainInventory.set(type.slot + 9 * 3, gun.getAmmoItemStack()); // above that slot
+        player.inventory.mainInventory.set(type.slot, tag(gun.getGunItemStack()));
+        player.inventory.mainInventory.set(type.slot + 9 * 3, tag(gun.getAmmoItemStack())); // above that slot
         equipment.set(type, gun);
     }
 
@@ -105,12 +122,12 @@ public final class EquipmentController {
         ItemEntry previous = equipment.get(type);
         if (previous != null) removeItem(player, previous);
 
-        player.inventory.mainInventory.set(type.slot, item.getItemStack());
+        player.inventory.mainInventory.set(type.slot, tag(item.getItemStack()));
 
         int extraSlot = type.slot + 9 * 3;
         List<ItemStack> extraItems = item.getAdditionalItemStacks();
         for (int i = 0; i < extraItems.size() && i < MAX_EXTRA_ITEMS; i++)
-            player.inventory.mainInventory.set(extraSlot - 9 * i, extraItems.get(i));
+            player.inventory.mainInventory.set(extraSlot - 9 * i, tag(extraItems.get(i)));
 
         equipment.set(type, item);
     }
@@ -133,7 +150,7 @@ public final class EquipmentController {
         List<ItemStack> pieces = armor.getArmorStacks();
 
         for (int i = 0; i < armorInventory.size(); i++)
-            armorInventory.set(i, i < pieces.size() ? pieces.get(i) : ItemStack.EMPTY);
+            armorInventory.set(i, i < pieces.size() ? tag(pieces.get(i)) : ItemStack.EMPTY);
 
         EquipmentManager.instance().getEquipment(player).set(EquipmentType.ARMOR, armor);
     }
