@@ -2,7 +2,7 @@ package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
-import io.github.duckysmacky.guncore.common.config.catalog.kits.KitClass;
+import io.github.duckysmacky.guncore.common.config.menus.MenuSectionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
@@ -16,11 +16,11 @@ import net.minecraft.util.text.TextComponentString;
 import java.util.Comparator;
 
 public class KitsMenuPage extends DynamicMenu {
-    public KitsMenuPage(BaseMenu parent, KitClass kitClass) {
-        super(kitClass.display + " Kits", parent, 5, 9);
+    public KitsMenuPage(BaseMenu parent, MenuSectionEntry kitClass) {
+        super(kitClass.getName(), parent, 5, 9);
 
         ConfigManager.instance().getCatalogManager().<KitEntry>getCatalog(CatalogType.KITS).stream()
-            .filter(kit -> kit.getKitClass() == kitClass)
+            .filter(kit -> kit.getKitClass().equals(kitClass.getId()))
             .sorted(Comparator.comparingInt(kit -> kit.getTier().sortOrder))
             .forEach(kit -> {
                 ItemStack kitIcon = kit.getIconItem();

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class GunEntry extends CatalogEntry {
-    private final GunCategory category;
+    private final String category;
     private final Rarity rarity;
     private final String gunItemId;
     private final String ammoItemId;
@@ -25,7 +25,7 @@ public class GunEntry extends CatalogEntry {
     public GunEntry(
         boolean enabled,
         String name,
-        GunCategory category,
+        String category,
         Rarity rarity,
         String gunItemId,
         String ammoItemId,
@@ -44,7 +44,7 @@ public class GunEntry extends CatalogEntry {
         return new GunEntry(
             true,
             "Bow",
-            GunCategory.ASSAULT_RIFLE,
+            "assault_rifle",
             Rarity.COMMON,
             "minecraft:bow",
             "minecraft:arrow",
@@ -107,7 +107,8 @@ public class GunEntry extends CatalogEntry {
         return ammoItemId;
     }
 
-    public GunCategory getCategory() {
+    /** Id of a {@code GUN_CATEGORIES} menu section */
+    public String getCategory() {
         return category;
     }
 

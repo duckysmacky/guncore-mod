@@ -3,6 +3,7 @@ package io.github.duckysmacky.guncore.common.config;
 import com.google.gson.Gson;
 import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogManager;
+import io.github.duckysmacky.guncore.common.config.menus.MenuSectionManager;
 import io.github.duckysmacky.guncore.common.config.registry.Registry;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.LoadConfigPacket;
@@ -18,6 +19,7 @@ public class ConfigManager {
     private static final String SETTINGS_FILE = "settings.json";
     private static ConfigManager instance;
     private final Gson gson;
+    private final MenuSectionManager menuSectionManager;
     private final CatalogManager catalogManager;
     /** Load order: registries referencing other registries' ids come after them */
     private final List<Registry<?>> registries;
@@ -25,8 +27,9 @@ public class ConfigManager {
 
     private ConfigManager() {
         this.gson = new Gson();
+        this.menuSectionManager = new MenuSectionManager();
         this.catalogManager = new CatalogManager();
-        this.registries = Arrays.asList(catalogManager);
+        this.registries = Arrays.asList(menuSectionManager, catalogManager);
         this.settings = Settings.createDefault();
     }
 
@@ -62,6 +65,10 @@ public class ConfigManager {
 
     public void saveSettings() {
         new ConfigLoader(Loader.instance().getConfigDir()).writeJSON(SETTINGS_FILE, settings);
+    }
+
+    public MenuSectionManager getMenuSectionManager() {
+        return menuSectionManager;
     }
 
     public CatalogManager getCatalogManager() {

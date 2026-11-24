@@ -1,7 +1,10 @@
 package io.github.duckysmacky.guncore.common.config.catalog.locations;
 
 import com.google.gson.annotations.SerializedName;
+import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
+import io.github.duckysmacky.guncore.common.config.menus.MenuSectionEntry;
+import io.github.duckysmacky.guncore.common.config.menus.MenuSectionType;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -16,12 +19,12 @@ import java.util.Objects;
 
 public class LocationEntry extends CatalogEntry {
     @SerializedName("mapId")
-    private final CityMap map;
+    private final String map;
     private final LocationCoordinates coordinates;
 
     public LocationEntry(
         boolean enabled,
-        CityMap map,
+        String map,
         String name,
         LocationCoordinates coordinates,
         List<String> descriptionLines
@@ -34,7 +37,7 @@ public class LocationEntry extends CatalogEntry {
     public static LocationEntry createExample() {
         return new LocationEntry(
             true,
-            CityMap.NEWPORT,
+            "default",
             "Spawn",
             new LocationCoordinates(0, 80, 0),
             Arrays.asList(
@@ -44,7 +47,8 @@ public class LocationEntry extends CatalogEntry {
         );
     }
 
-    public CityMap getMap() {
+    /** Id of a {@code MAPS} menu section */
+    public String getMap() {
         return map;
     }
 
@@ -70,7 +74,10 @@ public class LocationEntry extends CatalogEntry {
             loreList.appendTag(new NBTTagString(""));
         }
 
-        String mapLine = TextFormatting.GREEN + "Map: " + TextFormatting.WHITE + map.display;
+        String mapName = ConfigManager.instance().getMenuSectionManager().findSection(MenuSectionType.MAPS, map)
+            .map(MenuSectionEntry::getName)
+            .orElse(map);
+        String mapLine = TextFormatting.GREEN + "Map: " + TextFormatting.WHITE + mapName;
         loreList.appendTag(new NBTTagString(mapLine));
 
         String coordinatesLine = TextFormatting.GREEN + "Coordinates: " + TextFormatting.WHITE +

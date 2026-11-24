@@ -1,76 +1,26 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
-import io.github.duckysmacky.guncore.common.config.catalog.locations.CityMap;
-import io.github.duckysmacky.guncore.client.gui.menu.entries.SubpageEntry;
-import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
-import io.github.duckysmacky.guncore.client.gui.menu.StaticMenu;
-import net.minecraft.init.Blocks;
+import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
+import io.github.duckysmacky.guncore.client.gui.menu.entries.SubpageEntry;
+import io.github.duckysmacky.guncore.common.config.ConfigManager;
+import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
+import io.github.duckysmacky.guncore.common.config.catalog.locations.LocationEntry;
+import io.github.duckysmacky.guncore.common.config.menus.MenuSectionEntry;
+import io.github.duckysmacky.guncore.common.config.menus.MenuSectionType;
 
-public class MapsMenuPage extends StaticMenu {
+import java.util.List;
+
+public class MapsMenuPage extends DynamicMenu {
     public MapsMenuPage(BaseMenu parent) {
-        super("Locations", parent, 3, 9);
+        super("Locations", parent, 4, 9, true);
 
-        addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.IRON_BLOCK))
-                .setName("&f&lNewport")
-                .addLoreLine("&7The original classic map")
-                .addLoreLine("&fComplexity: [3 / 5]")
-                .addLoreLine("&fInterior: [4 / 5]")
-                .addLoreLine("&fExterior: [2 / 5]")
-                .addLoreLine("&fSize: [3 / 5]")
-                .getItemStack(),
-            new LocationsMenuPage(this, CityMap.NEWPORT)
-        ), 1, 2);
+        List<LocationEntry> locations = ConfigManager.instance().getCatalogManager().getCatalog(CatalogType.LOCATIONS);
 
-        addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.QUARTZ_BLOCK))
-                .setName("&f&lRadiant")
-                .addLoreLine("&7The best map")
-                .addLoreLine("&fComplexity: [4 / 5]")
-                .addLoreLine("&fInterior: [5 / 5]")
-                .addLoreLine("&fExterior: [4 / 5]")
-                .addLoreLine("&fSize: [2 / 5]")
-                .addLoreLine("&aSpecial Features: &7Fights in the dark")
-                .getItemStack(),
-            new LocationsMenuPage(this, CityMap.RADIANT)
-        ), 1, 3);
+        for (MenuSectionEntry map : ConfigManager.instance().getMenuSectionManager().getSections(MenuSectionType.MAPS)) {
+            if (locations.stream().noneMatch(location -> location.getMap().equals(map.getId()))) continue;
 
-        addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.SANDSTONE))
-                .setName("&f&lShmar")
-                .addLoreLine("&7The most open and the tallest map")
-                .addLoreLine("&fComplexity: [2 / 5]")
-                .addLoreLine("&fInterior: [1 / 5]")
-                .addLoreLine("&fExterior: [4 / 5]")
-                .addLoreLine("&fSize: [4 / 5]")
-                .getItemStack(),
-            new LocationsMenuPage(this, CityMap.SHMAR)
-        ), 1, 4);
-
-        addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.BRICK_BLOCK))
-                .setName("&f&lAudia")
-                .addLoreLine("&7The biggest and the most diverse map")
-                .addLoreLine("&fComplexity: [4 / 5]")
-                .addLoreLine("&fInterior: [3 / 5]")
-                .addLoreLine("&fExterior: [4 / 5]")
-                .addLoreLine("&fSize: [5 / 5]")
-                .addLoreLine("&aSpecial Features: &7Fights in the dark")
-                .getItemStack(),
-            new LocationsMenuPage(this, CityMap.AUDIA)
-        ), 1, 5);
-
-        addEntry(new SubpageEntry(
-            new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.STONE))
-                .setName("&f&lCity 17")
-                .addLoreLine("&7A dystopian city under siege")
-                .addLoreLine("&fComplexity: [5 / 5]")
-                .addLoreLine("&fInterior: [2 / 5]")
-                .addLoreLine("&fExterior: [5 / 5]")
-                .addLoreLine("&fSize: [3 / 5]")
-                .getItemStack(),
-            new LocationsMenuPage(this, CityMap.CITY17)
-        ), 1, 6);
+            addEntry(new SubpageEntry(map.getIcon(), new LocationsMenuPage(this, map)));
+        }
     }
 }

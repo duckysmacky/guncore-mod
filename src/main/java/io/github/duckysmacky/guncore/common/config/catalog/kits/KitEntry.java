@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class KitEntry extends CatalogEntry {
     @SerializedName("class")
-    private final KitClass class_;
+    private final String class_;
     private final KitTier tier;
     private final String kitId;
     private final String iconItemId;
@@ -27,7 +27,7 @@ public class KitEntry extends CatalogEntry {
     public KitEntry(
         boolean enabled,
         String name,
-        KitClass class_,
+        String class_,
         KitTier tier,
         String kitId,
         String iconItemId,
@@ -46,7 +46,7 @@ public class KitEntry extends CatalogEntry {
         return new KitEntry(
           true,
           "Hunter",
-            KitClass.ASSAULT,
+            "default",
             KitTier.BASIC,
             "hunter",
             "minecraft:iron_sword",
@@ -58,7 +58,8 @@ public class KitEntry extends CatalogEntry {
         );
     }
 
-    public KitClass getKitClass() {
+    /** Id of a {@code KIT_CLASSES} menu section */
+    public String getKitClass() {
         return class_;
     }
 
