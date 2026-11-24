@@ -4,12 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.duckysmacky.guncore.client.gui.menu.entries.MenuEntry;
+import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 
+/**
+ * Menu with a variable amount of entries. Entries fill the inner area (everything except the outer ring of slots);
+ * when they do not fit, extra pages are added and navigated with buttons on both sides of the back button
+ */
 public abstract class DynamicMenu extends BaseMenu {
     private final List<MenuEntry> entries = new ArrayList<>();
+    private int page = 0;
 
     public DynamicMenu(String title, BaseMenu parent, int rows, int cols) {
         super(title, parent, rows, cols);
@@ -19,37 +27,72 @@ public abstract class DynamicMenu extends BaseMenu {
         entries.add(entry);
     }
 
+    private int perPage() {
+        return (rows - 2) * (cols - 2);
+    }
+
+    private int pageCount() {
+        return Math.max(1, (entries.size() + perPage() - 1) / perPage());
+    }
+
+    /** Slot of the n-th entry of the current page */
+    private int innerSlot(int n) {
+        int maxCols = cols - 2;
+        return (1 + n / maxCols) * cols + 1 + n % maxCols;
+    }
+
+    private int previousPageSlot() {
+        return getBackButtonSlot() - 1;
+    }
+
+    private int nextPageSlot() {
+        return getBackButtonSlot() + 1;
+    }
+
+    private ItemStack pageButtonItem(String name, String lore) {
+        return new ItemStackCustomizer(new ItemStack(Items.ARROW))
+            .setName(name)
+            .addLoreLine(lore)
+            .getItemStack();
+    }
+
+    /** Every fresh open starts on the first page; page buttons use {@link #changePage} instead */
+    @Override
+    public void open(EntityPlayer player) {
+        page = 0;
+        super.open(player);
+    }
+
     @Override
     public void fillInventory(IInventory inventory) {
-        int startRow = 1; // offset
-        int startCol = 1;
-        int maxCols = cols - 2;
+        inventory.clear();
 
-        for (int i = 0; i < entries.size(); i++) {
-            int row = startRow + i / maxCols;
-            int col = startCol + i % maxCols;
-            int slot = row * cols + col;
-            inventory.setInventorySlotContents(slot, entries.get(i).getIcon());
+        int first = page * perPage();
+        int last = Math.min(entries.size(), first + perPage());
+        for (int i = first; i < last; i++) {
+            inventory.setInventorySlotContents(innerSlot(i - first), entries.get(i).getIcon());
         }
 
         // back button
         if (parent != null) {
             inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonItem());
         }
+
+        String pageLore = "&7Page " + (page + 1) + "/" + pageCount();
+        if (page > 0) {
+            inventory.setInventorySlotContents(previousPageSlot(), pageButtonItem("&e&lPrevious Page", pageLore));
+        }
+        if (page < pageCount() - 1) {
+            inventory.setInventorySlotContents(nextPageSlot(), pageButtonItem("&e&lNext Page", pageLore));
+        }
     }
 
     @Override
     public void handleClick(int slot, EntityPlayer player) {
-        int startRow = 1;
-        int startCol = 1;
-        int maxCols = cols - 2;
-
-        for (int i = 0; i < entries.size(); i++) {
-            int row = startRow + i / maxCols;
-            int col = startCol + i % maxCols;
-            int entrySlot = row * cols + col;
-
-            if (slot == entrySlot) {
+        int first = page * perPage();
+        int last = Math.min(entries.size(), first + perPage());
+        for (int i = first; i < last; i++) {
+            if (slot == innerSlot(i - first)) {
                 entries.get(i).onClick(player);
                 return;
             }
@@ -59,6 +102,16 @@ public abstract class DynamicMenu extends BaseMenu {
         if (parent != null && slot == getBackButtonSlot()) {
             player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
             openParent(player);
+        } else if (page > 0 && slot == previousPageSlot()) {
+            changePage(-1, player);
+        } else if (page < pageCount() - 1 && slot == nextPageSlot()) {
+            changePage(1, player);
         }
+    }
+
+    private void changePage(int delta, EntityPlayer player) {
+        player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
+        page += delta;
+        super.open(player);
     }
 }
