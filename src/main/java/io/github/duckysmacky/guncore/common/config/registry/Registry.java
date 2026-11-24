@@ -43,7 +43,7 @@ public class Registry<T extends Enum<T> & RegistryType> {
         ConfigLoader loader = new ConfigLoader(Loader.instance().getConfigDir());
 
         for (T type : typeClass.getEnumConstants()) {
-            String json = loader.readJSON(directory + type.getJsonFile(), type::createDefaults);
+            String json = loader.readJSON(directory + type.getJsonFile(), () -> type.createDefaults()); // not type::createDefaults: javac erases T to Enum there, which breaks at runtime
             cache(type, json);
 
             PacketHandler.instance().sendToAll(new SyncRegistryPacket(id, type.ordinal(), json));

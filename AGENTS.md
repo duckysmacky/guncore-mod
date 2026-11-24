@@ -41,8 +41,9 @@ are wired via `@SidedProxy` in `GuncoreMod`.
 
 ### Server-authoritative model
 
-- The server holds all state and config. Clients never read config files; `ConfigManager.load()` (server) reads JSON from the Forge config dir (`config/guncore/`), then `CatalogManager` pushes each catalog to all clients via `SyncCatalogPacket`. Menu pages render from the client's cached catalogs.
+- The server holds all state and config. Clients never read config files; `ConfigManager.load()` (server) reads JSON from the Forge config dir (`config/guncore/`), then each registry pushes its files to all clients via `SyncRegistryPacket`. Menu pages render from the client's cached registries.
 - `game.json` (`GameConfig`) is server-side only and is written back on load to fill missing fields, and on `setEquipmentMode` (equipment mode persists across restarts).
+- Catalog and menu sections are both `Registry`s (`common/config/registry/`): one enum of JSON files per registry, own config directory, synced via `SyncRegistryPacket`. `ConfigManager` loads them in order - menu sections (`menus/`, `MenuSectionType`: gun categories, kit classes, maps) before the catalog, since catalog entries reference section ids (`category`, `class`, `mapId`).
 - Catalogs are defined by the `CatalogType` enum (file name, entry class, example supplier) - adding a catalog means a new enum value + entry class under `common/config/catalog/`, plus a menu page if it should be selectable.
 - All packets are registered in `PacketHandler.init()`; the `packetId++` order defines the wire IDs, so client and server must run the same mod version and new packets must be appended consistently. Each packet is a nested `Handler` class and does its work in `addScheduledTask` on the world thread.
 - GUI actions are mostly implemented by sending a packet or a command string: `CommandExecutor.execute()` runs the command directly on a server, or sends `ExecuteCommandPacket` from a client, which the server runs **as the server**. Kits are handed out this way (`csg_kit give <kitId> <player>`), so new GUI features usually mean either a new packet or a new `/game` subcommand.
