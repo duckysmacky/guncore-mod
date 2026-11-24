@@ -2,6 +2,31 @@
 
 All notable changes to Guncore for Minecraft 1.12.2, newest first.
 
+## v0.7.0
+
+#### Added
+
+- **Player profiles**: every player has a saved profile with stats (games, wins, losses, K/D), records (best kill streak, times MVP, time played) and top 5 favorites for game modes, kits, weapons and equipment. Open it from the player head in the main menu or with `/game stats [player]`. Stats are saved to `config/guncore/stats.db` when a round ends.
+- **Global stats menu**: opens from the profile page and shows the top 10 players for each stat and record, plus the most picked kits, weapons, game modes and equipment.
+- **Rarity Score loadout system**: switch with `/game loadout_system rarity_score`. Each pick costs points by its rarity, and a loadout can't go over the max score of the active equipment mode. Comes with `tight`, `balanced` and `loose` presets that can be edited in the settings menu or `settings.json`. The loadout's score is shown in item lore, and gun names are colored by rarity.
+- `/game mythics <true|false>` to turn mythic items and kits on or off.
+- **World settings**: `/game item_pickup <true|false>` controls whether players can pick up items, and `/game world <gamerule> <true|false>` sets gamerules. Both are saved and applied on server start and config reload.
+- **Menu config**: gun categories, kit classes and maps are now defined in `config/guncore/menus/*.json` and shown as centered category pages.
+- Random buttons for weapons, kits and locations at the top of every selection menu.
+- Pagination for menus with more entries than fit on one page.
+- Edit per-gamemode round time, lives and kill target in chat by clicking the value in the settings menu.
+- `/guncore location add <map> <name> [<x> <y> <z>]` to add a location from in-game, using your position by default.
+- `/getitemnbt` to print the held item's id, damage and NBT in a clickable chat message, in the format used by the item catalogs.
+
+#### Changed
+
+- **Custom Starting Gear (CSG Kits) is now a required dependency.** Guncore won't load without it, on the server or on any client.
+- `game.json` is replaced by `settings.json`, which also holds equipment and world settings and is saved whenever a setting changes. Settings from an old `game.json` are not carried over.
+- The settings menu is split into Game, World and Equipment pages.
+- Kit tiers now map to rarities, and weapon menu icons use vanilla items instead of Modern Warfare items.
+- Setting changes are announced to players with a consistent message.
+- Items handed out by the equipment menu can't be dropped, so the selection rules can't be bypassed by dropping and re-picking up items.
+
 ## v0.6.2
 
 #### Added
