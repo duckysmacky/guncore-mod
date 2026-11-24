@@ -9,6 +9,7 @@ import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.EquipGunPacket;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
@@ -26,13 +27,16 @@ public class GunsMenuPage extends DynamicMenu {
                 ItemStack gunItem = gun.getGunItemStack();
 
                 addEntry(new ActionEntry(gunItem, player -> {
-                    PacketHandler.instance().sendToServer(new EquipGunPacket(secondary, gun));
-
-                    player.sendMessage(new TextComponentString("Selected gun: " + gunItem.getDisplayName()));
-                    player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
-
+                    equip(player, secondary, gun);
                     open(player);
                 }));
             });
+    }
+
+    public static void equip(EntityPlayer player, boolean secondary, GunEntry gun) {
+        PacketHandler.instance().sendToServer(new EquipGunPacket(secondary, gun));
+
+        player.sendMessage(new TextComponentString("Selected gun: " + gun.getName()));
+        player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
     }
 }

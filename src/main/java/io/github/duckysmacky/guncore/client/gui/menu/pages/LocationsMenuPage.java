@@ -9,6 +9,7 @@ import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
@@ -22,14 +23,16 @@ public class LocationsMenuPage extends DynamicMenu {
             .forEach(location -> {
                 ItemStack locationIcon = location.getIconItem();
 
-                addEntry(new ActionEntry(locationIcon, (player) -> {
-                    LocationEntry.LocationCoordinates coords = location.getCoordinates();
-                    String command = String.format("tp %s %d %d %d", player.getName(), coords.x, coords.y, coords.z);
-                    CommandExecutor.execute(command);
-
-                    player.sendMessage(new TextComponentString("Teleporting to '" + locationIcon.getDisplayName() + "'"));
-                    ServerSoundPlayer.playFor(player, SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1f, 1f);
-                }));
+                addEntry(new ActionEntry(locationIcon, player -> teleport(player, location)));
             });
+    }
+
+    public static void teleport(EntityPlayer player, LocationEntry location) {
+        LocationEntry.LocationCoordinates coords = location.getCoordinates();
+        String command = String.format("tp %s %d %d %d", player.getName(), coords.x, coords.y, coords.z);
+        CommandExecutor.execute(command);
+
+        player.sendMessage(new TextComponentString("Teleporting to '" + location.getName() + "'"));
+        ServerSoundPlayer.playFor(player, SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1f, 1f);
     }
 }
