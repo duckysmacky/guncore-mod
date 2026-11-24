@@ -10,7 +10,7 @@ public class WeaponsMenuPage extends StaticMenu {
         super("Weapons", parent, 3, 9);
 
         addEntry(new SubpageEntry(
-            ItemStackCustomizer.from("mw:m4a1")
+            ItemStackCustomizer.from("minecraft:iron_sword")
                 .setName("&f&lPrimary weapons")
                 .addLoreLine("&7Select your main weapon")
                 .getItemStack(),
@@ -18,7 +18,7 @@ public class WeaponsMenuPage extends StaticMenu {
         ), 1, 2);
 
         addEntry(new SubpageEntry(
-            ItemStackCustomizer.from("mw:m17")
+            ItemStackCustomizer.from("minecraft:wooden_sword")
                 .setName("&f&lSecondary weapons")
                 .addLoreLine("&7Select your secondary weapon")
                 .getItemStack(),

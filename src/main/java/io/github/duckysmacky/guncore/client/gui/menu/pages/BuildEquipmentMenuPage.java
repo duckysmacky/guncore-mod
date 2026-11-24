@@ -44,8 +44,8 @@ public class BuildEquipmentMenuPage extends StaticMenu {
             }
         ), 1, 4);
 
-        addWeaponEntries(false, "mw:m4a1", "&f&lPrimary weapon", "&7Select your main weapon", 2);
-        addWeaponEntries(true, "mw:m17", "&f&lSecondary weapon", "&7Select your secondary weapon", 6);
+        addWeaponEntries(false, "minecraft:iron_sword", "&f&lPrimary weapon", "&7Select your main weapon", 2);
+        addWeaponEntries(true, "minecraft:wooden_sword", "&f&lSecondary weapon", "&7Select your secondary weapon", 6);
 
         addSlot(EquipmentType.LETHAL, new ItemStack(Blocks.TNT), "&7Explosives and items made to kill", 1);
         addSlot(EquipmentType.TACTICAL, new ItemStack(Items.ENDER_EYE), "&7Debuff and utility grenades", 2);
