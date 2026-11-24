@@ -37,6 +37,7 @@ public class GuncoreCommand extends CommandBase {
         "&f/menu &7- Opens the equipment/game menu",
         "&f/guncore config_reload &7- (ops) Reloads the mod config from disk and refreshes every player's menu",
         "&f/guncore location add <map> <name> [<x> <y> <z>] &7- (ops) Adds a catalog location, at your position if no coordinates are given. Wrap a name with spaces in \"quotes\"",
+        "&f/getitemnbt &7- (ops) Prints the NBT of the held item, usable as nbtData in the catalog",
         "&f/guncore help &7- Shows this list",
         "&f/game start|end|reset|pause &7- Controls the current round",
         "&f/game mode <ffa|tdm|hostage> &7- Sets the game mode",

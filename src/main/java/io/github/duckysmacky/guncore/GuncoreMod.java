@@ -2,6 +2,7 @@ package io.github.duckysmacky.guncore;
 
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.server.game.GameManager;
+import io.github.duckysmacky.guncore.server.commands.GetItemNbtCommand;
 import io.github.duckysmacky.guncore.server.commands.GuncoreCommand;
 import io.github.duckysmacky.guncore.server.commands.GameCommand;
 import io.github.duckysmacky.guncore.server.commands.MenuCommand;
@@ -64,6 +65,7 @@ public class GuncoreMod {
     public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new MenuCommand());
         event.registerServerCommand(new GuncoreCommand());
+        event.registerServerCommand(new GetItemNbtCommand());
         event.registerServerCommand(new GameCommand());
 
         ConfigManager.instance().load();
