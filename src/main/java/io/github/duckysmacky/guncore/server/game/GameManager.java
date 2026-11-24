@@ -15,7 +15,6 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameType;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -84,10 +83,22 @@ public class GameManager {
 
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         applyWorldSettings(server);
-        CommandExecutor.executeAsServer(server, "gamerule spawnRadius 0");
+        setGamerule(server, "spawnRadius", "0");
 
-        ServerBroadcaster.message("&a&lWorld setup complete");
+        announceSetting("World settings", "defaults");
+    }
+
+    /**
+     * Announces a changed setting to everyone. Every setting change goes through here to keep the format uniform.
+     */
+    private static void announceSetting(String setting, String value) {
+        ServerBroadcaster.message(String.format("&6&lSetting &8| &f%s &7set to &e&l%s", setting, value));
         ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+    }
+
+    // set directly instead of through the /gamerule command, which would also print its own feedback to ops
+    private static void setGamerule(MinecraftServer server, String rule, String value) {
+        server.getWorld(0).getGameRules().setOrCreateGameRule(rule, value);
     }
 
     /**
@@ -95,11 +106,9 @@ public class GameManager {
      */
     public static void applyWorldSettings(MinecraftServer server) {
         // not configurable: the mod hands out kits itself, so dropped loadouts must never happen
-        CommandExecutor.executeAsServer(server, "gamerule keepInventory true");
+        setGamerule(server, "keepInventory", "true");
 
-        settings().world.gamerules.forEach((rule, value) ->
-            CommandExecutor.executeAsServer(server, "gamerule " + rule + " " + value)
-        );
+        settings().world.gamerules.forEach((rule, value) -> setGamerule(server, rule, String.valueOf(value)));
     }
 
     public static Set<String> worldGamerules() {
@@ -116,11 +125,9 @@ public class GameManager {
         settings().world.gamerules.put(rule, value);
         ConfigManager.instance().saveSettings();
         GameManager.instance().syncToClients();
-        CommandExecutor.executeAsServer(FMLCommonHandler.instance().getMinecraftServerInstance(), "gamerule " + rule + " " + value);
+        setGamerule(FMLCommonHandler.instance().getMinecraftServerInstance(), rule, String.valueOf(value));
 
-        TextFormatting color = value ? TextFormatting.GREEN : TextFormatting.GRAY;
-        ServerBroadcaster.message(String.format("&f%s %s%s", rule, color, value ? "enabled" : "disabled"));
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+        announceSetting(rule, value ? "enabled" : "disabled");
     }
 
     // GameManager only runs on the logical server (dedicated or integrated), so the server instance is always available here
@@ -372,8 +379,7 @@ public class GameManager {
             settings().game.mode = gameMode;
             ConfigManager.instance().saveSettings();
             syncToClients();
-            ServerBroadcaster.message("&fGame mode set to &l" + gameMode.display);
-            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+            announceSetting("Game mode", gameMode.display);
         } else {
             ServerBroadcaster.error("&7There is already a round in progress!");
             ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
@@ -385,8 +391,7 @@ public class GameManager {
             settings().game.variant = gameModeVariant;
             ConfigManager.instance().saveSettings();
             syncToClients();
-            ServerBroadcaster.message("&fGame mode variant set to &l" + gameModeVariant.display);
-            ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+            announceSetting("Win condition", gameModeVariant.display);
         } else {
             ServerBroadcaster.error("&7There is already a round in progress!");
             ServerSoundPlayer.playForAll(SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
@@ -407,8 +412,7 @@ public class GameManager {
         syncToClients();
 
         String shown = value == GameValue.ROUND_TIME ? TextUtils.formatTime(stored) : String.valueOf(stored);
-        ServerBroadcaster.message(String.format("&f%s for %s set to &l%s", value.display, mode.display, shown));
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+        announceSetting(value.display + " (" + mode.display + ")", shown);
     }
 
     public PlayerStats getStats(EntityPlayer player) {
@@ -455,8 +459,7 @@ public class GameManager {
         settings().equipment.mode = equipmentMode;
         ConfigManager.instance().saveSettings();
         syncToClients();
-        ServerBroadcaster.message("&fEquipment mode set to &l" + equipmentMode.display);
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+        announceSetting("Equipment system", equipmentMode.display);
     }
 
     public boolean isKillOnlyLifeLoss() {
@@ -467,8 +470,7 @@ public class GameManager {
         settings().game.killOnlyLifeLoss = killOnlyLifeLoss;
         ConfigManager.instance().saveSettings();
         syncToClients();
-        ServerBroadcaster.message("&fKill-only life loss set to &l" + killOnlyLifeLoss);
-        ServerSoundPlayer.playForAll(SoundEvents.BLOCK_NOTE_HARP, 1f, 1f);
+        announceSetting("Kill-only life loss", killOnlyLifeLoss ? "enabled" : "disabled");
     }
 
     public long getRoundDurationSec() {
