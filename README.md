@@ -60,6 +60,10 @@ All config lives **server-side** only, under the server's Forge config directory
 ```
 config/guncore/
 ├── settings.json           # game / world / equipment settings (also edited in-game)
+├── menus/
+│   ├── gun_categories.json     # weapon categories shown in the weapon menus
+│   ├── kit_classes.json        # kit classes shown in the kits menu
+│   └── maps.json               # maps shown in the locations menu
 └── catalog/
     ├── kits.json               # kit-based: loadout kits (CSG Kits IDs)
     ├── kit-gadgets.json        # kit-based: gadgets
@@ -74,7 +78,7 @@ config/guncore/
     └── locations.json          # named teleport/spawn points per map
 ```
 
-Edit the JSON, then run `/guncore config_reload` (or restart) - the server re-reads the files and pushes the updated catalog to every connected client, no client-side files or restarts needed.
+Edit the JSON, then run `/guncore config_reload` (or restart) - the server re-reads the files and pushes the updated menus and catalog to every connected client, no client-side files or restarts needed.
 
 ### `settings.json`
 
@@ -109,6 +113,21 @@ Created with defaults on first start and rewritten whenever a setting is changed
 }
 ```
 
+### `menus/*.json`
+
+Sections the menus group catalog entries by: gun categories (`gun_categories.json`), kit classes (`kit_classes.json`) and maps (`maps.json`). Each file is a JSON **array**; the menu shows sections in file order, centered, and hides sections without any catalog entries. Catalog entries reference a section by its `id` (`category` for guns, `class` for kits, `mapId` for locations). `iconItemId` is any item registry name, `name` is the display name and `descriptionLines` the tooltip (`&`-color codes):
+
+```json
+{
+  "enabled": true,
+  "id": "assault_rifle",
+  "name": "Assault Rifles",
+  "iconItemId": "minecraft:iron_sword",
+  "descriptionLines": ["&7Versatile automatic rifles"]
+}
+```
+Default gun categories: `assault_rifle`, `battle_rifle`, `dmr`, `lmg`, `smg`, `shotgun`, `sniper_rifle`, `pistol`, `melee`, `special`. Kit classes and maps default to a single `default` placeholder - replace them with your own.
+
 ### `catalog/*.json`
 
 Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, `name` and `descriptionLines` (supports `&`-color codes); the rest depends on the catalog. Set `enabled: false` to hide an entry without deleting it.
@@ -129,7 +148,7 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
   ]
 }
 ```
-`class` is one of `assault`, `skirmisher`, `assassin`, `sentinel`, `special`; `tier` is one of `basic`, `advanced`, `complex`, `professional`, `forbidden`, `special`.
+`class` is an `id` from `menus/kit_classes.json`; `tier` is one of `basic`, `advanced`, `complex`, `professional`, `forbidden`, `special`.
 
 **`primary-weapons.json` / `secondary-weapons.json`** - `gunItemId`/`ammoItemId` are registry names from Vic's Modern Warfare (or any mod using the same item IDs). Primary guns go to hotbar slot 1, secondary to slot 2, the ammo is placed above them. The same gun may be listed in both files:
 
@@ -145,7 +164,7 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
   "descriptionLines": ["&7A reliable, all-purpose assault rifle."]
 }
 ```
-`category` is one of `assault_rifle`, `battle_rifle`, `dmr`, `lmg`, `smg`, `shotgun`, `sniper_rifle`, `pistol`, `melee`, `special` (empty categories are hidden in the menu); `rarity` uses the same values as items, below.
+`category` is an `id` from `menus/gun_categories.json`; `rarity` uses the same values as items, below.
 
 **`kit-gadgets.json`, `gadgets.json`, `lethals.json`, `tacticals.json`, `utility.json`, `consumables.json`** - same item format everywhere: any item (vanilla or modded), optionally with `damage` (metadata), `nbtData` (SNBT) and bundled extra items (max 3 are placed):
 
@@ -179,7 +198,7 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
   "descriptionLines": ["&7The main spawn point of the city."]
 }
 ```
-`mapId` is one of `newport`, `radiant`, `shmar`, `audia`, `city17`.
+`mapId` is an `id` from `menus/maps.json`.
 
 ## Equipment modes
 
