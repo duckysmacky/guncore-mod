@@ -23,7 +23,8 @@ import org.apache.logging.log4j.Logger;
 @Mod(
     modid = GuncoreMod.MODID,
     name = GuncoreMod.NAME,
-    version = GuncoreMod.VERSION
+    version = GuncoreMod.VERSION,
+    dependencies = "required-after:customstartinggear"
 )
 public class GuncoreMod {
     public static final String MODID = "guncore";
