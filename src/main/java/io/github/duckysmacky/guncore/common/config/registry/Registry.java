@@ -50,6 +50,23 @@ public class Registry<T extends Enum<T> & RegistryType> {
         }
     }
 
+    /**
+     * Server only: adds an entry to the end of a type's file (disabled entries are kept) and syncs the registry with
+     * clients. Anything in the file that the entry class does not model is lost on rewrite.
+     */
+    public void appendEntry(T type, RegistryEntry entry) {
+        ConfigLoader loader = new ConfigLoader(Loader.instance().getConfigDir());
+        String path = directory + type.getJsonFile();
+        String json = loader.readJSON(path, () -> type.createDefaults());
+
+        RegistryEntry[] existing = gson.fromJson(json, TypeToken.getArray(type.getEntryClass()).getType());
+        List<RegistryEntry> all = new ArrayList<>(Arrays.asList(existing));
+        all.add(entry);
+
+        loader.writeJSON(path, all);
+        syncWithClients();
+    }
+
     public void cache(int typeOrdinal, String json) {
         cache(typeClass.getEnumConstants()[typeOrdinal], json);
     }
