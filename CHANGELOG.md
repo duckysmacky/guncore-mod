@@ -2,6 +2,14 @@
 
 All notable changes to Guncore for Minecraft 1.12.2, newest first.
 
+## v0.7.1
+
+#### Added
+- Added optional `ammoNbtData` for gun entries, so the issued ammo stack can carry NBT data (for example, `{Ammo:30}` for a 30-round magazine).
+
+#### Fixed
+- Fixed equipped items still being dropped with Q. The dropped stack is now returned to the inventory and the "Cannot drop equipped items" message is shown.
+
 ## v0.7.0
 
 #### Added
