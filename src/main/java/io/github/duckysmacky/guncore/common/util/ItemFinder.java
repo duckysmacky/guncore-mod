@@ -1,10 +1,13 @@
 package io.github.duckysmacky.guncore.common.util;
 
+import io.github.duckysmacky.guncore.GuncoreMod;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
@@ -23,6 +26,16 @@ public class ItemFinder {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    public static void applyNbt(ItemStack item, String registryName, String nbtData) {
+        if (nbtData == null || nbtData.trim().isEmpty()) return;
+
+        try {
+            item.setTagCompound(JsonToNBT.getTagFromJson(nbtData));
+        } catch (NBTException e) {
+            GuncoreMod.LOGGER.error("Invalid NBT '{}' for item {}: {}", nbtData, registryName, e.getMessage());
+        }
     }
 
     public static Item findItem(String registryName) {

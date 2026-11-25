@@ -22,6 +22,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
     private final String gunItemId;
     private final String ammoItemId;
     private final int ammoItemAmount;
+    private String ammoNbtData;
 
     public GunEntry(
         boolean enabled,
@@ -97,6 +98,7 @@ public class GunEntry extends CatalogEntry implements EquippableEntry {
             item = new ItemStack(Blocks.DIRT);
 
         item.setCount(ammoItemAmount);
+        ItemFinder.applyNbt(item, ammoItemId, ammoNbtData);
         return item;
     }
 

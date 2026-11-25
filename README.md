@@ -182,6 +182,8 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
 ```
 `category` is an `id` from `menus/gun_categories.json`; `rarity` uses the same values as items, below.
 
+Optional `ammoNbtData` applies SNBT to the issued ammo stack. For a 30-round Modern Warfare Cubed magazine, use `"ammoNbtData": "{Ammo:30}"`.
+
 **`kit-gadgets.json`, `gadgets.json`, `lethals.json`, `tacticals.json`, `utility.json`, `consumables.json`** - same item format everywhere: any item (vanilla or modded), optionally with `damage` (metadata), `nbtData` (SNBT) and bundled extra items (max 3 are placed):
 
 ```json

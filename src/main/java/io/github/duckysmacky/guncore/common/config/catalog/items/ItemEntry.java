@@ -1,6 +1,5 @@
 package io.github.duckysmacky.guncore.common.config.catalog.items;
 
-import io.github.duckysmacky.guncore.GuncoreMod;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.EquippableEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
@@ -8,8 +7,6 @@ import io.github.duckysmacky.guncore.common.util.ItemFinder;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -146,13 +143,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
         item.setItemDamage(damage);
         item.setCount(Math.max(amount, 1));
 
-        if (nbtData != null && !nbtData.trim().isEmpty()) {
-            try {
-                item.setTagCompound(JsonToNBT.getTagFromJson(nbtData));
-            } catch (NBTException e) {
-                GuncoreMod.LOGGER.error(String.format("Invalid NBT '%s' for item %s: %s", nbtData, id, e.getMessage()));
-            }
-        }
+        ItemFinder.applyNbt(item, id, nbtData);
 
         return item;
     }
