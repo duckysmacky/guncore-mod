@@ -10,6 +10,8 @@ import io.github.duckysmacky.guncore.server.game.ChatPrompt;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -62,13 +64,20 @@ public class ServerEventHandler {
         if (GameManager.instance().isRunning()) return;
         if (!EquipmentController.isEquipped(event.getEntityItem().getItem())) return;
 
+        // cancelling only stops the entity spawning: the stack is already out of the inventory, so put it back
         event.setCanceled(true);
 
         EntityPlayer player = event.getPlayer();
+        ItemStack stack = event.getEntityItem().getItem();
+        InventoryPlayer inventory = player.inventory;
+        // Q-drop empties the held slot: return the stack to where it was
+        if (inventory.getCurrentItem().isEmpty()) inventory.setInventorySlotContents(inventory.currentItem, stack);
+        else inventory.addItemStackToInventory(stack);
+
         player.sendMessage(new TextComponentString(
             TextUtils.translateColorCodes("&cCannot drop equipped items")
         ));
-        player.inventoryContainer.detectAndSendChanges();
+        player.openContainer.detectAndSendChanges();
     }
 
     @SubscribeEvent
