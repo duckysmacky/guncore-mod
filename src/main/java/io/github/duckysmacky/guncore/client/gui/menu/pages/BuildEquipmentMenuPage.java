@@ -22,7 +22,6 @@ public class BuildEquipmentMenuPage extends StaticMenu {
             new ItemStackCustomizer(new ItemStack(Items.DIAMOND))
                 .setName("&f&lGet base items")
                 .addLoreLine("&7Gives the items every class starts with")
-                .addLoreLine("&c&lWARNING: &7Resets the inventory, selected equipment is given back")
                 .getItemStack(),
             player -> {
                 PacketHandler.instance().sendToServer(new EquipBaseKitPacket());

@@ -43,7 +43,7 @@ Targets Minecraft 1.12.2 / Forge. Guncore itself doesn't add guns - it manages t
 
 ## Dependencies
 
-- [CSG Kits](https://www.curseforge.com/minecraft/mc-mods/csgo-kits) (Custom Starting Gear, mod ID `customstartinggear`) - **required**, the game won't start without it on the server and on every client. Loadout kits, given via the `csg_kit give <kit_id> <player>` command (build-a-class mode also needs a `base` kit defined in the CSG config, see below)
+- [CSG Kits](https://www.curseforge.com/minecraft/mc-mods/csgo-kits) (Custom Starting Gear, mod ID `customstartinggear`) - **required**, the game won't start without it on the server and on every client. Loadout kits, given via the `csg_kit give <kit_id> <player>` command
 
 Guncore calls CSG Kits commands by ID, so a replacement command mod works as long as it accepts `csg_kit give <kit_id> <player>`.
 
@@ -111,6 +111,7 @@ config/guncore/
     ├── utility.json            # build-a-class: helpful items (used for two utility slots)
     ├── consumables.json        # build-a-class: healing, food, blocks, single-use items
     ├── armor.json              # build-a-class: full armor sets
+    ├── base-items.json         # build-a-class: items given by "Get base items" (first 4 entries)
     └── locations.json          # named teleport/spawn points per map
 ```
 
@@ -205,6 +206,18 @@ Optional `ammoNbtData` applies SNBT to the issued ammo stack. For a 30-round Mod
 
 **`armor.json`** - a set of armor pieces (any piece may be omitted): `helmetItemId`, `chestplateItemId`, `leggingsItemId`, `bootsItemId`, plus `name`, `rarity`, `descriptionLines`.
 
+**`base-items.json`** - items given by the "Get base items" button of build-a-class mode. Same item format as above, but `rarity` and `additionalItems` are ignored (base items are always common). Only the first 4 entries are used; they go to slots `0:8`, `0:17`, `0:26` and `0:35` (bottom to top). Defaults to 64 cooked beef:
+
+```json
+{
+  "enabled": true,
+  "name": "Cooked Beef",
+  "itemId": "minecraft:cooked_beef",
+  "itemAmount": 64,
+  "descriptionLines": []
+}
+```
+
 **`locations.json`** - named points used by teleport/spawn features, tied to a map:
 
 ```json
@@ -223,7 +236,7 @@ Optional `ammoNbtData` applies SNBT to the issued ammo stack. For a 30-round Mod
 Switch with `/game equipment <kits|builder>` (ops, not during a round). `/menu` -> Equipment opens the menu of the active mode.
 
 - **kits**: a CSG kit, a primary + secondary weapon (Weapons -> Primary/Secondary) and a gadget from `kit-gadgets.json`.
-- **builder** (default): pick every slot yourself - primary weapon, secondary weapon, lethal, tactical, gadget, two utilities, consumable and an armor set. Hotbar slots 1-8 hold the main items (extras sit above them), so the CSG `base` kit - given by the "Get base items" button, which resets the inventory and then gives back your selection - must only use slots `0:8`, `0:17`, `0:26` and `0:35`. Mythic weapons are meant to need both "Mythic Weapon Voucher" items (one from gadgets, one from utility), this is not enforced by the mod.
+- **builder** (default): pick every slot yourself - primary weapon, secondary weapon, lethal, tactical, gadget, two utilities, consumable and an armor set. Hotbar slots 1-8 hold the main items (extras sit above them); the "Get base items" button fills the last column (slots `0:8`, `0:17`, `0:26`, `0:35`) with the items from `base-items.json`. Mythic weapons are meant to need both "Mythic Weapon Voucher" items (one from gadgets, one from utility), this is not enforced by the mod.
 
 Equipment can't be changed while a round is running (paused and not-started rounds are fine).
 

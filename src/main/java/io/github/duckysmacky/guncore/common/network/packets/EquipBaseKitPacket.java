@@ -24,7 +24,7 @@ public class EquipBaseKitPacket implements IMessage {
                 FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> {
                     EntityPlayerMP player = context.getServerHandler().player;
 
-                    EquipmentController.equipBaseKit(player);
+                    EquipmentController.giveBaseItems(player);
 
                     PacketHandler.instance().sendTo(new ReopenMenuPacket(), player);
                 });

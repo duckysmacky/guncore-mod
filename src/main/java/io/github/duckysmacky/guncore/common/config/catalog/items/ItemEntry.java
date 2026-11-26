@@ -97,7 +97,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
 
         NBTTagCompound displayTag = new NBTTagCompound();
 
-        String coloredName = rarity.color + "" + TextFormatting.BOLD + name;
+        String coloredName = getRarity().color + "" + TextFormatting.BOLD + name;
         displayTag.setString("Name", coloredName);
 
         NBTTagList loreList = new NBTTagList();
@@ -120,7 +120,7 @@ public class ItemEntry extends CatalogEntry implements EquippableEntry {
             loreList.appendTag(new NBTTagString(""));
         }
 
-        String rarityLine = rarity.color + "" + TextFormatting.BOLD + rarity.display.toUpperCase();
+        String rarityLine = getRarity().color + "" + TextFormatting.BOLD + getRarity().display.toUpperCase();
         loreList.appendTag(new NBTTagString(rarityLine));
 
         displayTag.setTag("Lore", loreList);

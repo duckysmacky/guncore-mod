@@ -2,6 +2,7 @@ package io.github.duckysmacky.guncore.common.config.catalog;
 
 import io.github.duckysmacky.guncore.common.config.catalog.armor.ArmorEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.items.BaseItemEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.items.ItemEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.locations.LocationEntry;
@@ -23,6 +24,7 @@ public enum CatalogType implements RegistryType {
     GADGETS("gadgets.json", ItemEntry.class, ItemEntry::createExample),
     UTILITY("utility.json", ItemEntry.class, ItemEntry::createExample),
     CONSUMABLES("consumables.json", ItemEntry.class, ItemEntry::createExample),
+    BASE_ITEMS("base-items.json", BaseItemEntry.class, BaseItemEntry::createExample),
     ARMOR("armor.json", ArmorEntry.class, ArmorEntry::createExample),
     LOCATIONS("locations.json", LocationEntry.class, LocationEntry::createExample);
 

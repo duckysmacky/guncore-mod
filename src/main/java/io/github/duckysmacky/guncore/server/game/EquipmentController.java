@@ -1,12 +1,15 @@
 package io.github.duckysmacky.guncore.server.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
+import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.common.config.Settings;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.catalog.EquippableEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.config.catalog.armor.ArmorEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.items.BaseItemEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.items.ItemEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.CommandExecutor;
@@ -24,10 +27,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 
 import java.util.List;
-import java.util.Map;
 
 public final class EquipmentController {
-    private static final String BASE_KIT_ID = "base";
+    /** Slots of the base items, bottom to top above the last hotbar slot */
+    private static final int[] BASE_ITEM_SLOTS = {8, 17, 26, 35};
     private static final int MAX_EXTRA_ITEMS = 3;
     private static final String EQUIPPED_TAG = "guncoreEquipped";
 
@@ -224,28 +227,13 @@ public final class EquipmentController {
         reportRarityScore(player);
     }
 
-    /** Resets the inventory to the base kit, then gives back everything that was selected before */
-    public static void equipBaseKit(EntityPlayerMP player) {
+    /** Gives the base items into their slots, the rest of the inventory is left as is */
+    public static void giveBaseItems(EntityPlayerMP player) {
         if (isLocked(player) || isWrongMode(player, EquipmentMode.BUILDER)) return;
 
-        String command = String.format("csg_kit give %s %s", BASE_KIT_ID, player.getName());
-        CommandExecutor.execute(command);
-
-        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
-        for (Map.Entry<EquipmentType, CatalogEntry> selected : new java.util.ArrayList<>(equipment.getAll().entrySet())) {
-            EquipmentType type = selected.getKey();
-            CatalogEntry entry = selected.getValue();
-
-            if (entry instanceof GunEntry) {
-                equipment.getAll().remove(type); // wiped from the inventory, nothing to remove
-                giveGun(player, type, (GunEntry) entry);
-            } else if (entry instanceof ArmorEntry) {
-                giveArmor(player, (ArmorEntry) entry);
-            } else {
-                equipment.getAll().remove(type);
-                giveItem(player, type, (ItemEntry) entry);
-            }
-        }
+        List<BaseItemEntry> baseItems = ConfigManager.instance().getCatalogManager().getCatalog(CatalogType.BASE_ITEMS);
+        for (int i = 0; i < baseItems.size() && i < BASE_ITEM_SLOTS.length; i++)
+            player.inventory.mainInventory.set(BASE_ITEM_SLOTS[i], tag(baseItems.get(i).getItemStack()));
 
         syncInventory(player);
     }
