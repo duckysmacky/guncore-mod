@@ -2,12 +2,31 @@
 
 All notable changes to Guncore for Minecraft 1.12.2, newest first.
 
+## v0.7.2
+
+#### Added
+
+- **Restore selection** and **Reset selection** buttons in the build-a-class equipment menu. Restore gives back everything you selected, for example after a round. Reset removes it all and frees the rarity score.
+- **Deselect** buttons on every selection list. Deselecting a pick removes it and frees its rarity score.
+- The current rarity score is shown in the top row of the equipment menus.
+- **Automatic item cleanup**, a toggle in the World settings menu and `/game item_cleanup <true|false>`. When on, all dropped items and falling blocks are removed every `world.itemCleanupIntervalSec` seconds (30 by default). It is off by default.
+- `/game clear_items` and a **Clear item drops** button, which remove all dropped items and falling blocks once.
+- Base items for build-a-class are now configurable in `base-items.json`. It defaults to 64 cooked beef.
+
+#### Changed
+
+- **Get base items** no longer uses the CSG `base` kit. It fills the last hotbar column from `base-items.json` and leaves the rest of the inventory as it is. The CSG `base` kit is no longer needed.
+- Picking a kit now gives back your selected weapons and gadget after the kit is handed out. The rarity score only replaces the previous kit's cost.
+- Deselecting a kit clears the inventory, since kit items aren't tracked, and then gives back your selected weapons and gadget.
+
 ## v0.7.1
 
 #### Added
+
 - Added optional `ammoNbtData` for gun entries, so the issued ammo stack can carry NBT data (for example, `{Ammo:30}` for a 30-round magazine).
 
 #### Fixed
+
 - Fixed equipped items still being dropped with Q. The dropped stack is now returned to the inventory and the "Cannot drop equipped items" message is shown.
 
 ## v0.7.0
