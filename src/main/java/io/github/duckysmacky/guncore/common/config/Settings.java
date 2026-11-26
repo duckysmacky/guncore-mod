@@ -73,6 +73,12 @@ public class Settings {
         if (settings.world != null && settings.world.itemPickup != null)
             defaults.world.itemPickup = settings.world.itemPickup;
 
+        if (settings.world != null && settings.world.itemCleanup != null)
+            defaults.world.itemCleanup = settings.world.itemCleanup;
+
+        if (settings.world != null && settings.world.itemCleanupIntervalSec != null && settings.world.itemCleanupIntervalSec > 0)
+            defaults.world.itemCleanupIntervalSec = settings.world.itemCleanupIntervalSec;
+
         if (settings.world != null && settings.world.gamerules != null) {
             defaults.world.gamerules.replaceAll((rule, value) -> {
                 Boolean configured = settings.world.gamerules.get(rule);
@@ -109,10 +115,14 @@ public class Settings {
 
     public static class WorldSettings {
         public Boolean itemPickup;
+        public Boolean itemCleanup;
+        public Integer itemCleanupIntervalSec;
         public Map<String, Boolean> gamerules;
 
         public WorldSettings() {
             this.itemPickup = true;
+            this.itemCleanup = false;
+            this.itemCleanupIntervalSec = 30;
             this.gamerules = new LinkedHashMap<>();
         }
     }

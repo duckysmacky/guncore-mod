@@ -75,6 +75,18 @@ public class WorldSettingsMenuPage extends StaticMenu {
             this, () -> ClientGameInfo.instance().isItemPickup(), "item_pickup"
         ), 2, 6);
 
+        addEntry(new DisplayEntry(
+            new ItemStackCustomizer(new ItemStack(Items.LAVA_BUCKET))
+                .setName("&f&lAutomatic Item Cleanup")
+                .addLoreLine("&fPeriodically remove all dropped items")
+                .addLoreLine("&7Interval is set in settings.json (default 30s)")
+                .getItemStack()
+        ), 1, 7);
+
+        addEntry(new GameSettingToggleEntry(
+            this, () -> ClientGameInfo.instance().isItemCleanup(), "item_cleanup"
+        ), 2, 7);
+
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.REDSTONE_TORCH))
                 .setName("&f&lSetup world settings")

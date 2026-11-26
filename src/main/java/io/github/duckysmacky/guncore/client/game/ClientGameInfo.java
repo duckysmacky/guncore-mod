@@ -35,6 +35,7 @@ public final class ClientGameInfo {
     private int startingLives;
     private boolean killOnlyLifeLoss = true;
     private boolean itemPickup = true;
+    private boolean itemCleanup;
     private boolean mythicsEnabled = true;
     private LoadoutSystem loadoutSystem = LoadoutSystem.FLEXIBLE;
     private String rarityPresetName = Settings.DEFAULT_RARITY_PRESET;
@@ -71,6 +72,7 @@ public final class ClientGameInfo {
         int startingLives,
         boolean killOnlyLifeLoss,
         boolean itemPickup,
+        boolean itemCleanup,
         boolean mythicsEnabled,
         LoadoutSystem loadoutSystem,
         String rarityPresetName,
@@ -90,6 +92,7 @@ public final class ClientGameInfo {
         this.startingLives = startingLives;
         this.killOnlyLifeLoss = killOnlyLifeLoss;
         this.itemPickup = itemPickup;
+        this.itemCleanup = itemCleanup;
         this.mythicsEnabled = mythicsEnabled;
         this.loadoutSystem = loadoutSystem;
         this.rarityPresetName = rarityPresetName;
@@ -214,6 +217,10 @@ public final class ClientGameInfo {
 
     public boolean isItemPickup() {
         return itemPickup;
+    }
+
+    public boolean isItemCleanup() {
+        return itemCleanup;
     }
 
     public boolean isMythicsEnabled() {

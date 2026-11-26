@@ -37,6 +37,7 @@ public class GameCommand extends CommandBase {
         "register_kill",
         "kill_only_lives",
         "item_pickup",
+        "item_cleanup",
         "spawnpoint",
         "spawnpoint_all",
         "mode",
@@ -123,6 +124,11 @@ public class GameCommand extends CommandBase {
                     throw new CommandException("Usage: /game item_pickup <true|false>");
                 gameManager.setItemPickup(parseBoolean(args[1]));
                 break;
+            case "item_cleanup":
+                if (args.length < 2)
+                    throw new CommandException("Usage: /game item_cleanup <true|false>");
+                gameManager.setItemCleanup(parseBoolean(args[1]));
+                break;
             case "spawnpoint": {
                 EntityPlayerMP target = (args.length >= 2)
                     ? getPlayerByName(server, args[1])
@@ -190,7 +196,7 @@ public class GameCommand extends CommandBase {
             switch (subcommand) {
                 case "kills": case "lives": case "deaths":
                     return getListOfStringsMatchingLastWord(args, "add", "remove", "set");
-                case "kill_only_lives": case "item_pickup": case "mythics":
+                case "kill_only_lives": case "item_pickup": case "item_cleanup": case "mythics":
                     return getListOfStringsMatchingLastWord(args, "true", "false");
                 case "mode":
                     return getListOfStringsMatchingLastWord(args, lowerNames(GameMode.values()));

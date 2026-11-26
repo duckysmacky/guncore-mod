@@ -38,6 +38,7 @@ public class SyncGameInfoPacket implements IMessage {
     private int startingLives;
     private boolean killOnlyLifeLoss;
     private boolean itemPickup;
+    private boolean itemCleanup;
     private boolean mythicsEnabled;
     private LoadoutSystem loadoutSystem;
     private String rarityPresetName;
@@ -60,6 +61,7 @@ public class SyncGameInfoPacket implements IMessage {
         int startingLives,
         boolean killOnlyLifeLoss,
         boolean itemPickup,
+        boolean itemCleanup,
         boolean mythicsEnabled,
         LoadoutSystem loadoutSystem,
         String rarityPresetName,
@@ -79,6 +81,7 @@ public class SyncGameInfoPacket implements IMessage {
         this.startingLives = startingLives;
         this.killOnlyLifeLoss = killOnlyLifeLoss;
         this.itemPickup = itemPickup;
+        this.itemCleanup = itemCleanup;
         this.mythicsEnabled = mythicsEnabled;
         this.loadoutSystem = loadoutSystem;
         this.rarityPresetName = rarityPresetName;
@@ -101,6 +104,7 @@ public class SyncGameInfoPacket implements IMessage {
         buf.writeInt(startingLives);
         buf.writeBoolean(killOnlyLifeLoss);
         buf.writeBoolean(itemPickup);
+        buf.writeBoolean(itemCleanup);
         buf.writeBoolean(mythicsEnabled);
         buf.writeInt(loadoutSystem.ordinal());
         ByteBufUtils.writeUTF8String(buf, rarityPresetName);
@@ -140,6 +144,7 @@ public class SyncGameInfoPacket implements IMessage {
         startingLives = buf.readInt();
         killOnlyLifeLoss = buf.readBoolean();
         itemPickup = buf.readBoolean();
+        itemCleanup = buf.readBoolean();
         mythicsEnabled = buf.readBoolean();
         loadoutSystem = LoadoutSystem.values()[buf.readInt()];
         rarityPresetName = ByteBufUtils.readUTF8String(buf);
@@ -205,6 +210,7 @@ public class SyncGameInfoPacket implements IMessage {
                         message.startingLives,
                         message.killOnlyLifeLoss,
                         message.itemPickup,
+                        message.itemCleanup,
                         message.mythicsEnabled,
                         message.loadoutSystem,
                         message.rarityPresetName,

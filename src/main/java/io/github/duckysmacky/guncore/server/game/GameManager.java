@@ -9,6 +9,8 @@ import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import io.github.duckysmacky.guncore.server.stats.StatsDatabase;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -35,6 +37,8 @@ public class GameManager {
     private final Map<UUID, List<StatsDatabase.Selection>> roundLoadouts = new HashMap<>();
     private GameState state;
     private int roundDurationSec;
+    /** Seconds since the last automatic item cleanup */
+    private int itemCleanupSec;
 
     private GameManager() {
         this.playerStats = new HashMap<>();
@@ -241,6 +245,12 @@ public class GameManager {
             }
         }
 
+        if (isItemCleanup() && tickCount % 20 == 0 && ++itemCleanupSec >= settings().world.itemCleanupIntervalSec) {
+            itemCleanupSec = 0;
+            for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
+                world.getEntities(EntityItem.class, item -> true).forEach(Entity::setDead);
+        }
+
         // every 0.5 second
         if (tickCount % 10 == 0) syncToClients();
     }
@@ -255,7 +265,7 @@ public class GameManager {
         SyncGameInfoPacket packet = new SyncGameInfoPacket(
             getGameMode(), getGameModeVariant(), getEquipmentMode(), state, roundDurationSec,
             getRoundLengthSec(), getKillTarget(), getStartingLives(),
-            isKillOnlyLifeLoss(), isItemPickup(), isMythicsEnabled(), getLoadoutSystem(),
+            isKillOnlyLifeLoss(), isItemPickup(), isItemCleanup(), isMythicsEnabled(), getLoadoutSystem(),
             settings().equipment.rarityPreset, new ArrayList<>(settings().equipment.rarityPresets.keySet()), getRarityPreset(),
             settings().world.gamerules,
             playerStats, playerTeams
@@ -587,6 +597,18 @@ public class GameManager {
         ConfigManager.instance().saveSettings();
         syncToClients();
         announceSetting("Item pickup", itemPickup ? "enabled" : "disabled");
+    }
+
+    public boolean isItemCleanup() {
+        return settings().world.itemCleanup;
+    }
+
+    public void setItemCleanup(boolean itemCleanup) {
+        settings().world.itemCleanup = itemCleanup;
+        itemCleanupSec = 0;
+        ConfigManager.instance().saveSettings();
+        syncToClients();
+        announceSetting("Automatic item cleanup", itemCleanup ? "enabled" : "disabled");
     }
 
     public long getRoundDurationSec() {
