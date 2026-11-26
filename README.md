@@ -5,7 +5,21 @@
 [![Version](https://img.shields.io/github/v/release/duckysmacky/guncore-mod?include_prereleases&label=version)](https://github.com/duckysmacky/guncore-mod/releases)
 [![Downloads](https://img.shields.io/github/downloads/duckysmacky/guncore-mod/total?label=downloads)](https://github.com/duckysmacky/guncore-mod/releases)
 
-Guncore is a Forge mod adding a full game-control layer for gun PVP servers: round-based gamemodes (FFA, Team Deathmatch, Hostage), a kit/loadout system with optional rarity-based limits, live stats (kills/deaths/lives) shown via a HUD overlay and scoreboards, persistent player profiles with server-wide leaderboards, and an in-game GUI menu for players and admins. It's built for the gun-PVP styled modpacks and servers, sitting on top of a separate weapon mod for the actual guns.
+Guncore is a Forge mod adding a full game-control layer for gun PVP servers.
+
+## About & features
+
+Guncore adds support for hosting custom gun-based PVP events on your server by providing a foundational framework. It's built for the gun-PVP styled modpacks and servers, sitting on top of a other mods for the actual guns and items.
+
+The mod features and adds support for:
+
+- round-based gamemodes (FFA, Team Deathmatch, Hostage)
+- a kit-based or build-a-class loadout systems with optional rarity-based limits
+- live stats (kills/deaths/lives) shown via a HUD overlay and scoreboards
+- persistent player profiles with server-wide leaderboards
+- an in-game GUI menu for players and admins
+
+Guncore itself doesn't any guns or items - it manages the game around them (rounds, kits, loadouts, kills/deaths/lives, teams) and expects guns, ammo, armor, gadgets and other items to come from whichever mods you use, referenced in the catalog by their item registry IDs. It is a fully (90%) data-driven mod and everything is configureable via a **Catalog system** (see the [Configuration](#configuration) section for more details on how to configure and use the mod).
 
 ## Supported versions
 
@@ -39,7 +53,7 @@ This is **both** a client and server mod, so the version of the mod should match
 
 # Guncore 1.12.2 overview
 
-Targets Minecraft 1.12.2 / Forge. Guncore itself doesn't add guns - it manages the game around them (rounds, kits, kills/deaths/lives, teams) and expects guns and ammo to come from whichever weapon mod you use, referenced in the catalog by their item registry IDs.
+Targets Minecraft Forge 1.12.2 Forge.
 
 ## Dependencies
 
@@ -47,7 +61,7 @@ Targets Minecraft 1.12.2 / Forge. Guncore itself doesn't add guns - it manages t
 
 Guncore calls CSG Kits commands by ID, so a replacement command mod works as long as it accepts `csg_kit give <kit_id> <player>`.
 
-## Weapon mod (optional)
+### Weapon mod (optional)
 
 Guncore has no weapon mod dependency. Guns and ammo are plain item registry IDs in `primary-weapons.json` / `secondary-weapons.json`, so use any weapon mod and fill in its IDs. The generated example catalog only uses vanilla items (a bow). The examples below use [Vic's Modern Warfare 2.0](https://www.curseforge.com/minecraft/mc-mods/vics-modern-warfare) IDs.
 
@@ -91,6 +105,9 @@ The gold block on the profile page opens the **global stats** menu: one button p
 Profiles are stored in a SQLite database at `config/guncore/stats.db`, created on the first server start (the SQLite driver is bundled in the mod jar). Favorites are keyed by the catalog entry `name`, so renaming an entry starts a new count. Delete the file to reset all stats.
 
 ## Configuration
+
+> [!TIP]
+> See the [example configuration](https://github.com/duckysmacky/guncore-mod/tree/1.12.2/example_configuration) for live configuration which I use on my own server. You can copy it and use on own server as well if you don't want to configure everything from zero. Allthough do mind that it requires multiple mods to be already installed on the server (HBM's NTM, MW 2.0/3.0/Cubed, Techguns, Healing Items, Security Craft, Grapplehook Mod, Gaspunk, Combat Drones and some others) - see the mods for yourself via IDs.
 
 All config lives **server-side** only, under the server's Forge config directory (the same folder holding `config/` for every other mod - typically `<server_root>/config/guncore/`). Files are generated with example content the first time the server starts; only the server's copy matters, clients receive it over the network and never read local files.
 
