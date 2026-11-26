@@ -66,6 +66,8 @@ Guncore has no weapon mod dependency. Guns and ammo are plain item registry IDs 
 - `/game world <gamerule> <true|false>` - sets a world gamerule from `world.gamerules` (saved to `settings.json`); `/game world setup` resets them to defaults and applies them
 - `/game kill_only_lives <true|false>` - toggles whether only player-caused kills cost a life (vs. all deaths)
 - `/game item_pickup <true|false>` - toggles whether players can pick up items (default `true`; useful when other mods still drop items)
+- `/game item_cleanup <true|false>` - toggles automatic removal of all dropped items and falling blocks every `world.itemCleanupIntervalSec` seconds (default `false`)
+- `/game clear_items` - removes all dropped items and falling blocks once (same as the Clear item drops button)
 - `/game spawnpoint [player]` / `/game spawnpoint_all` - sets spawnpoint, survival mode, and bedrock under the target(s)
 - `/game scoreboard` / `/game teams` - prints current stats/team rosters
 - `/game stats [player]` - opens the profile of yourself or another player (online or offline); the console gets a chat printout. The only `/game` subcommand available to non-ops
@@ -128,6 +130,7 @@ Created with defaults on first start and rewritten whenever a setting is changed
 - `equipment.loadoutSystem` (`flexible` or `rarity_score`) - updated by `/game loadout_system`.
 - `equipment.rarityPreset` / `equipment.rarityPresets` - the selected and all available rarity score presets, see [Rarity Score system](#rarity-score-system).
 - `world.itemPickup` - whether players can pick up items (`true` by default).
+- `world.itemCleanup` / `world.itemCleanupIntervalSec` - whether all dropped items are removed automatically (`false` by default) and how often, in seconds (`30` by default).
 - `world.gamerules` - gamerules (`true`/`false`). Applied to the world on server start and on `/guncore config_reload`. `keepInventory` is always forced to `true` and is not configurable.
 
 ### `menus/*.json`

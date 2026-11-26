@@ -10,6 +10,7 @@ import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import io.github.duckysmacky.guncore.server.stats.StatsDatabase;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -247,8 +248,7 @@ public class GameManager {
 
         if (isItemCleanup() && tickCount % 20 == 0 && ++itemCleanupSec >= settings().world.itemCleanupIntervalSec) {
             itemCleanupSec = 0;
-            for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
-                world.getEntities(EntityItem.class, item -> true).forEach(Entity::setDead);
+            clearDroppedItems();
         }
 
         // every 0.5 second
@@ -597,6 +597,13 @@ public class GameManager {
         ConfigManager.instance().saveSettings();
         syncToClients();
         announceSetting("Item pickup", itemPickup ? "enabled" : "disabled");
+    }
+
+    /** Silently removes dropped items and falling blocks in every world */
+    public void clearDroppedItems() {
+        for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
+            world.getEntities(Entity.class, e -> e instanceof EntityItem || e instanceof EntityFallingBlock)
+                .forEach(Entity::setDead);
     }
 
     public boolean isItemCleanup() {

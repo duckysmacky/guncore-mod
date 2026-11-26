@@ -38,6 +38,7 @@ public class GameCommand extends CommandBase {
         "kill_only_lives",
         "item_pickup",
         "item_cleanup",
+        "clear_items",
         "spawnpoint",
         "spawnpoint_all",
         "mode",
@@ -168,6 +169,9 @@ public class GameCommand extends CommandBase {
                 if (args.length < 2)
                     throw new CommandException("Usage: /game mythics <true|false>");
                 gameManager.setMythicsEnabled(parseBoolean(args[1]));
+                break;
+            case "clear_items":
+                gameManager.clearDroppedItems();
                 break;
             case "scoreboard":
                 gameManager.printGameScoreboard();

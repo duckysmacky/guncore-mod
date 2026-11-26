@@ -50,6 +50,7 @@ public class GuncoreCommand extends CommandBase {
         "&f/game kill_only_lives <true|false> &7- Toggles life loss on non-player-caused deaths",
         "&f/game item_pickup <true|false> &7- Toggles whether players can pick up items",
         "&f/game item_cleanup <true|false> &7- Toggles periodic removal of dropped items",
+        "&f/game clear_items &7- Removes all dropped items and falling blocks",
         "&f/game spawnpoint [player] &7- Sets a spawnpoint, survival mode, and bedrock at the target's location",
         "&f/game spawnpoint_all &7- Same, but for every online player",
         "&f/game scoreboard &7- Prints the scoreboard",

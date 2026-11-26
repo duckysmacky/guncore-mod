@@ -78,7 +78,7 @@ public class WorldSettingsMenuPage extends StaticMenu {
         addEntry(new DisplayEntry(
             new ItemStackCustomizer(new ItemStack(Items.LAVA_BUCKET))
                 .setName("&f&lAutomatic Item Cleanup")
-                .addLoreLine("&fPeriodically remove all dropped items")
+                .addLoreLine("&fPeriodically remove all dropped items and falling blocks")
                 .addLoreLine("&7Interval is set in settings.json (default 30s)")
                 .getItemStack()
         ), 1, 7);
@@ -115,9 +115,9 @@ public class WorldSettingsMenuPage extends StaticMenu {
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Blocks.IRON_TRAPDOOR))
                 .setName("&f&lClear item drops")
-                .addLoreLine("&7Remove all of the dropped items on the ground")
+                .addLoreLine("&7Remove all of the dropped items and falling blocks")
                 .getItemStack(),
-            p -> CommandExecutor.execute("kill @e[type=item]")
+            p -> CommandExecutor.execute("game clear_items")
         ), 4, 4);
     }
 }
