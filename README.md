@@ -238,6 +238,8 @@ Switch with `/game equipment <kits|builder>` (ops, not during a round). `/menu` 
 - **kits**: a CSG kit, a primary + secondary weapon (Weapons -> Primary/Secondary) and a gadget from `kit-gadgets.json`.
 - **builder** (default): pick every slot yourself - primary weapon, secondary weapon, lethal, tactical, gadget, two utilities, consumable and an armor set. Hotbar slots 1-8 hold the main items (extras sit above them); the "Get base items" button fills the last column (slots `0:8`, `0:17`, `0:26`, `0:35`) with the items from `base-items.json`. "Restore selection" gives back everything you selected (e.g. after a round), "Reset selection" removes it all and frees the rarity score. Mythic weapons are meant to need both "Mythic Weapon Voucher" items (one from gadgets, one from utility), this is not enforced by the mod.
 
+Every selection list has a "Deselect" button left of "Select random" in the top row: it removes that pick and frees its rarity score. Deselecting a kit clears the inventory (kit items aren't tracked) and gives back the selected weapons and gadget.
+
 Equipment can't be changed while a round is running (paused and not-started rounds are fine).
 
 ### Rarity Score system

@@ -9,6 +9,7 @@ import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.EquippableEntry;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 import io.github.duckysmacky.guncore.common.network.packets.EquipBuildPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -39,6 +40,7 @@ public class BuildSelectionMenuPage extends DynamicMenu {
             open(player);
         };
         entries.forEach(entry -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(entry.getIcon(), entry.getRarity()), player -> select.accept(player, entry))));
+        setDeselectEntry("&7Deselect your " + type.display.toLowerCase(), player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT, type));
         setRandomEntry("&7Select a random " + type.display.toLowerCase(), entries, select);
     }
 }

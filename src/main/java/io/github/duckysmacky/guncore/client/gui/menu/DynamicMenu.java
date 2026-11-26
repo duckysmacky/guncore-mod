@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.MenuEntry;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
@@ -17,13 +19,15 @@ import net.minecraft.item.ItemStack;
 /**
  * Menu with a variable amount of entries. Entries fill the inner area (everything except the outer ring of slots);
  * when they do not fit, extra pages are added and navigated with buttons on both sides of the back button. Optionally
- * rows are centered horizontally and an extra entry sits in the middle of the top row
+ * rows are centered horizontally and an extra entry sits in the middle of the top row. With a deselect entry, the
+ * deselect entry sits left of the middle and the extra entry right of it
  */
 public abstract class DynamicMenu extends BaseMenu {
     private final List<MenuEntry> entries = new ArrayList<>();
     private final Random random = new Random();
     private final boolean centered;
     private MenuEntry topEntry;
+    private MenuEntry deselectEntry;
     private int page = 0;
 
     public DynamicMenu(String title, BaseMenu parent, int rows, int cols) {
@@ -58,8 +62,27 @@ public abstract class DynamicMenu extends BaseMenu {
         ));
     }
 
+    /** Top entry left of the middle which runs {@code action} and reopens this page */
+    public void setDeselectEntry(String lore, Consumer<EntityPlayer> action) {
+        deselectEntry = new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Blocks.BARRIER))
+                .setName("&c&lDeselect")
+                .addLoreLine(lore)
+                .getItemStack(),
+            player -> {
+                action.accept(player);
+                player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
+                open(player);
+            }
+        );
+    }
+
     private int topEntrySlot() {
-        return cols / 2;
+        return deselectEntry != null ? cols / 2 + 1 : cols / 2;
+    }
+
+    private int deselectEntrySlot() {
+        return cols / 2 - 1;
     }
 
     private int perPage() {
@@ -114,6 +137,10 @@ public abstract class DynamicMenu extends BaseMenu {
             inventory.setInventorySlotContents(topEntrySlot(), topEntry.getIcon());
         }
 
+        if (deselectEntry != null) {
+            inventory.setInventorySlotContents(deselectEntrySlot(), deselectEntry.getIcon());
+        }
+
         // back button
         if (parent != null) {
             inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonItem());
@@ -141,6 +168,11 @@ public abstract class DynamicMenu extends BaseMenu {
 
         if (topEntry != null && slot == topEntrySlot()) {
             topEntry.onClick(player);
+            return;
+        }
+
+        if (deselectEntry != null && slot == deselectEntrySlot()) {
+            deselectEntry.onClick(player);
             return;
         }
 

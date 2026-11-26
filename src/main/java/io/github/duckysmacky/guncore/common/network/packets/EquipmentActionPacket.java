@@ -16,7 +16,9 @@ public class EquipmentActionPacket implements IMessage {
     public enum Action {
         BASE_ITEMS,
         RESTORE,
-        RESET
+        RESET,
+        DESELECT,
+        DESELECT_KIT
     }
 
     private Action action;
@@ -46,6 +48,11 @@ public class EquipmentActionPacket implements IMessage {
         buf.writeInt(type == null ? -1 : type.ordinal());
     }
 
+    /** Client: sends the action to the server */
+    public static void send(Action action, EquipmentType type) {
+        PacketHandler.instance().sendToServer(new EquipmentActionPacket(action, type));
+    }
+
     public static class Handler implements IMessageHandler<EquipmentActionPacket, IMessage> {
         @Override
         public IMessage onMessage(EquipmentActionPacket message, MessageContext context) {
@@ -62,6 +69,12 @@ public class EquipmentActionPacket implements IMessage {
                             break;
                         case RESET:
                             EquipmentController.resetSelection(player);
+                            break;
+                        case DESELECT:
+                            if (message.type != null) EquipmentController.deselect(player, message.type);
+                            break;
+                        case DESELECT_KIT:
+                            EquipmentController.deselectKit(player);
                             break;
                     }
 

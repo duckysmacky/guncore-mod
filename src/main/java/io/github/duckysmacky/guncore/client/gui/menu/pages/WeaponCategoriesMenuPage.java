@@ -9,6 +9,8 @@ import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.common.config.menus.MenuSectionEntry;
 import io.github.duckysmacky.guncore.common.config.menus.MenuSectionType;
+import io.github.duckysmacky.guncore.common.game.EquipmentType;
+import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class WeaponCategoriesMenuPage extends DynamicMenu {
             addEntry(new SubpageEntry(category.getIcon(), new GunsMenuPage(this, secondary, category)));
         }
 
+        setDeselectEntry("&7Deselect your " + (secondary ? "secondary" : "main") + " weapon", player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT, secondary ? EquipmentType.SECONDARY_WEAPON : EquipmentType.MAIN_WEAPON));
         setRandomEntry("&7Select a random weapon from any category", shownGuns, (player, gun) -> GunsMenuPage.equip(player, secondary, gun));
     }
 }

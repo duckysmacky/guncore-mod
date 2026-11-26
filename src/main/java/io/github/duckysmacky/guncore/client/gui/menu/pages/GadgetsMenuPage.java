@@ -8,6 +8,8 @@ import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.catalog.items.ItemEntry;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.game.EquipmentType;
+import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 import io.github.duckysmacky.guncore.common.network.packets.EquipGadgetPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -36,6 +38,7 @@ public class GadgetsMenuPage extends DynamicMenu {
             open(player);
         };
         gadgets.forEach(gadget -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(gadget.getItemStack(), gadget.getRarity()), player -> select.accept(player, gadget))));
+        setDeselectEntry("&7Deselect your gadget", player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT, EquipmentType.GADGET));
         setRandomEntry("&7Select a random gadget", gadgets, select);
     }
 }

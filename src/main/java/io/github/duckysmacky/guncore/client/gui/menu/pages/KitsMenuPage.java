@@ -9,6 +9,7 @@ import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 import io.github.duckysmacky.guncore.common.network.packets.EquipKitPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -34,6 +35,7 @@ public class KitsMenuPage extends DynamicMenu {
             open(player);
         };
         kits.forEach(kit -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(kit.getIconItem(), kit.getRarity()), player -> select.accept(player, kit))));
+        setDeselectEntry("&7Deselect your kit, selected weapons and gadget are kept", player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT_KIT, null));
         setRandomEntry("&7Select a random kit from this class", kits, select);
     }
 

@@ -9,6 +9,8 @@ import io.github.duckysmacky.guncore.client.gui.menu.DynamicMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.game.EquipmentType;
+import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 import io.github.duckysmacky.guncore.common.network.packets.EquipGunPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -34,6 +36,7 @@ public class GunsMenuPage extends DynamicMenu {
             open(player);
         };
         guns.forEach(gun -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(gun.getGunItemStack(), gun.getRarity()), player -> select.accept(player, gun))));
+        setDeselectEntry("&7Deselect your " + (secondary ? "secondary" : "main") + " weapon", player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT, secondary ? EquipmentType.SECONDARY_WEAPON : EquipmentType.MAIN_WEAPON));
         setRandomEntry("&7Select a random weapon from this category", guns, select);
     }
 

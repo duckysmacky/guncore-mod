@@ -243,6 +243,44 @@ public final class EquipmentController {
         syncInventory(player);
     }
 
+    // Deselecting
+
+    /** Removes the entry selected for {@code type} from the inventory and the selection */
+    public static void deselect(EntityPlayerMP player, EquipmentType type) {
+        if (isLocked(player)) return;
+
+        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
+        CatalogEntry entry = equipment.get(type);
+        if (entry == null) {
+            send(player, "&7Nothing selected as " + type.display.toLowerCase());
+            return;
+        }
+
+        removeEntry(player, entry);
+        equipment.getAll().remove(type);
+        syncInventory(player);
+        send(player, "&7Deselected " + type.display.toLowerCase() + ": &f" + entry.getName());
+        reportRarityScore(player);
+    }
+
+    /** Clears the inventory (the kit's items are not tracked) and gives back the selected weapons and gadget */
+    public static void deselectKit(EntityPlayerMP player) {
+        if (isLocked(player) || isWrongMode(player, EquipmentMode.KITS)) return;
+
+        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
+        if (equipment.getKit() == null) {
+            send(player, "&7No kit selected");
+            return;
+        }
+
+        player.inventory.clear();
+        equipment.setKit(null);
+        giveSelection(player);
+        syncInventory(player);
+        send(player, "&7Kit deselected");
+        reportRarityScore(player);
+    }
+
     // Whole selection (build-a-class)
 
     /** Gives back everything that is selected, removing the old copies from the inventory first */

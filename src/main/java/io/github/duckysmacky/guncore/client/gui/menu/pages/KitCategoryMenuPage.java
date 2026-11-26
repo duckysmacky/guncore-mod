@@ -9,6 +9,7 @@ import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.config.menus.MenuSectionEntry;
 import io.github.duckysmacky.guncore.common.config.menus.MenuSectionType;
+import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class KitCategoryMenuPage extends DynamicMenu {
             addEntry(new SubpageEntry(kitClass.getIcon(), new KitsMenuPage(this, kitClass)));
         }
 
+        setDeselectEntry("&7Deselect your kit, selected weapons and gadget are kept", player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT_KIT, null));
         setRandomEntry("&7Select a random kit from any class", shownKits, KitsMenuPage::equip);
     }
 }
