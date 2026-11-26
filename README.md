@@ -244,7 +244,7 @@ Equipment can't be changed while a round is running (paused and not-started roun
 
 With `/game loadout_system rarity_score` every pick costs points by its rarity, and a loadout can't go over the max score of the active equipment mode. Picks that would go over it are denied, and each accepted pick shows the loadout's score in chat. With `flexible` (default) there are no limits. Turning mythics off (`/game mythics false`) works with both systems.
 
-- **Kit-based**: the kit, both weapons and the kit gadget count. Picking a kit resets the score to the kit's own cost, since the kit replaces the whole inventory.
+- **Kit-based**: the kit, both weapons and the kit gadget count. Picking a kit only replaces the previous kit's cost: the kit replaces the inventory, then the selected weapons and gadget are given back.
 - **Build-a-class**: every slot counts; replacing a slot only counts the new item.
 - Kits count by tier: basic = common, advanced = uncommon, complex = rare, professional = epic, forbidden = legendary, special = mythic.
 

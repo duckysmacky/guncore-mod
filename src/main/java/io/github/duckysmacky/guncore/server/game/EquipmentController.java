@@ -75,7 +75,7 @@ public final class EquipmentController {
     /**
      * Rejects picks the rarity rules don't allow
      *
-     * @param slot slot the pick replaces, null for a kit (replaces the whole loadout)
+     * @param slot slot the pick replaces, null for a kit (replaces the previous kit)
      */
     private static boolean isDenied(EntityPlayerMP player, EquipmentType slot, Rarity rarity) {
         GameManager game = GameManager.instance();
@@ -90,11 +90,14 @@ public final class EquipmentController {
         Settings.RarityPreset preset = game.getRarityPreset();
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
 
-        int rest = 0;
+        Rarity replaced;
         if (slot != null) {
-            EquippableEntry replaced = equipment.get(slot);
-            rest = equipment.rarityScore(preset::scoreOf) - (replaced != null ? preset.scoreOf(replaced.getRarity()) : 0);
+            EquippableEntry entry = equipment.get(slot);
+            replaced = entry != null ? entry.getRarity() : null;
+        } else {
+            replaced = equipment.getKit() != null ? equipment.getKit().getRarity() : null;
         }
+        int rest = equipment.rarityScore(preset::scoreOf) - (replaced != null ? preset.scoreOf(replaced) : 0);
 
         int total = rest + preset.scoreOf(rarity);
         int max = preset.maxFor(game.getEquipmentMode());
@@ -222,9 +225,9 @@ public final class EquipmentController {
         String command = String.format("csg_kit give %s %s", kit.getKitId(), player.getName());
         CommandExecutor.execute(command);
 
-        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
-        equipment.clear(); // kit replaces the whole inventory
-        equipment.setKit(kit);
+        // the kit replaces the whole inventory, the selected weapons and gadget are given back on top
+        EquipmentManager.instance().getEquipment(player).setKit(kit);
+        giveSelection(player);
         syncInventory(player);
         reportRarityScore(player);
     }
