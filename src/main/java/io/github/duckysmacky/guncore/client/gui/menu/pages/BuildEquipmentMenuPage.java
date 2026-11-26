@@ -6,7 +6,7 @@ import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.SubpageEntry;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
-import io.github.duckysmacky.guncore.common.network.packets.EquipBaseKitPacket;
+import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -24,10 +24,33 @@ public class BuildEquipmentMenuPage extends StaticMenu {
                 .addLoreLine("&7Gives the items every class starts with")
                 .getItemStack(),
             player -> {
-                PacketHandler.instance().sendToServer(new EquipBaseKitPacket());
+                PacketHandler.instance().sendToServer(new EquipmentActionPacket(EquipmentActionPacket.Action.BASE_ITEMS));
+                player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+            }
+        ), 1, 2);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.EMERALD))
+                .setName("&a&lRestore selection")
+                .addLoreLine("&7Gives back all of your selected equipment")
+                .getItemStack(),
+            player -> {
+                PacketHandler.instance().sendToServer(new EquipmentActionPacket(EquipmentActionPacket.Action.RESTORE));
                 player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
             }
         ), 1, 4);
+
+        addEntry(new ActionEntry(
+            new ItemStackCustomizer(new ItemStack(Items.REDSTONE))
+                .setName("&c&lReset selection")
+                .addLoreLine("&7Removes all of your selected equipment")
+                .addLoreLine("&7and resets the rarity score")
+                .getItemStack(),
+            player -> {
+                PacketHandler.instance().sendToServer(new EquipmentActionPacket(EquipmentActionPacket.Action.RESET));
+                player.playSound(SoundEvents.BLOCK_ANVIL_PLACE, 1.0f, 1.0f);
+            }
+        ), 1, 6);
 
         addWeaponEntries(false, "minecraft:iron_sword", "&f&lPrimary weapon", "&7Select your main weapon", 2);
         addWeaponEntries(true, "minecraft:wooden_sword", "&f&lSecondary weapon", "&7Select your secondary weapon", 6);

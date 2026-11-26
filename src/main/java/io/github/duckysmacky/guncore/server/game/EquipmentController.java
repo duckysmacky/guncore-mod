@@ -26,7 +26,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public final class EquipmentController {
     /** Slots of the base items, bottom to top above the last hotbar slot */
@@ -236,6 +238,52 @@ public final class EquipmentController {
             player.inventory.mainInventory.set(BASE_ITEM_SLOTS[i], tag(baseItems.get(i).getItemStack()));
 
         syncInventory(player);
+    }
+
+    // Whole selection (build-a-class)
+
+    /** Gives back everything that is selected, removing the old copies from the inventory first */
+    public static void restoreSelection(EntityPlayerMP player) {
+        if (isLocked(player) || isWrongMode(player, EquipmentMode.BUILDER)) return;
+
+        removeSelection(player);
+        giveSelection(player);
+        syncInventory(player);
+    }
+
+    /** Removes everything that is selected from the inventory and forgets the selection */
+    public static void resetSelection(EntityPlayerMP player) {
+        if (isLocked(player) || isWrongMode(player, EquipmentMode.BUILDER)) return;
+
+        removeSelection(player);
+        EquipmentManager.instance().getEquipment(player).clear();
+        syncInventory(player);
+        send(player, "&7Selection reset");
+        reportRarityScore(player);
+    }
+
+    /** Gives every selected entry without removing anything from the inventory */
+    private static void giveSelection(EntityPlayerMP player) {
+        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
+        for (Map.Entry<EquipmentType, CatalogEntry> selected : new ArrayList<>(equipment.getAll().entrySet())) {
+            EquipmentType type = selected.getKey();
+            CatalogEntry entry = selected.getValue();
+            equipment.getAll().remove(type); // so the give methods don't remove the previous copy
+
+            if (entry instanceof GunEntry) giveGun(player, type, (GunEntry) entry);
+            else if (entry instanceof ArmorEntry) giveArmor(player, (ArmorEntry) entry);
+            else giveItem(player, type, (ItemEntry) entry);
+        }
+    }
+
+    private static void removeSelection(EntityPlayerMP player) {
+        EquipmentManager.instance().getEquipment(player).getAll().values().forEach(entry -> removeEntry(player, entry));
+    }
+
+    private static void removeEntry(EntityPlayerMP player, CatalogEntry entry) {
+        if (entry instanceof GunEntry) removeGun(player, (GunEntry) entry);
+        else if (entry instanceof ArmorEntry) player.inventory.armorInventory.clear();
+        else removeItem(player, (ItemEntry) entry);
     }
 
     private static void syncInventory(EntityPlayerMP player) {
