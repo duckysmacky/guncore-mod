@@ -1,0 +1,583 @@
+[
+  {
+    "enabled": true,
+    "name": "Mining Drill",
+    "rarity": "common",
+    "itemId": "techguns:miningdrill",
+    "itemAmount": 1,
+    "nbtData": "{ammo:300s,ammovariant:\"default\",miningHead:0,camo:0b}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Powered drill for quickly digging through walls and floors.",
+      "&7Breaks any type of block almost instantly in 3x3 grid",
+      "&7Doubles as a weapon and loud to use."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Riot Shield",
+    "rarity": "common",
+    "itemId": "techguns:riot_shield",
+    "itemAmount": 1,
+    "nbtData": "{Unbreakable:1,display:{color:1908001}}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Riot shield for soaking up bullets."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Flamethrower",
+    "rarity": "common",
+    "itemId": "techguns:flamethrower",
+    "itemAmount": 1,
+    "nbtData": "{ammo:100s,ammovariant:\"default\",camo:0b}",
+    "additionalItems": [
+      {
+        "id": "techguns:itemshared",
+        "amount": 1,
+        "damage": 27
+      }
+    ],
+    "descriptionLines": [
+      "&7Sprays a stream of fire at close range.",
+      "&7Limited fuel and the fire can spread to you."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Biogun",
+    "rarity": "uncommon",
+    "itemId": "techguns:biogun",
+    "itemAmount": 1,
+    "nbtData": "{ammo:30s,ammovariant:\"default\",camo:0b}",
+    "additionalItems": [
+      {
+        "id": "techguns:itemshared",
+        "amount": 2,
+        "damage": 25
+      }
+    ],
+    "descriptionLines": [
+      "&7Spits a biological slurry that poisons its targets.",
+      "&7Short range."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Cryolator",
+    "rarity": "uncommon",
+    "itemId": "hbm:gun_cryolator",
+    "itemAmount": 1,
+    "additionalItems": [
+      {
+        "id": "hbm:gun_cryolator_ammo",
+        "amount": 64
+      }
+    ],
+    "descriptionLines": [
+      "&7Freezing gun that slows enemies and coats them in ice.",
+      "&7Short range and it burns through ammo quickly."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK69 Toxic Launcher",
+    "rarity": "rare",
+    "itemId": "hbm:gun_hk69",
+    "itemAmount": 1,
+    "nbtData": "{isReloading:0,magazineType:4,reload:-1,isMouseDown:0,wear:30,magazine:0,dlay:0}",
+    "additionalItems": [
+      {
+        "id": "hbm:ammo_grenade_toxic",
+        "amount": 8
+      }
+    ],
+    "descriptionLines": [
+      "&7Single-shot 40mm grenade launcher loaded with toxic grenades."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Rocket Launcher",
+    "rarity": "rare",
+    "itemId": "hbm:gun_rpg",
+    "itemAmount": 1,
+    "additionalItems": [
+      {
+        "id": "usefulbackpacks:backpack",
+        "nbtData": "{Items:[{Slot:1b,id:\"hbm:ammo_rocket_he\",Count:16b,Damage:0s},{Slot:2b,id:\"hbm:ammo_rocket_incendiary\",Count:20b,Damage:0s},{Slot:3b,id:\"hbm:ammo_rocket_phosphorus\",Count:5b,Damage:0s},{Slot:6b,id:\"hbm:ammo_rocket\",Count:24b,Damage:0s},{Slot:7b,id:\"minecraft:paper\",Count:1b,tag:{RepairCost:0,display:{Name:\"Select only ONE TYPE of rockets\"}},Damage:0s},{Slot:8b,id:\"hbm:ammo_rocket_glare\",Count:12b,Damage:0s},{Slot:11b,id:\"hbm:ammo_rocket_rpc\",Count:32b,Damage:0s},{Slot:13b,id:\"hbm:ammo_rocket_sleek\",Count:8b,Damage:0s}]}",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7Standart shoulder-fired rocket launcher.",
+      "&7Comes with a backpack full of rockets - &lselect only ONE type"
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Chainsaw Launcher",
+    "rarity": "rare",
+    "itemId": "hbm:gun_rpg",
+    "itemAmount": 1,
+    "additionalItems": [
+      {
+        "id": "hbm:ammo_rocket_rpc",
+        "amount": 32
+      }
+    ],
+    "descriptionLines": [
+      "&7Launches flying chainsaws, which bounce of walls"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "EMP Field Station",
+    "rarity": "rare",
+    "itemId": "combat_drones:emp_station",
+    "itemAmount": 3,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7A placeable gadget which emits a big EMP field",
+      "&7In contact with the EMP field enemy gadgets get disabled and loose control",
+      "&7While placed down and turned on - discharges at a fixed rate, turn off to recharge"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Turret Kit",
+    "rarity": "epic",
+    "itemId": "usefulbackpacks:backpack",
+    "itemAmount": 1,
+    "nbtData": "{Items:[{Slot:0b,id:\"minecraft:paper\",Count:1b,tag:{RepairCost:0,display:{Name:\"Right Click with Chip to activate\"}},Damage:0s},{Slot:1b,id:\"hbm:turret_chip\",Count:1b,tag:{},Damage:0s},{Slot:5b,id:\"hbm:turret_light\",Count:2b,Damage:0s},{Slot:6b,id:\"hbm:turret_flamer\",Count:1b,Damage:0s},{Slot:10b,id:\"hbm:turret_light_ammo\",Count:16b,Damage:0s},{Slot:11b,id:\"hbm:turret_flamer_ammo\",Count:8b,Damage:0s}]}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Two light turrets, a flamethrower turret, ammo and a control chip.",
+      "&7Great for holding a point, but turrets can be destroyed."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Jetpack",
+    "rarity": "legendary",
+    "itemId": "hbm:jetpack_fly",
+    "itemAmount": 1,
+    "nbtData": "{fuel:500}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Fuel-powered jetpack for flying over the battlefield.",
+      "&7Limited fuel and you are an easy target in the air."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Guided Missile Launcher",
+    "rarity": "epic",
+    "itemId": "techguns:guidedmissilelauncher",
+    "itemAmount": 1,
+    "nbtData": "{ammo:1s,ammovariant:\"default\",camo:0b}",
+    "additionalItems": [
+      {
+        "id": "techguns:itemshared",
+        "amount": 10,
+        "damage": 10
+      }
+    ],
+    "descriptionLines": [
+      "&7Fires homing missiles that lock onto enemies and vehicles."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Stealth Devices",
+    "rarity": "epic",
+    "itemId": "hbm:stealth_boy",
+    "itemAmount": 10,
+    "nbtData": "{RepairCost:0,display:{color:4673362,Name:\"Stealth Devices\"},Items:[{Slot:5b,id:\"hbm:stealth_boy\",Count:1b,Damage:0s},{Slot:6b,id:\"hbm:stealth_boy\",Count:1b,Damage:0s},{Slot:7b,id:\"hbm:stealth_boy\",Count:1b,Damage:0s},{Slot:8b,id:\"hbm:stealth_boy\",Count:1b,Damage:0s},{Slot:9b,id:\"hbm:stealth_boy\",Count:1b,Damage:0s}]}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Cloak yourself and flank, but the effect does not last long."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Explosive FPV Drone",
+    "rarity": "epic",
+    "itemId": "combat_drones:standard_drone",
+    "itemAmount": 8,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "usefulbackpacks:backpack",
+        "amount": 1,
+        "nbtData": "{Items:[{Slot:6b,id:\"combat_drones:standard_battery\",Count:16b,Damage:0s},{Slot:8b,id:\"combat_drones:frag_grenade\",Count:16b,Damage:0s}]}"
+      },
+      {
+        "id": "combat_drones:fpv_remote",
+        "amount": 1
+      },
+      {
+        "id": "combat_drones:fpv_goggles",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7Controllable FPV drone which explode on impact",
+      "&l&eA Fragmentation Grenade an be attached for extra explosion power"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Racer FPV Drone",
+    "rarity": "epic",
+    "itemId": "combat_drones:racer_drone",
+    "itemAmount": 10,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:light_battery",
+        "amount": 16
+      },
+      {
+        "id": "combat_drones:fpv_remote",
+        "amount": 1
+      },
+      {
+        "id": "combat_drones:fpv_goggles",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7Controllable FPV drone which explode on impact",
+      "&7Smaller and faster drone, but with lower battery life and smaller explosion power"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "DJI Mavic Drone",
+    "rarity": "epic",
+    "itemId": "combat_drones:dji_drone",
+    "itemAmount": 3,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "usefulbackpacks:backpack",
+        "amount": 1,
+        "nbtData": "{Items:[{Slot:1b,id:\"combat_drones:light_battery\",Count:16,Damage:0s},{Slot:2b,id:\"combat_drones:standard_battery\",Count:8b,Damage:0s},{Slot:3b,id:\"combat_drones:heavy_battery\",Count:4b,Damage:0s},{Slot:6b,id:\"combat_drones:bomb_light\",Count:64b,Damage:0s},{Slot:7b,id:\"combat_drones:bomb\",Count:32b,Damage:0s},{Slot:8b,id:\"combat_drones:bomb_heavy\",Count:16b,Damage:0s}]}"
+      },
+      {
+        "id": "combat_drones:fpv_remote",
+        "amount": 1
+      },
+      {
+        "id": "combat_drones:fpv_goggles",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7A controllable drone which can drop down various explosives",
+      "&7Ment to be recharged and reloaded after use"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Artilerry Kit",
+    "rarity": "epic",
+    "itemId": "usefulbackpacks:backpack",
+    "itemAmount": 1,
+    "nbtData": "{Items:[{Slot:0b,id:\"hbm:turret_spitfire\",Count:1b,Damage:0s},{Slot:1b,id:\"hbm:turret_control\",Count:1b,Damage:0s},{Slot:2b,id:\"hbm:turret_spitfire_ammo\",Count:8b,Damage:0s}]}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Place down a stationary artilerry turrent and control it",
+      "&7Shoots very powerful munition which deal great explosions"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Missile Kit",
+    "rarity": "legendary",
+    "itemId": "usefulbackpacks:backpack",
+    "itemAmount": 1,
+    "damage": 1,
+    "nbtData": "{RepairCost:0,display:{color:11546150,Name:\"Missiles\"},Items:[{Slot:0b,id:\"hbm:missile_generic\",Count:1b,Damage:0s},{Slot:1b,id:\"hbm:missile_generic\",Count:1b,Damage:0s},{Slot:2b,id:\"hbm:missile_generic\",Count:1b,Damage:0s},{Slot:3b,id:\"hbm:missile_generic\",Count:1b,Damage:0s},{Slot:4b,id:\"hbm:missile_buster\",Count:1b,Damage:0s},{Slot:5b,id:\"hbm:missile_buster\",Count:1b,Damage:0s},{Slot:6b,id:\"hbm:missile_cluster\",Count:1b,Damage:0s},{Slot:7b,id:\"hbm:missile_cluster\",Count:1b,Damage:0s},{Slot:8b,id:\"hbm:missile_rain\",Count:1b,Damage:0s},{Slot:9b,id:\"hbm:designator_range\",Count:1b,Damage:0s},{Slot:10b,id:\"hbm:designator_range\",Count:1b,Damage:0s},{Slot:11b,id:\"hbm:designator_range\",Count:1b,Damage:0s},{Slot:18b,id:\"hbm:detonator\",Count:1b,Damage:0s},{Slot:19b,id:\"hbm:detonator\",Count:1b,Damage:0s},{Slot:20b,id:\"hbm:detonator\",Count:1b,Damage:0s},{Slot:27b,id:\"hbm:battery_creative\",Count:1b,Damage:0s},{Slot:28b,id:\"hbm:battery_creative\",Count:1b,Damage:0s},{Slot:29b,id:\"hbm:battery_creative\",Count:1b,Damage:0s},{Slot:36b,id:\"hbm:launch_pad\",Count:1b,Damage:0s},{Slot:37b,id:\"hbm:launch_pad\",Count:1b,Damage:0s},{Slot:38b,id:\"hbm:launch_pad\",Count:1b,Damage:0s}]}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Missiles, launch pads, designators and detonators in one backpack.",
+      "&7Needs time to set up a launch site before it pays off."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Light Loitering Munition",
+    "rarity": "epic",
+    "itemId": "combat_drones:loitering_light",
+    "itemAmount": 8,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:avgas_fuel",
+        "amount": 8
+      },
+      {
+        "id": "combat_drones:launch_ramp",
+        "amount": 4
+      },
+      {
+        "id": "combat_drones:mission_planner",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7A fast rocket-like loitering munition with point-and-click controls",
+      "&7Use the launch ramp to prepare for launch, fuel it with fuel cans and set up",
+      "&7routes with mission planner. Can be optionally manually controlled"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Heavy Loitering Munition",
+    "rarity": "epic",
+    "itemId": "combat_drones:loitering_heavy",
+    "itemAmount": 8,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:avgas_fuel",
+        "amount": 8
+      },
+      {
+        "id": "combat_drones:launch_ramp",
+        "amount": 4
+      },
+      {
+        "id": "combat_drones:mission_planner",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7A slower, but stronger loitering munition with plane-like controls",
+      "&7Use the launch ramp to prepare for launch, fuel it with fuel cans and set up",
+      "&7routes with mission planner. Can be optionally manually controlled"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Spitfire Plane",
+    "rarity": "epic",
+    "itemId": "combat_drones:bullet_plane",
+    "itemAmount": 3,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:light_runway",
+        "amount": 5
+      },
+      {
+        "id": "usefulbackpacks:backpack",
+        "nbtData": "{Items:[{Slot:0b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:1b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:2b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:3b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:4b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:5b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:6b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:7b,id:\"combat_drones:jet_a1_fuel\",Count:16b,Damage:0s},{Slot:8b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:9b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:10b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:11b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:12b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:13b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s},{Slot:14b,id:\"combat_drones:rifle_rounds\",Count:64b,Damage:0s}]}",
+        "amount": 1
+      },
+      {
+        "id": "combat_drones:mission_planner",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7An armed plane which rapidly shoots bullets when manually-contolled",
+      "&7Good for killing other players and taking down enemy equipment",
+      "&7Use the launch ramp to prepare for launch, fuel it with fuel cans and set up",
+      "&7routes with mission planner. Can be optionally manually controlled"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Rocket Striker Plane",
+    "rarity": "epic",
+    "itemId": "combat_drones:rocket_plane",
+    "itemAmount": 3,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:light_runway",
+        "amount": 5
+      },
+      {
+        "id": "usefulbackpacks:backpack",
+        "nbtData": "{Items:[{Slot:0b,id:\"combat_drones:rocket\",Count:64b,Damage:0s},{Slot:1b,id:\"combat_drones:rocket\",Count:64b,Damage:0s},{Slot:3b,id:\"combat_drones:rocket_heavy\",Count:16b,Damage:0s},{Slot:4b,id:\"combat_drones:rocket_heavy\",Count:16b,Damage:0s},{Slot:5b,id:\"combat_drones:rocket\",Count:64b,Damage:0s},{Slot:6b,id:\"combat_drones:rocket\",Count:64b,Damage:0s},{Slot:7b,id:\"combat_drones:jet_a1_fuel\",Count:16b,Damage:0s},{Slot:8b,id:\"combat_drones:rocket_heavy\",Count:16b,Damage:0s},{Slot:9b,id:\"combat_drones:rocket_heavy\",Count:16b,Damage:0s},{Slot:10b,id:\"combat_drones:rocket\",Count:64b,Damage:0s},{Slot:11b,id:\"combat_drones:rocket\",Count:64b,Damage:0s},{Slot:13b,id:\"combat_drones:rocket_heavy\",Count:16b,Damage:0s},{Slot:14b,id:\"combat_drones:rocket_heavy\",Count:16b,Damage:0s}]}",
+        "amount": 1
+      },
+      {
+        "id": "combat_drones:mission_planner",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7An armed plane which shoots rockets when manually-contolled",
+      "&7Good for map destrucion and killing other players",
+      "&7Use the launch ramp to prepare for launch, fuel it with fuel cans and set up",
+      "&7routes with mission planner. Can be optionally manually controlled"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Recon UAV",
+    "rarity": "legendary",
+    "itemId": "combat_drones:recon_uav",
+    "itemAmount": 2,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:light_runway",
+        "amount": 4
+      },
+      {
+        "id": "combat_drones:jet_a1_fuel",
+        "amount": 16
+      },
+      {
+        "id": "combat_drones:mission_planner",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7A UAV plane to scout for enemy players",
+      "&7Highlights visible to it enemies as dots on the map and in the world",
+      "&7Can lock in onto the enemy to track their positions for 60 seconds",
+      "&7Use the launch ramp to prepare for launch, fuel it with fuel cans and set up",
+      "&7routes with mission planner. Can be optionally manually controlled"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Stealth Bomber",
+    "rarity": "legendary",
+    "itemId": "combat_drones:stealth_bomber",
+    "itemAmount": 2,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:heavy_runway",
+        "amount": 4
+      },
+      {
+        "id": "usefulbackpacks:backpack",
+        "nbtData": "{Items:[{Slot:0b,id:\"combat_drones:aerial_bomb_small\",Count:64b,Damage:0s},{Slot:1b,id:\"combat_drones:aerial_bomb_small\",Count:64b,Damage:0s},{Slot:2b,id:\"combat_drones:aerial_bomb_small\",Count:64b,Damage:0s},{Slot:3b,id:\"combat_drones:aerial_bomb_small\",Count:64b,Damage:0s},{Slot:4b,id:\"combat_drones:aerial_bomb_small\",Count:64b,Damage:0s},{Slot:5b,id:\"combat_drones:aerial_bomb_medium\",Count:32b,Damage:0s},{Slot:6b,id:\"combat_drones:aerial_bomb_medium\",Count:32b,Damage:0s},{Slot:7b,id:\"combat_drones:aerial_bomb_medium\",Count:32b,Damage:0s},{Slot:8b,id:\"combat_drones:aerial_bomb_medium\",Count:32b,Damage:0s},{Slot:9b,id:\"combat_drones:aerial_bomb_medium\",Count:32b,Damage:0s},{Slot:10b,id:\"combat_drones:aerial_bomb_large\",Count:16b,Damage:0s},{Slot:11b,id:\"combat_drones:aerial_bomb_large\",Count:16b,Damage:0s},{Slot:12b,id:\"combat_drones:jp8_fuel\",Count:16b,Damage:0s},{Slot:13b,id:\"combat_drones:aerial_bomb_large\",Count:16b,Damage:0s},{Slot:14b,id:\"combat_drones:aerial_bomb_large\",Count:16b,Damage:0s}]}",
+        "amount": 1
+      },
+      {
+        "id": "combat_drones:mission_planner",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7A bomber plane which can drop down bombs manually or via a bomb-run",
+      "&7Use the launch ramp to prepare for launch, fuel it with fuel cans and set up",
+      "&7routes with mission planner. Can be optionally manually controlled"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Gunship",
+    "rarity": "legendary",
+    "itemId": "combat_drones:gunship",
+    "itemAmount": 1,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:heavy_runway",
+        "amount": 3
+      },
+      {
+        "id": "usefulbackpacks:backpack",
+        "nbtData": "{Items:[{Slot:0b,id:\"combat_drones:cannon_shell\",Count:64b,Damage:0s},{Slot:1b,id:\"combat_drones:rocket\",Count:32b,Damage:0s},{Slot:2b,id:\"combat_drones:howitzer_shell\",Count:8b,Damage:0s},{Slot:5b,id:\"combat_drones:cannon_shell\",Count:64b,Damage:0s},{Slot:6b,id:\"combat_drones:rocket\",Count:32b,Damage:0s},{Slot:7b,id:\"combat_drones:howitzer_shell\",Count:8b,Damage:0s},{Slot:8b,id:\"combat_drones:jp8_fuel\",Count:3b,Damage:0s},{Slot:10b,id:\"combat_drones:cannon_shell\",Count:64b,Damage:0s},{Slot:11b,id:\"combat_drones:rocket\",Count:32b,Damage:0s},{Slot:12b,id:\"combat_drones:howitzer_shell\",Count:8b,Damage:0s}]}",
+        "amount": 1
+      },
+      {
+        "id": "combat_drones:mission_planner",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7A plane-like gunship which shoots rockets when manually-contolled",
+      "&7Good for map destrucion and killing other players",
+      "&7Use the launch ramp to prepare for launch, fuel it with fuel cans and set up",
+      "&7routes with mission planner. Can be optionally manually controlled"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Cruise Missile",
+    "rarity": "legendary",
+    "itemId": "combat_drones:cruise_missile",
+    "itemAmount": 5,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:missile_pad",
+        "amount": 5
+      },
+      {
+        "id": "combat_drones:jp10_fuel",
+        "amount": 5
+      },
+      {
+        "id": "combat_drones:missile_control_tablet",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7A missile which has to be manually launched and then can be",
+      "&7controlled to strike down on enemies from above with a big explosion"
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Electric Sword",
+    "rarity": "legendary",
+    "itemId": "hbm:elec_sword",
+    "itemAmount": 1,
+    "nbtData": "{charge:500000L}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Charged blade that can finish an enemy in two hits.",
+      "&7Melee only, and the charge drains with use."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Meteorite Sword",
+    "rarity": "mythic",
+    "itemId": "hbm:meteorite_sword_reforged",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Reforged blade of meteorite steel with devastating damage.",
+      "&7Melee only, so you need to reach your target."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Orbital Laser Kit",
+    "rarity": "mythic",
+    "itemId": "usefulbackpacks:backpack",
+    "itemAmount": 1,
+    "nbtData": "{RepairCost:0,display:{color:8439583,Name:\"Satellite Radar Setup\"},Items:[{Slot:0b,id:\"hbm:machine_satlinker\",Count:1b,Damage:0s},{Slot:1b,id:\"hbm:sat_laser\",Count:1b,Damage:0s},{Slot:2b,id:\"hbm:sat_interface\",Count:1b,Damage:0s},{Slot:5b,id:\"hbm:launch_pad\",Count:1b,Damage:0s},{Slot:6b,id:\"hbm:missile_carrier\",Count:1b,Damage:0s},{Slot:7b,id:\"hbm:battery_creative\",Count:1b,Damage:0s},{Slot:9b,id:\"minecraft:written_book\",Count:1b,tag:{pages:[\"{\\\"text\\\":\\\"Set Radar Survey Satellite and Control Interface to the same frequency using the ID manager\\\\n\\\\nThen set up the launch pad, put carrier rocket in the first slot, satellite in the second and battery in the third\\\\n\\\\nNow you can launch it\\\"}\",\"{\\\"text\\\":\\\"using designator (shift right click on the launch pad) \\\\n\\\\nUse the Control Interface to see radar view of the map\\\"}\"],author:\"MrDuckyRU\",title:\"Guide\",resolved:1b},Damage:0s},{Slot:10b,id:\"hbm:detonator\",Count:1b,tag:{x:157,y:46,z:38},Damage:0s}]}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Satellite laser uplink kit for striking targets from orbit."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Mythic Weapon Voucher (1/2)",
+    "rarity": "mythic",
+    "itemId": "minecraft:paper",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7One of two vouchers: one is taken from gadgets, one from utility",
+      "&7With both vouchers you may take any &4&lMythic &7weapon"
+    ]
+  }
+]

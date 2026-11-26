@@ -1,0 +1,235 @@
+[
+  {
+    "enabled": true,
+    "name": "Stun Grenade",
+    "rarity": "common",
+    "itemId": "cgm:stun_grenade",
+    "itemAmount": 18,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Flashbang that blinds and deafens anyone nearby.",
+      "&7Opens fights for you, but also affects you if you stand too close."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Flare Grenade",
+    "rarity": "common",
+    "itemId": "hbm:grenade_flare",
+    "itemAmount": 24,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Burns brightly to light up dark areas.",
+      "&7It reveals your position as well."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Smoke Grenade",
+    "rarity": "common",
+    "itemId": "gaspunk:grenade",
+    "itemAmount": 24,
+    "nbtData": "{\"gaspunk:contained_gas\":\"gaspunk:smoke\"}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Thick smoke cloud that blocks line of sight.",
+      "&7Does no damage; use it to cover a push or a retreat."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Land Mine",
+    "rarity": "common",
+    "itemId": "securitycraft:mine",
+    "itemAmount": 16,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Buried explosive that goes off when stepped on.",
+      "&7Hurts allies too, so remember where you put it."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Tear Gas Grenade",
+    "rarity": "uncommon",
+    "itemId": "gaspunk:grenade",
+    "itemAmount": 12,
+    "nbtData": "{\"gaspunk:contained_gas\":\"gaspunk:tear_gas\"}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Tear gas that forces enemies out of cover.",
+      "&7Stay out of the cloud yourself or wear a gas mask."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Mustard Gas Grenade",
+    "rarity": "uncommon",
+    "itemId": "gaspunk:grenade",
+    "itemAmount": 6,
+    "nbtData": "{grenade_skin:0,\"gaspunk:contained_gas\":\"gaspunk:mustard_gas\"}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Very dangerous gas which kills enemies very fast"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Choke Smoke Grenade",
+    "rarity": "uncommon",
+    "itemId": "gaspunk:grenade",
+    "itemAmount": 8,
+    "nbtData": "{grenade_skin:0,\"gaspunk:contained_gas\":\"gaspunk:choke_smoke\"}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Smoke that chokes anyone breathing it in.",
+      "&7Blocks vision and weakens enemies"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Electric Grenade",
+    "rarity": "uncommon",
+    "itemId": "hbm:grenade_electric",
+    "itemAmount": 12,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Discharges an electric pulse on detonation.",
+      "&7Shocks nearby players"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Poison Grenade",
+    "rarity": "rare",
+    "itemId": "hbm:grenade_poison",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Releases a toxic cloud that poisons everyone inside.",
+      "&7Wears off quickly once the victim gets clear."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Pulse Grenade",
+    "rarity": "rare",
+    "itemId": "hbm:grenade_pulse",
+    "itemAmount": 16,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Only does destruction, doesn't damage players directly",
+      "&7Plentiful supply, but each blast is on the weak side."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Gas Grenade",
+    "rarity": "rare",
+    "itemId": "hbm:grenade_gas",
+    "itemAmount": 5,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Releases a harmful gas cloud that denies the area.",
+      "&7A gas mask protects you from it."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Claymore Mine",
+    "rarity": "rare",
+    "itemId": "securitycraft:claymore",
+    "itemAmount": 10,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Directional mine that triggers when an enemy walks in front of it.",
+      "&7Sprays shrapnel forward only, so it is safe from behind."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Explosive Charge",
+    "rarity": "rare",
+    "itemId": "techguns:explosive_charge",
+    "itemAmount": 10,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Place-and-detonate charge for breaking walls and trapping chokepoints.",
+      "&7Careful when placing it near your own position."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Cloud Grenade",
+    "rarity": "epic",
+    "itemId": "hbm:grenade_cloud",
+    "itemAmount": 6,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Releases a large lingering cloud over the area.",
+      "&7Anything caught inside suffers until the cloud fades.",
+      "&7Poisons the ground inside the cloud as well"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Concussion Grenade",
+    "rarity": "epic",
+    "itemId": "hbm:grenade_if_concussion",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Explodes in a big consussion blast, destroying and moving blocks",
+      "&7Doesn't damage players"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Bouncing Betty",
+    "rarity": "epic",
+    "itemId": "securitycraft:bouncing_betty",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Mine that pops into the air before exploding.",
+      "&7Wide damage radius and hard to spot once placed."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Sarin Gas Grenade",
+    "rarity": "epic",
+    "itemId": "gaspunk:grenade",
+    "itemAmount": 3,
+    "nbtData": "{grenade_skin:0,\"gaspunk:contained_gas\":\"gaspunk:sarin_gas\"}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Lethal nerve gas cloud that lingers for a long time.",
+      "&7Deadly in enclosed spaces and it does not care whose side you are on."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Healing Vapor Grenade",
+    "rarity": "legendary",
+    "itemId": "gaspunk:grenade",
+    "itemAmount": 8,
+    "nbtData": "{grenade_skin:0,\"gaspunk:contained_gas\":\"gaspunk:healing_vapor\"}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Releases a healing gas cloud that mends everyone standing in it.",
+      "&7Heals enemies as well as allies."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Pink cloud Grenade",
+    "rarity": "legendary",
+    "itemId": "hbm:grenade_pink_cloud",
+    "itemAmount": 5,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Releases an even larger cloud (now pink!) over the area."
+    ]
+  }
+]

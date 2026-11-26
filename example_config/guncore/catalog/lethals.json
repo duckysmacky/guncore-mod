@@ -1,0 +1,265 @@
+[
+  {
+    "enabled": true,
+    "name": "Frag Grenade",
+    "rarity": "common",
+    "itemId": "hbm:grenade_generic",
+    "itemAmount": 16,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Standard fragmentation grenade with a short fuse.",
+      "&7Cheap and reliable, but the blast is small."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Shrapnel Grenade",
+    "rarity": "common",
+    "itemId": "hbm:grenade_shrapnel",
+    "itemAmount": 16,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Sprays metal fragments in all directions.",
+      "&7Shreds exposed players but barely scratches the terrain."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Molotov",
+    "rarity": "common",
+    "itemId": "army_equip:molotov",
+    "itemAmount": 16,
+    "nbtData": "",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Perfect for area denial."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Bouncy Grenade",
+    "rarity": "uncommon",
+    "itemId": "hbm:grenade_if_bouncy",
+    "itemAmount": 14,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Rebounds off walls and floors before blowing up.",
+      "&7Great around corners, but the bounce can come back at you."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Gas Canister Grenade",
+    "rarity": "uncommon",
+    "itemId": "hbm:grenade_gascan",
+    "itemAmount": 10,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Canister that floods the area with explosive gas before igniting.",
+      "&7The blast is huge, so throw it from a safe distance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Strong Grenade",
+    "rarity": "uncommon",
+    "itemId": "hbm:grenade_strong",
+    "itemAmount": 12,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Heavy-duty grenade with a noticeably bigger blast radius.",
+      "&7Tough on groups, risky in tight rooms."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Incendiary Grenade",
+    "rarity": "uncommon",
+    "itemId": "hbm:grenade_if_incendiary",
+    "itemAmount": 14,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Sets the target area ablaze on impact.",
+      "&7Fire spreads over flammable blocks, so watch your own cover."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Breach Grenade",
+    "rarity": "rare",
+    "itemId": "hbm:grenade_breach",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Blasts a hole through walls and doors to open a new angle.",
+      "&7Loud, so everyone knows you are coming."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "High-Explosive Grenade",
+    "rarity": "rare",
+    "itemId": "hbm:grenade_if_he",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7High-explosive impact grenade with a strong blast.",
+      "&7Small supply, but it wipes out cover and players alike."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Combustible Lemon",
+    "rarity": "rare",
+    "itemId": "hbm:grenade_lemon",
+    "itemAmount": 12,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Explosive lemon"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Cluster Grenade",
+    "rarity": "rare",
+    "itemId": "hbm:grenade_cluster",
+    "itemAmount": 10,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Bursts into several bomblets after the initial blast.",
+      "&7Covers a wide area; stay out of the splash zone."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Burst Grenade",
+    "rarity": "epic",
+    "itemId": "hbm:grenade_burst",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Scatters a burst of smaller charges around the impact point.",
+      "&7Very strong against groups, wasteful against single targets."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Impact Grenade",
+    "rarity": "legendary",
+    "itemId": "hbm:grenade_if_impact",
+    "itemAmount": 6,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Detonates the moment it hits something.",
+      "&7No fuse to wait for, but it cannot be cooked or bounced."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MIRV Grenade",
+    "rarity": "epic",
+    "itemId": "hbm:grenade_mirv",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Splits into multiple warheads that rain down over a wide area.",
+      "&7Devastating on groups; stay clear of the whole splash zone."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Smart Grenade",
+    "rarity": "legendary",
+    "itemId": "hbm:grenade_smart",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Detonates when an enemy gets close to it.",
+      "&7Does not tell friend from foe, so keep your team clear."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Vortex Grenade",
+    "rarity": "legendary",
+    "itemId": "hbm:grenade_if_hopwire",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Summons a vortex which sucks in blocks and players"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Null Grenade",
+    "rarity": "rare",
+    "itemId": "hbm:grenade_if_null",
+    "itemAmount": 12,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Deletes a portion of the world"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Mystery Grenade",
+    "rarity": "legendary",
+    "itemId": "hbm:grenade_if_mystery",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Hmmm"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Low-Yield Nuclear Warhead",
+    "rarity": "mythic",
+    "itemId": "hbm:ammo_nuke_low",
+    "itemAmount": 2,
+    "additionalItems": [
+      {
+        "id": "hbm:gun_fatman",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7Mini-nuke rounds for the Fat Man launcher (launcher included).",
+      "&7Huge blast and fallout, so fire from a safe distance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Nuclear Warhead",
+    "rarity": "mythic",
+    "itemId": "hbm:ammo_nuke",
+    "itemAmount": 1,
+    "additionalItems": [
+      {
+        "id": "hbm:gun_fatman",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7Full-size nuclear round for the Fat Man launcher (launcher included).",
+      "&7Devastating blast radius and lingering radiation."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "High-Yield Nuclear Warhead",
+    "rarity": "mythic",
+    "itemId": "hbm:ammo_nuke_high",
+    "itemAmount": 1,
+    "additionalItems": [
+      {
+        "id": "hbm:gun_fatman",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7The biggest nuclear round available for the Fat Man launcher (launcher included).",
+      "&7Wipes out most of the area; you will not survive it up close either."
+    ]
+  }
+]

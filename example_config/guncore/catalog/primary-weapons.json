@@ -1,0 +1,1339 @@
+[
+  {
+    "enabled": true,
+    "name": "ARX-160",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:arx160",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Modern Italian assault rifle known for its lightweight design and modularity.",
+      "&7Features a cold hammer-forged barrel for enhanced accuracy."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "CZ-805 Bren",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:cz805_bren",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Czech-made modular assault rifle system.",
+      "&7Designed to replace older firearms in the Czech military arsenal."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-74",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:ak74",
+    "ammoItemId": "mwc:ak74mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Soviet 5.45×39mm assault rifle developed in the early 1970s.",
+      "&7Successor to the AKM, featuring improved accuracy and lighter ammunition."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-15",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:ak15",
+    "ammoItemId": "mwc:ak15mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Modern Russian assault rifle chambered in 7.62×39mm.",
+      "&7Part of the AK-12 family with enhanced ergonomics and reliability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-47",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:ak47",
+    "ammoItemId": "mwc:ak47mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7An AK-series rifle with multiple compatible magazines."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AR-15",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:ar15",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A semi-automatic alternative to the M4A1."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M16A1",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:m16a1",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7An early M16 variant."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M4A1",
+    "category": "assault_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:m4a1",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A general-purpose carbine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M16A4",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:m16a4",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Standard issue rifle for the US Marine Corps.",
+      "&7Features a flat-top receiver for optical attachments and a sturdy fixed stock."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Remington ACR",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:acr",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Advanced Combat Rifle designed for maximum modularity.",
+      "&7Features quick-change barrels and multiple caliber conversion kits."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Mk 16 SCAR-L",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:scar_l",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Special Operations Forces Combat Assault Rifle in 5.56mm.",
+      "&7Designed for US Special Operations Command with high reliability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-12",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:ak12_kal",
+    "ammoItemId": "mwc:ak12mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Latest generation of the Kalashnikov rifle series.",
+      "&7Improved ergonomics, accuracy, and modular attachment system."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-101",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:ak101",
+    "ammoItemId": "mwc:ak101mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7An AK-series rifle with its own standard magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Famas F1",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:famas_f1",
+    "ammoItemId": "mwc:famasf1mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A bullpup rifle with a dedicated FAMAS F1 magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK G36C",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:g36c",
+    "ammoItemId": "mwc:g36cmag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A compact rifle in the G36 family."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SIG MCX",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:sig_mcx",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A modular carbine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SIG-556",
+    "category": "assault_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:sig556",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A service rifle that accepts M4A1 magazines."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "K2C1",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:k2c1",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7South Korean assault rifle serving as the standard infantry weapon.",
+      "&7Improved version of the original K2 with enhanced features."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AUG A1",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:steyr_aug_a1",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Austrian bullpup assault rifle with integrated optical sight.",
+      "&7Revolutionary design that influenced modern firearm ergonomics."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK G11",
+    "category": "assault_rifle",
+    "rarity": "legendary",
+    "gunItemId": "mwc:g11",
+    "ammoItemId": "mwc:g11mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:50}",
+    "descriptionLines": [
+      "&7Revolutionary German caseless ammunition assault rifle.",
+      "&7Features an extremely high rate of fire in burst mode."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AK-12 Prototype",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:izhmash_ak12",
+    "ammoItemId": "mwc:ak12mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:31}",
+    "descriptionLines": [
+      "&7The prototype AK-12 with a dedicated magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Malyuk",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:malyuk",
+    "ammoItemId": "mwc:ak15mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A bullpup rifle that accepts AK-pattern magazines."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "NGSW-R",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:ngsw_r",
+    "ammoItemId": "mwc:ngswr_mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7A service rifle with a dedicated NGSW-R magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "StG-44",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:stg44",
+    "ammoItemId": "mwc:stg44mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7An early assault rifle with its own magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Type-20",
+    "category": "assault_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:type20",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A modular rifle that accepts M4A1 magazines."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AAC Honey Badger",
+    "category": "assault_rifle",
+    "rarity": "epic",
+    "gunItemId": "mwc:aac_honey_badger",
+    "ammoItemId": "mwc:honeybadgermag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Compact integrally suppressed personal defense weapon.",
+      "&7Chambered in .300 Blackout for optimal subsonic performance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "FN F2000",
+    "category": "assault_rifle",
+    "rarity": "epic",
+    "gunItemId": "mwc:f2000",
+    "ammoItemId": "mwc:m4a1mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Belgian bullpup assault rifle with unique forward ejection system.",
+      "&7Ambidextrous design with integrated optical sight and grenade launcher capability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SCAR-H",
+    "category": "battle_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:scar_h_cqc",
+    "ammoItemId": "mwc:scarhmag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7Close Quarters Combat variant of the SCAR-H battle rifle.",
+      "&7Chambered in 7.62x51mm for enhanced stopping power in compact engagements."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "G3",
+    "category": "battle_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:g3",
+    "ammoItemId": "mwc:g3mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7A battle rifle with a dedicated G3 magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "KBP 9A_91",
+    "category": "battle_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:kbp_9a91",
+    "ammoItemId": "mwc:kbp9a91mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7Russian compact assault rifle designed for special forces.",
+      "&7Compact design making it ideal for concealed carry operations."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK 417",
+    "category": "battle_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:hk_417",
+    "ammoItemId": "mwc:hk417_mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7A full-size battle rifle with a dedicated magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "FN FAL",
+    "category": "battle_rifle",
+    "rarity": "epic",
+    "gunItemId": "mwc:fnfal",
+    "ammoItemId": "mwc:fnfalmag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7The 'Right Arm of the Free World' - legendary battle rifle.",
+      "&7Used by over 90 countries and known for its reliability and power."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Beowulf .50 Cal",
+    "category": "battle_rifle",
+    "rarity": "legendary",
+    "gunItemId": "mwc:beowulf_50_cal",
+    "ammoItemId": "mwc:beowulfmag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:13}",
+    "descriptionLines": [
+      "&7A heavy carbine with its own magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AR-10 Super SASS",
+    "category": "dmr",
+    "rarity": "common",
+    "gunItemId": "mwc:ar10_super_sass",
+    "ammoItemId": "mwc:m110mag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7Semi-automatic sniper system based on the AR-10 platform.",
+      "&7Designed for precision engagements at medium to long ranges."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Mk14",
+    "category": "dmr",
+    "rarity": "common",
+    "gunItemId": "mwc:mk14_ebr",
+    "ammoItemId": "mwc:mk14ebrmag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7Enhanced Battle Rifle variant of the M14 rifle.",
+      "&7Used by US Navy SEALs and other special operations forces for designated marksman role."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1 Carbine",
+    "category": "dmr",
+    "rarity": "common",
+    "gunItemId": "mwc:m1_carbine",
+    "ammoItemId": "mwc:m1carbinemag",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:15}",
+    "descriptionLines": [
+      "&7A lightweight semi-automatic rifle."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1941 Johnson Rifle",
+    "category": "dmr",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:m1941_johnson_rifle",
+    "ammoItemId": "mwc:bullet3006springfield",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7American short-recoil operated semi-automatic rifle from WWII.",
+      "&7Known for its unique rotating bolt and 10-round capacity."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M110 SASS",
+    "category": "dmr",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:m110_sass",
+    "ammoItemId": "mwc:m110mag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7Semi-Automatic Sniper System used by US military.",
+      "&7Provides rapid follow-up shots compared to bolt-action sniper rifles."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M38 DMR (HK 416)",
+    "category": "dmr",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:m38_dmr",
+    "ammoItemId": "mwc:m38mag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7The HK 416 marksman variant listed as the M38."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SVD Dragunov",
+    "category": "dmr",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:svd_dragunov",
+    "ammoItemId": "mwc:dragunovmag",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7A semi-automatic marksman rifle."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1 Garand",
+    "category": "dmr",
+    "rarity": "epic",
+    "gunItemId": "mwc:m1_garand",
+    "ammoItemId": "mwc:bullet3006springfield",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Iconic American battle rifle of World War II.",
+      "&7Famous for its distinctive 'ping' sound when the en-bloc clip is ejected."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "G43 Gewehr",
+    "category": "dmr",
+    "rarity": "rare",
+    "gunItemId": "mwc:g43_gewehr",
+    "ammoItemId": "mwc:g43_gewehr_mag",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7German semi-automatic rifle used during World War II.",
+      "&7Provided German infantry with faster follow-up shots compared to bolt-action rifles."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Mare's Leg",
+    "category": "dmr",
+    "rarity": "rare",
+    "gunItemId": "mwc:mares_leg",
+    "ammoItemId": "mwc:bullet44",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Shortened lever-action rifle popularized in Western films.",
+      "&7Compact design making it suitable as a handgun alternative with rifle power."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1873",
+    "category": "dmr",
+    "rarity": "rare",
+    "gunItemId": "mwc:m1873",
+    "ammoItemId": "mwc:bullet4440",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A lever-action rifle that loads loose rounds."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Zbroyar Z10",
+    "category": "dmr",
+    "rarity": "rare",
+    "gunItemId": "mwc:zbroyar_z10",
+    "ammoItemId": "mwc:z10mag",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7A semi-automatic precision rifle."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "VSS Vintorez",
+    "category": "dmr",
+    "rarity": "legendary",
+    "gunItemId": "mwc:vss_vintorez",
+    "ammoItemId": "mwc:vssvintorezmag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7Russian special forces sniper rifle with integrated suppressor.",
+      "&7Designed for silent, flashless shooting at ranges up to 400 meters."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M249",
+    "category": "lmg",
+    "rarity": "common",
+    "gunItemId": "mwc:m249",
+    "ammoItemId": "mwc:m249mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:100}",
+    "descriptionLines": [
+      "&7American version of the FN Minimi light machine gun.",
+      "&7Squad automatic weapon providing sustained fire support with 5.56mm ammunition."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Stoner A1",
+    "category": "lmg",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:stonera1",
+    "ammoItemId": "mwc:stonermag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:100}",
+    "descriptionLines": [
+      "&7Light machine gun based on Eugene Stoner's AR-15 design.",
+      "&7Provides reliable automatic fire while maintaining reasonable weight and controllability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MG-42",
+    "category": "lmg",
+    "rarity": "epic",
+    "gunItemId": "mwc:mg42",
+    "ammoItemId": "mwc:mg42mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:50}",
+    "descriptionLines": [
+      "&7German general purpose machine gun from World War II.",
+      "&7Nicknamed 'Hitler's Buzzsaw' for its extremely high rate of fire of 1,200-1,500 RPM."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Bren MkII",
+    "category": "lmg",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:bren_mkii",
+    "ammoItemId": "mwc:brenmag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A light machine gun with a top-mounted magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "DP-28",
+    "category": "lmg",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:dp28",
+    "ammoItemId": "mwc:dp28mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:47}",
+    "descriptionLines": [
+      "&7A light machine gun with a pan magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1941 Johnson LMG",
+    "category": "lmg",
+    "rarity": "rare",
+    "gunItemId": "mwc:m1941_johnson",
+    "ammoItemId": "mwc:johnsonmag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7Light machine gun using the same short-recoil system as the Johnson rifle.",
+      "&7Featured a unique top-loading magazine and quick-change barrel."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MG-34",
+    "category": "lmg",
+    "rarity": "rare",
+    "gunItemId": "mwc:mg34",
+    "ammoItemId": "mwc:mg42mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:50}",
+    "descriptionLines": [
+      "&7A machine gun that accepts MG42 magazines."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M60E4",
+    "category": "lmg",
+    "rarity": "legendary",
+    "gunItemId": "mwc:m60e4",
+    "ammoItemId": "mwc:m60mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:100}",
+    "descriptionLines": [
+      "&7A general-purpose machine gun with a dedicated magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M138 Minigun",
+    "category": "lmg",
+    "rarity": "mythic",
+    "gunItemId": "mwc:m134",
+    "ammoItemId": "mwc:m134mag",
+    "ammoItemAmount": 2,
+    "ammoNbtData": "{Ammo:1000}",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "name": "HK MP7",
+    "category": "smg",
+    "rarity": "rare",
+    "gunItemId": "mwc:mp7",
+    "ammoItemId": "mwc:mp7mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:40}",
+    "descriptionLines": [
+      "&7German personal defense weapon chambered in 4.6×30mm.",
+      "&7Designed to penetrate body armor while maintaining compact dimensions."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "UMP45",
+    "category": "smg",
+    "rarity": "common",
+    "gunItemId": "mwc:ump_45",
+    "ammoItemId": "mwc:ump45mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:25}",
+    "descriptionLines": [
+      "&7Universal Machine Pistol chambered in .45 ACP.",
+      "&7Provides greater stopping power than 9mm SMGs while maintaining controllability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK MP5",
+    "category": "smg",
+    "rarity": "common",
+    "gunItemId": "mwc:mp5a5",
+    "ammoItemId": "mwc:mp5a5mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7An MP5 submachine gun that also accepts the HK drum magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MP-40",
+    "category": "smg",
+    "rarity": "common",
+    "gunItemId": "mwc:mp40",
+    "ammoItemId": "mwc:mp40mag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:32}",
+    "descriptionLines": [
+      "&7A classic submachine gun with a dedicated magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "APC9",
+    "category": "smg",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:apc9",
+    "ammoItemId": "mwc:apc9mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Swiss-made submachine gun known for its precision engineering.",
+      "&7Features a closed-bolt system and modular design for various configurations."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "UZI",
+    "category": "smg",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:uzi",
+    "ammoItemId": "mwc:uzimag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:32}",
+    "descriptionLines": [
+      "&7Iconic Israeli open-bolt submachine gun.",
+      "&7One of the first weapons to use a telescoping bolt design, allowing for compact size."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SIG MPX",
+    "category": "smg",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:sig_mpx",
+    "ammoItemId": "mwc:mpxmag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A modular submachine gun."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "P90",
+    "category": "smg",
+    "rarity": "rare",
+    "gunItemId": "mwc:p90",
+    "ammoItemId": "mwc:p90mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:50}",
+    "descriptionLines": [
+      "&7Belgian bullpup personal defense weapon with unique top-mounted magazine.",
+      "&7Fires the high-velocity 5.7×28mm round designed to defeat body armor."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Kriss Vector",
+    "category": "smg",
+    "rarity": "rare",
+    "gunItemId": "mwc:kriss_vector",
+    "ammoItemId": "mwc:vectormag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:25}",
+    "descriptionLines": [
+      "&7Submachine gun using Super V system to redirect recoil.",
+      "&7Revolutionary design that reduces muzzle climb and perceived recoil by over 40%."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Scorpion EVO3 A1",
+    "category": "smg",
+    "rarity": "rare",
+    "gunItemId": "mwc:scorpion_evo3_a1",
+    "ammoItemId": "mwc:scorpionmag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7Czech submachine gun known for its high rate of fire and compact design.",
+      "&7Popular in competitive shooting sports for its reliability and accuracy."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MAC-10",
+    "category": "smg",
+    "rarity": "rare",
+    "gunItemId": "mwc:mac10",
+    "ammoItemId": "mwc:mac10mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7American machine pistol famous for its extremely high rate of fire.",
+      "&7Often used with a suppressor for clandestine operations."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "FMG-9",
+    "category": "smg",
+    "rarity": "common",
+    "gunItemId": "mwc:fmg9",
+    "ammoItemId": "mwc:glock18cmag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7A folding submachine gun that accepts Glock magazines."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Thompson",
+    "category": "smg",
+    "rarity": "legendary",
+    "gunItemId": "mwc:m1928_thompson",
+    "ammoItemId": "mwc:m1928mag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:50}",
+    "descriptionLines": [
+      "&7Iconic American submachine gun from the Prohibition era.",
+      "&7Famous as the 'Tommy Gun' used by both law enforcement and organized crime."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "S7-10 Tricun",
+    "category": "smg",
+    "rarity": "epic",
+    "gunItemId": "mwc:s7_10_tricun",
+    "ammoItemId": "mwc:s710tricunmag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:30}",
+    "descriptionLines": [
+      "&7A submachine gun with a dedicated Tricun magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1014",
+    "category": "shotgun",
+    "rarity": "common",
+    "gunItemId": "mwc:m1014",
+    "ammoItemId": "mwc:shotgun12gauge",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7Italian semi-automatic shotgun used by US military as M1014.",
+      "&7Gas-operated system provides reliable cycling with various ammunition types.",
+      "&7General-purpose close-range shotgun with quick follow-ups."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "KS-23",
+    "category": "shotgun",
+    "rarity": "common",
+    "gunItemId": "mwc:ks23",
+    "ammoItemId": "mwc:shotgun4g",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7Russian shotgun based on 23mm aircraft cannon barrels.",
+      "&7Uses 4-gauge ammunition, making it one of the largest bore shotguns in service.",
+      "&7Heavy point-blank blast with a wide pattern and slow cycling."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Benelli Supernova",
+    "category": "shotgun",
+    "rarity": "common",
+    "gunItemId": "mwc:supernova",
+    "ammoItemId": "mwc:shotgun12gauge",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A pump-action shotgun.",
+      "&7Wide-pattern pump for close-range fights."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MP-43E",
+    "category": "shotgun",
+    "rarity": "common",
+    "gunItemId": "mwc:mp43e",
+    "ammoItemId": "mwc:shotgun12gauge",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A double-barrel shotgun.",
+      "&7Two quick close-range shots before reloading."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Remington-870",
+    "category": "shotgun",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:remington870",
+    "ammoItemId": "mwc:shotgun12gauge",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7American pump-action shotgun, one of the best-selling in history.",
+      "&7Known for its reliability and versatility in military, law enforcement, and civilian use.",
+      "&7Heavier pellets and a tighter pattern for aimed shots farther out."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Spas-12",
+    "category": "shotgun",
+    "rarity": "rare",
+    "gunItemId": "mwc:spas_12",
+    "ammoItemId": "mwc:shotgun12gauge",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7Italian combat shotgun capable of both pump-action and semi-automatic operation.",
+      "&7Famous for its distinctive folding stock and appearance in numerous films.",
+      "&7Tight pattern and repeatable aimed follow-ups at mid-range."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Browning Auto-5",
+    "category": "shotgun",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:browning_auto_5",
+    "ammoItemId": "mwc:shotgun12gauge",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A semi-automatic shotgun that takes loose shells.",
+      "&7Wide pattern with high impact up close."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HS-12",
+    "category": "shotgun",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:hs12",
+    "ammoItemId": "mwc:shotgun12gauge",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A double-barrel shotgun that takes loose shells.",
+      "&7Tight two-shot pattern for aimed engagements."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1897",
+    "category": "shotgun",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:m1897",
+    "ammoItemId": "mwc:shotgun12gauge",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A pump-action shotgun that takes loose shells.",
+      "&7Wide, hard-hitting pump for room distances."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Origin-12",
+    "category": "shotgun",
+    "rarity": "epic",
+    "gunItemId": "mwc:origin12",
+    "ammoItemId": "mwc:origin12drummag",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:20}",
+    "descriptionLines": [
+      "&7American semi-automatic shotgun with high magazine capacity.",
+      "&7Designed for competitive shooting and tactical applications with quick follow-up shots.",
+      "&7Large magazine for sustained close-range fights."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Saiga 12",
+    "category": "shotgun",
+    "rarity": "legendary",
+    "gunItemId": "mwc:saiga12",
+    "ammoItemId": "mwc:saigamag_2",
+    "ammoItemAmount": 16,
+    "ammoNbtData": "{Ammo:5}",
+    "descriptionLines": [
+      "&7Russian semi-automatic shotgun based on AK platform.",
+      "&7Gas-operated system allows for reliable cycling of various 12-gauge loads.",
+      "&7Quick, tighter follow-ups with a small magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "AS50",
+    "category": "sniper_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:as50",
+    "ammoItemId": "mwc:as50mag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7British semi-automatic anti-materiel rifle.",
+      "&7Designed for rapid engagement of multiple targets at extreme ranges."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "L96A1",
+    "category": "sniper_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:l96a1",
+    "ammoItemId": "mwc:l96a1mag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7British precision sniper rifle used by military forces worldwide.",
+      "&7Known for its accuracy and reliability in various environmental conditions."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Izhmash SV-98",
+    "category": "sniper_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:sv98",
+    "ammoItemId": "mwc:sv98mag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7Russian bolt-action sniper rifle designed for precision shooting.",
+      "&7Features a modular design and can be configured for various operational requirements."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M40A6",
+    "category": "sniper_rifle",
+    "rarity": "uncommon",
+    "gunItemId": "mwc:m40a6",
+    "ammoItemId": "mwc:m40a6mag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:7}",
+    "descriptionLines": [
+      "&7Latest iteration of the US Marine Corps M40 sniper rifle series.",
+      "&7Features a folding stock and improved ergonomics over previous versions."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Karabiner-98 Kurz",
+    "category": "sniper_rifle",
+    "rarity": "epic",
+    "gunItemId": "mwc:kar98k",
+    "ammoItemId": "mwc:bullet792x57",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A bolt-action rifle that loads loose rounds."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M200 Intervention",
+    "category": "sniper_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:m200_intervention",
+    "ammoItemId": "mwc:interventionmag",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:7}",
+    "descriptionLines": [
+      "&7American bolt-action sniper rifle system by CheyTac.",
+      "&7Designed for long-range interdiction and holds multiple long-distance shooting records."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Remington-700",
+    "category": "sniper_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:remington_700",
+    "ammoItemId": "mwc:r700mag",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:5}",
+    "descriptionLines": [
+      "&7American bolt-action rifle serving as platform for numerous sniper systems.",
+      "&7Widely used by law enforcement and military units for its accuracy and reliability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M1903 Springfield",
+    "category": "sniper_rifle",
+    "rarity": "common",
+    "gunItemId": "mwc:springfield",
+    "ammoItemId": "mwc:bullet3006springfield",
+    "ammoItemAmount": 124,
+    "descriptionLines": [
+      "&7American bolt-action rifle used as standard issue in World War I.",
+      "&7Served as both infantry rifle and sniper weapon with Warner & Swasey optics."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SSG-08",
+    "category": "sniper_rifle",
+    "rarity": "rare",
+    "gunItemId": "mwc:ssg_08",
+    "ammoItemId": "mwc:ssg08mag",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:8}",
+    "descriptionLines": [
+      "&7A precision bolt-action rifle with a dedicated magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M82 Barrett",
+    "category": "sniper_rifle",
+    "rarity": "legendary",
+    "gunItemId": "mwc:m82_barrett",
+    "ammoItemId": "mwc:m82mag_2",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:10}",
+    "descriptionLines": [
+      "&7American semi-automatic anti-materiel rifle.",
+      "&7Famous for its .50 BMG chambering and ability to engage vehicles and equipment."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Krag Jorgensen",
+    "category": "sniper_rifle",
+    "rarity": "legendary",
+    "gunItemId": "mwc:krag_jorgensen",
+    "ammoItemId": "mwc:bullet8x58",
+    "ammoItemAmount": 124,
+    "descriptionLines": [
+      "&7Norwegian bolt-action rifle used by US forces in Spanish-American War.",
+      "&7Notable for its unique side-loading magazine and smooth bolt operation."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "DSR1",
+    "category": "sniper_rifle",
+    "rarity": "epic",
+    "gunItemId": "mwc:dsr1",
+    "ammoItemId": "mwc:dsr1mag",
+    "ammoItemAmount": 12,
+    "ammoNbtData": "{Ammo:5}",
+    "descriptionLines": [
+      "&7A compact precision rifle with standard and extended magazines."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Automated Turret Gun",
+    "category": "special",
+    "rarity": "rare",
+    "gunItemId": "mwc:turretgun",
+    "ammoItemId": "minecraft:air",
+    "ammoItemAmount": 0,
+    "descriptionLines": [
+      "&7Internal weapon used by the automated turret."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Silenced Automated Turret Gun",
+    "category": "special",
+    "rarity": "rare",
+    "gunItemId": "mwc:turretgunsilenced",
+    "ammoItemId": "minecraft:air",
+    "ammoItemAmount": 0,
+    "descriptionLines": [
+      "&7Internal weapon used by the silenced automated turret."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "GL-06",
+    "category": "special",
+    "rarity": "legendary",
+    "gunItemId": "mwc:gl06",
+    "ammoItemId": "mwc:grenade40mm",
+    "ammoItemAmount": 8,
+    "descriptionLines": [
+      "&7A single-shot grenade launcher."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M79 GL",
+    "category": "special",
+    "rarity": "legendary",
+    "gunItemId": "mwc:m79",
+    "ammoItemId": "mwc:grenade40mm",
+    "ammoItemAmount": 8,
+    "descriptionLines": [
+      "&7A break-action grenade launcher."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Upgraded Automated Turret Gun",
+    "category": "special",
+    "rarity": "epic",
+    "gunItemId": "mwc:turretgunupgraded",
+    "ammoItemId": "minecraft:air",
+    "ammoItemAmount": 0,
+    "descriptionLines": [
+      "&7Internal weapon used by the upgraded automated turret."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M32 MGL",
+    "category": "special",
+    "rarity": "mythic",
+    "gunItemId": "mwc:m32_mgl",
+    "ammoItemId": "mwc:grenade40mm",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7A revolving grenade launcher."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "RPG-7",
+    "category": "special",
+    "rarity": "legendary",
+    "gunItemId": "mwc:rpg7",
+    "ammoItemId": "mwc:rpg7_rocket",
+    "ammoItemAmount": 4,
+    "descriptionLines": [
+      "&7A single-shot rocket launcher."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M202 FLASH",
+    "category": "special",
+    "rarity": "mythic",
+    "gunItemId": "mwc:m202",
+    "ammoItemId": "mwc:m202rocket",
+    "ammoItemAmount": 4,
+    "descriptionLines": [
+      "&7A four-tube rocket launcher."
+    ]
+  }
+]

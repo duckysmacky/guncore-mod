@@ -1,0 +1,196 @@
+[
+  {
+    "enabled": true,
+    "name": "Glock-18C",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:glock_18c",
+    "ammoItemId": "mw:glock18cmag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7Austrian selective-fire pistol capable of fully automatic fire.",
+      "&7Features a compensated barrel to reduce muzzle climb during burst or automatic fire."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "CPX-2",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:sccy_cpx_2",
+    "ammoItemId": "mw:m9mag30",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7American compact double-action only pistol.",
+      "&7Designed for concealed carry with simple operation and reliable performance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M6C SOCOM",
+    "category": "pistol",
+    "rarity": "uncommon",
+    "gunItemId": "mw:m6c_socom",
+    "ammoItemId": "mw:bullet9x19mm",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Special Operations Command variant of the M6C from Halo universe.",
+      "&7Magnum pistol used by UNSC forces for its stopping power and reliability."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Frommer Stop",
+    "category": "pistol",
+    "rarity": "rare",
+    "gunItemId": "mw:frommer_stop",
+    "ammoItemId": "mw:frommerstopmag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7Hungarian long-recoil operated pistol from World War I.",
+      "&7Unique operating system and distinctive appearance make it a collector's item."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M17",
+    "category": "pistol",
+    "rarity": "rare",
+    "gunItemId": "mw:m17",
+    "ammoItemId": "mw:m17mag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7US Army's Modular Handgun System replacing the M9.",
+      "&7SIG Sauer P320-based pistol with improved ergonomics and modularity."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "PP-91 Kedr",
+    "category": "pistol",
+    "rarity": "epic",
+    "gunItemId": "mw:pp91_kedr",
+    "ammoItemId": "mw:kedrmag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7Russian compact submachine gun chambered in 9×18mm Makarov.",
+      "&7Simple blowback operation makes it reliable and inexpensive to manufacture."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Taurus Hunter",
+    "category": "pistol",
+    "rarity": "epic",
+    "gunItemId": "mw:taurus_raging_hunter",
+    "ammoItemId": "mw:bullet44",
+    "ammoItemAmount": 124,
+    "descriptionLines": [
+      "&7Brazilian large-frame revolver chambered in .44 Magnum.",
+      "&7Designed for hunting and outdoor use with substantial stopping power."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "P10",
+    "category": "pistol",
+    "rarity": "epic",
+    "gunItemId": "mw:p10",
+    "ammoItemId": "mw:bullet10mm",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Advanced pistol chambered in powerful 10mm Auto.",
+      "&7Provides enhanced stopping power compared to standard 9mm service pistols."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Desert Eagle",
+    "category": "pistol",
+    "rarity": "epic",
+    "gunItemId": "mw:desert_eagle",
+    "ammoItemId": "mw:deserteaglemag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Israeli gas-operated semi-automatic pistol famous for its powerful chamberings.",
+      "&7Iconic design frequently featured in films and video games for its imposing appearance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "ESA-23",
+    "category": "pistol",
+    "rarity": "legendary",
+    "gunItemId": "mw:esa23",
+    "ammoItemId": "mw:energycase",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Energy Sidearm from advanced military technology.",
+      "&7Utilizes compact energy cells for reliable sidearm performance in future combat."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "The Dechard",
+    "category": "pistol",
+    "rarity": "legendary",
+    "gunItemId": "mw:the_dechard",
+    "ammoItemId": "mw:bullet556x45",
+    "ammoItemAmount": 124,
+    "descriptionLines": [
+      "&7Unique pistol capable of firing rifle-caliber ammunition.",
+      "&7Special design allows for controlled firing of high-pressure cartridges in handgun format."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "G2 Contender",
+    "category": "pistol",
+    "rarity": "legendary",
+    "gunItemId": "mw:g2_contender",
+    "ammoItemId": "mw:bullet4570",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7American single-shot pistol designed for hunting and metallic silhouette shooting.",
+      "&7Capable of chambering powerful rifle cartridges for maximum terminal performance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK MP7A1",
+    "category": "smg",
+    "rarity": "common",
+    "gunItemId": "mw:mp7a1",
+    "ammoItemId": "mw:mp7mag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7German personal defense weapon chambered in 4.6×30mm.",
+      "&7Designed to penetrate body armor while maintaining compact dimensions."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "UZI",
+    "category": "smg",
+    "rarity": "uncommon",
+    "gunItemId": "mw:uzi",
+    "ammoItemId": "mw:uzimag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7Iconic Israeli open-bolt submachine gun.",
+      "&7One of the first weapons to use a telescoping bolt design, allowing for compact size."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Chainsaw",
+    "category": "melee",
+    "rarity": "legendary",
+    "gunItemId": "mw:chainsaw",
+    "ammoItemId": "mw:fuelcell",
+    "ammoItemAmount": 1,
+    "descriptionLines": [
+      "&7One shots enemies on contact"
+    ]
+  }
+]

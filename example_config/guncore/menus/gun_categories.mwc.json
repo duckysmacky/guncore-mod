@@ -1,0 +1,72 @@
+[
+  {
+    "enabled": true,
+    "id": "assault_rifle",
+    "name": "Assault Rifles",
+    "iconItemId": "mwc:m4a1",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "id": "battle_rifle",
+    "name": "Battle Rifles",
+    "iconItemId": "mwc:scar_h_cqc",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "id": "dmr",
+    "name": "DMRs",
+    "iconItemId": "mwc:m110_sass",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "id": "lmg",
+    "name": "LMGs",
+    "iconItemId": "mwc:mg42",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "id": "smg",
+    "name": "SMGs",
+    "iconItemId": "mwc:mp7",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "id": "shotgun",
+    "name": "Shotguns",
+    "iconItemId": "mwc:remington870",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "id": "sniper_rifle",
+    "name": "Sniper Rifles",
+    "iconItemId": "mwc:m40a6",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "id": "pistol",
+    "name": "Pistols",
+    "iconItemId": "mwc:m17",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "id": "melee",
+    "name": "Melee Weapons",
+    "iconItemId": "mwc:chainsaw",
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "id": "special",
+    "name": "Special Weapons",
+    "iconItemId": "mwc:rpg7",
+    "descriptionLines": []
+  }
+]

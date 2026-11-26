@@ -1,0 +1,51 @@
+[
+  {
+    "enabled": true,
+    "id": "assault",
+    "name": "Assault Class",
+    "iconItemId": "minecraft:iron_chestplate",
+    "descriptionLines": [
+      "&7Excellent all-rounder kits",
+      "&7Utility for better survivability and easier combat"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": "skirmisher",
+    "name": "Skirmisher Class",
+    "iconItemId": "minecraft:ender_eye",
+    "descriptionLines": [
+      "&7Fast-paced kits for aggressive playstyles",
+      "&7Utility to help initiate a fight or move around"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": "assassin",
+    "name": "Assassin Class",
+    "iconItemId": "minecraft:iron_sword",
+    "descriptionLines": [
+      "&7Kits focused on destruction and high damage",
+      "&7Utility helps eliminate opponents or destroy areas"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": "sentinel",
+    "name": "Sentinel Class",
+    "iconItemId": "minecraft:piston",
+    "descriptionLines": [
+      "&7Defensive kits for holding positions",
+      "&7Utility to fortify areas and support teammates"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": "special",
+    "name": "Special Kits",
+    "iconItemId": "minecraft:bedrock",
+    "descriptionLines": [
+      "&7Unique kits that don't fit into other categories"
+    ]
+  }
+]

@@ -1,0 +1,144 @@
+[
+  {
+    "enabled": true,
+    "name": "Golden Carrot",
+    "rarity": "common",
+    "itemId": "minecraft:golden_carrot",
+    "itemAmount": 64,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Hearty food with solid saturation."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Bandage",
+    "rarity": "common",
+    "itemId": "healingitems:bandage",
+    "itemAmount": 12,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Quick bandage that patches up minor wounds.",
+      "&7Heals instantly"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Antidote Syringe",
+    "rarity": "common",
+    "itemId": "hbm:syringe_antidote",
+    "itemAmount": 16,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Instantly clears negative effects such as poison.",
+      "&7Does nothing against direct damage."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Tight Bandage",
+    "rarity": "uncommon",
+    "itemId": "healingitems:tightbandage",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Firm compression bandage that heals more than a plain one.",
+      "&7Heals instantly"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Regeneration Potion",
+    "rarity": "uncommon",
+    "itemId": "minecraft:potion",
+    "itemAmount": 10,
+    "nbtData": "{Potion:\"minecraft:strong_regeneration\"}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Strong regeneration potion for fast healing.",
+      "&7Heals over time, so it will not save you from burst damage."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Fire Resistance Potion",
+    "rarity": "uncommon",
+    "itemId": "minecraft:potion",
+    "itemAmount": 10,
+    "nbtData": "{Potion:\"minecraft:fire_resistance\"}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Protect yourself from fire"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Energy Drink",
+    "rarity": "uncommon",
+    "itemId": "healingitems:energydrink",
+    "itemAmount": 10,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Quick pick-me-up that boosts speed and stamina for a short time.",
+      "&7Short duration."
+    ]
+  },
+ {
+    "enabled": true,
+    "name": "Speed Pills",
+    "rarity": "rare",
+    "itemId": "healingitems:speedpills",
+    "itemAmount": 6,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Pop one for a short burst of movement speed.",
+      "&7Longer duration + haste"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Metal Stimpak",
+    "rarity": "rare",
+    "itemId": "hbm:syringe_metal_stimpak",
+    "itemAmount": 6,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Stimpak that heals a large amount of health almost instantly.",
+      "&7Syringes are single use."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "First Aid Kit",
+    "rarity": "epic",
+    "itemId": "healingitems:firstaidkit",
+    "itemAmount": 3,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Full medical kit that restores a large amount of health."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Psycho Syringe",
+    "rarity": "epic",
+    "itemId": "hbm:syringe_metal_psycho",
+    "itemAmount": 4,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Combat drug that boosts your damage and toughness for a limited time."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Med-X Syringe",
+    "rarity": "legendary",
+    "itemId": "hbm:syringe_metal_medx",
+    "itemAmount": 2,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Grants heavy damage resistance for a while.",
+      "&7Does not heal you"
+    ]
+  }
+]

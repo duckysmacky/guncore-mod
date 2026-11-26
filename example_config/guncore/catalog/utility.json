@@ -1,0 +1,481 @@
+[
+  {
+    "enabled": true,
+    "name": "Flashlight",
+    "rarity": "common",
+    "itemId": "flashlight:flashlight",
+    "itemAmount": 1,
+    "nbtData": "{batteryLifeTime:12000}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Battery-powered light for dark areas.",
+      "&7The beam gives away your position."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Water Bucket",
+    "rarity": "common",
+    "itemId": "minecraft:water_bucket",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Puts out fire and cancels fall damage when placed below you.",
+      "&7Single use per placement; pick it back up."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Geiger Counter",
+    "rarity": "common",
+    "itemId": "hbm:geiger_counter",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Clicks faster the more radiation is around you.",
+      "&7Useful near nuclear blasts and fallout."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Placeable Cover",
+    "rarity": "common",
+    "itemId": "hbm:hadron_plating_striped",
+    "itemAmount": 128,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Placeable armored plating for building instant hard cover."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Diamond Pickaxe",
+    "rarity": "common",
+    "itemId": "minecraft:diamond_pickaxe",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Sturdy pickaxe for tunneling to flanking routes."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Portable Radar",
+    "rarity": "uncommon",
+    "itemId": "securitycraft:portable_radar",
+    "itemAmount": 16,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Deployable radar that detects nearby players.",
+      "&7Enemies can destroy it if they find it."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Heavy Steel Insert",
+    "rarity": "uncommon",
+    "itemId": "hbm:insert_steel",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Provides extra projectile and exprosion protection, but makes you slightly slower"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Slime Pads",
+    "rarity": "uncommon",
+    "itemId": "hbm:pads_slime",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Bouncy pads that absorb fall damage.",
+      "&7Place them on boots to nullify fall damage"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Area Projector",
+    "rarity": "uncommon",
+    "itemId": "securitycraft:projector",
+    "itemAmount": 32,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Projects a temporary wall of blocks to shape the battlefield.",
+      "&7Needs a moment of setup before it works."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Ender Pearls",
+    "rarity": "uncommon",
+    "itemId": "minecraft:ender_pearl",
+    "itemAmount": 10,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Throw to teleport to where it lands.",
+      "&7You take fall damage on arrival."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Gas Mask",
+    "rarity": "uncommon",
+    "itemId": "hbm:gas_mask",
+    "itemAmount": 1,
+    "nbtData": "{hfrFilter:{id:\"hbm:gas_mask_filter\",Count:1b,Damage:0s}}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Filters out poison gas and smoke effects.",
+      "&7The filter wears out over time."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Night Vision Goggles",
+    "rarity": "uncommon",
+    "itemId": "techguns:nightvisiongoggles",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7See clearly in the dark.",
+      "&7Bright flashes can briefly blind you."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Vault 13 Canteen",
+    "rarity": "rare",
+    "itemId": "hbm:canteen_13",
+    "itemAmount": 1,
+    "descriptionLines": [],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "EMP Gun",
+    "rarity": "rare",
+    "itemId": "hbm:gun_emp",
+    "itemAmount": 1,
+    "additionalItems": [
+      {
+        "id": "hbm:gun_emp_ammo",
+        "amount": 32
+      }
+    ],
+    "descriptionLines": [
+      "&7Fires an electromagnetic pulse that disables electronics and tech gear.",
+      "&7Does little damage to players.",
+      "&7Does NOT disable drones and planes"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "IMS Turret",
+    "rarity": "rare",
+    "itemId": "securitycraft:ims",
+    "itemAmount": 8,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Intelligent Munitions System that launches mini-missiles at enemies in range.",
+      "&7Limited ammo per unit and it can be destroyed."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Artillery Walkie-Talkie",
+    "rarity": "rare",
+    "itemId": "army_equip:artilery_walkie_talkie",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Field radio used by spotters to coordinate artillery fire.",
+      "&7Only useful if you actually have fire support."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Velvet Band-Aid",
+    "rarity": "rare",
+    "itemId": "hbm:bandaid",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Can fully heal your health at random when damanged"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Carpet Bombing Caller",
+    "rarity": "rare",
+    "itemId": "hbm:bomb_caller",
+    "itemAmount": 4,
+    "nbtData": "{callerType:0}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Calls in a bomber to carpet-bomb a line across the target area.",
+      "&7Throw it, then take cover; friendly fire applies."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Napalm Strike Caller",
+    "rarity": "rare",
+    "itemId": "hbm:bomb_caller",
+    "itemAmount": 6,
+    "nbtData": "{callerType:1}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Calls in an airstrike that drops napalm over the target area.",
+      "&7The flames linger and keep the position blocked for a while."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Chemical Strike Caller",
+    "rarity": "rare",
+    "itemId": "hbm:bomb_caller",
+    "itemAmount": 3,
+    "nbtData": "{callerType:2}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Calls in a bomber that drops poison gas canisters.",
+      "&7Heavy area denial, but the gas drifts and hurts everyone."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Agent Orange Caller",
+    "rarity": "rare",
+    "itemId": "hbm:bomb_caller",
+    "itemAmount": 3,
+    "nbtData": "{callerType:3}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7A heavier special airstrike than the standard callers.",
+      "&7Large impact zone: do not stand anywhere near the target."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Pilot detector",
+    "rarity": "rare",
+    "itemId": "combat_drones:pilot_detector",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7A gadget which marks enemies which are controlling a drone through walls",
+      "&7Has a cooldown between uses"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "EMP Blast",
+    "rarity": "rare",
+    "itemId": "combat_drones:emp_blast",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7A gadget which emits an EMP field on use",
+      "&7In contact with the EMP field enemy gadgets get disabled and loose control",
+      "&7Has a cooldown between uses"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Servo Set",
+    "rarity": "epic",
+    "itemId": "hbm:servo_set",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Increases speed and jump height"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      },
+      {
+        "id": "minecraft:leather_leggings",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "V1",
+    "rarity": "epic",
+    "itemId": "hbm:v1",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Fully heal on melee attacks"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Totem of Undying",
+    "rarity": "epic",
+    "itemId": "minecraft:totem_of_undying",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Extra life!"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Jumppack",
+    "rarity": "legendary",
+    "itemId": "techguns:jumppack",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Personal propulsion system for enhanced mobility.",
+      "&7Enables rocket-assisted jumps for tactical advantage."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Grappling Hook",
+    "rarity": "epic",
+    "itemId": "grapplemod:grapplinghook",
+    "itemAmount": 1,
+    "nbtData": "{doublehook:0b,motor:0b,phaserope:0b,attract:0b,rocket:0b,hookgravity:1.0d,repelforce:1.0d,attractradius:3.0d,pullbackwards:1b,smartmotor:0b,detachonkeyrelease:0b,angle:20.0d,crc32:2252267022L,rocket_vertical_angle:0.0d,rocket_force:1.0d,rocket_refuel_ratio:15.0d,motorwhencrouching:0b,motorwhennotcrouching:1b,motordampener:0b,rocket_active_time:0.5d,throwspeed:2.0d,motoracceleration:0.2d,enderstaff:0b,oneropepull:0b,sneakingverticalthrowangle:0.0d,smartdoublemotor:1b,repel:0b,sneakingangle:10.0d,motormaxspeed:4.0d,playermovementmult:1.0d,reelin:1b,sticky:0b,verticalthrowangle:0.0d,maxlen:30.0d}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Swing and reel yourself to new positions in a flash.",
+      "&7Takes practice and leaves you exposed in the air."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Stinger",
+    "rarity": "epic",
+    "itemId": "combat_drones:stinger",
+    "itemAmount": 1,
+    "additionalItems": [
+      {
+        "id": "combat_drones:stinger_missile",
+        "amount": 5
+      }
+    ],
+    "descriptionLines": [
+      "&7An anti-air lock-on rocket launcher",
+      "&7Mostly one-shots drones, munitions and planes"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "EMP Launcher",
+    "rarity": "epic",
+    "itemId": "combat_drones:emp_gun",
+    "itemAmount": 1,
+    "additionalItems": [
+      {
+        "id": "combat_drones:emp_cell",
+        "amount": 10
+      }
+    ],
+    "descriptionLines": [
+      "&7An anti-air launcher which shoots small EMP fields",
+      "&7EMP field travel forward and disable on impact"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Satellite Radar Kit",
+    "rarity": "legendary",
+    "itemId": "usefulbackpacks:backpack",
+    "itemAmount": 1,
+    "nbtData": "{RepairCost:0,display:{color:8439583,Name:\"Satellite Radar Setup\"},Items:[{Slot:0b,id:\"hbm:machine_satlinker\",Count:1b,Damage:0s},{Slot:1b,id:\"hbm:sat_radar\",Count:1b,Damage:0s},{Slot:2b,id:\"hbm:sat_interface\",Count:1b,Damage:0s},{Slot:5b,id:\"hbm:launch_pad\",Count:1b,Damage:0s},{Slot:6b,id:\"hbm:missile_carrier\",Count:1b,Damage:0s},{Slot:7b,id:\"hbm:battery_creative\",Count:1b,Damage:0s},{Slot:9b,id:\"minecraft:written_book\",Count:1b,tag:{pages:[\"{\\\"text\\\":\\\"Set Radar Survey Satellite and Control Interface to the same frequency using the ID manager\\\\n\\\\nThen set up the launch pad, put carrier rocket in the first slot, satellite in the second and battery in the third\\\\n\\\\nNow you can launch it\\\"}\",\"{\\\"text\\\":\\\"using designator (shift right click on the launch pad) \\\\n\\\\nUse the Control Interface to see radar view of the map\\\"}\"],author:\"MrDuckyRU\",title:\"Guide\"},Damage:0s},{Slot:10b,id:\"hbm:detonator\",Count:1b,tag:{x:157,y:46,z:38},Damage:0s}]}",
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7Radar satellite kit with launch pad, carrier rocket and control interface.",
+      "&7Needs a proper setup before it shows anything."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Extra Health",
+    "rarity": "legendary",
+    "itemId": "hbm:heart_piece",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Provides 5 extra health points"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Recon FPV Drones",
+    "rarity": "legendary",
+    "itemId": "combat_drones:recon_drone",
+    "itemAmount": 3,
+    "nbtData": "",
+    "additionalItems": [
+      {
+        "id": "combat_drones:heavy_battery",
+        "amount": 16
+      },
+      {
+        "id": "combat_drones:fpv_remote",
+        "amount": 1
+      },
+      {
+        "id": "combat_drones:fpv_goggles",
+        "amount": 1
+      }
+    ],
+    "descriptionLines": [
+      "&7Controllable FPV drone for recon and scanning enemy players",
+      "&7Long-range drone with longer battery life, but with slower speed and almost no impact explosion power"
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Glitch",
+    "rarity": "mythic",
+    "itemId": "hbm:glitch",
+    "itemAmount": 5,
+    "descriptionLines": [],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Mythic Weapon Voucher (2/2)",
+    "rarity": "mythic",
+    "itemId": "minecraft:paper",
+    "itemAmount": 1,
+    "additionalItems": [],
+    "descriptionLines": [
+      "&7One of two vouchers: one is taken from gadgets, one from utility",
+      "&7With both vouchers you may take any &4&lMythic &7weapon"
+    ]
+  }
+]

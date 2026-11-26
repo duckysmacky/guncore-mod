@@ -1,0 +1,421 @@
+[
+  {
+    "enabled": true,
+    "name": "HK MP7",
+    "category": "smg",
+    "rarity": "common",
+    "gunItemId": "mw:mp7",
+    "ammoItemId": "mw:mp7mag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7German personal defense weapon chambered in 4.6×30mm.",
+      "&7Designed to penetrate body armor while maintaining compact dimensions."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "UZI",
+    "category": "smg",
+    "rarity": "uncommon",
+    "gunItemId": "mw:uzi",
+    "ammoItemId": "mw:uzimag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7Iconic Israeli open-bolt submachine gun.",
+      "&7One of the first weapons to use a telescoping bolt design, allowing for compact size."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "PP-91 Kedr",
+    "category": "smg",
+    "rarity": "epic",
+    "gunItemId": "mw:pp91_kedr",
+    "ammoItemId": "mw:kedrmag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7Russian compact submachine gun chambered in 9×18mm Makarov.",
+      "&7Simple blowback operation makes it reliable and inexpensive to manufacture."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Glock-18C",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:glock_18c",
+    "ammoItemId": "mw:glock18cmag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7Austrian selective-fire pistol capable of fully automatic fire.",
+      "&7Features a compensated barrel to reduce muzzle climb during burst or automatic fire."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "CPX-2",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:sccy_cpx_2",
+    "ammoItemId": "mw:sccycpx2mag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7American compact double-action only pistol.",
+      "&7Designed for concealed carry with simple operation and reliable performance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Browning Hi-Power",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:browning_hi_power",
+    "ammoItemId": "mw:hipowermag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A single-action semi-automatic pistol."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Colt M1911",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:m1911",
+    "ammoItemId": "mw:m45a1mag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A single-action pistol that accepts M45A1 magazines."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Glock-19",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:glock_19",
+    "ammoItemId": "mw:glockmag13",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A compact semi-automatic Glock."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M9A1 Beretta",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:m9a1",
+    "ammoItemId": "mw:m9mag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A Beretta service pistol with a range of compatible magazines."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Makarov PM",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:makarov_pm",
+    "ammoItemId": "mw:makarovmag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A compact semi-automatic service pistol."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SIG P226",
+    "category": "pistol",
+    "rarity": "common",
+    "gunItemId": "mw:p226",
+    "ammoItemId": "mw:m9mag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A full-size double-action and single-action pistol."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "APS",
+    "category": "pistol",
+    "rarity": "uncommon",
+    "gunItemId": "mw:aps",
+    "ammoItemId": "mw:apsmag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A machine pistol with a dedicated magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Colt Python",
+    "category": "pistol",
+    "rarity": "uncommon",
+    "gunItemId": "mw:python",
+    "ammoItemId": "mw:bullet357",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A revolver that loads loose rounds."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HK P12",
+    "category": "pistol",
+    "rarity": "uncommon",
+    "gunItemId": "mw:hk_p12",
+    "ammoItemId": "mw:usp45mag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A semi-automatic service pistol that uses the USP magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "L131A1",
+    "category": "pistol",
+    "rarity": "uncommon",
+    "gunItemId": "mw:l131a1",
+    "ammoItemId": "mw:l131a1mag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A semi-automatic service pistol."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MP443",
+    "category": "pistol",
+    "rarity": "uncommon",
+    "gunItemId": "mw:mp443",
+    "ammoItemId": "mw:mp443mag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A service pistol with a dedicated MP443 magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SIG P2022",
+    "category": "pistol",
+    "rarity": "uncommon",
+    "gunItemId": "mw:p2022",
+    "ammoItemId": "mw:p2022mag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A SIG service pistol with a dedicated magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "VP-70",
+    "category": "pistol",
+    "rarity": "uncommon",
+    "gunItemId": "mw:vp70",
+    "ammoItemId": "mw:vp70mag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A double-action pistol with its own magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M17",
+    "category": "pistol",
+    "rarity": "rare",
+    "gunItemId": "mw:m17",
+    "ammoItemId": "mw:m17mag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7US Army's Modular Handgun System replacing the M9.",
+      "&7SIG Sauer P320-based pistol with improved ergonomics and modularity."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Chiappa Rhino",
+    "category": "pistol",
+    "rarity": "rare",
+    "gunItemId": "mw:chiappa_rhino",
+    "ammoItemId": "mw:bullet357",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A revolver that loads loose rounds."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "FN Five-Seven",
+    "category": "pistol",
+    "rarity": "rare",
+    "gunItemId": "mw:fiveseven",
+    "ammoItemId": "mw:fivesevenmag",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A service pistol with a dedicated Five-Seven magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "M712",
+    "category": "pistol",
+    "rarity": "rare",
+    "gunItemId": "mw:m712",
+    "ammoItemId": "mw:m712mag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7A machine pistol with a detachable magazine."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Taurus Hunter",
+    "category": "pistol",
+    "rarity": "epic",
+    "gunItemId": "mw:taurus_raging_hunter",
+    "ammoItemId": "mw:bullet44",
+    "ammoItemAmount": 124,
+    "descriptionLines": [
+      "&7Brazilian large-frame revolver chambered in .44 Magnum.",
+      "&7Designed for hunting and outdoor use with substantial stopping power."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "P10",
+    "category": "pistol",
+    "rarity": "epic",
+    "gunItemId": "mw:p10",
+    "ammoItemId": "mw:bullet10mm",
+    "ammoItemAmount": 192,
+    "descriptionLines": [
+      "&7Advanced pistol chambered in powerful 10mm Auto.",
+      "&7Provides enhanced stopping power compared to standard 9mm service pistols."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Desert Eagle",
+    "category": "pistol",
+    "rarity": "epic",
+    "gunItemId": "mw:desert_eagle",
+    "ammoItemId": "mw:deserteaglemag",
+    "ammoItemAmount": 12,
+    "descriptionLines": [
+      "&7Israeli gas-operated semi-automatic pistol famous for its powerful chamberings.",
+      "&7Iconic design frequently featured in films and video games for its imposing appearance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "MAS-21",
+    "category": "pistol",
+    "rarity": "epic",
+    "gunItemId": "mw:mas_21",
+    "ammoItemId": "mw:m9mag_2",
+    "ammoItemAmount": 16,
+    "descriptionLines": [
+      "&7An experimental handgun that accepts M9 magazines."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "S&W .500 Magnum",
+    "category": "pistol",
+    "rarity": "epic",
+    "gunItemId": "mw:sw_500_magnum",
+    "ammoItemId": "mw:bullet500",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7A large-frame revolver with its own ammunition."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "The Dechard",
+    "category": "pistol",
+    "rarity": "legendary",
+    "gunItemId": "mw:the_dechard",
+    "ammoItemId": "mw:bullet556x45",
+    "ammoItemAmount": 124,
+    "descriptionLines": [
+      "&7Unique pistol capable of firing rifle-caliber ammunition.",
+      "&7Special design allows for controlled firing of high-pressure cartridges in handgun format."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "G2 Contender",
+    "category": "pistol",
+    "rarity": "legendary",
+    "gunItemId": "mw:g2_contender",
+    "ammoItemId": "mw:bullet4570",
+    "ammoItemAmount": 64,
+    "descriptionLines": [
+      "&7American single-shot pistol designed for hunting and metallic silhouette shooting.",
+      "&7Capable of chambering powerful rifle cartridges for maximum terminal performance."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Baseball Bat",
+    "category": "melee",
+    "rarity": "common",
+    "gunItemId": "mw:baseball_bat",
+    "ammoItemId": "minecraft:air",
+    "ammoItemAmount": 0,
+    "descriptionLines": [
+      "&7A plain wooden bat for melee combat."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Night Stick",
+    "category": "melee",
+    "rarity": "common",
+    "gunItemId": "mw:night_stick",
+    "ammoItemId": "minecraft:air",
+    "ammoItemAmount": 0,
+    "descriptionLines": [
+      "&7A baton for melee combat."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Tactical Tomahawk",
+    "category": "melee",
+    "rarity": "uncommon",
+    "gunItemId": "mw:tactical_tomahawk",
+    "ammoItemId": "minecraft:air",
+    "ammoItemAmount": 0,
+    "descriptionLines": [
+      "&7A melee axe."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Baseball Bat w/ Nails",
+    "category": "melee",
+    "rarity": "rare",
+    "gunItemId": "mw:baseball_bat_nails",
+    "ammoItemId": "minecraft:air",
+    "ammoItemAmount": 0,
+    "descriptionLines": [
+      "&7A spiked variant of the baseball bat."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Chainsaw",
+    "category": "melee",
+    "rarity": "legendary",
+    "gunItemId": "mw:chainsaw",
+    "ammoItemId": "mw:fuelcell",
+    "ammoItemAmount": 1,
+    "descriptionLines": [
+      "&7One shots enemies on contact"
+    ]
+  }
+]

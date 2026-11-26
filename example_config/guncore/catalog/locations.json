@@ -1,0 +1,1074 @@
+[
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Spawn",
+    "coordinates": {
+      "x": -44,
+      "y": 249,
+      "z": 216
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Plaza",
+    "coordinates": {
+      "x": -150,
+      "y": 160,
+      "z": 230
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Stone Twin Apartments",
+    "coordinates": {
+      "x": -70,
+      "y": 120,
+      "z": 230
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Triple Gray Towers",
+    "coordinates": {
+      "x": -130,
+      "y": 140,
+      "z": -40
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Hospital Complex",
+    "coordinates": {
+      "x": -130,
+      "y": 120,
+      "z": 20
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "White house",
+    "coordinates": {
+      "x": 50,
+      "y": 100,
+      "z": 140
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Tall Gray Apartment",
+    "coordinates": {
+      "x": 90,
+      "y": 190,
+      "z": 230
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "RD Hotel",
+    "coordinates": {
+      "x": -70,
+      "y": 130,
+      "z": -470
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "MC Skyscraper",
+    "coordinates": {
+      "x": 0,
+      "y": 210,
+      "z": -450
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Double Brick Towers",
+    "coordinates": {
+      "x": 100,
+      "y": 120,
+      "z": -280
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "newport",
+    "name": "Large Neighbourhood",
+    "coordinates": {
+      "x": 80,
+      "y": 100,
+      "z": -150
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Spawn",
+    "coordinates": {
+      "x": 1780,
+      "y": 123,
+      "z": 198
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Bank Tower Complex",
+    "coordinates": {
+      "x": 1570,
+      "y": 105,
+      "z": 60
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Skyscraper",
+    "coordinates": {
+      "x": 1620,
+      "y": 260,
+      "z": 200
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Terracotta Tower",
+    "coordinates": {
+      "x": 1650,
+      "y": 200,
+      "z": -20
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Chorus Complex",
+    "coordinates": {
+      "x": 1740,
+      "y": 115,
+      "z": 70
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Museum",
+    "coordinates": {
+      "x": 1830,
+      "y": 105,
+      "z": 70
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Apartment Towers",
+    "coordinates": {
+      "x": 1830,
+      "y": 110,
+      "z": -30
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Opposing Towers",
+    "coordinates": {
+      "x": 2030,
+      "y": 95,
+      "z": -20
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Embassy",
+    "coordinates": {
+      "x": 1970,
+      "y": 120,
+      "z": -20
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Housing Complex",
+    "coordinates": {
+      "x": 1900,
+      "y": 110,
+      "z": 90
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Quartz Heights",
+    "coordinates": {
+      "x": 1990,
+      "y": 140,
+      "z": 130
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Police station",
+    "coordinates": {
+      "x": 1990,
+      "y": 100,
+      "z": 260
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "radiant",
+    "name": "Court",
+    "coordinates": {
+      "x": 1900,
+      "y": 100,
+      "z": 300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Spawn",
+    "coordinates": {
+      "x": 42,
+      "y": 95,
+      "z": 25
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Grocery Store",
+    "coordinates": {
+      "x": -360,
+      "y": 60,
+      "z": 144
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Sandstone Tower",
+    "coordinates": {
+      "x": -75,
+      "y": 105,
+      "z": 115
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Plaza",
+    "coordinates": {
+      "x": -90,
+      "y": 95,
+      "z": -125
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Brick Complex 1",
+    "coordinates": {
+      "x": -115,
+      "y": 80,
+      "z": -225
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "shmar",
+    "name": "Brick Complex 2",
+    "coordinates": {
+      "x": -110,
+      "y": 90,
+      "z": -330
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Spawn",
+    "coordinates": {
+      "x": 85,
+      "y": 256,
+      "z": -188
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Small Neighbourhood 1",
+    "coordinates": {
+      "x": 800,
+      "y": 100,
+      "z": -1300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Small Neighbourhood 2",
+    "coordinates": {
+      "x": 1100,
+      "y": 100,
+      "z": -1000
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Modern House Complex 1",
+    "coordinates": {
+      "x": 500,
+      "y": 100,
+      "z": -200
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Modern House Complex 2",
+    "coordinates": {
+      "x": 500,
+      "y": 100,
+      "z": 200
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "White House Complex",
+    "coordinates": {
+      "x": -450,
+      "y": 100,
+      "z": -100
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Brick House Complex",
+    "coordinates": {
+      "x": -200,
+      "y": 100,
+      "z": -550
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Grey House Complex",
+    "coordinates": {
+      "x": 900,
+      "y": 100,
+      "z": -200
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Beachside House Complex",
+    "coordinates": {
+      "x": 1500,
+      "y": 100,
+      "z": 1500
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "City Centre Skyscraper",
+    "coordinates": {
+      "x": -600,
+      "y": 100,
+      "z": -300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Urban Skyscrapers",
+    "coordinates": {
+      "x": 800,
+      "y": 100,
+      "z": -500
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Cargo Ship",
+    "coordinates": {
+      "x": -1350,
+      "y": 100,
+      "z": 1220
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "World Trade Centre",
+    "coordinates": {
+      "x": 70,
+      "y": 200,
+      "z": 40
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Aqua Park",
+    "coordinates": {
+      "x": 1050,
+      "y": 100,
+      "z": 1300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Airport",
+    "coordinates": {
+      "x": 550,
+      "y": 100,
+      "z": -1100
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Modern City Area",
+    "coordinates": {
+      "x": -1000,
+      "y": 100,
+      "z": -300
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Big Neighbourhood",
+    "coordinates": {
+      "x": -800,
+      "y": 100,
+      "z": -1000
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Medium Neighbourhood",
+    "coordinates": {
+      "x": 500,
+      "y": 100,
+      "z": 500
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Walmart",
+    "coordinates": {
+      "x": 0,
+      "y": 100,
+      "z": -1000
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "School",
+    "coordinates": {
+      "x": 1100,
+      "y": 100,
+      "z": 0
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Yachts",
+    "coordinates": {
+      "x": -800,
+      "y": 100,
+      "z": 800
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Construction site",
+    "coordinates": {
+      "x": -100,
+      "y": 100,
+      "z": -400
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Hotel",
+    "coordinates": {
+      "x": -810,
+      "y": 100,
+      "z": -840
+    },
+    "descriptionLines": ["&7Great map for the hostage game mode"]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Circular buildings",
+    "coordinates": {
+      "x": -130,
+      "y": 120,
+      "z": -245
+    },
+    "descriptionLines": [
+      "&7Two buildings with a bridge between them",
+      "&7Also known as \"Gay buildings\" and having the Oranos's bedrock house in the fucking middle of the map"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Green building",
+    "coordinates": {
+      "x": -890,
+      "y": 120,
+      "z": -360
+    },
+    "descriptionLines": [
+      "&7Well it's gren and it has trees and shit and it's kinda open"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Wooden cabin",
+    "coordinates": {
+      "x": -650,
+      "y": 130,
+      "z": -1920
+    },
+    "descriptionLines": [
+      "&7A wooden cabin by the lake in the middle of nowhere",
+      "&7There is a big lake and a forest nearby, making it a good spot for open area and forest fight"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Neighbourhood in the outskirts",
+    "coordinates": {
+      "x": 775,
+      "y": 120,
+      "z": -1345
+    },
+    "descriptionLines": ["&7Can be really good for house-to-house fights"]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Beachside hotel",
+    "coordinates": {
+      "x": 270,
+      "y": 120,
+      "z": 1250
+    },
+    "descriptionLines": [
+      "&7A big hotel with two main parts and a bridge between them"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Lighthouse semi-island",
+    "coordinates": {
+      "x": -400,
+      "y": 120,
+      "z": 1375
+    },
+    "descriptionLines": [
+      "&7A pretty near semi-island with a main lighthouse and plenty of trees"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Island town",
+    "coordinates": {
+      "x": -1250,
+      "y": 100,
+      "z": 940
+    },
+    "descriptionLines": ["&7A hilly island with a small town"]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Island-house",
+    "coordinates": {
+      "x": -980,
+      "y": 100,
+      "z": 930
+    },
+    "descriptionLines": ["&7Literally just a single house on a tiny island"]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Black skyscraper",
+    "coordinates": {
+      "x": -1750,
+      "y": 210,
+      "z": 340
+    },
+    "descriptionLines": [
+      "&7A near circular tall building with semi-empty interrior",
+      "&7Can be good for FFA rounds"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Crago trainyard",
+    "coordinates": {
+      "x": -1430,
+      "y": 150,
+      "z": 275
+    },
+    "descriptionLines": [
+      "&7An open area trainyard and cargo storage place",
+      "&7Can be good for open area and sniper rounds"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Chemical factory",
+    "coordinates": {
+      "x": -1370,
+      "y": 120,
+      "z": -255
+    },
+    "descriptionLines": ["&7A small sized chemical factory"]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Woodpiles",
+    "coordinates": {
+      "x": -1100,
+      "y": 140,
+      "z": -1180
+    },
+    "descriptionLines": [
+      "&7Basically just an open field of woodpiles",
+      "&7A sniper rifle is a must here"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Big power factory",
+    "coordinates": {
+      "x": -1100,
+      "y": 100,
+      "z": -1000
+    },
+    "descriptionLines": ["&7A huge factory producing power"]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Small central part",
+    "coordinates": {
+      "x": 820,
+      "y": 100,
+      "z": -530
+    },
+    "descriptionLines": [
+      "&7A cool looking part in between skycrapers",
+      "&7Can be good for FFA or Team fights"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Tall parking building",
+    "coordinates": {
+      "x": 806,
+      "y": 160,
+      "z": 510
+    },
+    "descriptionLines": [
+      "&7An interesting tall building with a fix of office spaces and car parking"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Medium factory",
+    "coordinates": {
+      "x": 1215,
+      "y": 110,
+      "z": 325
+    },
+    "descriptionLines": ["&7A one-floor factory with open interrior"]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Double circular building library",
+    "coordinates": {
+      "x": 1475,
+      "y": 100,
+      "z": 235
+    },
+    "descriptionLines": ["&7A small library building with two gardens"]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Two wawy glass buildings",
+    "coordinates": {
+      "x": 1590,
+      "y": 110,
+      "z": 325
+    },
+    "descriptionLines": [
+      "&7Two buildings which almost all walls being glass",
+      "&7Good for house-on-house fights"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Wooden houses in construction",
+    "coordinates": {
+      "x": 1590,
+      "y": 110,
+      "z": 545
+    },
+    "descriptionLines": [
+      "&7A bunch of wooden two-story houses being built",
+      "&7Good for FFA fights"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Container yard",
+    "coordinates": {
+      "x": 1340,
+      "y": 110,
+      "z": 1065
+    },
+    "descriptionLines": [
+      "&7A huge container yard with a cargo ship and cranes",
+      "&7Good for open fights"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Green skyscraper",
+    "coordinates": {
+      "x": 585,
+      "y": 160,
+      "z": -435
+    },
+    "descriptionLines": [
+      "&7Has good interrior for fights on the topmost floors"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "The \"fight in the dark\" building",
+    "coordinates": {
+      "x": 535,
+      "y": 160,
+      "z": -335
+    },
+    "descriptionLines": [
+      "&7So many horrible and funny events took place here",
+      "&7Perfect for in the dark fights"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Underground cave complex",
+    "coordinates": {
+      "x": -753,
+      "y": 32,
+      "z": 243
+    },
+    "descriptionLines": [
+      "&7A really cool and unique underground cave complex",
+      "&7There are bridges, houses and other things",
+      "&7It's really dark in some places"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Underground Aztek temple",
+    "coordinates": {
+      "x": 20,
+      "y": 21,
+      "z": 117
+    },
+    "descriptionLines": [
+      "&7A whole ass Aztek temple undergroud with surrounding fight areas",
+      "&7It's really dark in some places"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "audia",
+    "name": "Abandoned metro station",
+    "coordinates": {
+      "x": 83,
+      "y": 52,
+      "z": -195
+    },
+    "descriptionLines": [
+      "&7Looks like a zombie survivor's place filled with camps"
+    ]
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Spawn",
+    "coordinates": {
+      "x": -392,
+      "y": 34,
+      "z": -290
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Riverside Town",
+    "coordinates": {
+      "x": -800,
+      "y": 80,
+      "z": -400
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Canal Dockage",
+    "coordinates": {
+      "x": -650,
+      "y": 80,
+      "z": -550
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "HQ",
+    "coordinates": {
+      "x": -760,
+      "y": 260,
+      "z": 130
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Church",
+    "coordinates": {
+      "x": -1100,
+      "y": 100,
+      "z": 425
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Construction Cite",
+    "coordinates": {
+      "x": -1350,
+      "y": 100,
+      "z": 575
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Power Plant",
+    "coordinates": {
+      "x": -1200,
+      "y": 100,
+      "z": 275
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Industrial Zone",
+    "coordinates": {
+      "x": -1400,
+      "y": 100,
+      "z": 400
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Panel District",
+    "coordinates": {
+      "x": -1050,
+      "y": 80,
+      "z": -225
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Panel District 2",
+    "coordinates": {
+      "x": -1160,
+      "y": 80,
+      "z": -90
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Ferris Wheel",
+    "coordinates": {
+      "x": -970,
+      "y": 100,
+      "z": -10
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "White House",
+    "coordinates": {
+      "x": -835,
+      "y": 60,
+      "z": -25
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Smokey Suburbs",
+    "coordinates": {
+      "x": -850,
+      "y": 80,
+      "z": 250
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Central Station",
+    "coordinates": {
+      "x": -950,
+      "y": 80,
+      "z": 125
+    },
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "mapId": "city17",
+    "name": "Brick Town",
+    "coordinates": {
+      "x": -900,
+      "y": 80,
+      "z": 425
+    },
+    "descriptionLines": []
+  }
+]

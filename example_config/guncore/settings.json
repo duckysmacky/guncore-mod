@@ -1,0 +1,83 @@
+{
+  "game": {
+    "mode": "FFA",
+    "variant": "LIVES",
+    "killOnlyLifeLoss": true,
+    "ffa": {
+      "roundLengthSec": 600,
+      "startingLives": 5,
+      "killTarget": 15
+    },
+    "tdm": {
+      "roundLengthSec": 900,
+      "startingLives": 3,
+      "killTarget": 15
+    },
+    "hostage": {
+      "roundLengthSec": 1200,
+      "startingLives": 3,
+      "killTarget": 15
+    }
+  },
+  "world": {
+    "itemPickup": false,
+    "gamerules": {
+      "doWeatherCycle": false,
+      "doDaylightCycle": false,
+      "doFireTick": false,
+      "doTileDrops": false,
+      "naturalRegeneration": true,
+      "doMobSpawning": false
+    }
+  },
+  "equipment": {
+    "mode": "builder",
+    "mythicsEnabled": true,
+    "loadoutSystem": "rarity_score",
+    "rarityPreset": "balanced",
+    "rarityPresets": {
+      "tight": {
+        "scores": {
+          "common": 0,
+          "uncommon": 2,
+          "rare": 4,
+          "epic": 7,
+          "legendary": 10,
+          "mythic": 27
+        },
+        "maxScore": {
+          "kits": 25,
+          "builder": 30
+        }
+      },
+      "balanced": {
+        "scores": {
+          "common": 0,
+          "uncommon": 1,
+          "rare": 2,
+          "epic": 5,
+          "legendary": 8,
+          "mythic": 22
+        },
+        "maxScore": {
+          "kits": 20,
+          "builder": 25
+        }
+      },
+      "loose": {
+        "scores": {
+          "common": 0,
+          "uncommon": 1,
+          "rare": 2,
+          "epic": 3,
+          "legendary": 5,
+          "mythic": 25
+        },
+        "maxScore": {
+          "kits": 24,
+          "builder": 32
+        }
+      }
+    }
+  }
+}

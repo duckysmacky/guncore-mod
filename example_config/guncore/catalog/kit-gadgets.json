@@ -1,0 +1,371 @@
+[
+  {
+    "enabled": true,
+    "name": "Water Bucket",
+    "rarity": "common",
+    "itemId": "minecraft:water_bucket",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7A bucket filled with water.",
+      "&7Useful for putting out fires or landing safely from heights."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Hard Cover",
+    "rarity": "uncommon",
+    "itemId": "hbm:hadron_plating_striped",
+    "itemAmount": 128,
+    "descriptionLines": [
+      "&7Reinforced plating for creating instant cover.",
+      "&7Can be placed quickly to block enemy fire and create defensive positions."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Flashlight",
+    "rarity": "common",
+    "itemId": "flashlight:flashlight",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Portable light source for dark environments.",
+      "&7Essential for exploring caves and night operations."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Golden Apple",
+    "rarity": "uncommon",
+    "itemId": "minecraft:golden_apple",
+    "itemAmount": 10,
+    "descriptionLines": [
+      "&7Magical fruit that provides instant regeneration.",
+      "&7Can save your life in critical situations by rapidly healing wounds."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Kevlar Insert",
+    "rarity": "uncommon",
+    "itemId": "hbm:insert_kevlar",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Ballistic protection insert for body armor.",
+      "&7Provides additional protection against small arms fire and shrapnel."
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Slime Pads",
+    "rarity": "uncommon",
+    "itemId": "hbm:pads_slime",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Bouncy pads that absorb fall damage.",
+      "&7Place them on boots to nullify fall damage"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Chorus Fruit",
+    "rarity": "uncommon",
+    "itemId": "minecraft:chorus_fruit",
+    "itemAmount": 64,
+    "descriptionLines": [
+      "&7End dimension fruit that teleports the user randomly.",
+      "&7Useful for escaping dangerous situations or confusing enemies."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "TNT set",
+    "rarity": "rare",
+    "itemId": "minecraft:tnt",
+    "itemAmount": 16,
+    "descriptionLines": [
+      "&7Explode the shit out of the map I guess"
+    ],
+    "additionalItems": [
+      {
+        "id": "minecraft:flint_and_steel",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Gas Mask",
+    "rarity": "rare",
+    "itemId": "hbm:gas_mask",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Protective mask for hazardous environments.",
+      "&7Filters out toxic gases and provides limited chemical protection."
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:gas_mask_filter",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Claymore",
+    "rarity": "rare",
+    "itemId": "securitycraft:claymore",
+    "itemAmount": 12,
+    "descriptionLines": [
+      "&7Directional anti-personnel mine for area denial.",
+      "&7Fires shrapnel in a forward arc when triggered by enemy movement."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Psycho",
+    "rarity": "rare",
+    "itemId": "hbm:syringe_metal_psycho",
+    "itemAmount": 5,
+    "descriptionLines": [
+      "&7Boosts your damage and damange resistance for 2 minutes"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Heavy Steel Insert",
+    "rarity": "rare",
+    "itemId": "hbm:insert_steel",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Provides extra projectile and exprosion protection, but makes you slightly slower"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Energy Drink",
+    "rarity": "rare",
+    "itemId": "healingitems:energydrink",
+    "itemAmount": 5,
+    "descriptionLines": [
+      "&7Provides a big speed boost"
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Vault 13 Canteen",
+    "rarity": "rare",
+    "itemId": "hbm:canteen_13",
+    "itemAmount": 1,
+    "descriptionLines": [],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Stylish Flask",
+    "rarity": "epic",
+    "itemId": "hbm:canteen_vodka",
+    "itemAmount": 1,
+    "descriptionLines": [],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "XSAPI Insert",
+    "rarity": "epic",
+    "itemId": "hbm:insert_xsapi",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Extra Small Arms Protective Insert for maximum ballistic protection.",
+      "&7Offers superior defense against high-caliber rounds and armor-piercing ammunition."
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Ender Pearl",
+    "rarity": "epic",
+    "itemId": "minecraft:ender_pearl",
+    "itemAmount": 5,
+    "descriptionLines": [
+      "&7Mystical pearl that teleports the user to where it lands.",
+      "&7Perfect for quick repositioning or accessing hard-to-reach areas."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Mining Charge",
+    "rarity": "epic",
+    "itemId": "techguns:explosive_charge",
+    "itemAmount": 10,
+    "descriptionLines": [
+      "&7Controlled explosive for rapid excavation and breaching.",
+      "&7Can clear large areas quickly or create instant entry points."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Night Vision Goggles",
+    "rarity": "epic",
+    "itemId": "techguns:nightvisiongoggles",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Electro-optical device that amplifies available light.",
+      "&7Provides clear vision in complete darkness and low-light conditions."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Velvet Band-Aid",
+    "rarity": "epic",
+    "itemId": "hbm:bandaid",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Can fully heal your health at random when damanged"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Med-X",
+    "rarity": "epic",
+    "itemId": "hbm:syringe_metal_medx",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Powerful item to reduce all incoming damage for 4 minutes"
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Power Hammer",
+    "rarity": "legendary",
+    "itemId": "techguns:powerhammer",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Advanced powered melee tool with enhanced striking force.",
+      "&7Can break through reinforced materials and deliver powerful shockwaves."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "8 Inch Blade Autoinjector",
+    "rarity": "legendary",
+    "itemId": "hbm:injector_knife",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Well uh... you better don't take this"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Elytra",
+    "rarity": "legendary",
+    "itemId": "minecraft:elytra",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Wing-like membranes that enable gliding through the air.",
+      "&7Allows for rapid aerial mobility and strategic positioning from heights."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Jumppack",
+    "rarity": "legendary",
+    "itemId": "techguns:jumppack",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Personal propulsion system for enhanced mobility.",
+      "&7Enables rocket-assisted jumps for tactical advantage."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Bottle of Scrumpy",
+    "rarity": "mythic",
+    "itemId": "hbm:scrumpy",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Mysterious alcoholic beverage with unusual properties.",
+      "&7Grants an extra life but may have unpredictable side effects."
+    ],
+    "additionalItems": []
+  },
+  {
+    "enabled": true,
+    "name": "Extra Health",
+    "rarity": "mythic",
+    "itemId": "hbm:heart_piece",
+    "itemAmount": 1,
+    "descriptionLines": [
+      "&7Provides 5 extra health points"
+    ],
+    "additionalItems": [
+      {
+        "id": "hbm:machine_armor_table",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Glitch",
+    "rarity": "mythic",
+    "itemId": "hbm:glitch",
+    "itemAmount": 1,
+    "descriptionLines": [],
+    "additionalItems": []
+  }
+]

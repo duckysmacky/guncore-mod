@@ -1,0 +1,275 @@
+[
+  {
+    "enabled": true,
+    "name": "Soldier Fatigues",
+    "rarity": "common",
+    "helmetItemId": "mw:spec_ops_helmet",
+    "chestplateItemId": "mw:spec_ops_chest",
+    "bootsItemId": "mw:spec_ops_boots",
+    "descriptionLines": [
+      "&7Standard-issue spec ops gear.",
+      "&7Balanced protection with no frills."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Umbrella Corps Set",
+    "rarity": "common",
+    "helmetItemId": "mw:umbrella_helmet",
+    "chestplateItemId": "mw:umbrella_chest",
+    "leggingsItemId": "minecraft:leather_leggings",
+    "bootsItemId": "mw:umbrella_boots",
+    "descriptionLines": [
+      "&7Lightweight corporate tactical gear.",
+      "&7Good mobility, modest protection."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "SWAT Set",
+    "rarity": "common",
+    "helmetItemId": "mw:swat_helmet",
+    "chestplateItemId": "mw:swat_chest",
+    "bootsItemId": "mw:swat_boots",
+    "descriptionLines": [
+      "&7Police tactical gear built for close quarters.",
+      "&7Solid all-round protection for the price."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "HECU Marine Set",
+    "rarity": "uncommon",
+    "helmetItemId": "mw:hecu_helmet",
+    "chestplateItemId": "mw:hecu_chest",
+    "bootsItemId": "mw:hecu_boots",
+    "descriptionLines": [
+      "&7Hazardous Environment Combat Unit marine armor.",
+      "&7Sturdy and reliable in a straight firefight."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Astronaut Set",
+    "rarity": "uncommon",
+    "helmetItemId": "mw:astronaut_helmet",
+    "chestplateItemId": "mw:astronaut_chest",
+    "bootsItemId": "mw:astronaut_boots",
+    "descriptionLines": [
+      "&7Bulky space suit with a sealed helmet.",
+      "&7Good coverage but it looks like a big target."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Field Medic Set",
+    "rarity": "uncommon",
+    "helmetItemId": "mw:santa_helmet",
+    "chestplateItemId": "mw:scpguard_chest",
+    "bootsItemId": "mw:scpguard_boots",
+    "descriptionLines": [
+      "&7Light guard armor with a festive medic helmet.",
+      "&7Meant for staying alive while helping others."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "NCR Ranger Set",
+    "rarity": "rare",
+    "helmetItemId": "mw:ncr_helmet",
+    "chestplateItemId": "mw:ncr_chest",
+    "bootsItemId": "mw:ncr_boots",
+    "descriptionLines": [
+      "&7Heavy wasteland ranger armor.",
+      "&7Strong protection against bullets and fire."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Night Stalker Set",
+    "rarity": "rare",
+    "helmetItemId": "mw:jpnvg18_helmet",
+    "chestplateItemId": "mw:merc_chest",
+    "bootsItemId": "mw:merc_boots",
+    "descriptionLines": [
+      "&7Mercenary armor with a night vision helmet.",
+      "&7Built for hunting in the dark."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "STARS Demolition Set",
+    "rarity": "rare",
+    "helmetItemId": "techguns:t2_combat_helmet",
+    "chestplateItemId": "mw:stars_chest",
+    "bootsItemId": "mw:stars_boots",
+    "descriptionLines": [
+      "&7STARS vest and boots with a Techguns combat helmet.",
+      "&7Made for explosives experts who take hits."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Artillery Officer Set",
+    "rarity": "rare",
+    "helmetItemId": "mw:nazisanta_helmet",
+    "chestplateItemId": "mw:spec_ops_chest",
+    "bootsItemId": "mw:spec_ops_boots",
+    "descriptionLines": [
+      "&7Command-style officer gear with a spec ops body.",
+      "&7Made for staying behind the lines and calling in fire."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Pilot Set",
+    "rarity": "rare",
+    "helmetItemId": "mw:umbrella_helmet",
+    "chestplateItemId": "mw:astronaut_chest",
+    "bootsItemId": "mw:scpguard_boots",
+    "descriptionLines": [
+      "&7Light helmet with an astronaut chestpiece for pilots.",
+      "&7Pair it with a jetpack for the full flyer experience."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Blade Jacket Set",
+    "rarity": "epic",
+    "chestplateItemId": "hbm:jackt",
+    "leggingsItemId": "minecraft:leather_leggings",
+    "bootsItemId": "mw:scpguard_boots",
+    "descriptionLines": [
+      "&7Light jacket and leggings made for speed.",
+      "&7Great mobility, but no helmet and thin protection."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Crucible Jacket Set",
+    "rarity": "epic",
+    "chestplateItemId": "hbm:jackt2",
+    "leggingsItemId": "minecraft:leather_leggings",
+    "bootsItemId": "mw:scpguard_boots",
+    "descriptionLines": [
+      "&7Reinforced jacket variant with depleted uranium plating.",
+      "&7Tougher than the standard Blade jacket, still helmetless."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Enforcer Riot Set",
+    "rarity": "epic",
+    "helmetItemId": "mw:scpguard_helmet",
+    "chestplateItemId": "hbm:jackt",
+    "leggingsItemId": "minecraft:leather_leggings",
+    "bootsItemId": "mw:scpguard_boots",
+    "descriptionLines": [
+      "&7Guard helmet and boots with a durable jacket.",
+      "&7Built to push forward behind a shield."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Ghillie Suit",
+    "rarity": "epic",
+    "helmetItemId": "army_equip:oak_ghilie_suithelmet",
+    "chestplateItemId": "army_equip:oak_ghilie_suitbody",
+    "leggingsItemId": "army_equip:oak_ghilie_suitlegs",
+    "bootsItemId": "army_equip:oak_ghilie_suitboots",
+    "descriptionLines": [
+      "&7Leaves camouflage suit that blends into the terrain.",
+      "&7Great for ambushes, poor against direct fire."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Snow Ghillie Suit",
+    "rarity": "epic",
+    "helmetItemId": "army_equip:snow_ghilie_suithelmet",
+    "chestplateItemId": "army_equip:snow_ghilie_suitbody",
+    "leggingsItemId": "army_equip:snow_ghilie_suitlegs",
+    "bootsItemId": "army_equip:snow_ghilie_suitboots",
+    "descriptionLines": [
+      "&7Snow camouflage suit that blends into the terrain.",
+      "&7Great for ambushes, poor against direct fire."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Dark Ghillie Suit",
+    "rarity": "epic",
+    "helmetItemId": "army_equip:dark_ghilie_suithelmet",
+    "chestplateItemId": "army_equip:dark_ghilie_suitbody",
+    "leggingsItemId": "army_equip:dark_ghilie_suitlegs",
+    "bootsItemId": "army_equip:dark_ghilie_suitboots",
+    "descriptionLines": [
+      "&7Dark camouflage suit that blends into the terrain.",
+      "&7Great for ambushes, poor against direct fire."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Chainsaw Devil Set",
+    "rarity": "epic",
+    "helmetItemId": "mw:ncr_helmet",
+    "chestplateItemId": "mw:ncr_chest",
+    "leggingsItemId": "minecraft:leather_leggings",
+    "bootsItemId": "mw:umbrella_boots",
+    "descriptionLines": [
+      "&7Rugged ranger armor with light leggings and boots.",
+      "&7Made for aggressive melee brawlers."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Biohazard Hazmat Suit",
+    "rarity": "epic",
+    "helmetItemId": "hbm:hazmat_helmet",
+    "chestplateItemId": "hbm:hazmat_plate",
+    "leggingsItemId": "hbm:hazmat_legs",
+    "bootsItemId": "minecraft:leather_boots",
+    "descriptionLines": [
+      "&7NTM hazmat suit that shrugs off radiation and chemical hazards.",
+      "&7Little protection from bullets."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Heavy Hazmat Suit",
+    "rarity": "legendary",
+    "helmetItemId": "hbm:hazmat_helmet_grey",
+    "chestplateItemId": "hbm:hazmat_plate_grey",
+    "leggingsItemId": "hbm:hazmat_legs_grey",
+    "bootsItemId": "hbm:hazmat_boots_grey",
+    "descriptionLines": [
+      "&7Full grey hazmat suit with very high radiation resistance.",
+      "&7The standard gear of any nuclear specialist."
+    ]
+  },
+  {
+    "enabled": false,
+    "name": "Nuclear Containment Suit",
+    "rarity": "legendary",
+    "helmetItemId": "mw:scpguard_helmet",
+    "chestplateItemId": "hbm:hazmat_plate_grey",
+    "leggingsItemId": "hbm:hazmat_legs_grey",
+    "bootsItemId": "hbm:hazmat_boots_grey",
+    "descriptionLines": [
+      "&7Grey hazmat body with a tough guard helmet.",
+      "&7Radiation protection plus better head defense."
+    ]
+  },
+  {
+    "enabled": true,
+    "name": "Juggernaut Suit",
+    "rarity": "mythic",
+    "helmetItemId": "mw:mkvidefault_helmet",
+    "chestplateItemId": "mw:spec_ops_chest",
+    "bootsItemId": "mw:spec_ops_boots",
+    "descriptionLines": [
+      "&7Mk VI helmet on a heavy spec ops frame.",
+      "&7Made to carry a minigun through anything."
+    ]
+  }
+]

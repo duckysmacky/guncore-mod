@@ -1,0 +1,69 @@
+[
+  {
+    "enabled": true,
+    "id": "newport",
+    "name": "Newport",
+    "iconItemId": "minecraft:iron_block",
+    "descriptionLines": [
+      "&7The original classic map",
+      "&fComplexity: [3 / 5]",
+      "&fInterior: [4 / 5]",
+      "&fExterior: [2 / 5]",
+      "&fSize: [3 / 5]"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": "radiant",
+    "name": "Radiant",
+    "iconItemId": "minecraft:quartz_block",
+    "descriptionLines": [
+      "&7The best map",
+      "&fComplexity: [4 / 5]",
+      "&fInterior: [5 / 5]",
+      "&fExterior: [4 / 5]",
+      "&fSize: [2 / 5]",
+      "&aSpecial Features: &7Fights in the dark"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": "shmar",
+    "name": "Shmar",
+    "iconItemId": "minecraft:sandstone",
+    "descriptionLines": [
+      "&7The most open and the tallest map",
+      "&fComplexity: [2 / 5]",
+      "&fInterior: [1 / 5]",
+      "&fExterior: [4 / 5]",
+      "&fSize: [4 / 5]"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": "audia",
+    "name": "Audia",
+    "iconItemId": "minecraft:brick_block",
+    "descriptionLines": [
+      "&7The biggest and the most diverse map",
+      "&fComplexity: [4 / 5]",
+      "&fInterior: [3 / 5]",
+      "&fExterior: [4 / 5]",
+      "&fSize: [5 / 5]",
+      "&aSpecial Features: &7Fights in the dark"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": "city17",
+    "name": "City 17",
+    "iconItemId": "minecraft:stone",
+    "descriptionLines": [
+      "&7A dystopian city under siege",
+      "&fComplexity: [5 / 5]",
+      "&fInterior: [2 / 5]",
+      "&fExterior: [5 / 5]",
+      "&fSize: [3 / 5]"
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "enabled": true,
+    "name": "Cooked Beef",
+    "itemId": "minecraft:cooked_beef",
+    "itemAmount": 64,
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "name": "Antidote Syringe",
+    "itemId": "hbm:syringe_antidote",
+    "itemAmount": 5,
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "name": "Bandage",
+    "itemId": "healingitems:bandage",
+    "itemAmount": 10,
+    "descriptionLines": []
+  },
+  {
+    "enabled": true,
+    "name": "First Aid Kit",
+    "itemId": "healingitems:firstaidkit",
+    "itemAmount": 1,
+    "descriptionLines": []
+  }
+]
