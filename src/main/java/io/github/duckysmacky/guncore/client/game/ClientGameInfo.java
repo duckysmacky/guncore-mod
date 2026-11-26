@@ -41,6 +41,7 @@ public final class ClientGameInfo {
     private String rarityPresetName = Settings.DEFAULT_RARITY_PRESET;
     private List<String> rarityPresetNames = Collections.emptyList();
     private Settings.RarityPreset rarityPreset = Settings.createDefault().equipment.selectedPreset();
+    private List<Rarity> selectedRarities = Collections.emptyList();
     private Map<String, Boolean> gamerules = Collections.emptyMap();
     private Map<UUID, PlayerStats> playerStats;
     private Map<UUID, Team> playerTeams;
@@ -259,6 +260,19 @@ public final class ClientGameInfo {
     /** Values of the selected rarity preset */
     public Settings.RarityPreset getRarityPreset() {
         return rarityPreset;
+    }
+
+    public void setSelectedRarities(List<Rarity> selectedRarities) {
+        this.selectedRarities = selectedRarities;
+    }
+
+    /** Rarity score of the own selected equipment, scored with the selected preset */
+    public int getRarityScore() {
+        return selectedRarities.stream().mapToInt(rarityPreset::scoreOf).sum();
+    }
+
+    public int getMaxRarityScore() {
+        return rarityPreset.maxFor(equipmentMode);
     }
 
     public boolean getGamerule(String rule) {

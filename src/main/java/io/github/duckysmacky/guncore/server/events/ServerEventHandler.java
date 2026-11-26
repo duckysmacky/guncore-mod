@@ -34,6 +34,7 @@ public class ServerEventHandler {
 
         ConfigManager.instance().load();
         GameManager.instance().updatePlayerListAsServer(player.getServer());
+        EquipmentController.syncSelection(player);
         PacketHandler.instance().sendTo(new RefreshMenuPacket(), player);
     }
 

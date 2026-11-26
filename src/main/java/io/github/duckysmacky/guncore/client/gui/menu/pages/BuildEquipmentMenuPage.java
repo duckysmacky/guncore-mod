@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
+import io.github.duckysmacky.guncore.client.gui.menu.entries.RarityScoreEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.StaticMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
@@ -51,6 +52,8 @@ public class BuildEquipmentMenuPage extends StaticMenu {
                 player.playSound(SoundEvents.BLOCK_ANVIL_PLACE, 1.0f, 1.0f);
             }
         ), 1, 6);
+
+        addEntry(new RarityScoreEntry(), 0, 4);
 
         addWeaponEntries(false, "minecraft:iron_sword", "&f&lPrimary weapon", "&7Select your main weapon", 2);
         addWeaponEntries(true, "minecraft:wooden_sword", "&f&lSecondary weapon", "&7Select your secondary weapon", 6);

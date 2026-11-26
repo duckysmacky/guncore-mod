@@ -28,6 +28,7 @@ public abstract class DynamicMenu extends BaseMenu {
     private final boolean centered;
     private MenuEntry topEntry;
     private MenuEntry deselectEntry;
+    private MenuEntry centerEntry;
     private int page = 0;
 
     public DynamicMenu(String title, BaseMenu parent, int rows, int cols) {
@@ -75,6 +76,11 @@ public abstract class DynamicMenu extends BaseMenu {
                 open(player);
             }
         );
+    }
+
+    /** Entry in the middle of the top row, between the deselect and the extra entry */
+    public void setCenterEntry(MenuEntry entry) {
+        centerEntry = entry;
     }
 
     private int topEntrySlot() {
@@ -141,6 +147,10 @@ public abstract class DynamicMenu extends BaseMenu {
             inventory.setInventorySlotContents(deselectEntrySlot(), deselectEntry.getIcon());
         }
 
+        if (centerEntry != null) {
+            inventory.setInventorySlotContents(cols / 2, centerEntry.getIcon());
+        }
+
         // back button
         if (parent != null) {
             inventory.setInventorySlotContents(getBackButtonSlot(), getBackButtonItem());
@@ -173,6 +183,11 @@ public abstract class DynamicMenu extends BaseMenu {
 
         if (deselectEntry != null && slot == deselectEntrySlot()) {
             deselectEntry.onClick(player);
+            return;
+        }
+
+        if (centerEntry != null && slot == cols / 2) {
+            centerEntry.onClick(player);
             return;
         }
 

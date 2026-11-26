@@ -16,6 +16,8 @@ import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import io.github.duckysmacky.guncore.common.game.LoadoutSystem;
+import io.github.duckysmacky.guncore.common.network.PacketHandler;
+import io.github.duckysmacky.guncore.common.network.packets.SyncSelectionPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -107,7 +109,15 @@ public final class EquipmentController {
         return true;
     }
 
+    /** Sends the player's selected rarities, which the menus show as the current rarity score */
+    public static void syncSelection(EntityPlayerMP player) {
+        List<Rarity> rarities = EquipmentManager.instance().getEquipment(player).rarities();
+        PacketHandler.instance().sendTo(new SyncSelectionPacket(rarities), player);
+    }
+
     private static void reportRarityScore(EntityPlayerMP player) {
+        syncSelection(player);
+
         GameManager game = GameManager.instance();
         if (game.getLoadoutSystem() != LoadoutSystem.RARITY_SCORE) return;
 

@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
+import io.github.duckysmacky.guncore.client.gui.menu.entries.RarityScoreEntry;
 import io.github.duckysmacky.guncore.client.gui.menu.BaseMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.StaticMenu;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.SubpageEntry;
@@ -10,6 +11,8 @@ import net.minecraft.init.Items;
 public class EquipmentMenuPage extends StaticMenu {
     public EquipmentMenuPage(BaseMenu parent) {
         super("Equipment", parent, 3, 9);
+
+        addEntry(new RarityScoreEntry(), 0, 4);
 
         addEntry(new SubpageEntry(
             new ItemStackCustomizer(new net.minecraft.item.ItemStack(Blocks.CHEST))

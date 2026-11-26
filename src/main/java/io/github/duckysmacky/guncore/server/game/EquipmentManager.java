@@ -7,8 +7,10 @@ import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import net.minecraft.entity.player.EntityPlayer;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.ToIntFunction;
@@ -76,12 +78,18 @@ public class EquipmentManager {
             kit = null;
         }
 
+        /** Rarities of the kit and everything selected */
+        public List<Rarity> rarities() {
+            List<Rarity> rarities = new ArrayList<>();
+            if (kit != null) rarities.add(kit.getRarity());
+            for (CatalogEntry entry : equipped.values())
+                rarities.add(((EquippableEntry) entry).getRarity());
+            return rarities;
+        }
+
         /** Total rarity score of the kit and everything selected */
         public int rarityScore(ToIntFunction<Rarity> cost) {
-            int score = kit != null ? cost.applyAsInt(kit.getRarity()) : 0;
-            for (CatalogEntry entry : equipped.values())
-                score += cost.applyAsInt(((EquippableEntry) entry).getRarity());
-            return score;
+            return rarities().stream().mapToInt(cost).sum();
         }
     }
 }

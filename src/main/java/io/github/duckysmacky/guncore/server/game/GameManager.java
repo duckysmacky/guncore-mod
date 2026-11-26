@@ -7,6 +7,7 @@ import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.game.*;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.SyncGameInfoPacket;
+import io.github.duckysmacky.guncore.common.network.packets.SyncSelectionPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import io.github.duckysmacky.guncore.server.stats.StatsDatabase;
 import net.minecraft.entity.Entity;
@@ -515,6 +516,7 @@ public class GameManager {
         settings().equipment.mode = equipmentMode;
         ConfigManager.instance().saveSettings();
         EquipmentManager.instance().clearAll(); // picks of the other mode would count towards the rarity score
+        PacketHandler.instance().sendToAll(new SyncSelectionPacket(Collections.emptyList()));
         syncToClients();
         announceSetting("Equipment system", equipmentMode.display);
     }

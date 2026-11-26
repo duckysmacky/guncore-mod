@@ -43,5 +43,6 @@ public final class PacketHandler {
         networkWrapperInstance.registerMessage(OpenProfilePacket.Handler.class, OpenProfilePacket.class, packetId++, Side.CLIENT);
         networkWrapperInstance.registerMessage(RequestLeaderboardsPacket.Handler.class, RequestLeaderboardsPacket.class, packetId++, Side.SERVER);
         networkWrapperInstance.registerMessage(OpenLeaderboardsPacket.Handler.class, OpenLeaderboardsPacket.class, packetId++, Side.CLIENT);
+        networkWrapperInstance.registerMessage(SyncSelectionPacket.Handler.class, SyncSelectionPacket.class, packetId++, Side.CLIENT);
     }
 }

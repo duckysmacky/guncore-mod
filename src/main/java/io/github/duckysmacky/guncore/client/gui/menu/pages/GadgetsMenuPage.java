@@ -1,5 +1,6 @@
 package io.github.duckysmacky.guncore.client.gui.menu.pages;
 
+import io.github.duckysmacky.guncore.client.gui.menu.entries.RarityScoreEntry;
 import io.github.duckysmacky.guncore.client.game.ClientGameInfo;
 import io.github.duckysmacky.guncore.common.config.ConfigManager;
 import io.github.duckysmacky.guncore.client.gui.menu.entries.ActionEntry;
@@ -38,6 +39,7 @@ public class GadgetsMenuPage extends DynamicMenu {
             open(player);
         };
         gadgets.forEach(gadget -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(gadget.getItemStack(), gadget.getRarity()), player -> select.accept(player, gadget))));
+        setCenterEntry(new RarityScoreEntry());
         setDeselectEntry("&7Deselect your gadget", player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT, EquipmentType.GADGET));
         setRandomEntry("&7Select a random gadget", gadgets, select);
     }
