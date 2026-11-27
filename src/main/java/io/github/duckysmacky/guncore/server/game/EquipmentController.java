@@ -17,16 +17,19 @@ import io.github.duckysmacky.guncore.common.game.CommandExecutor;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import io.github.duckysmacky.guncore.common.game.LoadoutSystem;
+import io.github.duckysmacky.guncore.common.game.ServerSoundPlayer;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.SyncSelectionPacket;
 import io.github.duckysmacky.guncore.common.util.TextUtils;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
 
 import java.util.ArrayList;
@@ -46,18 +49,14 @@ public final class EquipmentController {
     private static boolean isLocked(EntityPlayerMP player) {
         if (!GameManager.instance().isRunning()) return false;
 
-        player.sendMessage(new TextComponentString(
-            TextUtils.translateColorCodes("&cCannot change equipment while the round is active")
-        ));
+        deny(player, "Cannot change equipment while the round is active");
         return true;
     }
 
     private static boolean isWrongMode(EntityPlayerMP player, EquipmentMode required) {
         if (GameManager.instance().getEquipmentMode() == required) return false;
 
-        player.sendMessage(new TextComponentString(
-            TextUtils.translateColorCodes("&cThis is not available in the current equipment mode")
-        ));
+        deny(player, "This is not available in the current equipment mode");
         return true;
     }
 
@@ -103,7 +102,7 @@ public final class EquipmentController {
         GameManager game = GameManager.instance();
 
         if (rarity == Rarity.MYTHIC && !game.isMythicsEnabled()) {
-            send(player, "&cMythic items are disabled");
+            deny(player, "Mythic items are disabled");
             return true;
         }
 
@@ -118,7 +117,7 @@ public final class EquipmentController {
         int max = preset.maxFor(game.getEquipmentMode());
         if (total <= max) return false;
 
-        send(player, String.format("&cOver the rarity score limit: %d/%d", total, max));
+        deny(player, String.format("Over the rarity score limit: %d/%d", total, max));
         return true;
     }
 
@@ -142,6 +141,16 @@ public final class EquipmentController {
         player.sendMessage(new TextComponentString(TextUtils.translateColorCodes(message)));
     }
 
+    private static void confirm(EntityPlayerMP player, String message, SoundEvent sound) {
+        send(player, "&a" + message);
+        ServerSoundPlayer.playFor(player, sound, 1f, 1f);
+    }
+
+    private static void deny(EntityPlayerMP player, String message) {
+        send(player, "&c" + message);
+        ServerSoundPlayer.playFor(player, SoundEvents.ENTITY_VILLAGER_NO, 1f, 1f);
+    }
+
     // Weapons (both modes)
 
     public static void equipGun(EntityPlayerMP player, GunEntry gun, boolean secondary) {
@@ -150,6 +159,7 @@ public final class EquipmentController {
 
         giveGun(player, type, gun);
         syncInventory(player);
+        confirm(player, "Selected " + type.display.toLowerCase() + ": &f" + gun.getName(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP);
         reportRarityScore(player);
     }
 
@@ -186,6 +196,7 @@ public final class EquipmentController {
 
         giveItem(player, EquipmentType.GADGET, gadget);
         syncInventory(player);
+        confirm(player, "Selected gadget: &f" + gadget.getName(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP);
         reportRarityScore(player);
     }
 
@@ -197,6 +208,7 @@ public final class EquipmentController {
         else giveItem(player, type, (ItemEntry) entry);
 
         syncInventory(player);
+        confirm(player, "Selected " + type.display.toLowerCase() + ": &f" + entry.getName(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP);
         reportRarityScore(player);
     }
 
@@ -247,17 +259,17 @@ public final class EquipmentController {
         } else {
             int max = GameManager.instance().getMaxAttachments();
             if (attachments.size() >= max) {
-                send(player, "&cYou can select up to " + max + " attachments");
+                deny(player, "You can select up to " + max + " attachments");
                 return;
             }
             if (exceedsLimits(player, null, attachment.getRarity())) return;
             if (!giveAttachment(player, attachment)) {
-                send(player, "&cNo free inventory slot for the attachment");
+                deny(player, "No free inventory slot for the attachment");
                 return;
             }
 
             attachments.add(attachment);
-            send(player, String.format("&7Selected attachment: &f%s &7(%d/%d)", attachment.getName(), attachments.size(), max));
+            confirm(player, String.format("Selected attachment: &f%s &7(%d/%d)", attachment.getName(), attachments.size(), max), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP);
         }
 
         syncInventory(player);
@@ -330,6 +342,7 @@ public final class EquipmentController {
         EquipmentManager.instance().getEquipment(player).setKit(kit);
         giveSelection(player);
         syncInventory(player);
+        confirm(player, "Selected kit: &f" + kit.getName(), SoundEvents.ENTITY_PLAYER_LEVELUP);
         reportRarityScore(player);
     }
 
@@ -342,6 +355,7 @@ public final class EquipmentController {
             player.inventory.mainInventory.set(BASE_ITEM_SLOTS[i], tag(baseItems.get(i).getItemStack()));
 
         syncInventory(player);
+        confirm(player, "Base items given", SoundEvents.ENTITY_PLAYER_LEVELUP);
     }
 
     // Deselecting
@@ -391,6 +405,7 @@ public final class EquipmentController {
         removeSelection(player);
         giveSelection(player);
         syncInventory(player);
+        confirm(player, "Selection restored", SoundEvents.ENTITY_PLAYER_LEVELUP);
     }
 
     /** Removes everything that is selected from the inventory and forgets the selection */
@@ -401,6 +416,7 @@ public final class EquipmentController {
         EquipmentManager.instance().getEquipment(player).clear();
         syncInventory(player);
         send(player, "&7Selection reset");
+        ServerSoundPlayer.playFor(player, SoundEvents.BLOCK_ANVIL_PLACE, 1f, 1f);
         reportRarityScore(player);
     }
 

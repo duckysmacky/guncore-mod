@@ -14,8 +14,6 @@ import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 import io.github.duckysmacky.guncore.common.network.packets.EquipGunPacket;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.text.TextComponentString;
 
 import java.util.Comparator;
 import java.util.List;
@@ -44,8 +42,5 @@ public class GunsMenuPage extends DynamicMenu {
 
     public static void equip(EntityPlayer player, boolean secondary, GunEntry gun) {
         PacketHandler.instance().sendToServer(new EquipGunPacket(secondary, gun));
-
-        player.sendMessage(new TextComponentString("Selected gun: " + gun.getName()));
-        player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
     }
 }

@@ -12,7 +12,6 @@ import io.github.duckysmacky.guncore.common.config.menus.MenuSectionEntry;
 import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.EquipAttachmentPacket;
 import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
-import net.minecraft.init.SoundEvents;
 
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +33,6 @@ public class AttachmentsMenuPage extends DynamicMenu {
             info.withRarityScore(attachment.getItemStack(), attachment.getRarity()),
             player -> {
                 PacketHandler.instance().sendToServer(new EquipAttachmentPacket(attachment));
-                player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
                 open(player);
             },
             () -> info.isSelectedAttachment(attachment.getName())

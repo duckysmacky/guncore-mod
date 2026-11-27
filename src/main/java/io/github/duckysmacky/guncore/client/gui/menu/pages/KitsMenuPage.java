@@ -13,8 +13,6 @@ import io.github.duckysmacky.guncore.common.network.PacketHandler;
 import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 import io.github.duckysmacky.guncore.common.network.packets.EquipKitPacket;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.text.TextComponentString;
 
 import java.util.Comparator;
 import java.util.List;
@@ -43,8 +41,5 @@ public class KitsMenuPage extends DynamicMenu {
 
     public static void equip(EntityPlayer player, KitEntry kit) {
         PacketHandler.instance().sendToServer(new EquipKitPacket(kit));
-
-        player.sendMessage(new TextComponentString("Selected kit: " + kit.getName()));
-        player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1f, 1f);
     }
 }

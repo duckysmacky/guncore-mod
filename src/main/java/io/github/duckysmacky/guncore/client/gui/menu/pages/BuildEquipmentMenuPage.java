@@ -11,7 +11,6 @@ import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacke
 import io.github.duckysmacky.guncore.common.util.ItemStackCustomizer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 
 /** Equipment menu of the build-a-class mode */
@@ -24,10 +23,7 @@ public class BuildEquipmentMenuPage extends StaticMenu {
                 .setName("&f&lGet base items")
                 .addLoreLine("&7Gives the items every class starts with")
                 .getItemStack(),
-            player -> {
-                PacketHandler.instance().sendToServer(new EquipmentActionPacket(EquipmentActionPacket.Action.BASE_ITEMS));
-                player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
-            }
+            player -> PacketHandler.instance().sendToServer(new EquipmentActionPacket(EquipmentActionPacket.Action.BASE_ITEMS))
         ), 1, 2);
 
         addEntry(new ActionEntry(
@@ -35,10 +31,7 @@ public class BuildEquipmentMenuPage extends StaticMenu {
                 .setName("&a&lRestore selection")
                 .addLoreLine("&7Gives back all of your selected equipment")
                 .getItemStack(),
-            player -> {
-                PacketHandler.instance().sendToServer(new EquipmentActionPacket(EquipmentActionPacket.Action.RESTORE));
-                player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
-            }
+            player -> PacketHandler.instance().sendToServer(new EquipmentActionPacket(EquipmentActionPacket.Action.RESTORE))
         ), 1, 4);
 
         addEntry(new ActionEntry(
@@ -47,10 +40,7 @@ public class BuildEquipmentMenuPage extends StaticMenu {
                 .addLoreLine("&7Removes all of your selected equipment")
                 .addLoreLine("&7and resets the rarity score")
                 .getItemStack(),
-            player -> {
-                PacketHandler.instance().sendToServer(new EquipmentActionPacket(EquipmentActionPacket.Action.RESET));
-                player.playSound(SoundEvents.BLOCK_ANVIL_PLACE, 1.0f, 1.0f);
-            }
+            player -> PacketHandler.instance().sendToServer(new EquipmentActionPacket(EquipmentActionPacket.Action.RESET))
         ), 1, 6);
 
         addEntry(new RarityScoreEntry(), 0, 4);

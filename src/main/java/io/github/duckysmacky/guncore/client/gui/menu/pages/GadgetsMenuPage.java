@@ -13,8 +13,6 @@ import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import io.github.duckysmacky.guncore.common.network.packets.EquipmentActionPacket;
 import io.github.duckysmacky.guncore.common.network.packets.EquipGadgetPacket;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.text.TextComponentString;
 
 import java.util.Comparator;
 import java.util.List;
@@ -32,10 +30,6 @@ public class GadgetsMenuPage extends DynamicMenu {
 
         BiConsumer<EntityPlayer, ItemEntry> select = (player, gadget) -> {
             PacketHandler.instance().sendToServer(new EquipGadgetPacket(gadget));
-
-            player.sendMessage(new TextComponentString("Selected gadget: " + gadget.getName()));
-            player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
-
             open(player);
         };
         gadgets.forEach(gadget -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(gadget.getItemStack(), gadget.getRarity()), player -> select.accept(player, gadget), () -> ClientGameInfo.instance().isSelected(EquipmentType.GADGET, gadget.getName()))));
