@@ -117,6 +117,7 @@ config/guncore/
 ├── stats.db                # player profiles (SQLite, written by the mod, see "Player profiles")
 ├── menus/
 │   ├── gun_categories.json     # weapon categories shown in the weapon menus
+│   ├── attachment_types.json   # attachment types shown in the attachments menu
 │   ├── kit_classes.json        # kit classes shown in the kits menu
 │   └── maps.json               # maps shown in the locations menu
 └── catalog/
@@ -124,6 +125,7 @@ config/guncore/
     ├── kit-gadgets.json        # kit-based: gadgets
     ├── primary-weapons.json    # both modes: primary guns + ammo (item IDs of your weapon mod)
     ├── secondary-weapons.json  # both modes: secondary guns + ammo
+    ├── attachments.json        # both modes: weapon attachments (several can be selected)
     ├── lethals.json            # build-a-class: explosives and other killing tools
     ├── tacticals.json          # build-a-class: debuff / utility grenades
     ├── gadgets.json            # build-a-class: main special item (movement, deployables, mythic vouchers)
@@ -152,7 +154,7 @@ Created with defaults on first start and rewritten whenever a setting is changed
 
 ### `menus/*.json`
 
-Sections the menus group catalog entries by: gun categories (`gun_categories.json`), kit classes (`kit_classes.json`) and maps (`maps.json`). Each file is a JSON **array**; the menu shows sections in file order, centered, and hides sections without any catalog entries. Catalog entries reference a section by its `id` (`category` for guns, `class` for kits, `mapId` for locations). `iconItemId` is any item registry name, `name` is the display name and `descriptionLines` the tooltip (`&`-color codes):
+Sections the menus group catalog entries by: gun categories (`gun_categories.json`), attachment types (`attachment_types.json`), kit classes (`kit_classes.json`) and maps (`maps.json`). Each file is a JSON **array**; the menu shows sections in file order, centered, and hides sections without any catalog entries. Catalog entries reference a section by its `id` (`category` for guns, `type` for attachments, `class` for kits, `mapId` for locations). `iconItemId` is any item registry name, `name` is the display name and `descriptionLines` the tooltip (`&`-color codes):
 
 ```json
 {
@@ -163,7 +165,7 @@ Sections the menus group catalog entries by: gun categories (`gun_categories.jso
   "descriptionLines": ["&7Versatile automatic rifles"]
 }
 ```
-Default gun categories: `assault_rifle`, `battle_rifle`, `dmr`, `lmg`, `smg`, `shotgun`, `sniper_rifle`, `pistol`, `melee`, `special`. Kit classes and maps default to a single `default` placeholder - replace them with your own.
+Default gun categories: `assault_rifle`, `battle_rifle`, `dmr`, `lmg`, `smg`, `shotgun`, `sniper_rifle`, `pistol`, `melee`, `special`. Default attachment types: `sights`, `muzzles`, `foregrips`, `lasers`, `mounts`, `handguards`, `stocks`, `grips`, `receivers`, `conversions`, `magazines`, `skins`, `other`. Kit classes and maps default to a single `default` placeholder - replace them with your own.
 
 ### `catalog/*.json`
 
@@ -204,6 +206,22 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
 `category` is an `id` from `menus/gun_categories.json`; `rarity` uses the same values as items, below.
 
 Optional `ammoNbtData` applies SNBT to the issued ammo stack. For a 30-round Modern Warfare Cubed magazine, use `"ammoNbtData": "{Ammo:30}"`.
+
+**`attachments.json`** - weapon attachments. `itemId` is the attachment's item registry name. `compatibleWith` (list of gun names) and `requires` (free text, e.g. another attachment or a gun) are optional and only shown in the tooltip, the mod doesn't check them:
+
+```json
+{
+  "enabled": true,
+  "name": "ACOG Scope",
+  "type": "sights",
+  "rarity": "rare",
+  "itemId": "mw:acog",
+  "compatibleWith": ["M4A1", "AK-47"],
+  "requires": "Picatinny Rail",
+  "descriptionLines": ["&74x magnified optic."]
+}
+```
+`type` is an `id` from `menus/attachment_types.json` (`other` if omitted); `rarity` uses the same values as items, below.
 
 **`kit-gadgets.json`, `gadgets.json`, `lethals.json`, `tacticals.json`, `utility.json`, `consumables.json`** - same item format everywhere: any item (vanilla or modded), optionally with `damage` (metadata), `nbtData` (SNBT) and bundled extra items (max 3 are placed):
 

@@ -9,7 +9,8 @@ import java.util.function.Supplier;
 public enum MenuSectionType implements RegistryType {
     GUN_CATEGORIES("gun_categories.json", MenuSectionEntry::defaultGunCategories),
     KIT_CLASSES("kit_classes.json", MenuSectionEntry::defaultKitClasses),
-    MAPS("maps.json", MenuSectionEntry::defaultMaps);
+    MAPS("maps.json", MenuSectionEntry::defaultMaps),
+    ATTACHMENT_TYPES("attachment_types.json", MenuSectionEntry::defaultAttachmentTypes);
 
     public final String jsonFile;
     private final Supplier<List<MenuSectionEntry>> defaultsSupplier;

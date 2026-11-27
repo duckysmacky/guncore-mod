@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-/** Menu section (gun category, kit class, map) which catalog entries are grouped by, referenced by its id */
+/** Menu section (gun category, attachment type, kit class, map) which catalog entries are grouped by, referenced by its id */
 public class MenuSectionEntry implements RegistryEntry {
     private final boolean enabled;
     private final String id;
@@ -47,6 +47,24 @@ public class MenuSectionEntry implements RegistryEntry {
             of("pistol", "Pistols", "minecraft:wooden_sword"),
             of("melee", "Melee Weapons", "minecraft:iron_axe"),
             of("special", "Special Weapons", "minecraft:tnt")
+        );
+    }
+
+    public static List<MenuSectionEntry> defaultAttachmentTypes() {
+        return Arrays.asList(
+            of("sights", "Sights", "minecraft:ender_eye"),
+            of("muzzles", "Muzzles", "minecraft:flint_and_steel"),
+            of("foregrips", "Foregrips", "minecraft:stick"),
+            of("lasers", "Lasers", "minecraft:redstone_torch"),
+            of("mounts", "Mounts", "minecraft:rail"),
+            of("handguards", "Handguards", "minecraft:iron_bars"),
+            of("stocks", "Stocks", "minecraft:planks"),
+            of("grips", "Grips", "minecraft:lever"),
+            of("receivers", "Receivers", "minecraft:hopper"),
+            of("conversions", "Conversions", "minecraft:piston"),
+            of("magazines", "Magazines", "minecraft:iron_ingot"),
+            of("skins", "Skins", "minecraft:dye"),
+            of("other", "Other", "minecraft:chest")
         );
     }
 
