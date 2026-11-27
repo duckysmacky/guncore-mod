@@ -25,7 +25,6 @@ public class AttachmentEntry extends CatalogEntry implements EquippableEntry {
     private final Rarity rarity;
     private final String itemId;
     private final List<String> compatibleWith;
-    private final String requires;
 
     public AttachmentEntry(
         boolean enabled,
@@ -34,7 +33,6 @@ public class AttachmentEntry extends CatalogEntry implements EquippableEntry {
         Rarity rarity,
         String itemId,
         List<String> compatibleWith,
-        String requires,
         List<String> descriptionLines
     ) {
         super(enabled, name, descriptionLines);
@@ -42,7 +40,6 @@ public class AttachmentEntry extends CatalogEntry implements EquippableEntry {
         this.rarity = Objects.requireNonNull(rarity);
         this.itemId = Objects.requireNonNull(itemId);
         this.compatibleWith = compatibleWith;
-        this.requires = requires;
     }
 
     public static AttachmentEntry createExample() {
@@ -53,7 +50,6 @@ public class AttachmentEntry extends CatalogEntry implements EquippableEntry {
             Rarity.UNCOMMON,
             "minecraft:ender_eye",
             Collections.singletonList("Bow"),
-            null,
             Arrays.asList(
                 "&7Lets you see further.",
                 "&7This is an example attachment."
@@ -101,15 +97,8 @@ public class AttachmentEntry extends CatalogEntry implements EquippableEntry {
             loreList.appendTag(new NBTTagString(""));
         }
 
-        if (requires != null && !requires.isEmpty()) {
-            loreList.appendTag(new NBTTagString(TextFormatting.RED + "Requires: " + requires));
-            loreList.appendTag(new NBTTagString(""));
-        }
-
         if (!getCompatibleWith().isEmpty()) {
-            loreList.appendTag(new NBTTagString(TextFormatting.GREEN + "Compatible with:"));
-            for (String gun : getCompatibleWith())
-                loreList.appendTag(new NBTTagString(TextFormatting.WHITE + "- " + gun));
+            loreList.appendTag(new NBTTagString(TextFormatting.GREEN + "Compatible with: " + TextFormatting.WHITE + String.join(", ", getCompatibleWith())));
             loreList.appendTag(new NBTTagString(""));
         }
 

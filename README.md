@@ -208,7 +208,7 @@ Each catalog file is a JSON **array** of entries. Every entry shares `enabled`, 
 
 Optional `ammoNbtData` applies SNBT to the issued ammo stack. For a 30-round Modern Warfare Cubed magazine, use `"ammoNbtData": "{Ammo:30}"`.
 
-**`attachments.json`** - weapon attachments. `itemId` is the attachment's item registry name. `compatibleWith` (list of gun names) and `requires` (free text, e.g. another attachment or a gun) are optional and only shown in the tooltip, the mod doesn't check them:
+**`attachments.json`** - weapon attachments. `itemId` is the attachment's item registry name. `compatibleWith` (list of gun names) is optional and only shown in the tooltip, the mod doesn't check it:
 
 ```json
 {
@@ -218,7 +218,6 @@ Optional `ammoNbtData` applies SNBT to the issued ammo stack. For a 30-round Mod
   "rarity": "rare",
   "itemId": "mw:acog",
   "compatibleWith": ["M4A1", "AK-47"],
-  "requires": "Picatinny Rail",
   "descriptionLines": ["&74x magnified optic."]
 }
 ```
