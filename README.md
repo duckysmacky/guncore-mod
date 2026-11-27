@@ -88,7 +88,7 @@ Guncore has no weapon mod dependency. Guns and ammo are plain item registry IDs 
 
 Run `/guncore help` in-game for the full up-to-date list.
 
-Items handed out by the equipment menu (guns, ammo, build-a-class items, armor; not CSG kit contents) can't be dropped while a round isn't running. During a round they can be thrown out.
+Items handed out by the equipment menu (guns, ammo, attachments, build-a-class items, armor; not CSG kit contents) can't be dropped while a round isn't running. During a round they can be thrown out.
 
 ## Player profiles
 
@@ -146,6 +146,7 @@ Created with defaults on first start and rewritten whenever a setting is changed
 - `game.ffa` / `game.tdm` / `game.hostage` - per-gamemode `roundLengthSec`, `startingLives`, `killTarget`. Editable in the file or in-game: click the value in Menu -> Settings -> Game and type the new number in chat (round time in minutes; send `cancel` to abort).
 - `equipment.mode` (`kits` or `builder`) - updated by `/game equipment`.
 - `equipment.mythicsEnabled` - whether mythic items and kits can be selected, updated by `/game mythics`.
+- `equipment.maxAttachments` - how many attachments a player can select (`3` by default). Editable in Menu -> Settings -> Equipment.
 - `equipment.loadoutSystem` (`flexible` or `rarity_score`) - updated by `/game loadout_system`.
 - `equipment.rarityPreset` / `equipment.rarityPresets` - the selected and all available rarity score presets, see [Rarity Score system](#rarity-score-system).
 - `world.itemPickup` - whether players can pick up items (`true` by default).
@@ -279,6 +280,10 @@ Switch with `/game equipment <kits|builder>` (ops, not during a round). `/menu` 
 Every selection list has a "Deselect" button left of "Select random" in the top row: it removes that pick and frees its rarity score. Deselecting a kit clears the inventory (kit items aren't tracked) and gives back the selected weapons and gadget.
 
 Equipment can't be changed while a round is running (paused and not-started rounds are fine).
+
+### Attachments
+
+Both modes have an **Attachments** button (kits: Weapons -> between primary and secondary; builder: between the primary and secondary weapon buttons). Attachments are grouped by type (`menus/attachment_types.json`). Unlike other equipment, several can be selected at once: click an attachment to select it, click it again to deselect it. Each attachment can be selected only once, up to `equipment.maxAttachments` in total. Every attachment costs rarity score like any other pick. Selected attachments go into the first free inventory slot (main inventory before the hotbar) and are given back by "Restore selection" and when a kit is equipped.
 
 ### Rarity Score system
 

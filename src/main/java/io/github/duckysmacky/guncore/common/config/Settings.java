@@ -40,6 +40,7 @@ public class Settings {
         settings.equipment = new EquipmentSettings();
         settings.equipment.mode = EquipmentMode.BUILDER;
         settings.equipment.mythicsEnabled = true;
+        settings.equipment.maxAttachments = 3;
         settings.equipment.loadoutSystem = LoadoutSystem.FLEXIBLE;
         settings.equipment.rarityPreset = DEFAULT_RARITY_PRESET;
         // scores by rarity (common to mythic), max scores by equipment mode (kits, builder)
@@ -92,6 +93,7 @@ public class Settings {
             if (e.mode != null) d.mode = e.mode;
             if (e.mythicsEnabled != null) d.mythicsEnabled = e.mythicsEnabled;
             if (e.loadoutSystem != null) d.loadoutSystem = e.loadoutSystem;
+            if (e.maxAttachments != null && e.maxAttachments >= 0) d.maxAttachments = e.maxAttachments;
 
             // presets added in the file are kept; their missing values come from the built-in preset of the same name
             if (e.rarityPresets != null && !e.rarityPresets.isEmpty()) {
@@ -169,6 +171,7 @@ public class Settings {
     public static class EquipmentSettings {
         public EquipmentMode mode;
         public Boolean mythicsEnabled;
+        public Integer maxAttachments;
         public LoadoutSystem loadoutSystem;
         /** Name of the selected entry of {@link #rarityPresets} */
         public String rarityPreset;

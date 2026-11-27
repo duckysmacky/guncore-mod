@@ -8,6 +8,7 @@ import io.github.duckysmacky.guncore.common.config.catalog.CatalogType;
 import io.github.duckysmacky.guncore.common.config.catalog.EquippableEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.config.catalog.armor.ArmorEntry;
+import io.github.duckysmacky.guncore.common.config.catalog.attachments.AttachmentEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.guns.GunEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.items.BaseItemEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.items.ItemEntry;
@@ -31,6 +32,7 @@ import net.minecraft.util.text.TextComponentString;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public final class EquipmentController {
     /** Slots of the base items, bottom to top above the last hotbar slot */
@@ -80,6 +82,24 @@ public final class EquipmentController {
      * @param slot slot the pick replaces, null for a kit (replaces the previous kit)
      */
     private static boolean isDenied(EntityPlayerMP player, EquipmentType slot, Rarity rarity) {
+        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
+
+        Rarity replaced;
+        if (slot != null) {
+            EquippableEntry entry = equipment.get(slot);
+            replaced = entry != null ? entry.getRarity() : null;
+        } else {
+            replaced = equipment.getKit() != null ? equipment.getKit().getRarity() : null;
+        }
+        return exceedsLimits(player, replaced, rarity);
+    }
+
+    /**
+     * Rejects picks of disabled mythics and picks over the rarity score limit
+     *
+     * @param replaced rarity of the selected entry the pick replaces, null if it replaces nothing
+     */
+    private static boolean exceedsLimits(EntityPlayerMP player, Rarity replaced, Rarity rarity) {
         GameManager game = GameManager.instance();
 
         if (rarity == Rarity.MYTHIC && !game.isMythicsEnabled()) {
@@ -92,13 +112,6 @@ public final class EquipmentController {
         Settings.RarityPreset preset = game.getRarityPreset();
         EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
 
-        Rarity replaced;
-        if (slot != null) {
-            EquippableEntry entry = equipment.get(slot);
-            replaced = entry != null ? entry.getRarity() : null;
-        } else {
-            replaced = equipment.getKit() != null ? equipment.getKit().getRarity() : null;
-        }
         int rest = equipment.rarityScore(preset::scoreOf) - (replaced != null ? preset.scoreOf(replaced) : 0);
 
         int total = rest + preset.scoreOf(rarity);
@@ -214,6 +227,85 @@ public final class EquipmentController {
         }
     }
 
+    // Attachments (both modes)
+
+    /** Selects the attachment, or deselects it if it is already selected */
+    public static void toggleAttachment(EntityPlayerMP player, AttachmentEntry attachment) {
+        if (isLocked(player)) return;
+
+        List<AttachmentEntry> attachments = EquipmentManager.instance().getEquipment(player).getAttachments();
+
+        // by name, a config reload replaces the catalog instances
+        Optional<AttachmentEntry> selected = attachments.stream()
+            .filter(a -> a.getName().equals(attachment.getName()))
+            .findFirst();
+
+        if (selected.isPresent()) {
+            attachments.remove(selected.get());
+            removeAttachment(player, selected.get());
+            send(player, String.format("&7Deselected attachment: &f%s &7(%d/%d)", attachment.getName(), attachments.size(), GameManager.instance().getMaxAttachments()));
+        } else {
+            int max = GameManager.instance().getMaxAttachments();
+            if (attachments.size() >= max) {
+                send(player, "&cYou can select up to " + max + " attachments");
+                return;
+            }
+            if (exceedsLimits(player, null, attachment.getRarity())) return;
+            if (!giveAttachment(player, attachment)) {
+                send(player, "&cNo free inventory slot for the attachment");
+                return;
+            }
+
+            attachments.add(attachment);
+            send(player, String.format("&7Selected attachment: &f%s &7(%d/%d)", attachment.getName(), attachments.size(), max));
+        }
+
+        syncInventory(player);
+        reportRarityScore(player);
+    }
+
+    public static void deselectAttachments(EntityPlayerMP player) {
+        if (isLocked(player)) return;
+
+        List<AttachmentEntry> attachments = EquipmentManager.instance().getEquipment(player).getAttachments();
+        if (attachments.isEmpty()) {
+            send(player, "&7No attachments selected");
+            return;
+        }
+
+        attachments.forEach(attachment -> removeAttachment(player, attachment));
+        attachments.clear();
+        syncInventory(player);
+        send(player, "&7Attachments deselected");
+        reportRarityScore(player);
+    }
+
+    /**
+     * Puts the attachment into the first free slot, storage before hotbar; returns false if the inventory is full.
+     * shortcut: a slot item given later into the same slot (empty hotbar slot or extra item slot above it) overwrites
+     * the attachment, "Restore selection" gives it back; reserve slots if this turns out to be a problem
+     */
+    private static boolean giveAttachment(EntityPlayerMP player, AttachmentEntry attachment) {
+        NonNullList<ItemStack> inventory = player.inventory.mainInventory;
+        for (int i = 0; i < inventory.size(); i++) {
+            int slot = (i + 9) % inventory.size();
+            if (inventory.get(slot).isEmpty()) {
+                inventory.set(slot, tag(attachment.getItemStack()));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void removeAttachment(EntityPlayerMP player, AttachmentEntry attachment) {
+        InventoryPlayer inventory = player.inventory;
+        for (int i = 0; i < inventory.mainInventory.size(); i++) {
+            ResourceLocation registryName = inventory.getStackInSlot(i).getItem().getRegistryName();
+            if (registryName != null && registryName.toString().equals(attachment.getItemId()))
+                inventory.setInventorySlotContents(i, new ItemStack(Items.AIR));
+        }
+    }
+
     // Armor (build-a-class)
 
     private static void giveArmor(EntityPlayerMP player, ArmorEntry armor) {
@@ -324,10 +416,15 @@ public final class EquipmentController {
             else if (entry instanceof ArmorEntry) giveArmor(player, (ArmorEntry) entry);
             else giveItem(player, type, (ItemEntry) entry);
         }
+
+        // after the slot items, so they don't overwrite the attachments; attachments that don't fit are dropped
+        equipment.getAttachments().removeIf(attachment -> !giveAttachment(player, attachment));
     }
 
     private static void removeSelection(EntityPlayerMP player) {
-        EquipmentManager.instance().getEquipment(player).getAll().values().forEach(entry -> removeEntry(player, entry));
+        EquipmentManager.PlayerEquipment equipment = EquipmentManager.instance().getEquipment(player);
+        equipment.getAll().values().forEach(entry -> removeEntry(player, entry));
+        equipment.getAttachments().forEach(attachment -> removeAttachment(player, attachment));
     }
 
     private static void removeEntry(EntityPlayerMP player, CatalogEntry entry) {

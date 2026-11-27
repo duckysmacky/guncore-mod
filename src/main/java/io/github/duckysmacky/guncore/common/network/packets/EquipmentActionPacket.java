@@ -18,7 +18,8 @@ public class EquipmentActionPacket implements IMessage {
         RESTORE,
         RESET,
         DESELECT,
-        DESELECT_KIT
+        DESELECT_KIT,
+        DESELECT_ATTACHMENTS
     }
 
     private Action action;
@@ -75,6 +76,9 @@ public class EquipmentActionPacket implements IMessage {
                             break;
                         case DESELECT_KIT:
                             EquipmentController.deselectKit(player);
+                            break;
+                        case DESELECT_ATTACHMENTS:
+                            EquipmentController.deselectAttachments(player);
                             break;
                     }
 

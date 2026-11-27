@@ -40,6 +40,7 @@ public class SyncGameInfoPacket implements IMessage {
     private boolean itemPickup;
     private boolean itemCleanup;
     private boolean mythicsEnabled;
+    private int maxAttachments;
     private LoadoutSystem loadoutSystem;
     private String rarityPresetName;
     private List<String> rarityPresetNames;
@@ -63,6 +64,7 @@ public class SyncGameInfoPacket implements IMessage {
         boolean itemPickup,
         boolean itemCleanup,
         boolean mythicsEnabled,
+        int maxAttachments,
         LoadoutSystem loadoutSystem,
         String rarityPresetName,
         List<String> rarityPresetNames,
@@ -83,6 +85,7 @@ public class SyncGameInfoPacket implements IMessage {
         this.itemPickup = itemPickup;
         this.itemCleanup = itemCleanup;
         this.mythicsEnabled = mythicsEnabled;
+        this.maxAttachments = maxAttachments;
         this.loadoutSystem = loadoutSystem;
         this.rarityPresetName = rarityPresetName;
         this.rarityPresetNames = rarityPresetNames;
@@ -106,6 +109,7 @@ public class SyncGameInfoPacket implements IMessage {
         buf.writeBoolean(itemPickup);
         buf.writeBoolean(itemCleanup);
         buf.writeBoolean(mythicsEnabled);
+        buf.writeInt(maxAttachments);
         buf.writeInt(loadoutSystem.ordinal());
         ByteBufUtils.writeUTF8String(buf, rarityPresetName);
         buf.writeInt(rarityPresetNames.size());
@@ -146,6 +150,7 @@ public class SyncGameInfoPacket implements IMessage {
         itemPickup = buf.readBoolean();
         itemCleanup = buf.readBoolean();
         mythicsEnabled = buf.readBoolean();
+        maxAttachments = buf.readInt();
         loadoutSystem = LoadoutSystem.values()[buf.readInt()];
         rarityPresetName = ByteBufUtils.readUTF8String(buf);
         int presetCount = buf.readInt();
@@ -196,6 +201,7 @@ public class SyncGameInfoPacket implements IMessage {
                     ClientGameInfo info = ClientGameInfo.instance();
                     // menu pages build their entries (filters, score lore) once, so they have to be rebuilt after the update
                     boolean rebuildMenu = message.mythicsEnabled != info.isMythicsEnabled()
+                        || message.maxAttachments != info.getMaxAttachments()
                         || message.loadoutSystem != info.getLoadoutSystem()
                         || Arrays.stream(Rarity.values()).anyMatch(r -> message.rarityPreset.scoreOf(r) != info.getRarityPreset().scoreOf(r));
 
@@ -212,6 +218,7 @@ public class SyncGameInfoPacket implements IMessage {
                         message.itemPickup,
                         message.itemCleanup,
                         message.mythicsEnabled,
+                        message.maxAttachments,
                         message.loadoutSystem,
                         message.rarityPresetName,
                         message.rarityPresetNames,

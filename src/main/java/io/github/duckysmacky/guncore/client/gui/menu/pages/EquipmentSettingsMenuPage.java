@@ -57,6 +57,14 @@ public class EquipmentSettingsMenuPage extends StaticMenu {
             this, () -> ClientGameInfo.instance().isMythicsEnabled(), "mythics"
         ), 2, 7);
 
+        addEntry(new PromptEntry(() -> ItemStackCustomizer.from("minecraft:tripwire_hook")
+            .setName("&f&lMax Attachments")
+            .addLoreLine("&fValue: &a" + ClientGameInfo.instance().getMaxAttachments())
+            .addLoreLine("&7How many attachments a player can select")
+            .addLoreLine("&eClick to change the value in chat")
+            .addLoreLine("&7Also editable in config/guncore/settings.json")
+            .getItemStack(), LoadoutSystem.MAX_ATTACHMENTS_PROMPT_ID), 3, 7);
+
         // loadout systems
         addEntry(new ActionEntry(
             new ItemStackCustomizer(new ItemStack(Items.SLIME_BALL))

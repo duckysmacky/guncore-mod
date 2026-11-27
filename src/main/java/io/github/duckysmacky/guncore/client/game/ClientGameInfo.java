@@ -21,6 +21,7 @@ import net.minecraft.util.text.TextFormatting;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.ToIntFunction;
 
@@ -38,6 +39,7 @@ public final class ClientGameInfo {
     private boolean itemPickup = true;
     private boolean itemCleanup;
     private boolean mythicsEnabled = true;
+    private int maxAttachments = 3;
     private LoadoutSystem loadoutSystem = LoadoutSystem.FLEXIBLE;
     private String rarityPresetName = Settings.DEFAULT_RARITY_PRESET;
     private List<String> rarityPresetNames = Collections.emptyList();
@@ -45,6 +47,7 @@ public final class ClientGameInfo {
     private List<Rarity> selectedRarities = Collections.emptyList();
     private Map<EquipmentType, String> selectedNames = Collections.emptyMap();
     private String selectedKit;
+    private Set<String> selectedAttachments = Collections.emptySet();
     private Map<String, Boolean> gamerules = Collections.emptyMap();
     private Map<UUID, PlayerStats> playerStats;
     private Map<UUID, Team> playerTeams;
@@ -78,6 +81,7 @@ public final class ClientGameInfo {
         boolean itemPickup,
         boolean itemCleanup,
         boolean mythicsEnabled,
+        int maxAttachments,
         LoadoutSystem loadoutSystem,
         String rarityPresetName,
         List<String> rarityPresetNames,
@@ -98,6 +102,7 @@ public final class ClientGameInfo {
         this.itemPickup = itemPickup;
         this.itemCleanup = itemCleanup;
         this.mythicsEnabled = mythicsEnabled;
+        this.maxAttachments = maxAttachments;
         this.loadoutSystem = loadoutSystem;
         this.rarityPresetName = rarityPresetName;
         this.rarityPresetNames = rarityPresetNames;
@@ -231,6 +236,10 @@ public final class ClientGameInfo {
         return mythicsEnabled;
     }
 
+    public int getMaxAttachments() {
+        return maxAttachments;
+    }
+
     /** Whether items of this rarity can be selected; mythics can be disabled */
     public boolean isAllowed(Rarity rarity) {
         return mythicsEnabled || rarity != Rarity.MYTHIC;
@@ -265,10 +274,19 @@ public final class ClientGameInfo {
         return rarityPreset;
     }
 
-    public void setSelection(List<Rarity> selectedRarities, Map<EquipmentType, String> selectedNames, String selectedKit) {
+    public void setSelection(List<Rarity> selectedRarities, Map<EquipmentType, String> selectedNames, String selectedKit, Set<String> selectedAttachments) {
         this.selectedRarities = selectedRarities;
         this.selectedNames = selectedNames;
         this.selectedKit = selectedKit;
+        this.selectedAttachments = selectedAttachments;
+    }
+
+    public boolean isSelectedAttachment(String name) {
+        return selectedAttachments.contains(name);
+    }
+
+    public int getSelectedAttachmentCount() {
+        return selectedAttachments.size();
     }
 
     public boolean isSelected(EquipmentType type, String name) {

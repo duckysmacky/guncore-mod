@@ -266,7 +266,7 @@ public class GameManager {
         SyncGameInfoPacket packet = new SyncGameInfoPacket(
             getGameMode(), getGameModeVariant(), getEquipmentMode(), state, roundDurationSec,
             getRoundLengthSec(), getKillTarget(), getStartingLives(),
-            isKillOnlyLifeLoss(), isItemPickup(), isItemCleanup(), isMythicsEnabled(), getLoadoutSystem(),
+            isKillOnlyLifeLoss(), isItemPickup(), isItemCleanup(), isMythicsEnabled(), getMaxAttachments(), getLoadoutSystem(),
             settings().equipment.rarityPreset, new ArrayList<>(settings().equipment.rarityPresets.keySet()), getRarityPreset(),
             settings().world.gamerules,
             playerStats, playerTeams
@@ -440,6 +440,10 @@ public class GameManager {
             );
         });
 
+        ChatPrompt.register(LoadoutSystem.MAX_ATTACHMENTS_PROMPT_ID, player -> ChatPrompt.integer(
+            "Enter the new max amount of attachments per player", 0, 99, amount -> instance().setMaxAttachments(amount)
+        ));
+
         for (Rarity rarity : Rarity.values()) {
             ChatPrompt.register(LoadoutSystem.scorePromptId(rarity), player -> ChatPrompt.integer(
                 String.format("Enter the new %s rarity score for the %s preset", rarity.display.toLowerCase(), settings().equipment.rarityPreset),
@@ -577,6 +581,17 @@ public class GameManager {
         ConfigManager.instance().saveSettings();
         syncToClients();
         announceSetting("Mythic items", mythicsEnabled ? "enabled" : "disabled");
+    }
+
+    public int getMaxAttachments() {
+        return settings().equipment.maxAttachments;
+    }
+
+    public void setMaxAttachments(int maxAttachments) {
+        settings().equipment.maxAttachments = maxAttachments;
+        ConfigManager.instance().saveSettings();
+        syncToClients();
+        announceSetting("Max attachments", String.valueOf(maxAttachments));
     }
 
     public boolean isKillOnlyLifeLoss() {

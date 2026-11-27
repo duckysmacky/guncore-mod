@@ -14,8 +14,10 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The player's selected equipment: rarities (scored by the client with its synced rarity preset) and the names of the
@@ -25,6 +27,7 @@ public class SyncSelectionPacket implements IMessage {
     private List<Rarity> rarities;
     private Map<EquipmentType, String> names;
     private String kit;
+    private Set<String> attachments;
 
     public SyncSelectionPacket() {}
 
@@ -33,6 +36,8 @@ public class SyncSelectionPacket implements IMessage {
         this.names = new EnumMap<>(EquipmentType.class);
         equipment.getAll().forEach((type, entry) -> names.put(type, entry.getName()));
         this.kit = equipment.getKit() != null ? equipment.getKit().getName() : null;
+        this.attachments = new HashSet<>();
+        equipment.getAttachments().forEach(attachment -> attachments.add(attachment.getName()));
     }
 
     @Override
@@ -46,6 +51,10 @@ public class SyncSelectionPacket implements IMessage {
         for (int i = 0; i < size; i++) names.put(EquipmentType.values()[buf.readInt()], ByteBufUtils.readUTF8String(buf));
 
         kit = buf.readBoolean() ? ByteBufUtils.readUTF8String(buf) : null;
+
+        size = buf.readInt();
+        attachments = new HashSet<>(size);
+        for (int i = 0; i < size; i++) attachments.add(ByteBufUtils.readUTF8String(buf));
     }
 
     @Override
@@ -61,6 +70,9 @@ public class SyncSelectionPacket implements IMessage {
 
         buf.writeBoolean(kit != null);
         if (kit != null) ByteBufUtils.writeUTF8String(buf, kit);
+
+        buf.writeInt(attachments.size());
+        attachments.forEach(name -> ByteBufUtils.writeUTF8String(buf, name));
     }
 
     public static class Handler implements IMessageHandler<SyncSelectionPacket, IMessage> {
@@ -68,7 +80,7 @@ public class SyncSelectionPacket implements IMessage {
         public IMessage onMessage(SyncSelectionPacket message, MessageContext context) {
             if (context.side == Side.CLIENT) {
                 Minecraft.getMinecraft().addScheduledTask(() ->
-                    ClientGameInfo.instance().setSelection(message.rarities, message.names, message.kit)
+                    ClientGameInfo.instance().setSelection(message.rarities, message.names, message.kit, message.attachments)
                 );
             }
             return null;

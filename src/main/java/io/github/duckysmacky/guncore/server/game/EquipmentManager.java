@@ -3,6 +3,7 @@ package io.github.duckysmacky.guncore.server.game;
 import io.github.duckysmacky.guncore.common.config.catalog.CatalogEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.EquippableEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
+import io.github.duckysmacky.guncore.common.config.catalog.attachments.AttachmentEntry;
 import io.github.duckysmacky.guncore.common.config.catalog.kits.KitEntry;
 import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,6 +50,7 @@ public class EquipmentManager {
 
     public static class PlayerEquipment {
         private final Map<EquipmentType, CatalogEntry> equipped = new EnumMap<>(EquipmentType.class);
+        private final List<AttachmentEntry> attachments = new ArrayList<>();
         /** Kit of the kit-based mode; the rest of the kit's items are not tracked */
         private KitEntry kit;
 
@@ -73,8 +75,13 @@ public class EquipmentManager {
             this.kit = kit;
         }
 
+        public List<AttachmentEntry> getAttachments() {
+            return attachments;
+        }
+
         public void clear() {
             equipped.clear();
+            attachments.clear();
             kit = null;
         }
 
@@ -84,6 +91,7 @@ public class EquipmentManager {
             if (kit != null) rarities.add(kit.getRarity());
             for (CatalogEntry entry : equipped.values())
                 rarities.add(((EquippableEntry) entry).getRarity());
+            attachments.forEach(attachment -> rarities.add(attachment.getRarity()));
             return rarities;
         }
 

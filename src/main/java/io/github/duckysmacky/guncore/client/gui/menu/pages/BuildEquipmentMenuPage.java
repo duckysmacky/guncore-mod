@@ -55,8 +55,9 @@ public class BuildEquipmentMenuPage extends StaticMenu {
 
         addEntry(new RarityScoreEntry(), 0, 4);
 
-        addWeaponEntries(false, "minecraft:iron_sword", "&f&lPrimary weapon", "&7Select your main weapon", 2);
-        addWeaponEntries(true, "minecraft:wooden_sword", "&f&lSecondary weapon", "&7Select your secondary weapon", 6);
+        addWeaponEntries(false, "minecraft:iron_sword", "&f&lPrimary weapon", "&7Select your main weapon", 3);
+        addEntry(AttachmentTypesMenuPage.button(this), 3, 4);
+        addWeaponEntries(true, "minecraft:wooden_sword", "&f&lSecondary weapon", "&7Select your secondary weapon", 5);
 
         addSlot(EquipmentType.LETHAL, new ItemStack(Blocks.TNT), "&7Explosives and items made to kill", 1);
         addSlot(EquipmentType.TACTICAL, new ItemStack(Items.ENDER_EYE), "&7Debuff and utility grenades", 2);
@@ -71,7 +72,7 @@ public class BuildEquipmentMenuPage extends StaticMenu {
         addEntry(new SubpageEntry(
             ItemStackCustomizer.from(iconId).setName(name).addLoreLine(lore).getItemStack(),
             new WeaponCategoriesMenuPage(this, secondary)
-        ), 2, col);
+        ), 3, col);
     }
 
     private void addSlot(EquipmentType type, ItemStack icon, String lore, int col) {

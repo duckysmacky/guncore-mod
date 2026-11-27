@@ -27,5 +27,7 @@ public class WeaponsMenuPage extends StaticMenu {
                 .getItemStack(),
             new WeaponCategoriesMenuPage(this, true)
         ), 1, 6);
+
+        addEntry(AttachmentTypesMenuPage.button(this), 1, 4);
     }
 }

@@ -10,6 +10,7 @@ public enum LoadoutSystem {
 
     /** Ids of the chat prompts editing the selected rarity preset, see GameManager.registerPrompts */
     public static final String PRESET_PROMPT_ID = "rarity_preset";
+    public static final String MAX_ATTACHMENTS_PROMPT_ID = "max_attachments";
 
     public final String id;
     public final String display;
