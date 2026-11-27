@@ -1,6 +1,18 @@
-# Changelog
+## v0.8.0
 
-All notable changes to Guncore for Minecraft 1.12.2, newest first.
+#### Added
+
+- Added attachment support: attachments have their own catalog and can be selected in the menu, with a favorites tracker like the one for weapons
+
+#### Changed
+
+- Selected equipment is now highlighted in the kit, gun, gadget and build menus
+- Reordered the profile menu
+
+#### Fixed
+
+- Equip results now come only from the server. A failed equip no longer shows a success message or plays the success sound; it plays a "no" sound and shows the error instead
+- Sounds meant for a single player now reach that player
 
 ## v0.7.2
 
