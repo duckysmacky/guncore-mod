@@ -2,6 +2,8 @@ package io.github.duckysmacky.guncore.common.game;
 
 import io.github.duckysmacky.guncore.GuncoreMod;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -13,8 +15,15 @@ public final class ServerSoundPlayer {
 
     private ServerSoundPlayer() {}
 
+    /** Plays the sound only for the given player */
     public static void playFor(EntityPlayer player, SoundEvent sound, float volume, float pitch) {
-        play(player, sound, volume, pitch);
+        if (player instanceof EntityPlayerMP) {
+            ((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(
+                sound, SoundCategory.MASTER, player.posX, player.posY, player.posZ, volume, pitch
+            ));
+        } else if (player.world.isRemote) {
+            player.playSound(sound, volume, pitch);
+        }
     }
 
     public static void playForAll(SoundEvent sound, float volume, float pitch) {
