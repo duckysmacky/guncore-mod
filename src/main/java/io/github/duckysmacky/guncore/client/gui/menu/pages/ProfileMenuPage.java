@@ -25,7 +25,7 @@ public class ProfileMenuPage extends StaticMenu {
         UsageCategory.LETHAL, UsageCategory.TACTICAL, UsageCategory.GADGET,
         UsageCategory.UTILITY, UsageCategory.CONSUMABLE, UsageCategory.ARMOR
     };
-    private static final int[] EQUIPMENT_COLS = {1, 2, 3, 5, 6, 7};
+    private static final int[] EQUIPMENT_COLS = {2, 3, 4, 5, 6, 7};
 
     public ProfileMenuPage(BaseMenu parent, PlayerProfile profile) {
         super(profile.name + "'s Profile", parent, 6, 9);
@@ -76,7 +76,7 @@ public class ProfileMenuPage extends StaticMenu {
                 .addLoreLine("&7Top 10 players and most picked equipment on the server")
                 .getItemStack(),
             player -> PacketHandler.instance().sendToServer(new RequestLeaderboardsPacket())
-        ), 4, 4);
+        ), 2, 4);
     }
 
     private static DisplayEntry favoritesEntry(PlayerProfile profile, UsageCategory category, Item icon) {
