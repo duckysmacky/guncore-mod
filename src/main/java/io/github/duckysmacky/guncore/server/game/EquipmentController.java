@@ -109,10 +109,9 @@ public final class EquipmentController {
         return true;
     }
 
-    /** Sends the player's selected rarities, which the menus show as the current rarity score */
+    /** Sends the player's selection, which the menus show as the current rarity score and highlighted entries */
     public static void syncSelection(EntityPlayerMP player) {
-        List<Rarity> rarities = EquipmentManager.instance().getEquipment(player).rarities();
-        PacketHandler.instance().sendTo(new SyncSelectionPacket(rarities), player);
+        PacketHandler.instance().sendTo(new SyncSelectionPacket(EquipmentManager.instance().getEquipment(player)), player);
     }
 
     private static void reportRarityScore(EntityPlayerMP player) {

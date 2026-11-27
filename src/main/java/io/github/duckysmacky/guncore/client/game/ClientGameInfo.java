@@ -3,6 +3,7 @@ package io.github.duckysmacky.guncore.client.game;
 import io.github.duckysmacky.guncore.common.config.Settings;
 import io.github.duckysmacky.guncore.common.config.catalog.Rarity;
 import io.github.duckysmacky.guncore.common.game.EquipmentMode;
+import io.github.duckysmacky.guncore.common.game.EquipmentType;
 import io.github.duckysmacky.guncore.common.game.GameMode;
 import io.github.duckysmacky.guncore.common.game.GameState;
 import io.github.duckysmacky.guncore.common.game.LoadoutSystem;
@@ -42,6 +43,8 @@ public final class ClientGameInfo {
     private List<String> rarityPresetNames = Collections.emptyList();
     private Settings.RarityPreset rarityPreset = Settings.createDefault().equipment.selectedPreset();
     private List<Rarity> selectedRarities = Collections.emptyList();
+    private Map<EquipmentType, String> selectedNames = Collections.emptyMap();
+    private String selectedKit;
     private Map<String, Boolean> gamerules = Collections.emptyMap();
     private Map<UUID, PlayerStats> playerStats;
     private Map<UUID, Team> playerTeams;
@@ -262,8 +265,18 @@ public final class ClientGameInfo {
         return rarityPreset;
     }
 
-    public void setSelectedRarities(List<Rarity> selectedRarities) {
+    public void setSelection(List<Rarity> selectedRarities, Map<EquipmentType, String> selectedNames, String selectedKit) {
         this.selectedRarities = selectedRarities;
+        this.selectedNames = selectedNames;
+        this.selectedKit = selectedKit;
+    }
+
+    public boolean isSelected(EquipmentType type, String name) {
+        return name.equals(selectedNames.get(type));
+    }
+
+    public boolean isSelectedKit(String name) {
+        return name.equals(selectedKit);
     }
 
     /** Rarity score of the own selected equipment, scored with the selected preset */

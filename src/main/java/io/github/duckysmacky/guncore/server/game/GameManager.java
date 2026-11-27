@@ -516,7 +516,7 @@ public class GameManager {
         settings().equipment.mode = equipmentMode;
         ConfigManager.instance().saveSettings();
         EquipmentManager.instance().clearAll(); // picks of the other mode would count towards the rarity score
-        PacketHandler.instance().sendToAll(new SyncSelectionPacket(Collections.emptyList()));
+        PacketHandler.instance().sendToAll(new SyncSelectionPacket(new EquipmentManager.PlayerEquipment()));
         syncToClients();
         announceSetting("Equipment system", equipmentMode.display);
     }

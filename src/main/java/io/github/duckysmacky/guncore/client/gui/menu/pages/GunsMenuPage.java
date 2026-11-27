@@ -36,7 +36,7 @@ public class GunsMenuPage extends DynamicMenu {
             equip(player, secondary, gun);
             open(player);
         };
-        guns.forEach(gun -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(gun.getGunItemStack(), gun.getRarity()), player -> select.accept(player, gun))));
+        guns.forEach(gun -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(gun.getGunItemStack(), gun.getRarity()), player -> select.accept(player, gun), () -> ClientGameInfo.instance().isSelected(secondary ? EquipmentType.SECONDARY_WEAPON : EquipmentType.MAIN_WEAPON, gun.getName()))));
         setCenterEntry(new RarityScoreEntry());
         setDeselectEntry("&7Deselect your " + (secondary ? "secondary" : "main") + " weapon", player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT, secondary ? EquipmentType.SECONDARY_WEAPON : EquipmentType.MAIN_WEAPON));
         setRandomEntry("&7Select a random weapon from this category", guns, select);

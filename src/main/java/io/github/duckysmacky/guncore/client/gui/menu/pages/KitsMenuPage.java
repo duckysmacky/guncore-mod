@@ -35,7 +35,7 @@ public class KitsMenuPage extends DynamicMenu {
             equip(player, kit);
             open(player);
         };
-        kits.forEach(kit -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(kit.getIconItem(), kit.getRarity()), player -> select.accept(player, kit))));
+        kits.forEach(kit -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(kit.getIconItem(), kit.getRarity()), player -> select.accept(player, kit), () -> ClientGameInfo.instance().isSelectedKit(kit.getName()))));
         setCenterEntry(new RarityScoreEntry());
         setDeselectEntry("&7Deselect your kit, selected weapons and gadget are kept", player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT_KIT, null));
         setRandomEntry("&7Select a random kit from this class", kits, select);

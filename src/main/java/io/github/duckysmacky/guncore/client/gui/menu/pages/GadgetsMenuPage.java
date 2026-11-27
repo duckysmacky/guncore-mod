@@ -38,7 +38,7 @@ public class GadgetsMenuPage extends DynamicMenu {
 
             open(player);
         };
-        gadgets.forEach(gadget -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(gadget.getItemStack(), gadget.getRarity()), player -> select.accept(player, gadget))));
+        gadgets.forEach(gadget -> addEntry(new ActionEntry(ClientGameInfo.instance().withRarityScore(gadget.getItemStack(), gadget.getRarity()), player -> select.accept(player, gadget), () -> ClientGameInfo.instance().isSelected(EquipmentType.GADGET, gadget.getName()))));
         setCenterEntry(new RarityScoreEntry());
         setDeselectEntry("&7Deselect your gadget", player -> EquipmentActionPacket.send(EquipmentActionPacket.Action.DESELECT, EquipmentType.GADGET));
         setRandomEntry("&7Select a random gadget", gadgets, select);
