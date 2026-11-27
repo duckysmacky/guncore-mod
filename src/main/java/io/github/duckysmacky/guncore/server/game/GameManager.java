@@ -763,6 +763,10 @@ public class GameManager {
                     if (usedInMode)
                         selections.add(new StatsDatabase.Selection(UsageCategory.of(type), entry.getName()));
                 });
+
+                equipment.getAttachments().forEach(attachment ->
+                    selections.add(new StatsDatabase.Selection(UsageCategory.ATTACHMENT, attachment.getName()))
+                );
             }
 
             roundLoadouts.put(uuid, selections);

@@ -4,6 +4,7 @@ package io.github.duckysmacky.guncore.common.game;
 public enum UsageCategory {
     KIT("kit", "Kits"),
     WEAPON("weapon", "Weapons"),
+    ATTACHMENT("attachment", "Attachments"),
     LETHAL("lethal", "Lethals"),
     TACTICAL("tactical", "Tacticals"),
     GADGET("gadget", "Gadgets"),

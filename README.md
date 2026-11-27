@@ -96,11 +96,11 @@ Every player has a persistent profile, opened from the player head in the middle
 
 - **Stats** - games played, wins, losses, win rate, kills, deaths, K/D
 - **Records** - most kills in a round, best kill streak, times MVP (top player of a round), time played, average kills per round
-- **Favorites** - top 5 game modes, kits, weapons (primary and secondary), lethals, tacticals, gadgets, utility, consumables and armor
+- **Favorites** - top 5 game modes, kits, weapons (primary and secondary), attachments, lethals, tacticals, gadgets, utility, consumables and armor
 
 Stats are saved only when a round **ends** (`/game end` or a win condition), never on `/game reset`. Favorites count the equipment a player had selected when the round **started**, so browsing items before the round doesn't count. In team modes everyone on the winning team gets a win; players on no team and everyone else get a loss.
 
-The gold block on the profile page (between Stats and Records) opens the **global stats** menu: one button per stat and record showing the top 10 players on the server, plus the 10 most picked kits, weapons, game modes and equipment across all players. Win rate, K/D and average kills per round only rank players with at least 5 games.
+The gold block on the profile page (between Stats and Records) opens the **global stats** menu: one button per stat and record showing the top 10 players on the server, plus the 10 most picked kits, weapons, attachments, game modes and equipment across all players. Win rate, K/D and average kills per round only rank players with at least 5 games.
 
 Profiles are stored in a SQLite database at `config/guncore/stats.db`, created on the first server start (the SQLite driver is bundled in the mod jar). Favorites are keyed by the catalog entry `name`, so renaming an entry starts a new count. Delete the file to reset all stats.
 

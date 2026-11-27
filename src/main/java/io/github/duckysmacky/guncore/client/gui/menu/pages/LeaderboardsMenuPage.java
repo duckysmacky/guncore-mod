@@ -17,10 +17,10 @@ import java.util.function.DoubleFunction;
 
 public class LeaderboardsMenuPage extends StaticMenu {
     private static final UsageCategory[] EQUIPMENT_CATEGORIES = {
-        UsageCategory.LETHAL, UsageCategory.TACTICAL, UsageCategory.GADGET,
+        UsageCategory.ATTACHMENT, UsageCategory.LETHAL, UsageCategory.TACTICAL, UsageCategory.GADGET,
         UsageCategory.UTILITY, UsageCategory.CONSUMABLE, UsageCategory.ARMOR
     };
-    private static final int[] EQUIPMENT_COLS = {1, 2, 3, 5, 6, 7};
+    private static final int[] EQUIPMENT_COLS = {1, 2, 3, 4, 5, 6, 7};
 
     public LeaderboardsMenuPage(BaseMenu parent, Leaderboards boards) {
         super("Global Stats", parent, 6, 9);
@@ -44,7 +44,7 @@ public class LeaderboardsMenuPage extends StaticMenu {
         addEntry(favoritesEntry(boards, UsageCategory.GAME_MODE, Items.GOLDEN_SWORD), 3, 6);
 
         Item[] icons = {
-            Item.getItemFromBlock(Blocks.TNT), Items.SNOWBALL, Items.COMPARATOR,
+            Item.getItemFromBlock(Blocks.TRIPWIRE_HOOK), Item.getItemFromBlock(Blocks.TNT), Items.SNOWBALL, Items.COMPARATOR,
             Items.SHEARS, Items.GOLDEN_APPLE, Items.DIAMOND_CHESTPLATE
         };
         for (int i = 0; i < EQUIPMENT_CATEGORIES.length; i++)
